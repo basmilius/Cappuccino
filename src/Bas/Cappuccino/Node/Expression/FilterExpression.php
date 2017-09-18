@@ -9,7 +9,7 @@ use Bas\Cappuccino\Node\Node;
 /**
  * Class FilterExpression
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression
  * @version 2.3.0
  */
@@ -25,7 +25,7 @@ class FilterExpression extends CallExpression
 	 * @param int                $lineno
 	 * @param mixed              $tag
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (Node $node, ConstantExpression $filterName, Node $arguments, int $lineno, $tag = null)
@@ -35,7 +35,7 @@ class FilterExpression extends CallExpression
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void

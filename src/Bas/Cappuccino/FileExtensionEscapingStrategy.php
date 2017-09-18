@@ -6,7 +6,7 @@ namespace Bas\Cappuccino;
 /**
  * Class FileExtensionEscapingStrategy
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
  * @version 2.3.0
  */
@@ -19,7 +19,7 @@ class FileExtensionEscapingStrategy
 	 * @param string $name
 	 *
 	 * @return bool|string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public static function guess (string $name)

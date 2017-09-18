@@ -20,7 +20,7 @@ class NullCoalesceExpression extends ConditionalExpression
 	 * @param AbstractExpression $right
 	 * @param int                $lineno
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (AbstractExpression $left, AbstractExpression $right, int $lineno)
@@ -36,7 +36,7 @@ class NullCoalesceExpression extends ConditionalExpression
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void

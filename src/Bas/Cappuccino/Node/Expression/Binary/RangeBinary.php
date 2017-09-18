@@ -8,7 +8,7 @@ use Bas\Cappuccino\Compiler;
 /**
  * Class RangeBinary
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression\Binary
  * @version 2.3.0
  */
@@ -17,7 +17,7 @@ class RangeBinary extends AbstractBinary
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.3
 	 */
 	public function compile (Compiler $compiler) : void
@@ -27,7 +27,7 @@ class RangeBinary extends AbstractBinary
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function operator (Compiler $compiler) : Compiler

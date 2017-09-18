@@ -8,7 +8,7 @@ use Bas\Cappuccino\Compiler;
 /**
  * Class BlockReferenceNode
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
  * @version 2.3.0
  */
@@ -22,7 +22,7 @@ class BlockReferenceNode extends Node implements NodeOutputInterface
 	 * @param int         $lineno
 	 * @param string|null $tag
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (string $name, int $lineno, ?string $tag = null)
@@ -32,7 +32,7 @@ class BlockReferenceNode extends Node implements NodeOutputInterface
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void

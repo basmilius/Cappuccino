@@ -8,7 +8,7 @@ use Bas\Cappuccino\Profiler\Profile;
 /**
  * Class BlackfireDumper
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Profiler\Dumper
  * @version 2.3.0
  */
@@ -21,7 +21,7 @@ final class BlackfireDumper
 	 * @param Profile $profile
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function dump (Profile $profile)
@@ -54,7 +54,7 @@ EOF;
 	 * @param Profile $profile
 	 * @param         $data
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function dumpChildren ($parent, Profile $profile, &$data)
@@ -81,7 +81,7 @@ EOF;
 	 * @param Profile $profile
 	 * @param         $data
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function dumpProfile ($edge, Profile $profile, &$data)

@@ -9,7 +9,7 @@ use Bas\Cappuccino\Node\Node;
 /**
  * Class SimpleFilter
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
  * @version 2.3.0
  */

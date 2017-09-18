@@ -10,7 +10,7 @@ use Bas\Cappuccino\Profiler\Profile;
 /**
  * Class EnterProfileNode
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Profiler\Node
  * @version 2.3.0
  */
@@ -25,7 +25,7 @@ class EnterProfileNode extends Node
 	 * @param string $name
 	 * @param string $varName
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (string $extensionName, string $type, string $name, string $varName)
@@ -35,7 +35,7 @@ class EnterProfileNode extends Node
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void

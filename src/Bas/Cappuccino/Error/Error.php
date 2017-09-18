@@ -11,7 +11,7 @@ use ReflectionObject;
 /**
  * Class Error
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Error
  * @version 2.3.0
  */
@@ -32,7 +32,7 @@ class Error extends Exception
 	 * @param Source|null    $source
 	 * @param Exception|null $previous
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (string $message, int $lineno = -1, ?Source $source = null, ?Exception $previous = null)

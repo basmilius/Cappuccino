@@ -14,7 +14,7 @@ use LogicException;
 /**
  * Class ModuleNode
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
  * @version 2.3.0
  */
@@ -34,7 +34,7 @@ class ModuleNode extends Node
 	 * @param array                   $embeddedTemplates
 	 * @param Source                  $source
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (Node $body, ?AbstractExpression $parent = null, Node $blocks, Node $macros, Node $traits, array $embeddedTemplates, Source $source)
@@ -69,7 +69,7 @@ class ModuleNode extends Node
 	 *
 	 * @param int $index
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setIndex (int $index) : void
@@ -79,7 +79,7 @@ class ModuleNode extends Node
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void
@@ -96,7 +96,7 @@ class ModuleNode extends Node
 	 * @param Compiler $compiler
 	 *
 	 * @throws LoaderError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function compileTemplate (Compiler $compiler) : void
@@ -127,7 +127,7 @@ class ModuleNode extends Node
 	 *
 	 * @param Compiler $compiler
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function compileGetParent (Compiler $compiler) : void
@@ -167,7 +167,7 @@ class ModuleNode extends Node
 	 * @param Compiler $compiler
 	 *
 	 * @throws LoaderError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function compileClassHeader (Compiler $compiler) : void
@@ -186,7 +186,7 @@ class ModuleNode extends Node
 	 *
 	 * @param Compiler $compiler
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function compileConstructor (Compiler $compiler) : void
@@ -316,7 +316,7 @@ class ModuleNode extends Node
 	 *
 	 * @param Compiler $compiler
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function compileDisplay (Compiler $compiler) : void
@@ -351,7 +351,7 @@ class ModuleNode extends Node
 	 *
 	 * @param Compiler $compiler
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function compileClassFooter (Compiler $compiler) : void
@@ -367,7 +367,7 @@ class ModuleNode extends Node
 	 *
 	 * @param Compiler $compiler
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function compileMacros (Compiler $compiler) : void
@@ -380,7 +380,7 @@ class ModuleNode extends Node
 	 *
 	 * @param Compiler $compiler
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function compileGetTemplateName (Compiler $compiler) : void
@@ -400,7 +400,7 @@ class ModuleNode extends Node
 	 *
 	 * @param Compiler $compiler
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function compileIsTraitable (Compiler $compiler) : void
@@ -449,7 +449,7 @@ class ModuleNode extends Node
 	 *
 	 * @param Compiler $compiler
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function compileDebugInfo (Compiler $compiler) : void
@@ -467,7 +467,7 @@ class ModuleNode extends Node
 	 *
 	 * @param Compiler $compiler
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function compileGetSourceContext (Compiler $compiler) : void
@@ -495,7 +495,7 @@ class ModuleNode extends Node
 	 * @param Node     $node
 	 * @param string   $var
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function compileLoadTemplate (Compiler $compiler, Node $node, string $var) : void

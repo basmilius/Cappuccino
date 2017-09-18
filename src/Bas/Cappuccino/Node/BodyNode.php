@@ -6,7 +6,7 @@ namespace Bas\Cappuccino\Node;
 /**
  * Class BodyNode
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
  * @version 2.3.0
  */

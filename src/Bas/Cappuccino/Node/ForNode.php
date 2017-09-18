@@ -11,7 +11,7 @@ use Bas\Cappuccino\Util\StaticMethods;
 /**
  * Class ForNode
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
  * @version 2.3.0
  */
@@ -35,7 +35,7 @@ class ForNode extends Node
 	 * @param int                     $lineno
 	 * @param string|null             $tag
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (AssignNameExpression $keyTarget, AssignNameExpression $valueTarget, AbstractExpression $seq, AbstractExpression $ifexpr = null, Node $body, Node $else = null, int $lineno, ?string $tag = null)
@@ -55,7 +55,7 @@ class ForNode extends Node
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void

@@ -8,7 +8,7 @@ use Bas\Cappuccino\Node\Node;
 /**
  * Interface NodeVisitorInterface
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
  * @since 2.3.0
  */
@@ -22,7 +22,7 @@ interface NodeVisitorInterface
 	 * @param Environment $env
 	 *
 	 * @return Node
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function enterNode (Node $node, Environment $env) : Node;
@@ -34,7 +34,7 @@ interface NodeVisitorInterface
 	 * @param Environment $env
 	 *
 	 * @return Node
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function leaveNode (Node $node, Environment $env) : Node;
@@ -43,7 +43,7 @@ interface NodeVisitorInterface
 	 * Returns the priority for this visitor.
 	 *
 	 * @return int
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getPriority () : int;

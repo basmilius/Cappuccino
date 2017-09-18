@@ -10,7 +10,7 @@ use Bas\Cappuccino\Template;
 /**
  * Class DebugExtension
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
  * @version 2.3.0
  */
@@ -19,7 +19,7 @@ final class DebugExtension extends AbstractExtension
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getFunctions () : array
@@ -39,7 +39,7 @@ final class DebugExtension extends AbstractExtension
 	 * @param array       ...$vars
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public final function onSimpleFunctionDump (Environment $environment, array $context, ...$vars) : string

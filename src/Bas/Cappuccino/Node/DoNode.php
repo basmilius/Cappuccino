@@ -9,7 +9,7 @@ use Bas\Cappuccino\Node\Expression\AbstractExpression;
 /**
  * Class DoNode
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
  * @version 2.3.0
  */
@@ -23,7 +23,7 @@ class DoNode extends Node
 	 * @param int                $lineno
 	 * @param null|string        $tag
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (AbstractExpression $expr, int $lineno, ?string $tag = null)
@@ -33,7 +33,7 @@ class DoNode extends Node
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void

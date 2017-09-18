@@ -26,7 +26,7 @@ use ReflectionClass;
 /**
  * Class ExpressionParser
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
  * @version 2.3.0
  */
@@ -62,7 +62,7 @@ class ExpressionParser
 	 * @param Parser      $parser
 	 * @param Environment $environment
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (Parser $parser, Environment $environment)
@@ -80,7 +80,7 @@ class ExpressionParser
 	 *
 	 * @return AbstractExpression
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parseExpression (int $precedence = 0) : AbstractExpression
@@ -128,7 +128,7 @@ class ExpressionParser
 	 *
 	 * @return AbstractExpression
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function getPrimary () : AbstractExpression
@@ -163,7 +163,7 @@ class ExpressionParser
 	 *
 	 * @return AbstractExpression
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function parseConditionalExpression (AbstractExpression $expr) : AbstractExpression
@@ -200,7 +200,7 @@ class ExpressionParser
 	 * @param Token $token
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function isUnary (Token $token) : bool
@@ -214,7 +214,7 @@ class ExpressionParser
 	 * @param Token $token
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function isBinary (Token $token) : bool
@@ -227,7 +227,7 @@ class ExpressionParser
 	 *
 	 * @return AbstractExpression
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parsePrimaryExpression () : AbstractExpression
@@ -329,7 +329,7 @@ class ExpressionParser
 	 *
 	 * @return AbstractExpression
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parseStringExpression () : AbstractExpression
@@ -371,7 +371,7 @@ class ExpressionParser
 	 *
 	 * @return AbstractExpression
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parseArrayExpression () : AbstractExpression
@@ -406,7 +406,7 @@ class ExpressionParser
 	 *
 	 * @return AbstractExpression
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parseHashExpression () : AbstractExpression
@@ -462,7 +462,7 @@ class ExpressionParser
 	 *
 	 * @return AbstractExpression
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parsePostfixExpression (AbstractExpression $node) : AbstractExpression
@@ -503,7 +503,7 @@ class ExpressionParser
 	 *
 	 * @return AbstractExpression
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getFunctionNode (string $name, int $line) : AbstractExpression
@@ -568,7 +568,7 @@ class ExpressionParser
 	 *
 	 * @return AbstractExpression
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parseSubscriptExpression (AbstractExpression $node) : AbstractExpression
@@ -660,7 +660,7 @@ class ExpressionParser
 	 *
 	 * @return AbstractExpression
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parseFilterExpression (AbstractExpression $node) : AbstractExpression
@@ -678,7 +678,7 @@ class ExpressionParser
 	 *
 	 * @return AbstractExpression
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parseFilterExpressionRaw (AbstractExpression $node, ?string $tag = null) : AbstractExpression
@@ -713,7 +713,7 @@ class ExpressionParser
 	 *
 	 * @return Node
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parseArguments (bool $namedArguments = false, bool $definition = false) : Node
@@ -788,7 +788,7 @@ class ExpressionParser
 	 *
 	 * @return Node
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parseAssignmentExpression () : Node
@@ -818,7 +818,7 @@ class ExpressionParser
 	 *
 	 * @return Node
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parseMultitargetExpression () : Node
@@ -843,7 +843,7 @@ class ExpressionParser
 	 *
 	 * @return AbstractExpression
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function parseNotTestExpression (Node $node) : AbstractExpression
@@ -858,7 +858,7 @@ class ExpressionParser
 	 *
 	 * @return AbstractExpression
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function parseTestExpression (Node $node) : AbstractExpression
@@ -882,7 +882,7 @@ class ExpressionParser
 	 *
 	 * @return array
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function getTest (int $line)
@@ -917,7 +917,7 @@ class ExpressionParser
 	 * @param SimpleTest $test
 	 *
 	 * @return mixed
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function getTestNodeClass (SimpleTest $test)
@@ -950,7 +950,7 @@ class ExpressionParser
 	 *
 	 * @return mixed
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function getFunctionNodeClass (string $name, int $line)
@@ -990,7 +990,7 @@ class ExpressionParser
 	 *
 	 * @return mixed
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function getFilterNodeClass (string $name, int $line)
@@ -1029,7 +1029,7 @@ class ExpressionParser
 	 * @param Node $node
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function checkConstantExpression (Node $node) : bool

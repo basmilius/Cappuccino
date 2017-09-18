@@ -8,7 +8,7 @@ use Exception;
 /**
  * Class SecurityNotAllowedFunctionError
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Sandbox
  * @version 2.3.0
  */
@@ -29,7 +29,7 @@ class SecurityNotAllowedFunctionError extends SecurityError
 	 * @param string|null    $filename
 	 * @param Exception|null $previous
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (string $message, string $functionName, int $lineno = -1, ?string $filename = null, Exception $previous = null)
@@ -43,7 +43,7 @@ class SecurityNotAllowedFunctionError extends SecurityError
 	 * Gets the function name.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getFunctionName () : string

@@ -8,7 +8,7 @@ use Bas\Cappuccino\Compiler;
 /**
  * Class TempNameExpression
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression
  * @version 2.3.0
  */
@@ -21,7 +21,7 @@ class TempNameExpression extends AbstractExpression
 	 * @param string $name
 	 * @param int    $lineno
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (string $name, int $lineno)
@@ -31,7 +31,7 @@ class TempNameExpression extends AbstractExpression
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void

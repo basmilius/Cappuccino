@@ -16,7 +16,7 @@ use Bas\Cappuccino\TokenStream;
 /**
  * Class ForTokenParser
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\TokenParser
  * @version 2.3.0
  */
@@ -25,7 +25,7 @@ final class ForTokenParser extends AbstractTokenParser
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parse (Token $token) : Node
@@ -85,7 +85,7 @@ final class ForTokenParser extends AbstractTokenParser
 	 * @param Token $token
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function decideForFork (Token $token) : bool
@@ -99,7 +99,7 @@ final class ForTokenParser extends AbstractTokenParser
 	 * @param Token $token
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function decideForEnd (Token $token) : bool
@@ -114,7 +114,7 @@ final class ForTokenParser extends AbstractTokenParser
 	 * @param Node        $node
 	 *
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function checkLoopUsageCondition (TokenStream $stream, Node $node)
@@ -138,7 +138,7 @@ final class ForTokenParser extends AbstractTokenParser
 	 * @param Node        $node
 	 *
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function checkLoopUsageBody (TokenStream $stream, Node $node)
@@ -165,7 +165,7 @@ final class ForTokenParser extends AbstractTokenParser
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTag () : string

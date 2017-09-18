@@ -21,7 +21,7 @@ use Bas\Cappuccino\TokenParser\TokenParserInterface;
 /**
  * Class Parser
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
  * @version 2.3.0
  */
@@ -59,7 +59,7 @@ class Parser
 	 *
 	 * @param Environment $environment
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (Environment $environment)
@@ -71,7 +71,7 @@ class Parser
 	 * Gets the var name.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getVarName () : string
@@ -88,7 +88,7 @@ class Parser
 	 *
 	 * @return ModuleNode
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parse (TokenStream $stream, ?callable $test = null, bool $dropNeedle = false) : ModuleNode
@@ -162,7 +162,7 @@ class Parser
 	 *
 	 * @return Node
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function subparse (?callable $test, bool $dropNeedle = false) : Node
@@ -383,7 +383,7 @@ class Parser
 	 *
 	 * @return Node|null
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function filterBodyNodes (Node $node) : ?Node

@@ -8,7 +8,7 @@ use Bas\Cappuccino\Compiler;
 /**
  * Class IfNode
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
  * @version 2.3.0
  */
@@ -23,7 +23,7 @@ class IfNode extends Node
 	 * @param int         $lineno
 	 * @param string|null $tag
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (Node $tests, ?Node $else = null, int $lineno, ?string $tag = null)
@@ -38,7 +38,7 @@ class IfNode extends Node
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void

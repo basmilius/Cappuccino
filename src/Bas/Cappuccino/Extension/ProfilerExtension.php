@@ -9,7 +9,7 @@ use Bas\Cappuccino\Profiler\Profile;
 /**
  * Class ProfilerExtension
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
  * @version 2.3.0
  */

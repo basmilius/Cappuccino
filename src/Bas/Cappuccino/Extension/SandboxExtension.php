@@ -17,7 +17,7 @@ use Bas\Cappuccino\TokenParser\SandboxTokenParser;
 /**
  * Class SandboxExtension
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
  * @version 2.3.0
  */
@@ -45,7 +45,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @param SecurityPolicyInterface $policy
 	 * @param bool                    $sandboxed
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (SecurityPolicyInterface $policy, bool $sandboxed = false)
@@ -56,7 +56,7 @@ final class SandboxExtension extends AbstractExtension
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTokenParsers () : array
@@ -66,7 +66,7 @@ final class SandboxExtension extends AbstractExtension
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getNodeVisitors () : array
@@ -77,7 +77,7 @@ final class SandboxExtension extends AbstractExtension
 	/**
 	 * Enables the sandbox.
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function enableSandbox () : void
@@ -88,7 +88,7 @@ final class SandboxExtension extends AbstractExtension
 	/**
 	 * Disables the sandbox.
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function disableSandbox () : void
@@ -100,7 +100,7 @@ final class SandboxExtension extends AbstractExtension
 	 * Gets if we're sandboxed.
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function isSandboxed () : bool
@@ -112,7 +112,7 @@ final class SandboxExtension extends AbstractExtension
 	 * Gets if we're sandboxed globally.
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function isSandboxedGlobally () : bool
@@ -124,7 +124,7 @@ final class SandboxExtension extends AbstractExtension
 	 * Gets the security policy.
 	 *
 	 * @return SecurityPolicyInterface
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getSecurityPolicy () : SecurityPolicyInterface
@@ -137,7 +137,7 @@ final class SandboxExtension extends AbstractExtension
 	 *
 	 * @param SecurityPolicyInterface $policy
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setSecurityPolicy (SecurityPolicyInterface $policy) : void
@@ -153,7 +153,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @throws SecurityNotAllowedFilterError
 	 * @throws SecurityNotAllowedFunctionError
 	 * @throws SecurityNotAllowedTagError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function checkSecurity (array $tags, array $filters, array $functions) : void
@@ -169,7 +169,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @param string $method
 	 *
 	 * @throws SecurityNotAllowedMethodError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function checkMethodAllowed ($obj, string $method) : void
@@ -185,7 +185,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @param string $property
 	 *
 	 * @throws SecurityNotAllowedPropertyError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function checkPropertyAllowed ($obj, string $property) : void
@@ -201,7 +201,7 @@ final class SandboxExtension extends AbstractExtension
 	 *
 	 * @return mixed
 	 * @throws SecurityNotAllowedMethodError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function ensureToStringAllowed ($obj)

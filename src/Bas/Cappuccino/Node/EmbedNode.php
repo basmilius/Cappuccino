@@ -10,7 +10,7 @@ use Bas\Cappuccino\Node\Expression\ConstantExpression;
 /**
  * Class EmbedNode
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
  * @version 2.3.0
  */
@@ -28,7 +28,7 @@ class EmbedNode extends IncludeNode
 	 * @param int                     $lineno
 	 * @param string|null             $tag
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (string $name, int $index, AbstractExpression $variables = null, bool $only = false, bool $ignoreMissing = false, int $lineno, ?string $tag = null)
@@ -41,7 +41,7 @@ class EmbedNode extends IncludeNode
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function addGetTemplate (Compiler $compiler) : void

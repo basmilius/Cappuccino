@@ -9,7 +9,7 @@ use Bas\Cappuccino\Node\Node;
 /**
  * Class SimpleFunction
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
  * @since 2.3.0
  */

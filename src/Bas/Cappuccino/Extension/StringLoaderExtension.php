@@ -14,7 +14,7 @@ use Bas\Cappuccino\Template;
 /**
  * Class StringLoaderExtension
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
  * @version 2.3.0
  */
@@ -23,7 +23,7 @@ final class StringLoaderExtension extends AbstractExtension
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getFunctions () : array
@@ -44,7 +44,7 @@ final class StringLoaderExtension extends AbstractExtension
 	 * @throws LoaderError
 	 * @throws RuntimeError
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */

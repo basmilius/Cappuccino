@@ -8,7 +8,7 @@ use RuntimeException;
 /**
  * Class FilesystemCache
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Cache
  * @version 2.3.0
  */
@@ -26,7 +26,7 @@ class FilesystemCache implements CacheInterface
 	 * @param string $directory
 	 * @param int    $options
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (string $directory, int $options = 0)
@@ -37,7 +37,7 @@ class FilesystemCache implements CacheInterface
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function generateKey (string $name, string $className) : string
@@ -49,7 +49,7 @@ class FilesystemCache implements CacheInterface
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function load (string $key) : void
@@ -63,7 +63,7 @@ class FilesystemCache implements CacheInterface
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function write (string $key, string $content) : void
@@ -111,7 +111,7 @@ class FilesystemCache implements CacheInterface
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTimestamp (string $key) : int

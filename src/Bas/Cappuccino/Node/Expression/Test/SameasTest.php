@@ -8,7 +8,7 @@ use Bas\Cappuccino\Compiler;
 /**
  * Class SameasTest
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression\Test
  * @version 2.3.0
  */
@@ -17,7 +17,7 @@ class SameasTest extends TestExpression
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void

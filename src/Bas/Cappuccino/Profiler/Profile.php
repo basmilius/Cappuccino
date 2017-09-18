@@ -10,7 +10,7 @@ use Serializable;
 /**
  * Class Profile
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Profiler
  * @version 2.3.0
  */
@@ -36,7 +36,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @param string $type
 	 * @param string $name
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (string $template = 'main', string $type = self::ROOT, string $name = 'main')
@@ -54,7 +54,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * Gets the template.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTemplate () : string
@@ -66,7 +66,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * Gets the type.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getType () : string
@@ -78,7 +78,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * Gets the name.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getName () : string
@@ -90,7 +90,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * Returns TRUE if this is the root.
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function isRoot () : bool
@@ -102,7 +102,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * Returns TRUE if this is a template.
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function isTemplate () : bool
@@ -114,7 +114,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * Returns TRUE if this is a block.
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function isBlock () : bool
@@ -126,7 +126,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * Returns TRUE if this is a macro.
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function isMacro () : bool
@@ -138,7 +138,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * Gets the child profiles.
 	 *
 	 * @return Profile[]
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getProfiles () : array
@@ -151,7 +151,7 @@ class Profile implements IteratorAggregate, Serializable
 	 *
 	 * @param Profile $profile
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function addProfile (Profile $profile) : void
@@ -163,7 +163,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * Gets the duration in microseconds.
 	 *
 	 * @return int
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getDuration () : int
@@ -185,7 +185,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * Gets the memory usage in bytes.
 	 *
 	 * @return int
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getMemoryUsage () : int
@@ -197,7 +197,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * Gets the peak memory usage in bytes.
 	 *
 	 * @return int
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getPeakMemoryUsage () : int
@@ -208,7 +208,7 @@ class Profile implements IteratorAggregate, Serializable
 	/**
 	 * Starts the profiling.
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function enter ()
@@ -223,7 +223,7 @@ class Profile implements IteratorAggregate, Serializable
 	/**
 	 * Stops the profiling.
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function leave () : void
@@ -237,7 +237,7 @@ class Profile implements IteratorAggregate, Serializable
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getIterator () : ArrayIterator
@@ -247,7 +247,7 @@ class Profile implements IteratorAggregate, Serializable
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function serialize () : string
@@ -257,7 +257,7 @@ class Profile implements IteratorAggregate, Serializable
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function unserialize ($data) : void

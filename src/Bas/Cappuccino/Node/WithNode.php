@@ -9,7 +9,7 @@ use Bas\Cappuccino\Error\RuntimeError;
 /**
  * Class WithNode
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
  * @version 2.3.0
  */
@@ -25,7 +25,7 @@ class WithNode extends Node
 	 * @param int         $lineno
 	 * @param string|null $tag
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (Node $body, ?Node $variables = null, bool $only = false, int $lineno, ?string $tag = null)
@@ -40,7 +40,7 @@ class WithNode extends Node
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void

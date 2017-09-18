@@ -16,7 +16,7 @@ use Bas\Cappuccino\Node\Node;
 /**
  * Class DefinedTest
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression\Test
  * @version 2.3.0
  */
@@ -32,7 +32,7 @@ class DefinedTest extends TestExpression
 	 * @param int       $lineno
 	 *
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (Node $node, string $name, Node $arguments = null, int $lineno)
@@ -80,7 +80,7 @@ class DefinedTest extends TestExpression
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void

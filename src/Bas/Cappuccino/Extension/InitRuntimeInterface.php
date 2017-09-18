@@ -8,7 +8,7 @@ use Bas\Cappuccino\Environment;
 /**
  * Interface InitRuntimeInterface
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
  * @version 2.3.0
  */
@@ -21,7 +21,7 @@ interface InitRuntimeInterface
 	 * @param Environment $environment
 	 *
 	 * @return mixed
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function initRuntime (Environment $environment);

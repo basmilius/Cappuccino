@@ -10,7 +10,7 @@ use Bas\Cappuccino\Node\Node;
 /**
  * Class AbstractBinary
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression\Binary
  * @version 2.3.0
  */
@@ -24,7 +24,7 @@ abstract class AbstractBinary extends AbstractExpression
 	 * @param Node $right
 	 * @param int  $lineno
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (Node $left, Node $right, int $lineno)
@@ -37,7 +37,7 @@ abstract class AbstractBinary extends AbstractExpression
 	 *
 	 * @param Compiler $compiler
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void
@@ -55,7 +55,7 @@ abstract class AbstractBinary extends AbstractExpression
 	 * @param Compiler $compiler
 	 *
 	 * @return Compiler
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public abstract function operator (Compiler $compiler) : Compiler;

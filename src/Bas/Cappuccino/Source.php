@@ -6,7 +6,7 @@ namespace Bas\Cappuccino;
 /**
  * Class Source
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
  * @version 2.3.0
  */
@@ -35,7 +35,7 @@ final class Source
 	 * @param string|null $name
 	 * @param string      $path
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (string $code, ?string $name, string $path = '')
@@ -49,7 +49,7 @@ final class Source
 	 * Gets the code.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getCode () : string
@@ -61,7 +61,7 @@ final class Source
 	 * Gets the name.
 	 *
 	 * @return string|null
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getName () : ?string
@@ -73,7 +73,7 @@ final class Source
 	 * Gets the path.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getPath () : string

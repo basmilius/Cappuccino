@@ -12,7 +12,7 @@ use Bas\Cappuccino\TokenParser\TokenParserInterface;
 /**
  * Interface ExtensionInterface
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
  * @version 2.3.0
  */

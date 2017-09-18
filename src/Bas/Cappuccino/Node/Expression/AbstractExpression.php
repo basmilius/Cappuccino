@@ -8,7 +8,7 @@ use Bas\Cappuccino\Node\Node;
 /**
  * Class AbstractExpression
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression
  * @version 2.3.0
  */

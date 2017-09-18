@@ -10,7 +10,7 @@ use Bas\Cappuccino\Util\StaticMethods;
 /**
  * Class FunctionExpression
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression
  * @version 2.3.0
  */
@@ -24,7 +24,7 @@ class FunctionExpression extends CallExpression
 	 * @param Node   $arguments
 	 * @param int    $lineno
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (string $name, Node $arguments, int $lineno)
@@ -34,7 +34,7 @@ class FunctionExpression extends CallExpression
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void

@@ -10,7 +10,7 @@ use Bas\Cappuccino\Token;
 /**
  * Interface TokenParserInterface
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\TokenParser
  * @version 2.3.0
  */
@@ -22,7 +22,7 @@ interface TokenParserInterface
 	 *
 	 * @param Parser $parser
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setParser (Parser $parser) : void;
@@ -33,7 +33,7 @@ interface TokenParserInterface
 	 * @param Token $token
 	 *
 	 * @return Node|null
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parse (Token $token) : ?Node;
@@ -42,7 +42,7 @@ interface TokenParserInterface
 	 * Gets the tag name associated with this token parser.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTag () : string;

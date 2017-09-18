@@ -10,7 +10,7 @@ use Bas\Cappuccino\NodeVisitorInterface;
 /**
  * Class AbstractNodeVisitor
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
  * @since 2.3.0
  */
@@ -19,7 +19,7 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	final public function enterNode (Node $node, Environment $env) : Node
@@ -29,7 +29,7 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	final public function leaveNode (Node $node, Environment $env) : Node
@@ -44,7 +44,7 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
 	 * @param Environment $environment
 	 *
 	 * @return Node
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @see AbstractNodeVisitor::enterNode()
 	 * @since 2.3.0
 	 */
@@ -57,7 +57,7 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
 	 * @param Environment $env
 	 *
 	 * @return Node
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @see AbstractNodeVisitor::leaveNode()
 	 * @since 2.3.0
 	 */

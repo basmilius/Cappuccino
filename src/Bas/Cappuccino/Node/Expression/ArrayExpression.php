@@ -8,7 +8,7 @@ use Bas\Cappuccino\Compiler;
 /**
  * Class ArrayExpression
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression
  * @version 2.3.0
  */
@@ -26,7 +26,7 @@ class ArrayExpression extends AbstractExpression
 	 * @param array $elements
 	 * @param int   $lineno
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (array $elements, int $lineno)
@@ -44,7 +44,7 @@ class ArrayExpression extends AbstractExpression
 	 * Gets key-value pairs.
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getKeyValuePairs () : array
@@ -68,7 +68,7 @@ class ArrayExpression extends AbstractExpression
 	 * @param AbstractExpression $key
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function hasElement (AbstractExpression $key) : bool
@@ -86,7 +86,7 @@ class ArrayExpression extends AbstractExpression
 	 * @param AbstractExpression      $value
 	 * @param AbstractExpression|null $key
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function addElement (AbstractExpression $value, ?AbstractExpression $key = null)
@@ -99,7 +99,7 @@ class ArrayExpression extends AbstractExpression
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void

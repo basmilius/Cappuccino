@@ -6,7 +6,7 @@ namespace Bas\Cappuccino\Cache;
 /**
  * Interface CacheInterface
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Cache
  * @version 2.3.0
  */
@@ -20,7 +20,7 @@ interface CacheInterface
 	 * @param string $className
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function generateKey (string $name, string $className) : string;
@@ -31,7 +31,7 @@ interface CacheInterface
 	 * @param string $key
 	 * @param string $content
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function write (string $key, string $content) : void;
@@ -41,7 +41,7 @@ interface CacheInterface
 	 *
 	 * @param string $key
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function load (string $key) : void;
@@ -52,7 +52,7 @@ interface CacheInterface
 	 * @param string $key
 	 *
 	 * @return int
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTimestamp (string $key) : int;

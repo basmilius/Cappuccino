@@ -10,7 +10,7 @@ use Bas\Cappuccino\Node\Node;
 /**
  * Class AbstractUnary
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression\Unary
  * @version 2.3.0
  */
@@ -23,7 +23,7 @@ abstract class AbstractUnary extends AbstractExpression
 	 * @param Node $node
 	 * @param int  $lineno
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function __construct (Node $node, int $lineno)
 	{
@@ -32,7 +32,7 @@ abstract class AbstractUnary extends AbstractExpression
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void
@@ -44,7 +44,7 @@ abstract class AbstractUnary extends AbstractExpression
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public abstract function operator (Compiler $compiler) : void;

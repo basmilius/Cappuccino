@@ -9,7 +9,7 @@ use Bas\Cappuccino\Template;
 /**
  * Class SecurityPolicy
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Sandbox
  * @version 2.3.0
  */
@@ -50,7 +50,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 	 * @param array $allowedProperties
 	 * @param array $allowedFunctions
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (array $allowedTags = [], array $allowedFilters = [], array $allowedMethods = [], array $allowedProperties = [], array $allowedFunctions = [])
@@ -67,7 +67,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 	 *
 	 * @param array $tags
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setAllowedTags (array $tags) : void
@@ -80,7 +80,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 	 *
 	 * @param array $filters
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setAllowedFilters (array $filters) : void
@@ -93,7 +93,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 	 *
 	 * @param array $methods
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setAllowedMethods (array $methods) : void
@@ -110,7 +110,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 	 *
 	 * @param array $properties
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setAllowedProperties (array $properties) : void
@@ -123,7 +123,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 	 *
 	 * @param array $functions
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setAllowedFunctions (array $functions) : void
@@ -133,7 +133,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function checkSecurity (array $tags, array $filters, array $functions) : void
@@ -153,7 +153,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function checkMethodAllowed ($obj, $method) : void
@@ -182,7 +182,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function checkPropertyAllowed ($obj, $property) : void

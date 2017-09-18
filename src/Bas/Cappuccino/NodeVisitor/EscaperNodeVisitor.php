@@ -19,7 +19,7 @@ use Bas\Cappuccino\NodeTraverser;
 /**
  * Class EscaperNodeVisitor
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\NodeVisitor
  * @version 2.3.0
  */
@@ -36,7 +36,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * EscaperNodeVisitor constructor.
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct ()
@@ -46,7 +46,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function doEnterNode (Node $node, Environment $environment) : Node
@@ -82,7 +82,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function doLeaveNode (Node $node, Environment $env) : Node
@@ -118,7 +118,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @param string      $type
 	 *
 	 * @return Node
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function escapePrintNode (PrintNode $node, Environment $env, string $type) : Node
@@ -146,7 +146,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @param Environment      $env
 	 *
 	 * @return FilterExpression
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function preEscapeFilterNode (FilterExpression $filter, Environment $env) : FilterExpression
@@ -175,7 +175,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @param Environment $env
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function isSafeFor (string $type, Node $expression, Environment $env) : bool
@@ -200,7 +200,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * Returns TRUE if escaping is needed.
 	 *
 	 * @return string|bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function needEscaping ()
@@ -218,7 +218,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @param Node   $node
 	 *
 	 * @return FilterExpression
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function getEscaperFilter (string $type, Node $node)
@@ -232,7 +232,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getPriority () : int

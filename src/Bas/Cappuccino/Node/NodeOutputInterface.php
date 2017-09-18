@@ -6,7 +6,7 @@ namespace Bas\Cappuccino\Node;
 /**
  * Interface NodeOutputInterface
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
  * @version 2.3.0
  */

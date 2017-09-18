@@ -14,7 +14,7 @@ use Throwable;
 /**
  * Class Template
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
  * @version 2.3.0
  */
@@ -60,7 +60,7 @@ abstract class Template
 	 *
 	 * @param Environment $environment
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (Environment $environment)
@@ -70,7 +70,7 @@ abstract class Template
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __toString ()
@@ -82,7 +82,7 @@ abstract class Template
 	 * Gets the template name.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public abstract function getTemplateName () : string;
@@ -91,7 +91,7 @@ abstract class Template
 	 * Gets debug information about this template.
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public abstract function getDebugInfo () : array;
@@ -100,7 +100,7 @@ abstract class Template
 	 * Gets information about the original template source code.
 	 *
 	 * @return Source
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getSourceContext () : Source
@@ -116,7 +116,7 @@ abstract class Template
 	 * @return Template|bool
 	 * @throws LoaderError
 	 * @throws Exception
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -159,7 +159,7 @@ abstract class Template
 	 *
 	 * @return bool
 	 * @throws LoaderError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function doGetParent (array $context) : bool
@@ -171,7 +171,7 @@ abstract class Template
 	 * #twigcode: Gets if this template is traitable.
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function isTraitable () : bool
@@ -189,7 +189,7 @@ abstract class Template
 	 * @throws Exception
 	 * @throws LoaderError
 	 * @throws RuntimeError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -221,7 +221,7 @@ abstract class Template
 	 * @throws Exception
 	 * @throws LoaderError
 	 * @throws RuntimeError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function displayBlock (string $name, array $context, array $blocks = [], bool $useBlocks = true)
@@ -297,7 +297,7 @@ abstract class Template
 	 * @throws Exception
 	 * @throws LoaderError
 	 * @throws RuntimeError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -322,7 +322,7 @@ abstract class Template
 	 * @throws Exception
 	 * @throws LoaderError
 	 * @throws RuntimeError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -345,7 +345,7 @@ abstract class Template
 	 * @return bool
 	 * @throws Exception
 	 * @throws LoaderError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function hasBlock (string $name, array $context, array $blocks = []) : bool
@@ -372,7 +372,7 @@ abstract class Template
 	 * @return array
 	 * @throws Exception
 	 * @throws LoaderError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getBlockNames (array $context, array $blocks = [])
@@ -397,7 +397,7 @@ abstract class Template
 	 *
 	 * @return Template
 	 * @throws Error
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function loadTemplate ($template, ?string $templateName = null, ?int $line = null, ?int $index = null)
@@ -436,7 +436,7 @@ abstract class Template
 	 * Returns all blocks.
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getBlocks () : array
@@ -451,7 +451,7 @@ abstract class Template
 	 * @param array $blocks
 	 *
 	 * @throws Exception
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function display (array $context, array $blocks = [])
@@ -466,7 +466,7 @@ abstract class Template
 	 *
 	 * @return string
 	 * @throws Throwable
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function render (array $context)
@@ -497,7 +497,7 @@ abstract class Template
 	 *
 	 * @throws Error
 	 * @throws RuntimeError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function displayWithErrorHandling (array $context, array $blocks = [])
@@ -533,7 +533,7 @@ abstract class Template
 	 *
 	 * @return mixed
 	 * @throws Error
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected abstract function doDisplay (array $context, array $blocks = []);

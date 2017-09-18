@@ -8,7 +8,7 @@ use Bas\Cappuccino\Node\Node;
 /**
  * Class NodeTraverser
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
  * @version 2.3.0
  */
@@ -24,7 +24,7 @@ final class NodeTraverser
 	 * @param Environment            $environment
 	 * @param NodeVisitorInterface[] $visitors
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (Environment $environment, array $visitors = [])
@@ -40,7 +40,7 @@ final class NodeTraverser
 	 *
 	 * @param NodeVisitorInterface $visitor
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function addVisitor (NodeVisitorInterface $visitor)
@@ -57,7 +57,7 @@ final class NodeTraverser
 	 * @param Node $node
 	 *
 	 * @return Node
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function traverse (Node $node)
@@ -81,7 +81,7 @@ final class NodeTraverser
 	 * @param Node                 $node
 	 *
 	 * @return Node
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function traverseForVisitor (NodeVisitorInterface $visitor, Node $node)

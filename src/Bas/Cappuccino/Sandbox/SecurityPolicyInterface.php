@@ -6,7 +6,7 @@ namespace Bas\Cappuccino\Sandbox;
 /**
  * Interface SecurityPolicyInterface
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Sandbox
  * @version 2.3.0
  */
@@ -20,7 +20,7 @@ interface SecurityPolicyInterface
 	 * @param array $filters
 	 * @param array $functions
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @throws SecurityNotAllowedFilterError
 	 * @throws SecurityNotAllowedFunctionError
@@ -34,7 +34,7 @@ interface SecurityPolicyInterface
 	 * @param mixed $obj
 	 * @param mixed $method
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @throws SecurityNotAllowedMethodError
 	 */
@@ -46,7 +46,7 @@ interface SecurityPolicyInterface
 	 * @param mixed $obj
 	 * @param mixed $method
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @throws SecurityNotAllowedPropertyError
 	 */

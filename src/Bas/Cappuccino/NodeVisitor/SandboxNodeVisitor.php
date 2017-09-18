@@ -23,7 +23,7 @@ final class SandboxNodeVisitor extends AbstractNodeVisitor
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function doEnterNode (Node $node, Environment $environment) : Node
@@ -68,7 +68,7 @@ final class SandboxNodeVisitor extends AbstractNodeVisitor
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function doLeaveNode (Node $node, Environment $env) : Node
@@ -85,7 +85,7 @@ final class SandboxNodeVisitor extends AbstractNodeVisitor
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getPriority () : int

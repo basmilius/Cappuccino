@@ -8,7 +8,7 @@ use Exception;
 /**
  * Class SecurityNotAllowedPropertyError
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Sandbox
  * @version 2.3.0
  */
@@ -35,7 +35,7 @@ class SecurityNotAllowedPropertyError extends SecurityError
 	 * @param string|null    $filename
 	 * @param Exception|null $previous
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (string $message, string $className, string $propertyName, int $lineno = -1, ?string $filename = null, Exception $previous = null)
@@ -50,7 +50,7 @@ class SecurityNotAllowedPropertyError extends SecurityError
 	 * Gets the class name.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getClassName ()
@@ -62,7 +62,7 @@ class SecurityNotAllowedPropertyError extends SecurityError
 	 * Gets the property name.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getPropertyName ()

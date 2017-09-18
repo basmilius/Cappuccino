@@ -8,7 +8,7 @@ use Bas\Cappuccino\Compiler;
 /**
  * Class ParentExpression
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression
  * @version 2.3.0
  */
@@ -22,7 +22,7 @@ class ParentExpression extends AbstractExpression
 	 * @param int    $lineno
 	 * @param mixed  $tag
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (string $name, int $lineno, $tag = null)
@@ -32,7 +32,7 @@ class ParentExpression extends AbstractExpression
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void

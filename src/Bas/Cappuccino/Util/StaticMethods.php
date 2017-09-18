@@ -18,7 +18,7 @@ use Traversable;
 /**
  * Class StaticMethods
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Util
  * @version ${CARET}
  */
@@ -33,7 +33,7 @@ class StaticMethods
 	 * @param string $from
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public static function convertEncoding (string $str, string $to, string $from) : string
@@ -47,7 +47,7 @@ class StaticMethods
 	 * @param $seq
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public static function ensureTraversable ($seq)
@@ -76,7 +76,7 @@ class StaticMethods
 	 * @throws RuntimeError
 	 * @throws SecurityNotAllowedMethodError
 	 * @throws SecurityNotAllowedPropertyError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public static function getAttribute (Environment $env, Source $source, $object, $item, array $arguments = [], $type = Template::ANY_CALL, $isDefinedTest = false, $ignoreStrictCheck = false)
@@ -282,7 +282,7 @@ class StaticMethods
 	 * @param $compare
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public static function inFilter ($value, $compare) : bool
@@ -323,7 +323,7 @@ class StaticMethods
 	 * @param mixed  $object
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public static function isConstantDefined (string $constant, $object) : bool
@@ -340,7 +340,7 @@ class StaticMethods
 	 * @param mixed $value
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public static function isEmpty ($value) : bool
@@ -360,7 +360,7 @@ class StaticMethods
 	 * @param mixed $value
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public static function isIterable ($value) : bool

@@ -10,7 +10,7 @@ use Bas\Cappuccino\Token;
 /**
  * Class FlushTokenParser
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\TokenParser
  * @version 2.3.0
  */
@@ -19,7 +19,7 @@ final class FlushTokenParser extends AbstractTokenParser
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parse (Token $token) : Node
@@ -31,7 +31,7 @@ final class FlushTokenParser extends AbstractTokenParser
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTag () : string

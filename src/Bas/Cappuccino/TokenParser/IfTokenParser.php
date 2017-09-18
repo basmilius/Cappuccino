@@ -11,7 +11,7 @@ use Bas\Cappuccino\Token;
 /**
  * Class IfTokenParser
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\TokenParser
  * @version 2.3.0
  */
@@ -20,7 +20,7 @@ final class IfTokenParser extends AbstractTokenParser
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parse (Token $token) : Node
@@ -71,7 +71,7 @@ final class IfTokenParser extends AbstractTokenParser
 	 * @param Token $token
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function decideIfFork (Token $token) : bool
@@ -85,7 +85,7 @@ final class IfTokenParser extends AbstractTokenParser
 	 * @param Token $token
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function decideIfEnd (Token $token) : bool
@@ -95,7 +95,7 @@ final class IfTokenParser extends AbstractTokenParser
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTag () : string

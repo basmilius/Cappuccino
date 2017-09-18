@@ -8,7 +8,7 @@ use Bas\Cappuccino\Error\Error;
 /**
  * Class SecurityError
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Sandbox
  * @version 2.3.0
  */

@@ -18,7 +18,7 @@ use UnexpectedValueException;
 /**
  * Class ExtensionSet
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
  * @version 2.3.0
  */
@@ -103,7 +103,7 @@ final class ExtensionSet implements ExtensionInterface
 	/**
 	 * ExtensionSet constructor.
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct ()
@@ -116,7 +116,7 @@ final class ExtensionSet implements ExtensionInterface
 	 *
 	 * @param Environment $env
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function initRuntime (Environment $env)
@@ -137,7 +137,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @param string $class
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function hasExtension (string $class) : bool
@@ -157,7 +157,7 @@ final class ExtensionSet implements ExtensionInterface
 	 *
 	 * @return ExtensionInterface|null
 	 * @throws RuntimeError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getExtension (string $class) : ?ExtensionInterface
@@ -178,7 +178,7 @@ final class ExtensionSet implements ExtensionInterface
 	 *
 	 * @param array $extensions
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setExtensions (array $extensions) : void
@@ -191,7 +191,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * Gets extensions.
 	 *
 	 * @return ExtensionInterface[]
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getExtensions () : array
@@ -203,7 +203,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * Gets the signature.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getSignature () : string
@@ -215,7 +215,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * Returns TRUE if we're initialized.
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function isInitialized () : bool
@@ -227,7 +227,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * Gets the last modified integer.
 	 *
 	 * @return int
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getLastModified () : int
@@ -251,7 +251,7 @@ final class ExtensionSet implements ExtensionInterface
 	 *
 	 * @param ExtensionInterface $extension
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function addExtension (ExtensionInterface $extension) : void
@@ -272,7 +272,7 @@ final class ExtensionSet implements ExtensionInterface
 	 *
 	 * @param SimpleFunction $function
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function addFunction (SimpleFunction $function) : void
@@ -285,7 +285,7 @@ final class ExtensionSet implements ExtensionInterface
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getFunctions () : array
@@ -304,7 +304,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @param string $name
 	 *
 	 * @return SimpleFunction|null
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getFunction (string $name) : ?SimpleFunction
@@ -340,7 +340,7 @@ final class ExtensionSet implements ExtensionInterface
 	 *
 	 * @param callable $callable
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function registerUndefinedFunctionCallback (callable $callable) : void
@@ -353,7 +353,7 @@ final class ExtensionSet implements ExtensionInterface
 	 *
 	 * @param SimpleFilter $filter
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function addFilter (SimpleFilter $filter) : void
@@ -366,7 +366,7 @@ final class ExtensionSet implements ExtensionInterface
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getFilters () : array
@@ -383,7 +383,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @param string $name
 	 *
 	 * @return SimpleFilter|null
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getFilter (string $name) : ?SimpleFilter
@@ -419,7 +419,7 @@ final class ExtensionSet implements ExtensionInterface
 	 *
 	 * @param callable $callable
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function registerUndefinedFilterCallback (callable $callable) : void
@@ -432,7 +432,7 @@ final class ExtensionSet implements ExtensionInterface
 	 *
 	 * @param NodeVisitorInterface $visitor
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function addNodeVisitor (NodeVisitorInterface $visitor) : void
@@ -445,7 +445,7 @@ final class ExtensionSet implements ExtensionInterface
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getNodeVisitors () : array
@@ -461,7 +461,7 @@ final class ExtensionSet implements ExtensionInterface
 	 *
 	 * @param TokenParserInterface $parser
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function addTokenParser (TokenParserInterface $parser) : void
@@ -474,7 +474,7 @@ final class ExtensionSet implements ExtensionInterface
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTokenParsers () : array
@@ -489,7 +489,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * Gets the globals.
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getGlobals () : array
@@ -523,7 +523,7 @@ final class ExtensionSet implements ExtensionInterface
 	 *
 	 * @param SimpleTest $test
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function addTest (SimpleTest $test) : void
@@ -540,7 +540,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @param string $name
 	 *
 	 * @return SimpleTest|null
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTest (string $name) : ?SimpleTest
@@ -556,7 +556,7 @@ final class ExtensionSet implements ExtensionInterface
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTests () : array
@@ -571,7 +571,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * Gets the registered unary operators.
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getUnaryOperators () : array
@@ -586,7 +586,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * Gets the registered binary operators.
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getBinaryOperators () : array
@@ -600,7 +600,7 @@ final class ExtensionSet implements ExtensionInterface
 	/**
 	 * Initializes the extensions.
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function initExtensions () : void
@@ -625,7 +625,7 @@ final class ExtensionSet implements ExtensionInterface
 	 *
 	 * @param ExtensionInterface $extension
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function initExtension (ExtensionInterface $extension) : void
@@ -665,7 +665,7 @@ final class ExtensionSet implements ExtensionInterface
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getOperators () : array

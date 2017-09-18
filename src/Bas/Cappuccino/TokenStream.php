@@ -8,7 +8,7 @@ use Bas\Cappuccino\Error\SyntaxError;
 /**
  * Class TokenStream
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
  * @version 2.3.0
  */
@@ -36,7 +36,7 @@ final class TokenStream
 	 * @param Token[]     $tokens
 	 * @param Source|null $source
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (array $tokens, ?Source $source = null)
@@ -47,7 +47,7 @@ final class TokenStream
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.30.
 	 */
 	public function __toString ()
@@ -60,7 +60,7 @@ final class TokenStream
 	 *
 	 * @param array $tokens
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function injectTokens (array $tokens) : void
@@ -73,7 +73,7 @@ final class TokenStream
 	 *
 	 * @return Token
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function next () : Token
@@ -92,7 +92,7 @@ final class TokenStream
 	 *
 	 * @return Token|null
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function nextIf ($primary, $secondary = null) : ?Token
@@ -112,7 +112,7 @@ final class TokenStream
 	 *
 	 * @return Token
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function expect ($type, ?string $value = null, ?string $message = null) : Token
@@ -143,7 +143,7 @@ final class TokenStream
 	 *
 	 * @return Token
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function look (int $number = 1) : Token
@@ -161,7 +161,7 @@ final class TokenStream
 	 * @param string|string[] $secondary
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function test ($primary, $secondary = null) : bool
@@ -173,7 +173,7 @@ final class TokenStream
 	 * Checks if end of stream was reached.
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function isEOF () : bool
@@ -183,7 +183,7 @@ final class TokenStream
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getCurrent () : Token
@@ -195,7 +195,7 @@ final class TokenStream
 	 * Gets the source associated with this stream.
 	 *
 	 * @return Source
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getSourceContext () : Source

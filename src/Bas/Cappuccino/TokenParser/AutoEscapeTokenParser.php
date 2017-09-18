@@ -12,7 +12,7 @@ use Bas\Cappuccino\Token;
 /**
  * Class AutoEscapeTokenParser
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\TokenParser
  * @version 2.3.0
  */
@@ -21,7 +21,7 @@ final class AutoEscapeTokenParser extends AbstractTokenParser
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parse (Token $token) : Node
@@ -52,7 +52,7 @@ final class AutoEscapeTokenParser extends AbstractTokenParser
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function decideBlockEnd (Token $token) : bool
@@ -62,7 +62,7 @@ final class AutoEscapeTokenParser extends AbstractTokenParser
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTag () : string

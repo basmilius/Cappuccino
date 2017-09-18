@@ -9,7 +9,7 @@ use Bas\Cappuccino\Source;
 /**
  * Interface LoaderInterface
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Loader
  * @version 2.3.0
  */
@@ -23,7 +23,7 @@ interface LoaderInterface
 	 *
 	 * @return Source
 	 * @throws LoaderError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getSourceContext (string $name) : Source;
@@ -35,7 +35,7 @@ interface LoaderInterface
 	 *
 	 * @return string
 	 * @throws LoaderError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getCacheKey (string $name) : string;
@@ -48,7 +48,7 @@ interface LoaderInterface
 	 *
 	 * @return bool
 	 * @throws LoaderError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function isFresh (string $name, int $time) : bool;
@@ -60,7 +60,7 @@ interface LoaderInterface
 	 *
 	 * @return bool
 	 * @throws LoaderError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function exists (string $name) : bool;

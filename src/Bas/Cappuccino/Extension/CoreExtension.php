@@ -84,7 +84,7 @@ use Traversable;
 /**
  * Class CoreExtension
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
  * @version 2.3.0
  */
@@ -100,7 +100,7 @@ final class CoreExtension extends AbstractExtension
 	 * Gets all defined escapers.
 	 *
 	 * @return callable[]
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getEscapers () : array
@@ -114,7 +114,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param string   $strategy
 	 * @param callable $callable
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setEscaper (string $strategy, callable $callable) : void
@@ -126,7 +126,7 @@ final class CoreExtension extends AbstractExtension
 	 * Gets the default format to be used by the date filter.
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getDateFormat () : array
@@ -140,7 +140,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param string|null $format
 	 * @param string|null $dateIntervalFormat
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setDateFormat (?string $format = null, ?string $dateIntervalFormat = null) : void
@@ -156,7 +156,7 @@ final class CoreExtension extends AbstractExtension
 	 * Gets the default timezone to be used by the date filter.
 	 *
 	 * @return DateTimeZone
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTimezone () : DateTimeZone
@@ -172,7 +172,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @param DateTimeZone|string $timezone
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setTimezone ($timezone) : void
@@ -184,7 +184,7 @@ final class CoreExtension extends AbstractExtension
 	 * Gets the default format used by the number_format filter.
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getNumberFormat () : array
@@ -199,7 +199,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param string $decimalPoint
 	 * @param string $thousandSep
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setNumberFormat (int $decimal, string $decimalPoint, string $thousandSep) : void
@@ -209,7 +209,7 @@ final class CoreExtension extends AbstractExtension
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTokenParsers () : array
@@ -236,7 +236,7 @@ final class CoreExtension extends AbstractExtension
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getFilters () : array
@@ -291,7 +291,7 @@ final class CoreExtension extends AbstractExtension
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getFunctions () : array
@@ -311,7 +311,7 @@ final class CoreExtension extends AbstractExtension
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTests () : array
@@ -332,7 +332,7 @@ final class CoreExtension extends AbstractExtension
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getOperators () : array
@@ -384,7 +384,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param DateTimeZone|string|null|false        $timezone
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -409,7 +409,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param $modifier
 	 *
 	 * @return DateTime
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -425,7 +425,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param string $default
 	 *
 	 * @return mixed
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -444,7 +444,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param mixed  $object
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -463,7 +463,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param int               $position
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -482,7 +482,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param DateTimeZone|string|null|false         $timezone
 	 *
 	 * @return DateTime|DateTimeImmutable
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -538,7 +538,7 @@ final class CoreExtension extends AbstractExtension
 	 * @throws LoaderError
 	 * @throws RuntimeError
 	 * @throws Throwable
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -598,7 +598,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return array|false|int|mixed|null|string|string[]
 	 * @throws RuntimeError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -649,7 +649,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return string|null
 	 * @throws LoaderError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -678,7 +678,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param null              $fill
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -708,7 +708,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param mixed       $item
 	 *
 	 * @return mixed
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -727,7 +727,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param string            $glue
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -745,7 +745,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param array|Traversable $array
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -792,7 +792,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param mixed       $item
 	 *
 	 * @return mixed
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -811,7 +811,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return array
 	 * @throws RuntimeError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -842,7 +842,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param bool        $preserveKeys
 	 *
 	 * @return array|LimitIterator|string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -881,7 +881,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return array
 	 * @throws RuntimeError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -907,7 +907,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param int|null    $limit
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -947,7 +947,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return Markup|string
 	 * @throws RuntimeError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -1127,7 +1127,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param Node $filterArgs
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -1151,7 +1151,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param mixed       $thing
 	 *
 	 * @return int
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -1181,7 +1181,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param string|null $thousandSep
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -1209,7 +1209,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return string
 	 * @throws RuntimeError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -1231,7 +1231,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param bool                     $preserveKeys
 	 *
 	 * @return array|string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -1268,7 +1268,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return float|int
 	 * @throws RuntimeError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -1290,7 +1290,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param string      $str
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -1308,7 +1308,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param string      $str
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -1324,7 +1324,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param string      $str
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -1345,7 +1345,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return string
 	 * @throws RuntimeError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -1374,7 +1374,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param string      $str
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */
@@ -1389,7 +1389,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param string|array $url
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */

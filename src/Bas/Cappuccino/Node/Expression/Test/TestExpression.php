@@ -10,7 +10,7 @@ use Bas\Cappuccino\Node\Node;
 /**
  * Class TestExpression
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression
  * @version 2.3.0
  */
@@ -25,7 +25,7 @@ class TestExpression extends CallExpression
 	 * @param Node|null $arguments
 	 * @param int       $lineno
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (Node $node, string $name, Node $arguments = null, int $lineno)
@@ -41,7 +41,7 @@ class TestExpression extends CallExpression
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void

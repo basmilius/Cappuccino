@@ -8,7 +8,7 @@ use Bas\Cappuccino\Compiler;
 /**
  * Class NegUnary
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression\Unary
  * @version 2.3.0
  */
@@ -17,7 +17,7 @@ class NegUnary extends AbstractUnary
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function operator (Compiler $compiler) : void

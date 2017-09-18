@@ -8,7 +8,7 @@ use Bas\Cappuccino\Profiler\Profile;
 /**
  * Class TextDumper
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Profiler\Dumper
  * @version 2.3.0
  */
@@ -23,7 +23,7 @@ class TextDumper
 	 * @param Profile $profile
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function dump (Profile $profile)
@@ -38,7 +38,7 @@ class TextDumper
 	 * @param string  $prefix
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function formatTemplate (Profile $profile, string $prefix)
@@ -53,7 +53,7 @@ class TextDumper
 	 * @param string  $prefix
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function formatNonTemplate (Profile $profile, string $prefix)
@@ -68,7 +68,7 @@ class TextDumper
 	 * @param float   $percent
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function formatTime (Profile $profile, float $percent)
@@ -84,7 +84,7 @@ class TextDumper
 	 * @param bool    $sibling
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function dumpProfile (Profile $profile, string $prefix = '', bool $sibling = false)

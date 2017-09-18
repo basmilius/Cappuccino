@@ -8,7 +8,7 @@ use Exception;
 /**
  * Class SecurityNotAllowedMethodError
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Sandbox
  * @version 2.3.0
  */
@@ -35,7 +35,7 @@ class SecurityNotAllowedMethodError extends SecurityError
 	 * @param string|null    $filename
 	 * @param Exception|null $previous
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (string $message, string $className, string $methodName, int $lineno = -1, ?string $filename = null, Exception $previous = null)
@@ -50,7 +50,7 @@ class SecurityNotAllowedMethodError extends SecurityError
 	 * Gets the class name.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since string
 	 */
 	public function getClassName () : string
@@ -62,7 +62,7 @@ class SecurityNotAllowedMethodError extends SecurityError
 	 * Gets the method name.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since string
 	 */
 	public function getMethodName () : string

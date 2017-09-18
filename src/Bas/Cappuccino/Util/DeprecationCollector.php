@@ -14,7 +14,7 @@ use Traversable;
 /**
  * Class DeprecationCollector
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Util
  * @version 2.3.0
  */
@@ -31,7 +31,7 @@ final class DeprecationCollector
 	 *
 	 * @param Environment $twig
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (Environment $twig)
@@ -46,7 +46,7 @@ final class DeprecationCollector
 	 * @param string $ext
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function collectDir (string $dir, string $ext = '.twig') : array
@@ -62,7 +62,7 @@ final class DeprecationCollector
 	 * @param Traversable $iterator
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function collect (Traversable $iterator)

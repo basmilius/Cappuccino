@@ -18,7 +18,7 @@ use Bas\Cappuccino\Node\Node;
 /**
  * Class SafeAnalysisNodeVisitor
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\NodeVisitor
  * @version 2.3.0
  */
@@ -33,7 +33,7 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 	 *
 	 * @param array $safeVars
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setSafeVars (array $safeVars)
@@ -47,7 +47,7 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 	 * @param Node $node
 	 *
 	 * @return array|null
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getSafe (Node $node) : ?array
@@ -80,7 +80,7 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 	 * @param Node        $node
 	 * @param bool|bool[] $safe
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function setSafe (Node $node, $safe)
@@ -104,7 +104,7 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function doEnterNode (Node $node, Environment $environment) : Node
@@ -114,7 +114,7 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function doLeaveNode (Node $node, Environment $env) : Node
@@ -197,7 +197,7 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 	 * @param array|null $b
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function intersectSafe (array $a = null, array $b = null)
@@ -216,7 +216,7 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getPriority () : int

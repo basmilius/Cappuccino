@@ -9,7 +9,7 @@ use LogicException;
 /**
  * Class Lexer
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
  * @version 2.3.0
  */
@@ -50,7 +50,7 @@ class Lexer
 	 * @param Environment $env
 	 * @param array       $options
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (Environment $env, array $options = [])
@@ -82,7 +82,7 @@ class Lexer
 	 *
 	 * @return TokenStream
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function tokenize (Source $source) : TokenStream
@@ -139,7 +139,7 @@ class Lexer
 
 	/**
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function lexData () : void
@@ -205,7 +205,7 @@ class Lexer
 
 	/**
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function lexBlock () : void
@@ -224,7 +224,7 @@ class Lexer
 
 	/**
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function lexVar () : void
@@ -243,7 +243,7 @@ class Lexer
 
 	/**
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function lexExpression () : void
@@ -317,7 +317,7 @@ class Lexer
 
 	/**
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function lexRawData () : void
@@ -336,7 +336,7 @@ class Lexer
 
 	/**
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function lexComment () : void
@@ -349,7 +349,7 @@ class Lexer
 
 	/**
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function lexString () : void
@@ -380,7 +380,7 @@ class Lexer
 
 	/**
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function lexInterpolation () : void
@@ -404,7 +404,7 @@ class Lexer
 	 * @param        $type
 	 * @param string $value
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function pushToken ($type, $value = '') : void
@@ -418,7 +418,7 @@ class Lexer
 	/**
 	 * @param $text
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function moveCursor ($text) : void
@@ -429,7 +429,7 @@ class Lexer
 
 	/**
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function getOperatorRegex () : string
@@ -460,7 +460,7 @@ class Lexer
 	/**
 	 * @param $state
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function pushState ($state) : void
@@ -470,7 +470,7 @@ class Lexer
 	}
 
 	/**
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function popState () : void

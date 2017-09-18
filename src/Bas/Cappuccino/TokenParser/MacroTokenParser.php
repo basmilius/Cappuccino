@@ -12,7 +12,7 @@ use Bas\Cappuccino\Token;
 /**
  * Class MacroTokenParser
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\TokenParser
  * @version 2.3.0
  */
@@ -21,7 +21,7 @@ final class MacroTokenParser extends AbstractTokenParser
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parse (Token $token) : ?Node
@@ -58,7 +58,7 @@ final class MacroTokenParser extends AbstractTokenParser
 	 * @param Token $token
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function decideBlockEnd (Token $token)
@@ -68,7 +68,7 @@ final class MacroTokenParser extends AbstractTokenParser
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTag () : string

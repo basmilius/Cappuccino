@@ -17,7 +17,7 @@ use Bas\Cappuccino\Profiler\Profile;
 /**
  * Class ProfilerNodeVisitor
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Profiler\NodeVisitor
  * @version 2.3.0
  */
@@ -34,7 +34,7 @@ final class ProfilerNodeVisitor extends AbstractNodeVisitor
 	 *
 	 * @param string $extensionName
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (string $extensionName)
@@ -44,7 +44,7 @@ final class ProfilerNodeVisitor extends AbstractNodeVisitor
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function doEnterNode (Node $node, Environment $environment) : Node
@@ -54,7 +54,7 @@ final class ProfilerNodeVisitor extends AbstractNodeVisitor
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function doLeaveNode (Node $node, Environment $env) : Node
@@ -91,7 +91,7 @@ final class ProfilerNodeVisitor extends AbstractNodeVisitor
 	 * Gets the var name.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function getVarName () : string
@@ -101,7 +101,7 @@ final class ProfilerNodeVisitor extends AbstractNodeVisitor
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getPriority () : int

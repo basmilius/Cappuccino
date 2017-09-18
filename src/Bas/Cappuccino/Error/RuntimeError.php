@@ -6,7 +6,7 @@ namespace Bas\Cappuccino\Error;
 /**
  * Class RuntimeError
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Error
  * @version 2.3.0
  */

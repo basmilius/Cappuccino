@@ -9,7 +9,7 @@ use LogicException;
 /**
  * Class Compiler
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
  * @since 2.3.0
  */
@@ -29,7 +29,7 @@ class Compiler
 	 *
 	 * @param Environment $environment
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (Environment $environment)
@@ -41,7 +41,7 @@ class Compiler
 	 * Gets the Environment instance.
 	 *
 	 * @return Environment
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getEnvironment () : Environment
@@ -53,7 +53,7 @@ class Compiler
 	 * Gets the PHP code after compilation.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getSource () : string
@@ -68,7 +68,7 @@ class Compiler
 	 * @param int  $indentation
 	 *
 	 * @return Compiler
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Node $node, int $indentation = 0) : Compiler
@@ -93,7 +93,7 @@ class Compiler
 	 * @param bool $raw
 	 *
 	 * @return Compiler
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function subcompile (Node $node, bool $raw = true) : Compiler
@@ -112,7 +112,7 @@ class Compiler
 	 * @param string $string
 	 *
 	 * @return Compiler
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function raw (string $string) : Compiler
@@ -128,7 +128,7 @@ class Compiler
 	 * @param string[] ...$strings
 	 *
 	 * @return Compiler
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function write (string ...$strings) : Compiler
@@ -145,7 +145,7 @@ class Compiler
 	 * @param string $value
 	 *
 	 * @return Compiler
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function string (string $value) : Compiler
@@ -161,7 +161,7 @@ class Compiler
 	 * @param mixed $value
 	 *
 	 * @return Compiler
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function repr ($value) : Compiler
@@ -215,7 +215,7 @@ class Compiler
 	 * @param Node $node
 	 *
 	 * @return Compiler
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function addDebugInfo (Node $node) : Compiler
@@ -238,7 +238,7 @@ class Compiler
 	 * Gets debugging information.
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getDebugInfo () : array
@@ -254,7 +254,7 @@ class Compiler
 	 * @param int $step
 	 *
 	 * @return Compiler
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function indent (int $step = 1) : Compiler
@@ -270,7 +270,7 @@ class Compiler
 	 * @param int $step
 	 *
 	 * @return Compiler
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function outdent (int $step = 1) : Compiler
@@ -287,7 +287,7 @@ class Compiler
 	 * Gets the var name.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getVarName () : string

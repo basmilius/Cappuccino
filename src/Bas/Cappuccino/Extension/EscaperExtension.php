@@ -11,7 +11,7 @@ use Bas\Cappuccino\TokenParser\AutoEscapeTokenParser;
 /**
  * Class EscaperExtension
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
  * @version 2.3.0
  */
@@ -28,7 +28,7 @@ final class EscaperExtension extends AbstractExtension
 	 *
 	 * @param mixed $defaultStrategy
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct ($defaultStrategy = 'html')
@@ -38,7 +38,7 @@ final class EscaperExtension extends AbstractExtension
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTokenParsers () : array
@@ -48,7 +48,7 @@ final class EscaperExtension extends AbstractExtension
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getNodeVisitors () : array
@@ -58,7 +58,7 @@ final class EscaperExtension extends AbstractExtension
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getFilters () : array
@@ -74,7 +74,7 @@ final class EscaperExtension extends AbstractExtension
 	 *
 	 * @param mixed $defaultStrategy
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setDefaultStrategy ($defaultStrategy) : void
@@ -91,7 +91,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @param string $name
 	 *
 	 * @return string|false
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getDefaultStrategy (string $name)
@@ -108,7 +108,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @param string $str
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @internal
 	 */

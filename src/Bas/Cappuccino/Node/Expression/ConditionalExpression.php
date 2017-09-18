@@ -8,7 +8,7 @@ use Bas\Cappuccino\Compiler;
 /**
  * Class ConditionalExpression
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression
  * @version 2.3.0
  */
@@ -23,7 +23,7 @@ class ConditionalExpression extends AbstractExpression
 	 * @param AbstractExpression $expr3
 	 * @param int                $lineno
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (AbstractExpression $expr1, AbstractExpression $expr2, AbstractExpression $expr3, int $lineno)
@@ -33,7 +33,7 @@ class ConditionalExpression extends AbstractExpression
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void

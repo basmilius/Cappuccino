@@ -10,7 +10,7 @@ use Bas\Cappuccino\Node\Expression\NameExpression;
 /**
  * Class ImportNode
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
  * @version 2.3.0
  */
@@ -25,7 +25,7 @@ class ImportNode extends Node
 	 * @param int                $lineno
 	 * @param string|null        $tag
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (AbstractExpression $expr, AbstractExpression $var, int $lineno, ?string $tag = null)
@@ -35,7 +35,7 @@ class ImportNode extends Node
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void

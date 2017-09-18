@@ -8,7 +8,7 @@ use Bas\Cappuccino\Parser;
 /**
  * Class AbstractTokenParser
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\TokenParser
  * @version 2.3.0
  */
@@ -25,7 +25,7 @@ abstract class AbstractTokenParser implements TokenParserInterface
 	 *
 	 * @param Parser $parser
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setParser (Parser $parser) : void

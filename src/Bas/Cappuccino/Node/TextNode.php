@@ -8,7 +8,7 @@ use Bas\Cappuccino\Compiler;
 /**
  * Class TextNode
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
  * @version 2.3.0
  */
@@ -21,7 +21,7 @@ class TextNode extends Node implements NodeOutputInterface
 	 * @param string $data
 	 * @param int    $lineno
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (string $data, int $lineno)
@@ -31,7 +31,7 @@ class TextNode extends Node implements NodeOutputInterface
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Compiler $compiler) : void

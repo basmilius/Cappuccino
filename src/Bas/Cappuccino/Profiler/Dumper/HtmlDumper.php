@@ -8,7 +8,7 @@ use Bas\Cappuccino\Profiler\Profile;
 /**
  * Class HtmlDumper
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Profiler\Dumper
  * @version 2.3.0
  */
@@ -24,7 +24,7 @@ final class HtmlDumper extends TextDumper
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function dump (Profile $profile)
@@ -34,7 +34,7 @@ final class HtmlDumper extends TextDumper
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function formatTemplate (Profile $profile, string $prefix)
@@ -44,7 +44,7 @@ final class HtmlDumper extends TextDumper
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function formatNonTemplate (Profile $profile, string $prefix)
@@ -54,7 +54,7 @@ final class HtmlDumper extends TextDumper
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	protected function formatTime (Profile $profile, float $percent)

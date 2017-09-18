@@ -27,7 +27,7 @@ use Throwable;
 /**
  * Class Environment
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
  * @since 2.3.0
  */
@@ -71,7 +71,7 @@ class Environment
 	 * @param LoaderInterface $loader
 	 * @param array           $options
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function __construct (LoaderInterface $loader, array $options = [])
@@ -106,7 +106,7 @@ class Environment
 	 * Gets the base template class for compiled templates.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getBaseTemplateClass () : string
@@ -119,7 +119,7 @@ class Environment
 	 *
 	 * @param string $class
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setBaseTemplateClass (string $class) : void
@@ -131,7 +131,7 @@ class Environment
 	/**
 	 * Enables debugging mode.
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function enableDebug () : void
@@ -143,7 +143,7 @@ class Environment
 	/**
 	 * Disables debugging mode.
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function disableDebug () : void
@@ -156,7 +156,7 @@ class Environment
 	 * Checks if debugging mode is enabled.
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function isDebug () : bool
@@ -167,7 +167,7 @@ class Environment
 	/**
 	 * Enables the auto_reload option.
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function enableAutoReload () : void
@@ -178,7 +178,7 @@ class Environment
 	/**
 	 * Disables the auto_reload option.
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function disableAutoReload () : void
@@ -190,7 +190,7 @@ class Environment
 	 * Checks if the auto_reload option is enabled.
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function isAutoReload () : bool
@@ -201,7 +201,7 @@ class Environment
 	/**
 	 * Enables the strict_variables option.
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function enableStrictVariables () : void
@@ -213,7 +213,7 @@ class Environment
 	/**
 	 * Disables the strict_variables option.
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function disableStrictVariables () : void
@@ -226,7 +226,7 @@ class Environment
 	 * Checks if the strict_variables option is enabled.
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function isStrictVariables () : bool
@@ -240,7 +240,7 @@ class Environment
 	 * @param bool $original
 	 *
 	 * @return CacheInterface
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getCache (bool $original = true) : CacheInterface
@@ -253,7 +253,7 @@ class Environment
 	 *
 	 * @param CacheInterface $cache
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setCache (CacheInterface $cache) : void
@@ -276,7 +276,7 @@ class Environment
 	 *
 	 * @return string
 	 * @throws LoaderError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTemplateClass (string $name, ?int $index = null) : string
@@ -297,7 +297,7 @@ class Environment
 	 * @throws RuntimeError
 	 * @throws SyntaxError
 	 * @throws Throwable
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function render (string $name, array $context = []) : string
@@ -315,7 +315,7 @@ class Environment
 	 * @throws RuntimeError
 	 * @throws SyntaxError
 	 * @throws Exception
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function display (string $name, array $context = []) : void
@@ -334,7 +334,7 @@ class Environment
 	 * @throws LoaderError
 	 * @throws SyntaxError
 	 * @throws RuntimeError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function loadTemplate (string $name, ?int $index = null) : Template
@@ -384,7 +384,7 @@ class Environment
 	 * @throws LoaderError
 	 * @throws RuntimeError
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function createTemplate (string $template) : Template
@@ -419,7 +419,7 @@ class Environment
 	 *
 	 * @return bool
 	 * @throws LoaderError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function isTemplateFresh (string $name, int $time) : bool
@@ -438,7 +438,7 @@ class Environment
 	 * @throws LoaderError
 	 * @throws RuntimeError
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function resolveTemplate ($names) : Template
@@ -470,7 +470,7 @@ class Environment
 	 *
 	 * @param Lexer $lexer
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setLexer (Lexer $lexer) : void
@@ -485,7 +485,7 @@ class Environment
 	 *
 	 * @return TokenStream
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function tokenize (Source $source) : TokenStream
@@ -501,7 +501,7 @@ class Environment
 	 *
 	 * @param Parser $parser
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setParser (Parser $parser) : void
@@ -516,7 +516,7 @@ class Environment
 	 *
 	 * @return ModuleNode
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function parse (TokenStream $stream) : ModuleNode
@@ -532,7 +532,7 @@ class Environment
 	 *
 	 * @param Compiler $compiler
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setCompiler (Compiler $compiler) : void
@@ -546,7 +546,7 @@ class Environment
 	 * @param Node $node
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compile (Node $node) : string
@@ -565,7 +565,7 @@ class Environment
 	 * @return string
 	 * @throws Error
 	 * @throws SyntaxError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function compileSource (Source $source) : string
@@ -591,7 +591,7 @@ class Environment
 	 *
 	 * @param LoaderInterface $loader
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setLoader (LoaderInterface $loader) : void
@@ -603,7 +603,7 @@ class Environment
 	 * Gets the {@see LoaderInterface} instance.
 	 *
 	 * @return LoaderInterface
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getLoader () : LoaderInterface
@@ -616,7 +616,7 @@ class Environment
 	 *
 	 * @param string $charset
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setCharset (string $charset) : void
@@ -631,7 +631,7 @@ class Environment
 	 * Gets the default template charset.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getCharset () : string
@@ -645,7 +645,7 @@ class Environment
 	 * @param string $class
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function hasExtension (string $class) : bool
@@ -658,7 +658,7 @@ class Environment
 	 *
 	 * @param RuntimeLoaderInterface $loader
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function addRuntimeLoader (RuntimeLoaderInterface $loader) : void
@@ -673,7 +673,7 @@ class Environment
 	 *
 	 * @return ExtensionInterface
 	 * @throws RuntimeError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getExtension (string $class) : ExtensionInterface
@@ -688,7 +688,7 @@ class Environment
 	 *
 	 * @return mixed
 	 * @throws RuntimeError
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 * @todo Validate return type.
 	 */
@@ -709,7 +709,7 @@ class Environment
 	 *
 	 * @param ExtensionInterface $extension
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function addExtension (ExtensionInterface $extension) : void
@@ -723,7 +723,7 @@ class Environment
 	 *
 	 * @param array $extensions
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function setExtensions (array $extensions) : void
@@ -735,7 +735,7 @@ class Environment
 	 * Returns all registred extensions.
 	 *
 	 * @return ExtensionInterface[]
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getExtensions () : array
@@ -748,7 +748,7 @@ class Environment
 	 *
 	 * @param TokenParserInterface $parser
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function addTokenParser (TokenParserInterface $parser) : void
@@ -760,7 +760,7 @@ class Environment
 	 * Gets the registered Token Parsers.
 	 *
 	 * @return TokenParserInterface[]
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTokenParsers () : array
@@ -772,7 +772,7 @@ class Environment
 	 * Gets registered tags.
 	 *
 	 * @return TokenParserInterface[]
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTags () : array
@@ -790,7 +790,7 @@ class Environment
 	 *
 	 * @param NodeVisitorInterface $visitor
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function addNodeVisitor (NodeVisitorInterface $visitor) : void
@@ -802,7 +802,7 @@ class Environment
 	 * Gets the registered Node Visitors.
 	 *
 	 * @return NodeVisitorInterface[]
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getNodeVisitors () : array
@@ -815,7 +815,7 @@ class Environment
 	 *
 	 * @param SimpleFilter $filter
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function addFilter (SimpleFilter $filter) : void
@@ -829,7 +829,7 @@ class Environment
 	 * @param string $name
 	 *
 	 * @return SimpleFilter|null
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getFilter (string $name) : ?SimpleFilter
@@ -841,7 +841,7 @@ class Environment
 	 * Gets the registered filters.
 	 *
 	 * @return SimpleFilter[]
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getFilters () : array
@@ -854,7 +854,7 @@ class Environment
 	 *
 	 * @param callable $callable
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function registerUndefinedFilterCallback (callable $callable) : void
@@ -868,7 +868,7 @@ class Environment
 	 * @param string $name
 	 *
 	 * @return SimpleTest|null
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTest (string $name) : ?SimpleTest
@@ -880,7 +880,7 @@ class Environment
 	 * Gets registered tests.
 	 *
 	 * @return SimpleTest[]
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getTests () : array
@@ -893,7 +893,7 @@ class Environment
 	 *
 	 * @param SimpleFunction $function
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function addFunction (SimpleFunction $function) : void
@@ -907,7 +907,7 @@ class Environment
 	 * @param string $name
 	 *
 	 * @return SimpleFunction|null
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getFunction (string $name) : ?SimpleFunction
@@ -920,7 +920,7 @@ class Environment
 	 *
 	 * @param callable $callable
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function registerUndefinedFunctionCallback (callable $callable) : void
@@ -932,7 +932,7 @@ class Environment
 	 * Gets registered functions. Be warned that this method cannot return functions defined with {@see Environment::registerUndefinedFunctionCallback()}.
 	 *
 	 * @return SimpleFunction[]
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getFunctions () : array
@@ -946,7 +946,7 @@ class Environment
 	 * @param string $name
 	 * @param mixed  $value
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function addGlobal (string $name, $value) : void
@@ -964,7 +964,7 @@ class Environment
 	 * Gets the registered globals.
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getGlobals () : array
@@ -986,7 +986,7 @@ class Environment
 	 * @param array $context
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function mergeGlobals (array $context) : array
@@ -1002,7 +1002,7 @@ class Environment
 	 * Gets the registered unary operators.
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getUnaryOperators () : array
@@ -1014,7 +1014,7 @@ class Environment
 	 * Gets registered binary operators.
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function getBinaryOperators () : array
@@ -1025,7 +1025,7 @@ class Environment
 	/**
 	 * Updates the options hash.
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	private function updateOptionsHash () : void

@@ -6,7 +6,7 @@ namespace Bas\Cappuccino\Error;
 /**
  * Class SyntaxError
  *
- * @author Bas Milius <bas@ideemedia.nl>
+ * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Error
  * @version 2.3.0
  */
@@ -19,7 +19,7 @@ final class SyntaxError extends Error
 	 * @param string $name
 	 * @param array  $items
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.0
 	 */
 	public function addSuggestions (string $name, array $items)
