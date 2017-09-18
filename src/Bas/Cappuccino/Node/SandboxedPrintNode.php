@@ -1,0 +1,53 @@
+<?php
+declare(strict_types=1);
+
+namespace Bas\Cappuccino\Node;
+
+use Bas\Cappuccino\Compiler;
+use Bas\Cappuccino\Extension\SandboxExtension;
+use Bas\Cappuccino\Node\Expression\FilterExpression;
+
+/**
+ * Class SandboxedPrintNode
+ *
+ * @author Bas Milius <bas@ideemedia.nl>
+ * @package Bas\Cappuccino\Node
+ * @version 2.3.0
+ */
+class SandboxedPrintNode extends PrintNode
+{
+
+	/**
+	 * {@inheritdoc}
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 2.3.0
+	 */
+	public function compile (Compiler $compiler) : void
+	{
+		$classSandboxExtension = SandboxExtension::class;
+
+		$compiler
+			->addDebugInfo($this)
+			->write('echo $this->environment->getExtension(' . $classSandboxExtension . ':class)->ensureToStringAllowed(')
+			->subcompile($this->getNode('expr'))
+			->raw(");\n");
+	}
+
+	/**
+	 * Removes node filters. This is mostly needed when another visitor adds filters (like the escaper one).
+	 *
+	 * @param Node $node
+	 *
+	 * @return Node
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 2.3.0
+	 */
+	private function removeNodeFilter (Node $node) : Node
+	{
+		if ($node instanceof FilterExpression)
+			return $this->removeNodeFilter($node->getNode('node'));
+
+		return $node;
+	}
+
+}
