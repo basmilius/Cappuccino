@@ -81,7 +81,7 @@ class CheckSecurityNode extends Node
 			->write('$functions = ')->repr(array_filter($functions))->raw(";\n\n")
 			->write("try {\n")
 			->indent()
-			->write("\$this->environment->getExtension('" . $classSandboxExtension . "')->checkSecurity(\n")
+			->write("\$this->cappuccino->getExtension('" . $classSandboxExtension . "')->checkSecurity(\n")
 			->indent()
 			->write(!$tags ? "array(),\n" : "array('" . implode("', '", array_keys($tags)) . "'),\n")
 			->write(!$filters ? "array(),\n" : "array('" . implode("', '", array_keys($filters)) . "'),\n")

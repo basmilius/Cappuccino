@@ -16,14 +16,14 @@ interface InitRuntimeInterface
 {
 
 	/**
-	 * Initializes the runtime environment. This is where you can load some file that contains filter functions for instance.
+	 * Initializes the runtime Cappuccino. This is where you can load some file that contains filter functions for instance.
 	 *
-	 * @param Cappuccino $environment
+	 * @param Cappuccino $cappuccino
 	 *
 	 * @return mixed
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function initRuntime (Cappuccino $environment);
+	public function initRuntime (Cappuccino $cappuccino);
 
 }

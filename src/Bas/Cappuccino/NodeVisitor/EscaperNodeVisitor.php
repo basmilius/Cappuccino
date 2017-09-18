@@ -49,14 +49,14 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doEnterNode (Node $node, Cappuccino $environment) : Node
+	protected function doEnterNode (Node $node, Cappuccino $cappuccino) : Node
 	{
 		if ($node instanceof ModuleNode)
 		{
-			if ($environment->hasExtension(EscaperExtension::class))
+			if ($cappuccino->hasExtension(EscaperExtension::class))
 			{
 				/** @var EscaperExtension $ext */
-				$ext = $environment->getExtension(EscaperExtension::class);
+				$ext = $cappuccino->getExtension(EscaperExtension::class);
 
 				$this->defaultStrategy = $ext->getDefaultStrategy($node->getTemplateName());
 			}

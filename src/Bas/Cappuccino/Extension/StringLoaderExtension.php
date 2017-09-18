@@ -29,7 +29,7 @@ final class StringLoaderExtension extends AbstractExtension
 	public function getFunctions () : array
 	{
 		return [
-			new SimpleFunction('template_from_string', [$this, 'onSimpleFunctionTemplateFromString'], ['needs_environment' => true]),
+			new SimpleFunction('template_from_string', [$this, 'onSimpleFunctionTemplateFromString'], ['needs_cappuccino' => true]),
 		];
 	}
 

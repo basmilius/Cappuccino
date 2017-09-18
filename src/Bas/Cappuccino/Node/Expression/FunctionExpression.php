@@ -40,11 +40,11 @@ class FunctionExpression extends CallExpression
 	public function compile (Compiler $compiler) : void
 	{
 		$name = $this->getAttribute('name');
-		$function = $compiler->getEnvironment()->getFunction($name);
+		$function = $compiler->getCappuccino()->getFunction($name);
 
 		$this->setAttribute('name', $name);
 		$this->setAttribute('type', 'function');
-		$this->setAttribute('needs_environment', $function->needsEnvironment());
+		$this->setAttribute('needs_cappuccino', $function->needsCappuccino());
 		$this->setAttribute('needs_context', $function->needsContext());
 		$this->setAttribute('arguments', $function->getArguments());
 

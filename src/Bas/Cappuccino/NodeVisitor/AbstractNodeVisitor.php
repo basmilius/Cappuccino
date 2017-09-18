@@ -41,14 +41,14 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
 	 * Does enterMode function.
 	 *
 	 * @param Node       $node
-	 * @param Cappuccino $environment
+	 * @param Cappuccino $cappuccino
 	 *
 	 * @return Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @see AbstractNodeVisitor::enterNode()
 	 * @since 1.0.0
 	 */
-	protected abstract function doEnterNode (Node $node, Cappuccino $environment) : Node;
+	protected abstract function doEnterNode (Node $node, Cappuccino $cappuccino) : Node;
 
 	/**
 	 * Does leaveMode function.

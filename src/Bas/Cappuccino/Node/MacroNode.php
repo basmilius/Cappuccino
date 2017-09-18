@@ -74,7 +74,7 @@ class MacroNode extends Node
 			->indent();
 
 		$compiler
-			->write("\$context = \$this->environment->mergeGlobals(array(\n")
+			->write("\$context = \$this->cappuccino->mergeGlobals(array(\n")
 			->indent();
 
 		foreach ($this->getNode('arguments') as $name => $default)
@@ -99,7 +99,7 @@ class MacroNode extends Node
 			->indent()
 			->subcompile($this->getNode('body'))
 			->raw("\n")
-			->write("return ('' === \$tmp = ob_get_contents()) ? '' : new Markup(\$tmp, \$this->environment->getCharset());\n")
+			->write("return ('' === \$tmp = ob_get_contents()) ? '' : new Markup(\$tmp, \$this->cappuccino->getCharset());\n")
 			->outdent()
 			->write("} finally {\n")
 			->indent()

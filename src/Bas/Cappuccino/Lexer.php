@@ -272,7 +272,7 @@ class Lexer
 			{
 				$number = (int)$match[0]; // integers lower than the maximum
 			}
-			$this->pushToken(Token::NUMBER_TYPE, $number);
+			$this->pushToken(Token::NUMBER_TYPE, strval($number));
 			$this->moveCursor($match[0]);
 		}
 		else if (false !== strpos(self::PUNCTUATION, $this->code[$this->cursor]))
@@ -401,15 +401,15 @@ class Lexer
 	}
 
 	/**
-	 * @param        $type
+	 * @param int    $type
 	 * @param string $value
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function pushToken ($type, $value = '') : void
+	private function pushToken (int $type, string $value = '') : void
 	{
-		if (Token::TEXT_TYPE === $type && '' === $value)
+		if (Token::TEXT_TYPE === $type && $value === '')
 			return;
 
 		$this->tokens[] = new Token($type, $value, $this->lineno);

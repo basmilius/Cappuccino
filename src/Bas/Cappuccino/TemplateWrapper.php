@@ -3,8 +3,9 @@ declare(strict_types=1);
 
 namespace Bas\Cappuccino;
 
+use Bas\Cappuccino\Error\LoaderError;
+use Bas\Cappuccino\Error\RuntimeError;
 use Exception;
-use Throwable;
 
 /**
  * Class TemplateWrapper
@@ -19,7 +20,7 @@ final class TemplateWrapper
 	/**
 	 * @var Cappuccino
 	 */
-	private $environment;
+	private $cappuccino;
 
 	/**
 	 * @var Template
@@ -29,15 +30,15 @@ final class TemplateWrapper
 	/**
 	 * TemplateWrapper constructor.
 	 *
-	 * @param Cappuccino $environment
+	 * @param Cappuccino $cappuccino
 	 * @param Template   $template
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Cappuccino $environment, Template $template)
+	public function __construct (Cappuccino $cappuccino, Template $template)
 	{
-		$this->environment = $environment;
+		$this->cappuccino = $cappuccino;
 		$this->template = $template;
 	}
 
@@ -47,7 +48,7 @@ final class TemplateWrapper
 	 * @param array $context
 	 *
 	 * @return string
-	 * @throws Throwable
+	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -77,7 +78,7 @@ final class TemplateWrapper
 	 * @param array  $context
 	 *
 	 * @return bool
-	 * @throws Error\LoaderError
+	 * @throws LoaderError
 	 * @throws Exception
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
@@ -93,7 +94,7 @@ final class TemplateWrapper
 	 * @param array $context
 	 *
 	 * @return string[]
-	 * @throws Error\LoaderError
+	 * @throws LoaderError
 	 * @throws Exception
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
@@ -110,13 +111,14 @@ final class TemplateWrapper
 	 * @param array  $context
 	 *
 	 * @return string
-	 * @throws Throwable
+	 * @throws LoaderError
+	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
 	public function renderBlock (string $name, array $context = []) : string
 	{
-		$context = $this->environment->mergeGlobals($context);
+		$context = $this->cappuccino->mergeGlobals($context);
 		$level = ob_get_level();
 		ob_start();
 
@@ -124,7 +126,7 @@ final class TemplateWrapper
 		{
 			$this->template->displayBlock($name, $context);
 		}
-		catch (Throwable $e)
+		catch (LoaderError | RuntimeError | Exception $e)
 		{
 			while (ob_get_level() > $level)
 			{
@@ -143,16 +145,15 @@ final class TemplateWrapper
 	 * @param string $name
 	 * @param array  $context
 	 *
-	 * @throws Error\Error
-	 * @throws Error\LoaderError
-	 * @throws Error\RuntimeError
 	 * @throws Exception
+	 * @throws LoaderError
+	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
 	public function displayBlock (string $name, array $context = []) : void
 	{
-		$this->template->displayBlock($name, $this->environment->mergeGlobals($context));
+		$this->template->displayBlock($name, $this->cappuccino->mergeGlobals($context));
 	}
 
 	/**

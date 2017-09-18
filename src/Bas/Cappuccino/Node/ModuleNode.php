@@ -175,8 +175,8 @@ class ModuleNode extends Node
 		$compiler
 			->write("\n\n")
 			->write('/* ' . str_replace('*/', '* /', $this->source->getName()) . " */\n")
-			->write('class ' . $compiler->getEnvironment()->getTemplateClass($this->source->getName(), $this->getAttribute('index')))
-			->raw(sprintf(" extends %s\n", $compiler->getEnvironment()->getBaseTemplateClass()))
+			->write('class ' . $compiler->getCappuccino()->getTemplateClass($this->source->getName(), $this->getAttribute('index')))
+			->raw(sprintf(" extends %s\n", $compiler->getCappuccino()->getBaseTemplateClass()))
 			->write("{\n")
 			->indent();
 	}
@@ -191,13 +191,13 @@ class ModuleNode extends Node
 	 */
 	protected function compileConstructor (Compiler $compiler) : void
 	{
-		$classEnvironment = Cappuccino::class;
+		$classCappuccino = Cappuccino::class;
 
 		$compiler
-			->write("public function __construct($classEnvironment \$environment)\n", "{\n")
+			->write("public function __construct($classCappuccino \$cappuccino)\n", "{\n")
 			->indent()
 			->subcompile($this->getNode('constructor_start'))
-			->write("parent::__construct(\$environment);\n\n");
+			->write("parent::__construct(\$cappuccino);\n\n");
 
 		if (!$this->hasNode('parent'))
 			$compiler->write("\$this->parent = false;\n\n");
@@ -478,7 +478,7 @@ class ModuleNode extends Node
 			->write("public function getSourceContext() : $classSource\n", "{\n")
 			->indent()
 			->write("return new $classSource(")
-			->string($compiler->getEnvironment()->isDebug() ? $this->source->getCode() : '')
+			->string($compiler->getCappuccino()->isDebug() ? $this->source->getCode() : '')
 			->raw(', ')
 			->string($this->source->getName())
 			->raw(', ')

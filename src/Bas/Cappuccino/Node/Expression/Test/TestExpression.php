@@ -47,7 +47,7 @@ class TestExpression extends CallExpression
 	public function compile (Compiler $compiler) : void
 	{
 		$name = $this->getAttribute('name');
-		$test = $compiler->getEnvironment()->getTest($name);
+		$test = $compiler->getCappuccino()->getTest($name);
 
 		$this->setAttribute('name', $name);
 		$this->setAttribute('type', 'test');

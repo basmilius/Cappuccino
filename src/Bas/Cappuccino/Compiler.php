@@ -19,7 +19,7 @@ class Compiler
 	private $lastLine;
 	private $source;
 	private $indentation;
-	private $environment;
+	private $cappuccino;
 	private $debugInfo = [];
 	private $sourceOffset;
 	private $sourceLine;
@@ -27,26 +27,26 @@ class Compiler
 	/**
 	 * Compiler constructor.
 	 *
-	 * @param Cappuccino $environment
+	 * @param Cappuccino $cappuccino
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Cappuccino $environment)
+	public function __construct (Cappuccino $cappuccino)
 	{
-		$this->environment = $environment;
+		$this->cappuccino = $cappuccino;
 	}
 
 	/**
-	 * Gets the Environment instance.
+	 * Gets the Cappuccino instance.
 	 *
 	 * @return Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getEnvironment () : Cappuccino
+	public function getCappuccino () : Cappuccino
 	{
-		return $this->environment;
+		return $this->cappuccino;
 	}
 
 	/**

@@ -30,6 +30,11 @@ abstract class Template
 	protected static $cache = [];
 
 	/**
+	 * @var Cappuccino
+	 */
+	protected $cappuccino;
+
+	/**
 	 * @var Template
 	 */
 	protected $parent;
@@ -38,11 +43,6 @@ abstract class Template
 	 * @var Template[]
 	 */
 	protected $parents = [];
-
-	/**
-	 * @var Cappuccino
-	 */
-	protected $environment;
 
 	/**
 	 * @var BlockNode[][]
@@ -57,24 +57,14 @@ abstract class Template
 	/**
 	 * Template constructor.
 	 *
-	 * @param Cappuccino $environment
+	 * @param Cappuccino $cappuccino
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Cappuccino $environment)
+	public function __construct (Cappuccino $cappuccino)
 	{
-		$this->environment = $environment;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public function __toString ()
-	{
-		return $this->getTemplateName();
+		$this->cappuccino = $cappuccino;
 	}
 
 	/**
@@ -404,7 +394,7 @@ abstract class Template
 		try
 		{
 			if (is_array($template))
-				return $this->environment->resolveTemplate($template);
+				return $this->cappuccino->resolveTemplate($template);
 
 			if ($template instanceof self)
 				return $template;
@@ -412,7 +402,7 @@ abstract class Template
 			if ($template instanceof TemplateWrapper)
 				return $template;
 
-			return $this->environment->loadTemplate($template, $index);
+			return $this->cappuccino->loadTemplate($template, $index);
 		}
 		catch (Error $e)
 		{
@@ -455,7 +445,7 @@ abstract class Template
 	 */
 	public function display (array $context, array $blocks = [])
 	{
-		$this->displayWithErrorHandling($this->environment->mergeGlobals($context), array_merge($this->blocks, $blocks));
+		$this->displayWithErrorHandling($this->cappuccino->mergeGlobals($context), array_merge($this->blocks, $blocks));
 	}
 
 	/**
@@ -535,5 +525,15 @@ abstract class Template
 	 * @since 1.0.0
 	 */
 	protected abstract function doDisplay (array $context, array $blocks = []);
+
+	/**
+	 * {@inheritdoc}
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function __toString ()
+	{
+		return $this->getTemplateName();
+	}
 
 }

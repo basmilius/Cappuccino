@@ -44,7 +44,7 @@ class ExpressionParser
 	/**
 	 * @var Cappuccino
 	 */
-	private $environment;
+	private $cappuccino;
 
 	/**
 	 * @var AbstractUnary[]
@@ -60,17 +60,17 @@ class ExpressionParser
 	 * ExpressionParser constructor.
 	 *
 	 * @param Parser     $parser
-	 * @param Cappuccino $environment
+	 * @param Cappuccino $cappuccino
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Parser $parser, Cappuccino $environment)
+	public function __construct (Parser $parser, Cappuccino $cappuccino)
 	{
 		$this->parser = $parser;
-		$this->environment = $environment;
-		$this->unaryOperators = $environment->getUnaryOperators();
-		$this->binaryOperators = $environment->getBinaryOperators();
+		$this->cappuccino = $cappuccino;
+		$this->unaryOperators = $cappuccino->getUnaryOperators();
+		$this->binaryOperators = $cappuccino->getBinaryOperators();
 	}
 
 	/**
@@ -890,14 +890,14 @@ class ExpressionParser
 		$stream = $this->parser->getStream();
 		$name = $stream->expect(Token::NAME_TYPE)->getValue();
 
-		if ($test = $this->environment->getTest($name))
+		if ($test = $this->cappuccino->getTest($name))
 			return [$name, $test];
 
 		if ($stream->test(Token::NAME_TYPE))
 		{
 			$name = $name . ' ' . $this->parser->getCurrentToken()->getValue();
 
-			if ($test = $this->environment->getTest($name))
+			if ($test = $this->cappuccino->getTest($name))
 			{
 				$stream->next();
 
@@ -906,7 +906,7 @@ class ExpressionParser
 		}
 
 		$e = new SyntaxError(sprintf('Unknown "%s" test.', $name), $line, $stream->getSourceContext());
-		$e->addSuggestions($name, array_keys($this->environment->getTests()));
+		$e->addSuggestions($name, array_keys($this->cappuccino->getTests()));
 
 		throw $e;
 	}
@@ -955,10 +955,10 @@ class ExpressionParser
 	 */
 	private function getFunctionNodeClass (string $name, int $line)
 	{
-		if (($function = $this->environment->getFunction($name)) === false)
+		if (($function = $this->cappuccino->getFunction($name)) === false)
 		{
 			$e = new SyntaxError(sprintf('Unknown "%s" function.', $name), $line, $this->parser->getStream()->getSourceContext());
-			$e->addSuggestions($name, array_keys($this->environment->getFunctions()));
+			$e->addSuggestions($name, array_keys($this->cappuccino->getFunctions()));
 
 			throw $e;
 		}
@@ -995,10 +995,10 @@ class ExpressionParser
 	 */
 	private function getFilterNodeClass (string $name, int $line)
 	{
-		if (false === $filter = $this->environment->getFilter($name))
+		if (false === $filter = $this->cappuccino->getFilter($name))
 		{
 			$e = new SyntaxError(sprintf('Unknown "%s" filter.', $name), $line, $this->parser->getStream()->getSourceContext());
-			$e->addSuggestions($name, array_keys($this->environment->getFilters()));
+			$e->addSuggestions($name, array_keys($this->cappuccino->getFilters()));
 
 			throw $e;
 		}

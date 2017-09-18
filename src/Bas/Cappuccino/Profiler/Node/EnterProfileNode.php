@@ -43,7 +43,7 @@ class EnterProfileNode extends Node
 		$classProfile = Profile::class;
 
 		$compiler
-			->write(sprintf('$%s = $this->environment->getExtension(', $this->getAttribute('var_name')))
+			->write(sprintf('$%s = $this->cappuccino->getExtension(', $this->getAttribute('var_name')))
 			->repr($this->getAttribute('extension_name'))
 			->raw(");\n")
 			->write(sprintf('$%s->enter($%s = new ' . $classProfile . '($this->getTemplateName(), ', $this->getAttribute('var_name'), $this->getAttribute('var_name') . '_prof'))

@@ -5,12 +5,15 @@ namespace Bas\Cappuccino;
 
 use LogicException;
 
+/**
+ * Class Token
+ *
+ * @author Bas Milius <bas@mili.us>
+ * @package Bas\Cappuccino
+ * @version 1.0.0
+ */
 final class Token
 {
-
-	private $value;
-	private $type;
-	private $lineno;
 
 	public const EOF_TYPE = -1;
 	public const TEXT_TYPE = 0;
@@ -27,82 +30,105 @@ final class Token
 	public const INTERPOLATION_END_TYPE = 11;
 
 	/**
-	 * @param int    $type The type of the token
-	 * @param string $value The token value
-	 * @param int    $lineno The line position in the source
+	 * @var string
 	 */
-	public function __construct ($type, $value, $lineno)
+	private $value;
+
+	/**
+	 * @var int
+	 */
+	private $type;
+
+	/**
+	 * @var int
+	 */
+	private $lineno;
+
+	/**
+	 * Token constructor.
+	 *
+	 * @param int    $type
+	 * @param string $value
+	 * @param int    $lineno
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function __construct (int $type, string $value, int $lineno)
 	{
 		$this->type = $type;
 		$this->value = $value;
 		$this->lineno = $lineno;
 	}
 
-	public function __toString ()
-	{
-		return sprintf('%s(%s)', self::typeToString($this->type, true), $this->value);
-	}
-
 	/**
 	 * Tests the current token for a type and/or a value.
-	 * Parameters may be:
-	 *  * just type
-	 *  * type and value (or array of possible values)
-	 *  * just value (or array of possible values) (NAME_TYPE is used as type)
 	 *
-	 * @param array|int         $type The type to test
-	 * @param array|string|null $values The token value
+	 * @param int|int[]            $type
+	 * @param string|string[]|null $values
 	 *
 	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
-	public function test ($type, $values = null)
+	public function test ($type, $values = null) : bool
 	{
-		if (null === $values && !is_int($type))
+		if ($values === null && !is_int($type))
 		{
 			$values = $type;
 			$type = self::NAME_TYPE;
 		}
 
-		return ($this->type === $type) && (
-				null === $values ||
-				(is_array($values) && in_array($this->value, $values)) ||
-				$this->value == $values
-			);
+		return ($this->type === $type) && (null === $values || (is_array($values) && in_array($this->value, $values)) || $this->value == $values);
 	}
 
 	/**
+	 * Gets the line number.
+	 *
 	 * @return int
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
-	public function getLine ()
+	public function getLine () : int
 	{
 		return $this->lineno;
 	}
 
 	/**
+	 * Gets the type.
+	 *
 	 * @return int
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
-	public function getType ()
+	public function getType () : int
 	{
 		return $this->type;
 	}
 
 	/**
+	 * Gets the value.
+	 *
 	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
-	public function getValue ()
+	public function getValue () : string
 	{
 		return $this->value;
 	}
 
 	/**
-	 * Returns the constant representation (internal) of a given type.
+	 * Gets the constant representation of a given type.
 	 *
-	 * @param int  $type The type as an integer
-	 * @param bool $short Whether to return a short representation or not
+	 * @param int  $type
+	 * @param bool $short
 	 *
-	 * @return string The string representation
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
-	public static function typeToString ($type, $short = false)
+	public static function typeToString (int $type, bool $short = false) : string
 	{
 		switch ($type)
 		{
@@ -153,13 +179,15 @@ final class Token
 	}
 
 	/**
-	 * Returns the English representation of a given type.
+	 * Gets the English representation of a given type.
 	 *
-	 * @param int $type The type as an integer
+	 * @param int $type
 	 *
-	 * @return string The string representation
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
-	public static function typeToEnglish ($type)
+	public static function typeToEnglish (int $type) : string
 	{
 		switch ($type)
 		{
@@ -192,6 +220,16 @@ final class Token
 			default:
 				throw new LogicException(sprintf('Token of type "%s" does not exist.', $type));
 		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function __toString () : string
+	{
+		return sprintf('%s(%s)', self::typeToString($this->type, true), $this->value);
 	}
 
 }

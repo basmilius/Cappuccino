@@ -257,35 +257,35 @@ final class CoreExtension extends AbstractExtension
 			new SimpleFilter('convert_encoding', [StaticMethods::class, 'convertEncoding']),
 
 			// string filters
-			new SimpleFilter('title', [$this, 'onSimpleFilterStringTitle'], ['needs_environment' => true]),
-			new SimpleFilter('capitalize', [$this, 'onSimpleFilterStringCapitalize'], ['needs_environment' => true]),
-			new SimpleFilter('upper', [$this, 'onSimpleFilterStringUpper'], ['needs_environment' => true]),
-			new SimpleFilter('lower', [$this, 'onSimpleFilterStringLower'], ['needs_environment' => true]),
+			new SimpleFilter('title', [$this, 'onSimpleFilterStringTitle'], ['needs_cappuccino' => true]),
+			new SimpleFilter('capitalize', [$this, 'onSimpleFilterStringCapitalize'], ['needs_cappuccino' => true]),
+			new SimpleFilter('upper', [$this, 'onSimpleFilterStringUpper'], ['needs_cappuccino' => true]),
+			new SimpleFilter('lower', [$this, 'onSimpleFilterStringLower'], ['needs_cappuccino' => true]),
 			new SimpleFilter('striptags', 'strip_tags'),
 			new SimpleFilter('trim', [$this, 'onSimpleFilterStringTrim']),
 			new SimpleFilter('nl2br', 'nl2br', ['pre_escape' => 'html', 'is_safe' => ['html']]),
 
 			// array helpers
 			new SimpleFilter('join', [$this, 'onSimpleFIlterArrayJoin']),
-			new SimpleFilter('split', [$this, 'onSimpleFilterArraySplit'], ['needs_environment' => true]),
+			new SimpleFilter('split', [$this, 'onSimpleFilterArraySplit'], ['needs_cappuccino' => true]),
 			new SimpleFilter('sort', [$this, 'onSimpleFilterArraySort']),
 			new SimpleFilter('merge', [$this, 'onSimpleFilterArrayMerge']),
 			new SimpleFilter('batch', [$this, 'onSimpleFilterArrayBatch']),
 
 			// string/array filters
-			new SimpleFilter('reverse', [$this, 'onSimpleFilterReverse'], ['needs_environment' => true]),
-			new SimpleFilter('length', [$this, 'onSimpleFilterLength'], ['needs_environment' => true]),
-			new SimpleFilter('slice', [$this, 'onSimpleFilterArraySlice'], ['needs_environment' => true]),
-			new SimpleFilter('first', [$this, 'onSimpleFilterArrayFirst'], ['needs_environment' => true]),
-			new SimpleFilter('last', [$this, 'onSimpleFilterArrayLast'], ['needs_environment' => true]),
+			new SimpleFilter('reverse', [$this, 'onSimpleFilterReverse'], ['needs_cappuccino' => true]),
+			new SimpleFilter('length', [$this, 'onSimpleFilterLength'], ['needs_cappuccino' => true]),
+			new SimpleFilter('slice', [$this, 'onSimpleFilterArraySlice'], ['needs_cappuccino' => true]),
+			new SimpleFilter('first', [$this, 'onSimpleFilterArrayFirst'], ['needs_cappuccino' => true]),
+			new SimpleFilter('last', [$this, 'onSimpleFilterArrayLast'], ['needs_cappuccino' => true]),
 
 			// iteration and runtime
 			new SimpleFilter('default', [$this, 'onSimpleFilterDefault'], ['node_class' => DefaultFilter::class]),
 			new SimpleFilter('keys', [$this, 'onSimpleFilterArrayKeys']),
 
 			// escaping
-			new SimpleFilter('escape', [$this, 'onSimpleFilterEscape'], ['needs_environment' => true, 'is_safe_callback' => [$this, 'onSimpleFilterEscapeIsSave']]),
-			new SimpleFilter('e', [$this, 'onSimpleFilterEscape'], ['needs_environment' => true, 'is_safe_callback' => [$this, 'onSimpleFilterEscapeIsSave']])
+			new SimpleFilter('escape', [$this, 'onSimpleFilterEscape'], ['needs_cappuccino' => true, 'is_safe_callback' => [$this, 'onSimpleFilterEscapeIsSave']]),
+			new SimpleFilter('e', [$this, 'onSimpleFilterEscape'], ['needs_cappuccino' => true, 'is_safe_callback' => [$this, 'onSimpleFilterEscapeIsSave']])
 		];
 	}
 
@@ -302,10 +302,10 @@ final class CoreExtension extends AbstractExtension
 			new SimpleFunction('range', 'range'),
 			new SimpleFunction('constant', [$this, 'onSimpleFunctionConstant']),
 			new SimpleFunction('cycle', [$this, 'onSimpleFunctionCycle']),
-			new SimpleFunction('random', [$this, 'onSimpleFunctionRandom'], ['needs_environment' => true]),
+			new SimpleFunction('random', [$this, 'onSimpleFunctionRandom'], ['needs_cappuccino' => true]),
 			new SimpleFunction('date', [$this, 'onSimpleFunctionDateConverter']),
-			new SimpleFunction('include', [$this, 'onSimpleFunctionInclude'], ['needs_environment' => true, 'needs_context' => true, 'is_safe' => ['all']]),
-			new SimpleFunction('source', [$this, 'onSimpleFunctionSource'], ['needs_environment' => true, 'is_safe' => ['all']])
+			new SimpleFunction('include', [$this, 'onSimpleFunctionInclude'], ['needs_cappuccino' => true, 'needs_context' => true, 'is_safe' => ['all']]),
+			new SimpleFunction('source', [$this, 'onSimpleFunctionSource'], ['needs_cappuccino' => true, 'is_safe' => ['all']])
 		];
 	}
 
@@ -526,7 +526,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Renders a Template.
 	 *
-	 * @param Cappuccino      $environment
+	 * @param Cappuccino      $cappuccino
 	 * @param array           $context
 	 * @param string|string[] $template
 	 * @param array           $variables
@@ -542,7 +542,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFunctionInclude (Cappuccino $environment, array $context, $template, array $variables = [], bool $withContext = true, bool $ignoreMissing = false, bool $sandboxed = false) : string
+	public final function onSimpleFunctionInclude (Cappuccino $cappuccino, array $context, $template, array $variables = [], bool $withContext = true, bool $ignoreMissing = false, bool $sandboxed = false) : string
 	{
 		$alreadySandboxed = false;
 		$isSandboxed = false;
@@ -551,10 +551,10 @@ final class CoreExtension extends AbstractExtension
 		if ($withContext)
 			$variables = array_merge($context, $variables);
 
-		if ($isSandboxed = $sandboxed && $environment->hasExtension(SandboxExtension::class))
+		if ($isSandboxed = $sandboxed && $cappuccino->hasExtension(SandboxExtension::class))
 		{
 			/** @var SandboxExtension $sandbox */
-			$sandbox = $environment->getExtension(SandboxExtension::class);
+			$sandbox = $cappuccino->getExtension(SandboxExtension::class);
 
 			if (!$alreadySandboxed = $sandbox->isSandboxed())
 				$sandbox->enableSandbox();
@@ -564,7 +564,7 @@ final class CoreExtension extends AbstractExtension
 
 		try
 		{
-			$result = $environment->resolveTemplate($template)->render($variables);
+			$result = $cappuccino->resolveTemplate($template)->render($variables);
 		}
 		catch (LoaderError $e)
 		{
@@ -593,7 +593,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Returns a random value depending on the supplied parameter type.
 	 *
-	 * @param Cappuccino $environment
+	 * @param Cappuccino $cappuccino
 	 * @param null       $values
 	 *
 	 * @return array|false|int|mixed|null|string|string[]
@@ -602,7 +602,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFunctionRandom (Cappuccino $environment, $values = null)
+	public final function onSimpleFunctionRandom (Cappuccino $cappuccino, $values = null)
 	{
 		if ($values === null)
 			return mt_rand();
@@ -619,7 +619,7 @@ final class CoreExtension extends AbstractExtension
 			if ($values === '')
 				return '';
 
-			$charset = $environment->getCharset();
+			$charset = $cappuccino->getCharset();
 
 			if ($charset !== 'UTF-8')
 				$values = iconv($charset, 'UTF-8', $values);
@@ -643,7 +643,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Returns a template context without rendering it.
 	 *
-	 * @param Cappuccino $environment
+	 * @param Cappuccino $cappuccino
 	 * @param string     $name
 	 * @param bool       $ignoreMissing
 	 *
@@ -653,9 +653,9 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFunctionSource (Cappuccino $environment, string $name, bool $ignoreMissing = false) : ?string
+	public final function onSimpleFunctionSource (Cappuccino $cappuccino, string $name, bool $ignoreMissing = false) : ?string
 	{
-		$loader = $environment->getLoader();
+		$loader = $cappuccino->getLoader();
 
 		try
 		{
@@ -704,7 +704,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Returns the first element of the item.
 	 *
-	 * @param Cappuccino $environment
+	 * @param Cappuccino $cappuccino
 	 * @param mixed      $item
 	 *
 	 * @return mixed
@@ -712,9 +712,9 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterArrayFirst (Cappuccino $environment, $item)
+	public final function onSimpleFilterArrayFirst (Cappuccino $cappuccino, $item)
 	{
-		$elements = $this->onSimpleFilterArraySlice($environment, $item, 0, 1, false);
+		$elements = $this->onSimpleFilterArraySlice($cappuccino, $item, 0, 1, false);
 
 		return is_string($elements) ? $elements : current($elements);
 	}
@@ -788,7 +788,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Returns the last element of the item.
 	 *
-	 * @param Cappuccino $environment
+	 * @param Cappuccino $cappuccino
 	 * @param mixed      $item
 	 *
 	 * @return mixed
@@ -796,9 +796,9 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterArrayLast (Cappuccino $environment, $item)
+	public final function onSimpleFilterArrayLast (Cappuccino $cappuccino, $item)
 	{
-		$elements = $this->onSimpleFilterArraySlice($environment, $item, -1, 1, false);
+		$elements = $this->onSimpleFilterArraySlice($cappuccino, $item, -1, 1, false);
 
 		return is_string($elements) ? $elements : current($elements);
 	}
@@ -835,7 +835,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Slices a variable.
 	 *
-	 * @param Cappuccino  $environment
+	 * @param Cappuccino  $cappuccino
 	 * @param             $item
 	 * @param int         $start
 	 * @param int         $length
@@ -846,7 +846,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterArraySlice (Cappuccino $environment, $item, int $start, int $length, bool $preserveKeys)
+	public final function onSimpleFilterArraySlice (Cappuccino $cappuccino, $item, int $start, int $length, bool $preserveKeys)
 	{
 		if ($item instanceof Traversable)
 		{
@@ -871,7 +871,7 @@ final class CoreExtension extends AbstractExtension
 		if (is_array($item))
 			return array_slice($item, $start, $length, $preserveKeys);
 
-		return (string)mb_substr((string)$item, $start, $length, $environment->getCharset());
+		return (string)mb_substr((string)$item, $start, $length, $cappuccino->getCharset());
 	}
 
 	/**
@@ -901,7 +901,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Splits the string into an array.
 	 *
-	 * @param Cappuccino $environment
+	 * @param Cappuccino $cappuccino
 	 * @param string     $str
 	 * @param string     $delimiter
 	 * @param int|null   $limit
@@ -911,7 +911,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterArraySplit (Cappuccino $environment, string $str, string $delimiter, ?int $limit = null) : array
+	public final function onSimpleFilterArraySplit (Cappuccino $cappuccino, string $str, string $delimiter, ?int $limit = null) : array
 	{
 		if (!empty($delimiter))
 		{
@@ -923,7 +923,7 @@ final class CoreExtension extends AbstractExtension
 			return preg_split('/(?<!^)(?!$)/u', $str);
 		}
 
-		$length = mb_strlen($str, $environment->getCharset());
+		$length = mb_strlen($str, $cappuccino->getCharset());
 
 		if ($length < $limit)
 			return [$str];
@@ -931,7 +931,7 @@ final class CoreExtension extends AbstractExtension
 		$r = [];
 
 		for ($i = 0; $i < $length; $i += $limit)
-			$r[] = mb_substr($str, $i, $limit, $environment->getCharset());
+			$r[] = mb_substr($str, $i, $limit, $cappuccino->getCharset());
 
 		return $r;
 	}
@@ -939,7 +939,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Escapes a string.
 	 *
-	 * @param Cappuccino    $environment
+	 * @param Cappuccino    $cappuccino
 	 * @param Markup|string $string
 	 * @param string        $strategy
 	 * @param string|null   $charset
@@ -951,7 +951,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterEscape (Cappuccino $environment, $string, string $strategy = 'html', ?string $charset = null, bool $autoescape = false)
+	public final function onSimpleFilterEscape (Cappuccino $cappuccino, $string, string $strategy = 'html', ?string $charset = null, bool $autoescape = false)
 	{
 		if ($autoescape && $string instanceof Markup)
 			return $string;
@@ -963,7 +963,7 @@ final class CoreExtension extends AbstractExtension
 				return $string;
 
 		if ($charset === null)
-			$charset = $environment->getCharset();
+			$charset = $cappuccino->getCharset();
 
 		switch ($strategy)
 		{
@@ -1113,7 +1113,7 @@ final class CoreExtension extends AbstractExtension
 					$escapers = $this->getEscapers();
 
 				if (isset($escapers[$strategy]))
-					return $escapers[$strategy]($environment, $string, $charset);
+					return $escapers[$strategy]($cappuccino, $string, $charset);
 
 				$validStrategies = implode(', ', array_merge(['html', 'js', 'url', 'css', 'html_attr'], array_keys($escapers)));
 
@@ -1147,7 +1147,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Returns the length of a variable.
 	 *
-	 * @param Cappuccino $environment
+	 * @param Cappuccino $cappuccino
 	 * @param mixed      $thing
 	 *
 	 * @return int
@@ -1155,16 +1155,16 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterLength (Cappuccino $environment, $thing) : int
+	public final function onSimpleFilterLength (Cappuccino $cappuccino, $thing) : int
 	{
 		if ($thing === null)
 			return 0;
 
 		if (is_scalar($thing))
-			return mb_strlen($thing, $environment->getCharset());
+			return mb_strlen($thing, $cappuccino->getCharset());
 
 		if (method_exists($thing, '__toString') && !($thing instanceof Countable))
-			return mb_strlen((string)$thing, $environment->getCharset());
+			return mb_strlen((string)$thing, $cappuccino->getCharset());
 
 		if ($thing instanceof Countable || is_array($thing))
 			return count($thing);
@@ -1226,7 +1226,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Reverses a variable.
 	 *
-	 * @param Cappuccino               $environment
+	 * @param Cappuccino               $cappuccino
 	 * @param array|string|Traversable $item
 	 * @param bool                     $preserveKeys
 	 *
@@ -1235,7 +1235,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterReverse (Cappuccino $environment, $item, bool $preserveKeys = false)
+	public final function onSimpleFilterReverse (Cappuccino $cappuccino, $item, bool $preserveKeys = false)
 	{
 		if ($item instanceof Traversable)
 			return array_reverse(iterator_to_array($item), $preserveKeys);
@@ -1244,7 +1244,7 @@ final class CoreExtension extends AbstractExtension
 			return array_reverse($item, $preserveKeys);
 
 		$string = (string)$item;
-		$charset = $environment->getCharset();
+		$charset = $cappuccino->getCharset();
 
 		if ($charset !== 'UTF-8')
 			$item = iconv($charset, 'UTF-8', $string);
@@ -1286,7 +1286,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Returns a capitalized string.
 	 *
-	 * @param Cappuccino $environment
+	 * @param Cappuccino $cappuccino
 	 * @param string     $str
 	 *
 	 * @return string
@@ -1294,9 +1294,9 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterStringCapitalize (Cappuccino $environment, string $str) : string
+	public final function onSimpleFilterStringCapitalize (Cappuccino $cappuccino, string $str) : string
 	{
-		$charset = $environment->getCharset();
+		$charset = $cappuccino->getCharset();
 
 		return mb_strtoupper(mb_substr($str, 0, 1, $charset), $charset) . mb_strtolower(mb_substr($str, 0, null, $charset), $charset);
 	}
@@ -1304,7 +1304,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Converts a string to lowercase.
 	 *
-	 * @param Cappuccino $environment
+	 * @param Cappuccino $cappuccino
 	 * @param string     $str
 	 *
 	 * @return string
@@ -1312,15 +1312,15 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterStringLower (Cappuccino $environment, string $str) : string
+	public final function onSimpleFilterStringLower (Cappuccino $cappuccino, string $str) : string
 	{
-		return mb_strtolower($str, $environment->getCharset());
+		return mb_strtolower($str, $cappuccino->getCharset());
 	}
 
 	/**
 	 * Returns a titlecased string.
 	 *
-	 * @param Cappuccino $environment
+	 * @param Cappuccino $cappuccino
 	 * @param string     $str
 	 *
 	 * @return string
@@ -1328,9 +1328,9 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterStringTitle (Cappuccino $environment, string $str) : string
+	public final function onSimpleFilterStringTitle (Cappuccino $cappuccino, string $str) : string
 	{
-		if (($charset = $environment->getCharset()) !== null)
+		if (($charset = $cappuccino->getCharset()) !== null)
 			return mb_convert_case($str, MB_CASE_TITLE, $charset);
 
 		return ucwords(strtolower($str));
@@ -1370,7 +1370,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Converts a string to uppercase.
 	 *
-	 * @param Cappuccino $environment
+	 * @param Cappuccino $cappuccino
 	 * @param string     $str
 	 *
 	 * @return string
@@ -1378,9 +1378,9 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterStringUpper (Cappuccino $environment, string $str) : string
+	public final function onSimpleFilterStringUpper (Cappuccino $cappuccino, string $str) : string
 	{
-		return mb_strtoupper($str, $environment->getCharset());
+		return mb_strtoupper($str, $cappuccino->getCharset());
 	}
 
 	/**

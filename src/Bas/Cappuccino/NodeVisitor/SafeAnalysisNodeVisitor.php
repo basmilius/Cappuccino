@@ -107,7 +107,7 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doEnterNode (Node $node, Cappuccino $environment) : Node
+	protected function doEnterNode (Node $node, Cappuccino $cappuccino) : Node
 	{
 		return $node;
 	}

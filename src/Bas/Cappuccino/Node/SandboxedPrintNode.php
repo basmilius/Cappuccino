@@ -28,7 +28,7 @@ class SandboxedPrintNode extends PrintNode
 
 		$compiler
 			->addDebugInfo($this)
-			->write('echo $this->environment->getExtension(' . $classSandboxExtension . ':class)->ensureToStringAllowed(')
+			->write('echo $this->cappuccino->getExtension(' . $classSandboxExtension . ':class)->ensureToStringAllowed(')
 			->subcompile($this->getNode('expr'))
 			->raw(");\n");
 	}

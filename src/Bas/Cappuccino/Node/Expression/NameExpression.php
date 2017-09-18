@@ -12,7 +12,7 @@ class NameExpression extends AbstractExpression
 	private $specialVars = [
 		'_self' => '$this->getTemplateName()',
 		'_context' => '$context',
-		'_charset' => '$this->environment->getCharset()',
+		'_charset' => '$this->cappuccino->getCharset()',
 	];
 
 	/**
@@ -61,7 +61,7 @@ class NameExpression extends AbstractExpression
 		}
 		else
 		{
-			if ($this->getAttribute('ignore_strict_check') || !$compiler->getEnvironment()->isStrictVariables())
+			if ($this->getAttribute('ignore_strict_check') || !$compiler->getCappuccino()->isStrictVariables())
 			{
 				$compiler->raw('($context[')->string($name)->raw('] ?? null)');
 			}

@@ -112,7 +112,7 @@ final class ExtensionSet implements ExtensionInterface
 	}
 
 	/**
-	 * Initializes the runtime environment.
+	 * Initializes the runtime cappuccino.
 	 *
 	 * @param Cappuccino $env
 	 *

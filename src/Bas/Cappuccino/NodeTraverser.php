@@ -15,21 +15,21 @@ use Bas\Cappuccino\Node\Node;
 final class NodeTraverser
 {
 
-	private $environment;
+	private $cappuccino;
 	private $visitors = [];
 
 	/**
 	 * NodeTraverser constructor.
 	 *
-	 * @param Cappuccino             $environment
+	 * @param Cappuccino             $cappuccino
 	 * @param NodeVisitorInterface[] $visitors
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Cappuccino $environment, array $visitors = [])
+	public function __construct (Cappuccino $cappuccino, array $visitors = [])
 	{
-		$this->environment = $environment;
+		$this->cappuccino = $cappuccino;
 
 		foreach ($visitors as $visitor)
 			$this->addVisitor($visitor);
@@ -86,7 +86,7 @@ final class NodeTraverser
 	 */
 	private function traverseForVisitor (NodeVisitorInterface $visitor, Node $node)
 	{
-		$node = $visitor->enterNode($node, $this->environment);
+		$node = $visitor->enterNode($node, $this->cappuccino);
 
 		foreach ($node as $k => $n)
 			if (false !== $n = $this->traverseForVisitor($visitor, $n))
@@ -94,6 +94,6 @@ final class NodeTraverser
 			else
 				$node->removeNode($k);
 
-		return $visitor->leaveNode($node, $this->environment);
+		return $visitor->leaveNode($node, $this->cappuccino);
 	}
 }

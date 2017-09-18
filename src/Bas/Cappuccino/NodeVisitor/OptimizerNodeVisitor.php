@@ -59,7 +59,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doEnterNode (Node $node, Cappuccino $environment) : Node
+	protected function doEnterNode (Node $node, Cappuccino $cappuccino) : Node
 	{
 		if (self::OPTIMIZE_FOR === (self::OPTIMIZE_FOR & $this->optimizers))
 			$this->enterOptimizeFor($node);
@@ -72,7 +72,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doLeaveNode (Node $node, Cappuccino $environment) : Node
+	protected function doLeaveNode (Node $node, Cappuccino $cappuccino) : Node
 	{
 		if (self::OPTIMIZE_FOR === (self::OPTIMIZE_FOR & $this->optimizers))
 			$this->leaveOptimizeFor($node);

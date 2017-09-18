@@ -31,7 +31,7 @@ class SimpleFilter
 		$this->name = $name;
 		$this->callable = $callable;
 		$this->options = array_merge([
-			'needs_environment' => false,
+			'needs_cappuccino' => false,
 			'needs_context' => false,
 			'is_variadic' => false,
 			'is_safe' => null,
@@ -69,9 +69,9 @@ class SimpleFilter
 		return $this->arguments;
 	}
 
-	public function needsEnvironment ()
+	public function needsCappuccino ()
 	{
-		return $this->options['needs_environment'];
+		return $this->options['needs_cappuccino'];
 	}
 
 	public function needsContext ()

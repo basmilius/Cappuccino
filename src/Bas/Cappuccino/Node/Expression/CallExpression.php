@@ -54,16 +54,16 @@ abstract class CallExpression extends AbstractExpression
 				if ($r->isStatic())
 					$compiler->raw(sprintf('%s::%s', $callable[0], $callable[1]));
 				else
-					$compiler->raw(sprintf('$this->environment->getRuntime(\'%s\')->%s', $callable[0], $callable[1]));
+					$compiler->raw(sprintf('$this->cappuccino->getRuntime(\'%s\')->%s', $callable[0], $callable[1]));
 			}
 			else if ($r instanceof ReflectionMethod && $callable[0] instanceof ExtensionInterface)
 			{
-				$compiler->raw(sprintf('$this->environment->getExtension(\'%s\')->%s', get_class($callable[0]), $callable[1]));
+				$compiler->raw(sprintf('$this->cappuccino->getExtension(\'%s\')->%s', get_class($callable[0]), $callable[1]));
 			}
 			else
 			{
 				$closingParenthesis = true;
-				$compiler->raw(sprintf('call_user_func_array($this->environment->get%s(\'%s\')->getCallable(), array', ucfirst($this->getAttribute('type')), $this->getAttribute('name')));
+				$compiler->raw(sprintf('call_user_func_array($this->cappuccino->get%s(\'%s\')->getCallable(), array', ucfirst($this->getAttribute('type')), $this->getAttribute('name')));
 			}
 		}
 
@@ -88,9 +88,9 @@ abstract class CallExpression extends AbstractExpression
 
 		$first = true;
 
-		if ($this->hasAttribute('needs_environment') && $this->getAttribute('needs_environment'))
+		if ($this->hasAttribute('needs_cappuccino') && $this->getAttribute('needs_cappuccino'))
 		{
-			$compiler->raw('$this->environment');
+			$compiler->raw('$this->cappuccino');
 			$first = false;
 		}
 
@@ -340,7 +340,7 @@ abstract class CallExpression extends AbstractExpression
 			array_shift($parameters);
 		}
 
-		if ($this->hasAttribute('needs_environment') && $this->getAttribute('needs_environment'))
+		if ($this->hasAttribute('needs_cappuccino') && $this->getAttribute('needs_cappuccino'))
 		{
 			array_shift($parameters);
 		}

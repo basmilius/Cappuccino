@@ -49,7 +49,7 @@ class Parser
 	private $blocks;
 	private $blockStack;
 	private $macros;
-	private $environment;
+	private $cappuccino;
 	private $importedSymbols;
 	private $traits;
 	private $embeddedTemplates = [];
@@ -57,14 +57,14 @@ class Parser
 	/**
 	 * Parser constructor.
 	 *
-	 * @param Cappuccino $environment
+	 * @param Cappuccino $cappuccino
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Cappuccino $environment)
+	public function __construct (Cappuccino $cappuccino)
 	{
-		$this->environment = $environment;
+		$this->cappuccino = $cappuccino;
 	}
 
 	/**
@@ -101,7 +101,7 @@ class Parser
 		{
 			$this->handlers = [];
 
-			foreach ($this->environment->getTokenParsers() as $handler)
+			foreach ($this->cappuccino->getTokenParsers() as $handler)
 			{
 				$handler->setParser($this);
 
@@ -110,10 +110,10 @@ class Parser
 		}
 
 		if ($this->visitors === null)
-			$this->visitors = $this->environment->getNodeVisitors();
+			$this->visitors = $this->cappuccino->getNodeVisitors();
 
 		if ($this->expressionParser === null)
-			$this->expressionParser = new ExpressionParser($this, $this->environment);
+			$this->expressionParser = new ExpressionParser($this, $this->cappuccino);
 
 		$this->stream = $stream;
 		$this->parent = null;
@@ -143,7 +143,7 @@ class Parser
 		}
 
 		$node = new ModuleNode(new BodyNode([$body]), $this->parent, new Node($this->blocks), new Node($this->macros), new Node($this->traits), $this->embeddedTemplates, $stream->getSourceContext());
-		$traverser = new NodeTraverser($this->environment, $this->visitors);
+		$traverser = new NodeTraverser($this->cappuccino, $this->visitors);
 
 		/** @var ModuleNode $node */
 		$node = $traverser->traverse($node);
@@ -216,7 +216,7 @@ class Parser
 						else
 						{
 							$e = new SyntaxError(sprintf('Unknown "%s" tag.', $token->getValue()), $token->getLine(), $this->stream->getSourceContext());
-							$e->addSuggestions($token->getValue(), array_keys($this->environment->getTags()));
+							$e->addSuggestions($token->getValue(), array_keys($this->cappuccino->getTags()));
 						}
 
 						throw $e;

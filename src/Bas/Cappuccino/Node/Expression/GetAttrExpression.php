@@ -46,7 +46,7 @@ class GetAttrExpression extends AbstractExpression
 	 */
 	public function compile (Compiler $compiler) : void
 	{
-		$compiler->raw(StaticMethods::class . '::getAttribute($this->environment, $this->getSourceContext(), ');
+		$compiler->raw(StaticMethods::class . '::getAttribute($this->cappuccino, $this->getSourceContext(), ');
 
 		if ($this->getAttribute('ignore_strict_check'))
 			$this->getNode('node')->setAttribute('ignore_strict_check', true);

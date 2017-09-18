@@ -5,21 +5,42 @@ namespace Bas\Cappuccino;
 
 use Bas\Cappuccino\Node\Expression\Test\TestExpression;
 
+/**
+ * Class SimpleTest
+ *
+ * @author Bas Milius <bas@mili.us>
+ * @package Bas\Cappuccino
+ * @version 1.0.0
+ */
 class SimpleTest
 {
 
+	/**
+	 * @var string
+	 */
 	private $name;
+
+	/**
+	 * @var callable|null
+	 */
 	private $callable;
+
+	/**
+	 * @var array
+	 */
 	private $options;
 
 	/**
-	 * Creates a template test.
+	 * SimpleTest constructor.
 	 *
-	 * @param string        $name Name of this test
-	 * @param callable|null $callable A callable implementing the test. If null, you need to overwrite the "node_class" option to customize compilation.
-	 * @param array         $options Options array
+	 * @param string        $name
+	 * @param callable|null $callable
+	 * @param array         $options
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
-	public function __construct (string $name, $callable = null, array $options = [])
+	public function __construct (string $name, ?callable $callable = null, array $options = [])
 	{
 		if (__CLASS__ !== get_class($this))
 		{
@@ -36,44 +57,88 @@ class SimpleTest
 		], $options);
 	}
 
-	public function getName ()
+	/**
+	 * Gets the name of our test.
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getName () : string
 	{
 		return $this->name;
 	}
 
 	/**
-	 * Returns the callable to execute for this test.
+	 * Gets the callable to execute this test.
 	 *
 	 * @return callable|null
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
-	public function getCallable ()
+	public function getCallable () : ?callable
 	{
 		return $this->callable;
 	}
 
-	public function getNodeClass ()
+	/**
+	 * Gets the Node Class.
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getNodeClass () : string
 	{
 		return $this->options['node_class'];
 	}
 
-	public function isVariadic ()
+	/**
+	 * Returns TRUE if this test is variadic.
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function isVariadic () : bool
 	{
 		return $this->options['is_variadic'];
 	}
 
-	public function isDeprecated ()
+	/**
+	 * Returns TRUE if this test is deprecated.
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function isDeprecated () : bool
 	{
 		return (bool)$this->options['deprecated'];
 	}
 
-	public function getDeprecatedVersion ()
+	/**
+	 * Gets the version when this was deprecated.
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getDeprecatedVersion () : string
 	{
 		return $this->options['deprecated'];
 	}
 
-	public function getAlternative ()
+	/**
+	 * Gets an alternative.
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getAlternative () : ?string
 	{
-		return $this->options['alternative'];
+		return $this->options['alternative'] ?? null;
 	}
 
 }

@@ -67,7 +67,7 @@ class Cappuccino
 	private $optionsHash;
 
 	/**
-	 * Environment constructor.
+	 * Cappuccino constructor.
 	 *
 	 * @param LoaderInterface $loader
 	 * @param array           $options
@@ -427,7 +427,7 @@ class Cappuccino
 	}
 
 	/**
-	 * Tries to load a template consecutively from an array. Similar to {@see Environment::loadTemplate()} but it also accepts
+	 * Tries to load a template consecutively from an array. Similar to {@see Cappuccino::loadTemplate()} but it also accepts
 	 * Template instances and an array of templates where each is tried to be loaded.
 	 *
 	 * @param Template|string|string[] $names
@@ -927,7 +927,7 @@ class Cappuccino
 	}
 
 	/**
-	 * Gets registered functions. Be warned that this method cannot return functions defined with {@see Environment::registerUndefinedFunctionCallback()}.
+	 * Gets registered functions. Be warned that this method cannot return functions defined with {@see Cappuccino::registerUndefinedFunctionCallback()}.
 	 *
 	 * @return SimpleFunction[]
 	 * @author Bas Milius <bas@mili.us>

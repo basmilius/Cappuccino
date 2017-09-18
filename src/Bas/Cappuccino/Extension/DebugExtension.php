@@ -27,14 +27,14 @@ final class DebugExtension extends AbstractExtension
 		$isDumpOutputHtmlSafe = extension_loaded('xdebug') && (false === ini_get('xdebug.overload_var_dump') || ini_get('xdebug.overload_var_dump')) && (false === ini_get('html_errors') || ini_get('html_errors')) || 'cli' === PHP_SAPI;
 
 		return [
-			new SimpleFunction ('dump', [$this, 'onSimpleFunctionDump'], ['is_safe' => $isDumpOutputHtmlSafe ? ['html'] : [], 'needs_context' => true, 'needs_environment' => true]),
+			new SimpleFunction ('dump', [$this, 'onSimpleFunctionDump'], ['is_safe' => $isDumpOutputHtmlSafe ? ['html'] : [], 'needs_context' => true, 'needs_cappuccino' => true]),
 		];
 	}
 
 	/**
 	 * Var dump.
 	 *
-	 * @param Cappuccino $environment
+	 * @param Cappuccino $cappuccino
 	 * @param array      $context
 	 * @param array      ...$vars
 	 *
@@ -42,9 +42,9 @@ final class DebugExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function onSimpleFunctionDump (Cappuccino $environment, array $context, ...$vars) : string
+	public final function onSimpleFunctionDump (Cappuccino $cappuccino, array $context, ...$vars) : string
 	{
-		if (!$environment->isDebug())
+		if (!$cappuccino->isDebug())
 			return '';
 
 		ob_start();

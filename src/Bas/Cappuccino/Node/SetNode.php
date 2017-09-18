@@ -85,7 +85,7 @@ class SetNode extends Node implements NodeCaptureInterface
 
 			if ($this->getAttribute('capture'))
 			{
-				$compiler->raw(" = ('' === \$tmp = ob_get_clean()) ? '' : new " . $classMarkup . "(\$tmp, \$this->environment->getCharset())");
+				$compiler->raw(" = ('' === \$tmp = ob_get_clean()) ? '' : new " . $classMarkup . "(\$tmp, \$this->cappuccino->getCharset())");
 			}
 		}
 
@@ -114,7 +114,7 @@ class SetNode extends Node implements NodeCaptureInterface
 					$compiler
 						->raw("('' === \$tmp = ")
 						->subcompile($this->getNode('values'))
-						->raw(") ? '' : new " . $classMarkup . "(\$tmp, \$this->environment->getCharset())");
+						->raw(") ? '' : new " . $classMarkup . "(\$tmp, \$this->cappuccino->getCharset())");
 				}
 				else
 				{
