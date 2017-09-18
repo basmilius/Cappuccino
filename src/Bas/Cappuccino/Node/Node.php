@@ -30,7 +30,7 @@ class Node implements Countable, IteratorAggregate
 	/**
 	 * Node constructor.
 	 *
-	 * @param array       $nodes
+	 * @param Node[]      $nodes
 	 * @param array       $attributes
 	 * @param int         $lineno
 	 * @param string|null $tag
@@ -48,45 +48,6 @@ class Node implements Countable, IteratorAggregate
 		$this->attributes = $attributes;
 		$this->lineno = $lineno;
 		$this->tag = $tag;
-	}
-
-	/**
-	 * toString magic method.
-	 *
-	 * @return string
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public function __toString () : string
-	{
-		$attributes = [];
-
-		foreach ($this->attributes as $name => $value)
-			$attributes[] = sprintf('%s: %s', $name, str_replace("\n", '', var_export($value, true)));
-
-		$repr = [get_class($this) . '(' . implode(', ', $attributes)];
-
-		if (count($this->nodes))
-		{
-			foreach ($this->nodes as $name => $node)
-			{
-				$len = strlen($name) + 4;
-				$noderepr = [];
-
-				foreach (explode("\n", (string)$node) as $line)
-					$noderepr[] = str_repeat(' ', $len) . $line;
-
-				$repr[] = sprintf('  %s: %s', $name, ltrim(implode("\n", $noderepr)));
-			}
-
-			$repr[] = ')';
-		}
-		else
-		{
-			$repr[0] .= ')';
-		}
-
-		return implode("\n", $repr);
 	}
 
 	/**
@@ -291,6 +252,45 @@ class Node implements Countable, IteratorAggregate
 
 		foreach ($this->nodes as $node)
 			$node->setTemplateName($name);
+	}
+
+	/**
+	 * toString magic method.
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function __toString () : string
+	{
+		$attributes = [];
+
+		foreach ($this->attributes as $name => $value)
+			$attributes[] = sprintf('%s: %s', $name, str_replace("\n", '', var_export($value, true)));
+
+		$repr = [get_class($this) . '(' . implode(', ', $attributes)];
+
+		if (count($this->nodes))
+		{
+			foreach ($this->nodes as $name => $node)
+			{
+				$len = strlen($name) + 4;
+				$noderepr = [];
+
+				foreach (explode("\n", (string)$node) as $line)
+					$noderepr[] = str_repeat(' ', $len) . $line;
+
+				$repr[] = sprintf('  %s: %s', $name, ltrim(implode("\n", $noderepr)));
+			}
+
+			$repr[] = ')';
+		}
+		else
+		{
+			$repr[0] .= ')';
+		}
+
+		return implode("\n", $repr);
 	}
 
 }

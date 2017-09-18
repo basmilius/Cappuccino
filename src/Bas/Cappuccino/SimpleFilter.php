@@ -16,17 +16,40 @@ use Bas\Cappuccino\Node\Node;
 class SimpleFilter
 {
 
+	/**
+	 * @var string
+	 */
 	private $name;
+
+	/**
+	 * @var callable|null
+	 */
 	private $callable;
+
+	/**
+	 * @var array
+	 */
 	private $options;
+
+	/**
+	 * @var array
+	 */
 	private $arguments = [];
 
-	public function __construct (string $name, $callable = null, array $options = [])
+	/**
+	 * SimpleFilter constructor.
+	 *
+	 * @param string        $name
+	 * @param callable|null $callable
+	 * @param array         $options
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function __construct (string $name, ?callable $callable = null, array $options = [])
 	{
-		if (__CLASS__ !== get_class($this))
-		{
+		if (get_class($this) !== __CLASS__)
 			@trigger_error('Overriding ' . __CLASS__ . ' is deprecated since version 2.4.0 and the class will be final in 3.0.', E_USER_DEPRECATED);
-		}
 
 		$this->name = $name;
 		$this->callable = $callable;
@@ -44,41 +67,100 @@ class SimpleFilter
 		], $options);
 	}
 
-	public function getName ()
+	/**
+	 * Gets the name of our filter.
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getName () : string
 	{
 		return $this->name;
 	}
 
-	public function getCallable ()
+	/**
+	 * Callable to be executed when this filter is used.
+	 *
+	 * @return callable|null
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getCallable () : ?callable
 	{
 		return $this->callable;
 	}
 
-	public function getNodeClass ()
+	/**
+	 * Gets the Node class.
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getNodeClass () : string
 	{
 		return $this->options['node_class'];
 	}
 
-	public function setArguments ($arguments)
-	{
-		$this->arguments = $arguments;
-	}
-
-	public function getArguments ()
+	/**
+	 * Gets the filter instance.
+	 *
+	 * @return array
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getArguments () : array
 	{
 		return $this->arguments;
 	}
 
-	public function needsCappuccino ()
+	/**
+	 * Sets the filter arguments.
+	 *
+	 * @param array $arguments
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function setArguments (array $arguments) : void
+	{
+		$this->arguments = $arguments;
+	}
+
+	/**
+	 * Does this filter need a {@see Cappuccino} instance.
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function needsCappuccino () : bool
 	{
 		return $this->options['needs_cappuccino'];
 	}
 
-	public function needsContext ()
+	/**
+	 * Does this filter need the Node context.
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function needsContext () : bool
 	{
 		return $this->options['needs_context'];
 	}
 
+	/**
+	 * Gets the filter safe status.
+	 *
+	 * @param Node $filterArgs
+	 *
+	 * @return bool|mixed
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
 	public function getSafe (Node $filterArgs)
 	{
 		if ($this->options['is_safe'] !== null)
@@ -90,32 +172,74 @@ class SimpleFilter
 		return false;
 	}
 
-	public function getPreservesSafety ()
+	/**
+	 * Gets preserves safety.
+	 *
+	 * @return bool|null
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getPreservesSafety () : ?bool
 	{
 		return $this->options['preserves_safety'];
 	}
 
-	public function getPreEscape ()
+	/**
+	 * Gets PRE escape.
+	 *
+	 * @return bool|null
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getPreEscape () : ?bool
 	{
 		return $this->options['pre_escape'];
 	}
 
-	public function isVariadic ()
+	/**
+	 * Returns TRUE if this filter is variadic.
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function isVariadic () : bool
 	{
 		return $this->options['is_variadic'];
 	}
 
-	public function isDeprecated ()
+	/**
+	 * Returns TRUE if this filter is deprecated.
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function isDeprecated () : bool
 	{
 		return (bool)$this->options['deprecated'];
 	}
 
-	public function getDeprecatedVersion ()
+	/**
+	 * Gets the deprecated since version.
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getDeprecatedVersion () : string
 	{
 		return $this->options['deprecated'];
 	}
 
-	public function getAlternative ()
+	/**
+	 * Gets an alternative.
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getAlternative () : string
 	{
 		return $this->options['alternative'];
 	}

@@ -15,7 +15,14 @@ use Bas\Cappuccino\Node\Node;
 final class NodeTraverser
 {
 
+	/**
+	 * @var Cappuccino
+	 */
 	private $cappuccino;
+
+	/**
+	 * @var NodeVisitorInterface[]
+	 */
 	private $visitors = [];
 
 	/**

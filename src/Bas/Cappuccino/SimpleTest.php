@@ -42,10 +42,8 @@ class SimpleTest
 	 */
 	public function __construct (string $name, ?callable $callable = null, array $options = [])
 	{
-		if (__CLASS__ !== get_class($this))
-		{
+		if (get_class($this) !== __CLASS__)
 			@trigger_error('Overriding ' . __CLASS__ . ' is deprecated since version 2.4.0 and the class will be final in 3.0.', E_USER_DEPRECATED);
-		}
 
 		$this->name = $name;
 		$this->callable = $callable;

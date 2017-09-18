@@ -16,9 +16,24 @@ use Bas\Cappuccino\Node\Node;
 class SimpleFunction
 {
 
+	/**
+	 * @var string
+	 */
 	private $name;
+
+	/**
+	 * @var callable|null
+	 */
 	private $callable;
+
+	/**
+	 * @var array
+	 */
 	private $options;
+
+	/**
+	 * @var array
+	 */
 	private $arguments = [];
 
 	/**
@@ -27,10 +42,13 @@ class SimpleFunction
 	 * @param string        $name
 	 * @param callable|null $callable
 	 * @param array         $options
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
 	public function __construct (string $name, ?callable $callable = null, array $options = [])
 	{
-		if (__CLASS__ !== get_class($this))
+		if (get_class($this) !== __CLASS__)
 			@trigger_error('Overriding ' . __CLASS__ . ' is deprecated since version 2.4.0 and the class will be final in 3.0.', E_USER_DEPRECATED);
 
 		$this->name = $name;
@@ -47,77 +65,155 @@ class SimpleFunction
 		], $options);
 	}
 
-	public function getName ()
+	/**
+	 * Gets the name of this function.
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getName () : string
 	{
 		return $this->name;
 	}
 
 	/**
-	 * Returns the callable to execute for this function.
+	 * Gets the callable to execute for this function.
 	 *
 	 * @return callable|null
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
-	public function getCallable ()
+	public function getCallable () : ?callable
 	{
 		return $this->callable;
 	}
 
-	public function getNodeClass ()
+	/**
+	 * Gets the Node class.
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getNodeClass () : string
 	{
 		return $this->options['node_class'];
 	}
 
-	public function setArguments ($arguments)
-	{
-		$this->arguments = $arguments;
-	}
-
-	public function getArguments ()
+	/**
+	 * Gets the arguments.
+	 *
+	 * @return array
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getArguments () : array
 	{
 		return $this->arguments;
 	}
 
-	public function needsCappuccino ()
+	/**
+	 * Sets the arguments.
+	 *
+	 * @param array $arguments
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function setArguments (array $arguments) : void
+	{
+		$this->arguments = $arguments;
+	}
+
+	/**
+	 * Does this function need our {@see Cappuccino} instance?
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function needsCappuccino () : bool
 	{
 		return $this->options['needs_cappuccino'];
 	}
 
-	public function needsContext ()
+	/**
+	 * Does this function need the Node context.
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function needsContext () : bool
 	{
 		return $this->options['needs_context'];
 	}
 
+	/**
+	 * Gets function safe status.
+	 *
+	 * @param Node $functionArgs
+	 *
+	 * @return array|mixed
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
 	public function getSafe (Node $functionArgs)
 	{
-		if (null !== $this->options['is_safe'])
-		{
+		if ($this->options['is_safe'] !== null)
 			return $this->options['is_safe'];
-		}
 
-		if (null !== $this->options['is_safe_callback'])
-		{
+		if ($this->options['is_safe_callback'] !== null)
 			return $this->options['is_safe_callback']($functionArgs);
-		}
 
 		return [];
 	}
 
-	public function isVariadic ()
+	/**
+	 * Returns TRUE if this function is variadic.
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function isVariadic () : bool
 	{
 		return $this->options['is_variadic'];
 	}
 
-	public function isDeprecated ()
+	/**
+	 * Returns TRUE if this function is deprecated.
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function isDeprecated () : bool
 	{
 		return (bool)$this->options['deprecated'];
 	}
 
-	public function getDeprecatedVersion ()
+	/**
+	 * Gets the deprecated since version.
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getDeprecatedVersion () : string
 	{
 		return $this->options['deprecated'];
 	}
 
-	public function getAlternative ()
+	/**
+	 * Gets an alternative.
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getAlternative () : string
 	{
 		return $this->options['alternative'];
 	}

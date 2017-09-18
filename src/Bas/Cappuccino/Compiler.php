@@ -16,12 +16,39 @@ use LogicException;
 class Compiler
 {
 
-	private $lastLine;
-	private $source;
-	private $indentation;
+	/**
+	 * @var Cappuccino
+	 */
 	private $cappuccino;
+
+	/**
+	 * @var int
+	 */
+	private $lastLine;
+
+	/**
+	 * @var string
+	 */
+	private $source;
+
+	/**
+	 * @var int
+	 */
+	private $indentation;
+
+	/**
+	 * @var array
+	 */
 	private $debugInfo = [];
+
+	/**
+	 * @var int
+	 */
 	private $sourceOffset;
+
+	/**
+	 * @var int
+	 */
 	private $sourceLine;
 
 	/**

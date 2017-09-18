@@ -37,7 +37,7 @@ class ModuleNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Node $body, ?AbstractExpression $parent = null, Node $blocks, Node $macros, Node $traits, array $embeddedTemplates, Source $source)
+	public function __construct (Node $body, ?AbstractExpression $parent, Node $blocks, Node $macros, Node $traits, array $embeddedTemplates, Source $source)
 	{
 		if (__CLASS__ !== get_class($this))
 			@trigger_error('Overriding ' . __CLASS__ . ' is deprecated since version 2.4.0 and the class will be final in 3.0.', E_USER_DEPRECATED);

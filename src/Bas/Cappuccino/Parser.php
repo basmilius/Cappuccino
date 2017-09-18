@@ -43,15 +43,54 @@ class Parser
 	 */
 	private $handlers;
 
+	/**
+	 * @var Node[]
+	 */
 	private $stack = [];
+
+	/**
+	 * @var AbstractExpression
+	 */
 	private $parent;
+
+	/**
+	 * @var NodeVisitorInterface[]
+	 */
 	private $visitors;
+
+	/**
+	 * @var BlockNode[]
+	 */
 	private $blocks;
+
+	/**
+	 * @var string[]
+	 */
 	private $blockStack;
+
+	/**
+	 * @var Node[]
+	 */
 	private $macros;
+
+	/**
+	 * @var Cappuccino
+	 */
 	private $cappuccino;
+
+	/**
+	 * @var array
+	 */
 	private $importedSymbols;
+
+	/**
+	 * @var Node[]
+	 */
 	private $traits;
+
+	/**
+	 * @var array
+	 */
 	private $embeddedTemplates = [];
 
 	/**
@@ -243,52 +282,134 @@ class Parser
 		return new Node($rv, [], $lineno);
 	}
 
-	public function getBlockStack ()
+	/**
+	 * Gets the block stack.
+	 *
+	 * @return string[]
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getBlockStack () : array
 	{
 		return $this->blockStack;
 	}
 
+	/**
+	 * Peeks the block stack.
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
 	public function peekBlockStack ()
 	{
 		return $this->blockStack[count($this->blockStack) - 1];
 	}
 
-	public function popBlockStack ()
+	/**
+	 * Pops the block stack.
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function popBlockStack () : void
 	{
 		array_pop($this->blockStack);
 	}
 
-	public function pushBlockStack ($name)
+	/**
+	 * Push to the block stack.
+	 *
+	 * @param string $name
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function pushBlockStack (string $name) : void
 	{
 		$this->blockStack[] = $name;
 	}
 
-	public function hasBlock ($name)
+	/**
+	 * Returns TRUE if there is a block available with the given name.
+	 *
+	 * @param string $name
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function hasBlock (string $name) : bool
 	{
 		return isset($this->blocks[$name]);
 	}
 
-	public function getBlock ($name) : ?BlockNode
+	/**
+	 * Gets a block by the given name.
+	 *
+	 * @param string $name
+	 *
+	 * @return BlockNode|null
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getBlock (string $name) : ?BlockNode
 	{
 		return $this->blocks[$name];
 	}
 
-	public function setBlock ($name, BlockNode $value)
+	/**
+	 * Sets a block.
+	 *
+	 * @param string    $name
+	 * @param BlockNode $value
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function setBlock (string $name, BlockNode $value) : void
 	{
 		$this->blocks[$name] = new BodyNode([$value], [], $value->getTemplateLine());
 	}
 
-	public function hasMacro ($name)
+	/**
+	 * Returns TRUE if there is a macro with the given name.
+	 *
+	 * @param string $name
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function hasMacro (string $name) : bool
 	{
 		return isset($this->macros[$name]);
 	}
 
-	public function setMacro ($name, MacroNode $node)
+	/**
+	 * Sets a macro.
+	 *
+	 * @param string    $name
+	 * @param MacroNode $node
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function setMacro (string $name, MacroNode $node) : void
 	{
 		$this->macros[$name] = $node;
 	}
 
-	public function isReservedMacroName ($name)
+	/**
+	 * Returns TRUE if the given name is reserved.
+	 *
+	 * @param string $name
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function isReservedMacroName (string $name) : bool
 	{
 		if ($name === 'bas')
 			return true;
@@ -296,29 +417,73 @@ class Parser
 		return false;
 	}
 
-	public function addTrait ($trait)
+	/**
+	 * Adds a trait.
+	 *
+	 * @param Node $trait
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function addTrait (Node $trait) : void
 	{
 		$this->traits[] = $trait;
 	}
 
-	public function hasTraits ()
+	/**
+	 * Returns TRUE if there are Traits available.
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function hasTraits () : bool
 	{
 		return count($this->traits) > 0;
 	}
 
-	public function embedTemplate (ModuleNode $template)
+	/**
+	 * Embeds a template.
+	 *
+	 * @param ModuleNode $template
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function embedTemplate (ModuleNode $template) : void
 	{
 		$template->setIndex(mt_rand());
 
 		$this->embeddedTemplates[] = $template;
 	}
 
-	public function addImportedSymbol ($type, $alias, $name = null, AbstractExpression $node = null)
+	/**
+	 * Adds an imported symbol.
+	 *
+	 * @param string                  $type
+	 * @param string                  $alias
+	 * @param string|null             $name
+	 * @param AbstractExpression|null $node
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function addImportedSymbol (string $type, string $alias, ?string $name = null, ?AbstractExpression $node = null) : void
 	{
 		$this->importedSymbols[0][$type][$alias] = ['name' => $name, 'node' => $node];
 	}
 
-	public function getImportedSymbol ($type, $alias)
+	/**
+	 * Gets an imported symbol.
+	 *
+	 * @param string $type
+	 * @param string $alias
+	 *
+	 * @return array|null
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getImportedSymbol (string $type, string $alias) : ?array
 	{
 		foreach ($this->importedSymbols as $functions)
 			if (isset($functions[$type][$alias]))
@@ -327,51 +492,97 @@ class Parser
 		return null;
 	}
 
-	public function isMainScope ()
+	/**
+	 * Returns TRUE if this is the main scope.
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function isMainScope () : bool
 	{
-		return 1 === count($this->importedSymbols);
+		return count($this->importedSymbols) === 1;
 	}
 
-	public function pushLocalScope ()
+	/**
+	 * Pushes the local scope.
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function pushLocalScope () : void
 	{
 		array_unshift($this->importedSymbols, []);
 	}
 
-	public function popLocalScope ()
+	/**
+	 * Pops the local scope.
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function popLocalScope () : void
 	{
 		array_shift($this->importedSymbols);
 	}
 
 	/**
+	 * Gets the {@see ExpressionParser}.
+	 *
 	 * @return ExpressionParser
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
-	public function getExpressionParser ()
+	public function getExpressionParser () : ExpressionParser
 	{
 		return $this->expressionParser;
 	}
 
-	public function getParent ()
+	/**
+	 * Gets the parent {@see AbstractExpression}.
+	 *
+	 * @return AbstractExpression
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getParent () : AbstractExpression
 	{
 		return $this->parent;
 	}
 
-	public function setParent ($parent)
+	/**
+	 * Sets the parent {@see AbstractExpression}.
+	 *
+	 * @param AbstractExpression $parent
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function setParent (AbstractExpression $parent)
 	{
 		$this->parent = $parent;
 	}
 
 	/**
+	 * Gets the {@see TokenStream}.
+	 *
 	 * @return TokenStream
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
-	public function getStream ()
+	public function getStream () : TokenStream
 	{
 		return $this->stream;
 	}
 
 	/**
+	 * Gets the current {@see Token}.
+	 *
 	 * @return Token
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
-	public function getCurrentToken ()
+	public function getCurrentToken () : Token
 	{
 		return $this->stream->getCurrent();
 	}

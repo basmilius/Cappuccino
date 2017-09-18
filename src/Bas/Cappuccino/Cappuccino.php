@@ -47,23 +47,89 @@ class Cappuccino
 	 */
 	private $cache;
 
+	/**
+	 * @var string
+	 */
 	private $charset;
+
+	/**
+	 * @var LoaderInterface
+	 */
 	private $loader;
+
+	/**
+	 * @var bool
+	 */
 	private $debug;
+
+	/**
+	 * @var bool
+	 */
 	private $autoReload;
+
+	/**
+	 * @var Lexer
+	 */
 	private $lexer;
+
+	/**
+	 * @var Parser
+	 */
 	private $parser;
+
+	/**
+	 * @var Compiler
+	 */
 	private $compiler;
+
+	/**
+	 * @var string
+	 */
 	private $baseTemplateClass;
+
+	/**
+	 * @var array
+	 */
 	private $globals = [];
+
+	/**
+	 * @var array
+	 */
 	private $resolvedGlobals;
+
+	/**
+	 * @var Template[]
+	 */
 	private $loadedTemplates;
+
+	/**
+	 * @var bool
+	 */
 	private $strictVariables;
+
+	/**
+	 * @var string
+	 */
 	private $templateClassPrefix = 'CappuccinoTemplate___';
-	private $originalCache;
+
+	/**
+	 * @var ExtensionSet
+	 */
 	private $extensionSet;
+
+	/**
+	 * @var RuntimeLoaderInterface[]
+	 */
 	private $runtimeLoaders = [];
+
+	/**
+	 * @var array
+	 */
 	private $runtimes = [];
+
+	/**
+	 * @var string
+	 */
 	private $optionsHash;
 
 	/**
@@ -238,15 +304,13 @@ class Cappuccino
 	/**
 	 * Gets the current cache implementation.
 	 *
-	 * @param bool $original
-	 *
 	 * @return CacheInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getCache (bool $original = true) : CacheInterface
+	public function getCache () : CacheInterface
 	{
-		return $original ? $this->originalCache : $this->cache;
+		return $this->cache;
 	}
 
 	/**
@@ -260,13 +324,9 @@ class Cappuccino
 	public function setCache (CacheInterface $cache) : void
 	{
 		if ($cache instanceof CacheInterface)
-		{
-			$this->originalCache = $this->cache = $cache;
-		}
+			$this->cache = $cache;
 		else
-		{
 			throw new LogicException('Cache can only be a CacheImplementation.');
-		}
 	}
 
 	/**
