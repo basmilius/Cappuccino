@@ -15,7 +15,7 @@ use Bas\Cappuccino\Token;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\TokenParser
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class BlockTokenParser extends AbstractTokenParser
 {
@@ -23,7 +23,7 @@ final class BlockTokenParser extends AbstractTokenParser
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function parse (Token $token) : Node
 	{
@@ -82,7 +82,7 @@ final class BlockTokenParser extends AbstractTokenParser
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getTag () : string
 	{

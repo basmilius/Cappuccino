@@ -11,7 +11,7 @@ use Bas\Cappuccino\Node\Node;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression
- * @version 2.3.0
+ * @version 1.0.0
  */
 class BlockReferenceExpression extends AbstractExpression
 {
@@ -25,7 +25,7 @@ class BlockReferenceExpression extends AbstractExpression
 	 * @param mixed     $tag
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (Node $name, Node $template = null, int $lineno, $tag = null)
 	{
@@ -42,7 +42,7 @@ class BlockReferenceExpression extends AbstractExpression
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function compile (Compiler $compiler) : void
 	{

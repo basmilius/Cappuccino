@@ -10,7 +10,7 @@ use Bas\Cappuccino\Compiler;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
- * @version 2.3.0
+ * @version 1.0.0
  */
 class SpacelessNode extends Node
 {
@@ -23,7 +23,7 @@ class SpacelessNode extends Node
 	 * @param string|null $tag
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (Node $body, int $lineno, ?string $tag = 'spaceless')
 	{
@@ -33,7 +33,7 @@ class SpacelessNode extends Node
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function compile (Compiler $compiler) : void
 	{

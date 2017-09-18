@@ -12,7 +12,7 @@ use Bas\Cappuccino\Node\Expression\ConstantExpression;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
- * @version 2.3.0
+ * @version 1.0.0
  */
 class SetNode extends Node implements NodeCaptureInterface
 {
@@ -27,7 +27,7 @@ class SetNode extends Node implements NodeCaptureInterface
 	 * @param null|string $tag
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (bool $capture, Node $names, Node $values, int $lineno, ?string $tag = null)
 	{
@@ -50,7 +50,7 @@ class SetNode extends Node implements NodeCaptureInterface
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function compile (Compiler $compiler) : void
 	{

@@ -4,8 +4,8 @@ declare(strict_types=1);
 namespace Bas\Cappuccino\Node;
 
 use ArrayIterator;
-use Countable;
 use Bas\Cappuccino\Compiler;
+use Countable;
 use InvalidArgumentException;
 use IteratorAggregate;
 use LogicException;
@@ -15,7 +15,7 @@ use LogicException;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
- * @since 2.3.0
+ * @since 1.0.0
  */
 class Node implements Countable, IteratorAggregate
 {
@@ -36,7 +36,7 @@ class Node implements Countable, IteratorAggregate
 	 * @param string|null $tag
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (array $nodes = [], array $attributes = [], int $lineno = 0, ?string $tag = null)
 	{
@@ -55,7 +55,7 @@ class Node implements Countable, IteratorAggregate
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __toString () : string
 	{
@@ -95,7 +95,7 @@ class Node implements Countable, IteratorAggregate
 	 * @param Compiler $compiler
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function compile (Compiler $compiler) : void
 	{
@@ -110,7 +110,7 @@ class Node implements Countable, IteratorAggregate
 	 *
 	 * @return int
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getTemplateLine () : int
 	{
@@ -122,7 +122,7 @@ class Node implements Countable, IteratorAggregate
 	 *
 	 * @return mixed
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getNodeTag ()
 	{
@@ -136,7 +136,7 @@ class Node implements Countable, IteratorAggregate
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function hasAttribute (string $name)
 	{
@@ -150,7 +150,7 @@ class Node implements Countable, IteratorAggregate
 	 *
 	 * @return mixed
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getAttribute (string $name)
 	{
@@ -167,7 +167,7 @@ class Node implements Countable, IteratorAggregate
 	 * @param mixed  $value
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function setAttribute (string $name, $value) : void
 	{
@@ -180,7 +180,7 @@ class Node implements Countable, IteratorAggregate
 	 * @param string $name
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function removeAttribute ($name) : void
 	{
@@ -194,7 +194,7 @@ class Node implements Countable, IteratorAggregate
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function hasNode ($name) : bool
 	{
@@ -208,7 +208,7 @@ class Node implements Countable, IteratorAggregate
 	 *
 	 * @return Node|Node[]
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getNode ($name)
 	{
@@ -222,10 +222,10 @@ class Node implements Countable, IteratorAggregate
 	 * Sets a node.
 	 *
 	 * @param string|int $name
-	 * @param Node   $node
+	 * @param Node       $node
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function setNode ($name, Node $node) : void
 	{
@@ -238,7 +238,7 @@ class Node implements Countable, IteratorAggregate
 	 * @param string $name
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function removeNode (string $name) : void
 	{
@@ -248,7 +248,7 @@ class Node implements Countable, IteratorAggregate
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function count () : int
 	{
@@ -258,7 +258,7 @@ class Node implements Countable, IteratorAggregate
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getIterator () : ArrayIterator
 	{
@@ -270,7 +270,7 @@ class Node implements Countable, IteratorAggregate
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getTemplateName () : string
 	{
@@ -283,7 +283,7 @@ class Node implements Countable, IteratorAggregate
 	 * @param string $name
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function setTemplateName (string $name) : void
 	{

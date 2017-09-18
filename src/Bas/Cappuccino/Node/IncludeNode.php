@@ -12,7 +12,7 @@ use Bas\Cappuccino\Node\Expression\AbstractExpression;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
- * @version 2.3.0
+ * @version 1.0.0
  */
 class IncludeNode extends Node implements NodeOutputInterface
 {
@@ -28,7 +28,7 @@ class IncludeNode extends Node implements NodeOutputInterface
 	 * @param null|string             $tag
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (AbstractExpression $expr, AbstractExpression $variables = null, bool $only = false, bool $ignoreMissing = false, int $lineno, ?string $tag = null)
 	{
@@ -43,7 +43,7 @@ class IncludeNode extends Node implements NodeOutputInterface
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function compile (Compiler $compiler) : void
 	{
@@ -72,7 +72,7 @@ class IncludeNode extends Node implements NodeOutputInterface
 	 * @param Compiler $compiler
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	protected function addGetTemplate (Compiler $compiler) : void
 	{
@@ -85,7 +85,7 @@ class IncludeNode extends Node implements NodeOutputInterface
 	 * @param Compiler $compiler
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	protected function addTemplateArguments (Compiler $compiler) : void
 	{

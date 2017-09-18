@@ -19,7 +19,7 @@ use Bas\Cappuccino\TokenParser\SandboxTokenParser;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class SandboxExtension extends AbstractExtension
 {
@@ -46,7 +46,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @param bool                    $sandboxed
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (SecurityPolicyInterface $policy, bool $sandboxed = false)
 	{
@@ -57,7 +57,7 @@ final class SandboxExtension extends AbstractExtension
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getTokenParsers () : array
 	{
@@ -67,7 +67,7 @@ final class SandboxExtension extends AbstractExtension
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getNodeVisitors () : array
 	{
@@ -78,7 +78,7 @@ final class SandboxExtension extends AbstractExtension
 	 * Enables the sandbox.
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function enableSandbox () : void
 	{
@@ -89,7 +89,7 @@ final class SandboxExtension extends AbstractExtension
 	 * Disables the sandbox.
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function disableSandbox () : void
 	{
@@ -101,7 +101,7 @@ final class SandboxExtension extends AbstractExtension
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function isSandboxed () : bool
 	{
@@ -113,7 +113,7 @@ final class SandboxExtension extends AbstractExtension
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function isSandboxedGlobally () : bool
 	{
@@ -125,7 +125,7 @@ final class SandboxExtension extends AbstractExtension
 	 *
 	 * @return SecurityPolicyInterface
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getSecurityPolicy () : SecurityPolicyInterface
 	{
@@ -138,7 +138,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @param SecurityPolicyInterface $policy
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function setSecurityPolicy (SecurityPolicyInterface $policy) : void
 	{
@@ -154,7 +154,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @throws SecurityNotAllowedFunctionError
 	 * @throws SecurityNotAllowedTagError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function checkSecurity (array $tags, array $filters, array $functions) : void
 	{
@@ -170,7 +170,7 @@ final class SandboxExtension extends AbstractExtension
 	 *
 	 * @throws SecurityNotAllowedMethodError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function checkMethodAllowed ($obj, string $method) : void
 	{
@@ -186,7 +186,7 @@ final class SandboxExtension extends AbstractExtension
 	 *
 	 * @throws SecurityNotAllowedPropertyError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function checkPropertyAllowed ($obj, string $property) : void
 	{
@@ -202,7 +202,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @return mixed
 	 * @throws SecurityNotAllowedMethodError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function ensureToStringAllowed ($obj)
 	{

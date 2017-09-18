@@ -10,7 +10,7 @@ use Bas\Cappuccino\Parser;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\TokenParser
- * @version 2.3.0
+ * @version 1.0.0
  */
 abstract class AbstractTokenParser implements TokenParserInterface
 {
@@ -26,7 +26,7 @@ abstract class AbstractTokenParser implements TokenParserInterface
 	 * @param Parser $parser
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function setParser (Parser $parser) : void
 	{

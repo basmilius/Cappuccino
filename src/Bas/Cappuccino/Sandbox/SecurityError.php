@@ -10,7 +10,7 @@ use Bas\Cappuccino\Error\Error;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Sandbox
- * @version 2.3.0
+ * @version 1.0.0
  */
 class SecurityError extends Error
 {

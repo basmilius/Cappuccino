@@ -10,7 +10,7 @@ use Bas\Cappuccino\Node\Node;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class NodeTraverser
 {
@@ -21,13 +21,13 @@ final class NodeTraverser
 	/**
 	 * NodeTraverser constructor.
 	 *
-	 * @param Environment            $environment
+	 * @param Cappuccino             $environment
 	 * @param NodeVisitorInterface[] $visitors
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	public function __construct (Environment $environment, array $visitors = [])
+	public function __construct (Cappuccino $environment, array $visitors = [])
 	{
 		$this->environment = $environment;
 
@@ -41,7 +41,7 @@ final class NodeTraverser
 	 * @param NodeVisitorInterface $visitor
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function addVisitor (NodeVisitorInterface $visitor)
 	{
@@ -58,7 +58,7 @@ final class NodeTraverser
 	 *
 	 * @return Node
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function traverse (Node $node)
 	{
@@ -82,7 +82,7 @@ final class NodeTraverser
 	 *
 	 * @return Node
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function traverseForVisitor (NodeVisitorInterface $visitor, Node $node)
 	{

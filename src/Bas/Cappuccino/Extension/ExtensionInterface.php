@@ -14,7 +14,7 @@ use Bas\Cappuccino\TokenParser\TokenParserInterface;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
- * @version 2.3.0
+ * @version 1.0.0
  */
 interface ExtensionInterface
 {

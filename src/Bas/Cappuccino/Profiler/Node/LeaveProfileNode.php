@@ -11,7 +11,7 @@ use Bas\Cappuccino\Node\Node;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Profiler\Node
- * @version 2.3.0
+ * @version 1.0.0
  */
 class LeaveProfileNode extends Node
 {
@@ -22,7 +22,7 @@ class LeaveProfileNode extends Node
 	 * @param string $varName
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (string $varName)
 	{
@@ -32,7 +32,7 @@ class LeaveProfileNode extends Node
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function compile (Compiler $compiler) : void
 	{

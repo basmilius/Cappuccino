@@ -4,13 +4,7 @@ declare(strict_types=1);
 namespace Bas\Cappuccino\Extension;
 
 use ArrayAccess;
-use Countable;
-use DateInterval;
-use DateTime;
-use DateTimeImmutable;
-use DateTimeInterface;
-use DateTimeZone;
-use Bas\Cappuccino\Environment;
+use Bas\Cappuccino\Cappuccino;
 use Bas\Cappuccino\Error\LoaderError;
 use Bas\Cappuccino\Error\RuntimeError;
 use Bas\Cappuccino\ExpressionParser;
@@ -73,6 +67,12 @@ use Bas\Cappuccino\TokenParser\SpacelessTokenParser;
 use Bas\Cappuccino\TokenParser\UseTokenParser;
 use Bas\Cappuccino\TokenParser\WithTokenParser;
 use Bas\Cappuccino\Util\StaticMethods;
+use Countable;
+use DateInterval;
+use DateTime;
+use DateTimeImmutable;
+use DateTimeInterface;
+use DateTimeZone;
 use Iterator;
 use IteratorAggregate;
 use LimitIterator;
@@ -86,7 +86,7 @@ use Traversable;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class CoreExtension extends AbstractExtension
 {
@@ -101,7 +101,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return callable[]
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getEscapers () : array
 	{
@@ -115,7 +115,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param callable $callable
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function setEscaper (string $strategy, callable $callable) : void
 	{
@@ -127,7 +127,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getDateFormat () : array
 	{
@@ -141,7 +141,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param string|null $dateIntervalFormat
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function setDateFormat (?string $format = null, ?string $dateIntervalFormat = null) : void
 	{
@@ -157,7 +157,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return DateTimeZone
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getTimezone () : DateTimeZone
 	{
@@ -173,7 +173,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param DateTimeZone|string $timezone
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function setTimezone ($timezone) : void
 	{
@@ -185,7 +185,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getNumberFormat () : array
 	{
@@ -200,7 +200,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param string $thousandSep
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function setNumberFormat (int $decimal, string $decimalPoint, string $thousandSep) : void
 	{
@@ -210,7 +210,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getTokenParsers () : array
 	{
@@ -237,7 +237,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getFilters () : array
 	{
@@ -292,7 +292,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getFunctions () : array
 	{
@@ -312,7 +312,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getTests () : array
 	{
@@ -333,7 +333,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getOperators () : array
 	{
@@ -385,7 +385,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public final function onSimpleFilterDateFormat ($date, ?string $format = null, $timezone = null) : string
@@ -410,7 +410,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return DateTime
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public final function onSimpleFilterDateModify ($date, $modifier)
@@ -426,7 +426,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return mixed
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public final function onSimpleFilterDefault ($value, $default = '')
@@ -445,7 +445,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public final function onSimpleFunctionConstant (string $constant, $object = null) : string
@@ -464,7 +464,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public final function onSimpleFunctionCycle ($values, int $position) : string
@@ -483,7 +483,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return DateTime|DateTimeImmutable
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public final function onSimpleFunctionDateConverter ($date = null, $timezone = null)
@@ -526,7 +526,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Renders a Template.
 	 *
-	 * @param Environment     $environment
+	 * @param Cappuccino      $environment
 	 * @param array           $context
 	 * @param string|string[] $template
 	 * @param array           $variables
@@ -539,10 +539,10 @@ final class CoreExtension extends AbstractExtension
 	 * @throws RuntimeError
 	 * @throws Throwable
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFunctionInclude (Environment $environment, array $context, $template, array $variables = [], bool $withContext = true, bool $ignoreMissing = false, bool $sandboxed = false) : string
+	public final function onSimpleFunctionInclude (Cappuccino $environment, array $context, $template, array $variables = [], bool $withContext = true, bool $ignoreMissing = false, bool $sandboxed = false) : string
 	{
 		$alreadySandboxed = false;
 		$isSandboxed = false;
@@ -593,16 +593,16 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Returns a random value depending on the supplied parameter type.
 	 *
-	 * @param Environment $environment
-	 * @param null        $values
+	 * @param Cappuccino $environment
+	 * @param null       $values
 	 *
 	 * @return array|false|int|mixed|null|string|string[]
 	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFunctionRandom (Environment $environment, $values = null)
+	public final function onSimpleFunctionRandom (Cappuccino $environment, $values = null)
 	{
 		if ($values === null)
 			return mt_rand();
@@ -643,17 +643,17 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Returns a template context without rendering it.
 	 *
-	 * @param Environment $environment
-	 * @param string      $name
-	 * @param bool        $ignoreMissing
+	 * @param Cappuccino $environment
+	 * @param string     $name
+	 * @param bool       $ignoreMissing
 	 *
 	 * @return string|null
 	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFunctionSource (Environment $environment, string $name, bool $ignoreMissing = false) : ?string
+	public final function onSimpleFunctionSource (Cappuccino $environment, string $name, bool $ignoreMissing = false) : ?string
 	{
 		$loader = $environment->getLoader();
 
@@ -679,7 +679,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public final function onSimpleFilterArrayBatch ($items, int $size, $fill = null) : array
@@ -704,15 +704,15 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Returns the first element of the item.
 	 *
-	 * @param Environment $environment
-	 * @param mixed       $item
+	 * @param Cappuccino $environment
+	 * @param mixed      $item
 	 *
 	 * @return mixed
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterArrayFirst (Environment $environment, $item)
+	public final function onSimpleFilterArrayFirst (Cappuccino $environment, $item)
 	{
 		$elements = $this->onSimpleFilterArraySlice($environment, $item, 0, 1, false);
 
@@ -728,7 +728,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public final function onSimpleFIlterArrayJoin ($array, $glue = '') : string
@@ -746,7 +746,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public final function onSimpleFilterArrayKeys ($array) : array
@@ -788,15 +788,15 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Returns the last element of the item.
 	 *
-	 * @param Environment $environment
-	 * @param mixed       $item
+	 * @param Cappuccino $environment
+	 * @param mixed      $item
 	 *
 	 * @return mixed
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterArrayLast (Environment $environment, $item)
+	public final function onSimpleFilterArrayLast (Cappuccino $environment, $item)
 	{
 		$elements = $this->onSimpleFilterArraySlice($environment, $item, -1, 1, false);
 
@@ -812,7 +812,7 @@ final class CoreExtension extends AbstractExtension
 	 * @return array
 	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public final function onSimpleFilterArrayMerge ($array1, $array2) : array
@@ -835,7 +835,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Slices a variable.
 	 *
-	 * @param Environment $environment
+	 * @param Cappuccino  $environment
 	 * @param             $item
 	 * @param int         $start
 	 * @param int         $length
@@ -843,10 +843,10 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return array|LimitIterator|string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterArraySlice (Environment $environment, $item, int $start, int $length, bool $preserveKeys)
+	public final function onSimpleFilterArraySlice (Cappuccino $environment, $item, int $start, int $length, bool $preserveKeys)
 	{
 		if ($item instanceof Traversable)
 		{
@@ -882,7 +882,7 @@ final class CoreExtension extends AbstractExtension
 	 * @return array
 	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public final function onSimpleFilterArraySort ($array) : array
@@ -901,17 +901,17 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Splits the string into an array.
 	 *
-	 * @param Environment $environment
-	 * @param string      $str
-	 * @param string      $delimiter
-	 * @param int|null    $limit
+	 * @param Cappuccino $environment
+	 * @param string     $str
+	 * @param string     $delimiter
+	 * @param int|null   $limit
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterArraySplit (Environment $environment, string $str, string $delimiter, ?int $limit = null) : array
+	public final function onSimpleFilterArraySplit (Cappuccino $environment, string $str, string $delimiter, ?int $limit = null) : array
 	{
 		if (!empty($delimiter))
 		{
@@ -939,7 +939,7 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Escapes a string.
 	 *
-	 * @param Environment   $environment
+	 * @param Cappuccino    $environment
 	 * @param Markup|string $string
 	 * @param string        $strategy
 	 * @param string|null   $charset
@@ -948,10 +948,10 @@ final class CoreExtension extends AbstractExtension
 	 * @return Markup|string
 	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterEscape (Environment $environment, $string, string $strategy = 'html', ?string $charset = null, bool $autoescape = false)
+	public final function onSimpleFilterEscape (Cappuccino $environment, $string, string $strategy = 'html', ?string $charset = null, bool $autoescape = false)
 	{
 		if ($autoescape && $string instanceof Markup)
 			return $string;
@@ -1128,7 +1128,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public final function onSimpleFilterEscapeIsSave (Node $filterArgs) : array
@@ -1147,15 +1147,15 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Returns the length of a variable.
 	 *
-	 * @param Environment $environment
-	 * @param mixed       $thing
+	 * @param Cappuccino $environment
+	 * @param mixed      $thing
 	 *
 	 * @return int
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterLength (Environment $environment, $thing) : int
+	public final function onSimpleFilterLength (Cappuccino $environment, $thing) : int
 	{
 		if ($thing === null)
 			return 0;
@@ -1182,7 +1182,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public final function onSimpleFilterNumberFormat ($number, ?int $decimal = null, ?string $decimalPoint = null, ?string $thousandSep = null) : string
@@ -1210,7 +1210,7 @@ final class CoreExtension extends AbstractExtension
 	 * @return string
 	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public final function onSimpleFilterReplace (string $str, $from) : string
@@ -1226,16 +1226,16 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Reverses a variable.
 	 *
-	 * @param Environment              $environment
+	 * @param Cappuccino               $environment
 	 * @param array|string|Traversable $item
 	 * @param bool                     $preserveKeys
 	 *
 	 * @return array|string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterReverse (Environment $environment, $item, bool $preserveKeys = false)
+	public final function onSimpleFilterReverse (Cappuccino $environment, $item, bool $preserveKeys = false)
 	{
 		if ($item instanceof Traversable)
 			return array_reverse(iterator_to_array($item), $preserveKeys);
@@ -1269,7 +1269,7 @@ final class CoreExtension extends AbstractExtension
 	 * @return float|int
 	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public final function onSimpleFilterRound ($value, int $precision = 0, string $method = 'common')
@@ -1286,15 +1286,15 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Returns a capitalized string.
 	 *
-	 * @param Environment $environment
-	 * @param string      $str
+	 * @param Cappuccino $environment
+	 * @param string     $str
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterStringCapitalize (Environment $environment, string $str) : string
+	public final function onSimpleFilterStringCapitalize (Cappuccino $environment, string $str) : string
 	{
 		$charset = $environment->getCharset();
 
@@ -1304,15 +1304,15 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Converts a string to lowercase.
 	 *
-	 * @param Environment $environment
-	 * @param string      $str
+	 * @param Cappuccino $environment
+	 * @param string     $str
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterStringLower (Environment $environment, string $str) : string
+	public final function onSimpleFilterStringLower (Cappuccino $environment, string $str) : string
 	{
 		return mb_strtolower($str, $environment->getCharset());
 	}
@@ -1320,15 +1320,15 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Returns a titlecased string.
 	 *
-	 * @param Environment $environment
-	 * @param string      $str
+	 * @param Cappuccino $environment
+	 * @param string     $str
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterStringTitle (Environment $environment, string $str) : string
+	public final function onSimpleFilterStringTitle (Cappuccino $environment, string $str) : string
 	{
 		if (($charset = $environment->getCharset()) !== null)
 			return mb_convert_case($str, MB_CASE_TITLE, $charset);
@@ -1346,7 +1346,7 @@ final class CoreExtension extends AbstractExtension
 	 * @return string
 	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public final function onSimpleFilterStringTrim (string $str, ?string $characterMask = null, string $side = 'both') : string
@@ -1370,15 +1370,15 @@ final class CoreExtension extends AbstractExtension
 	/**
 	 * Converts a string to uppercase.
 	 *
-	 * @param Environment $environment
-	 * @param string      $str
+	 * @param Cappuccino $environment
+	 * @param string     $str
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterStringUpper (Environment $environment, string $str) : string
+	public final function onSimpleFilterStringUpper (Cappuccino $environment, string $str) : string
 	{
 		return mb_strtoupper($str, $environment->getCharset());
 	}
@@ -1390,7 +1390,7 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public final function onSimpleFilterUrlEncode ($url) : string

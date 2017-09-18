@@ -10,7 +10,7 @@ use Bas\Cappuccino\Compiler;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression
- * @version 2.3.0
+ * @version 1.0.0
  */
 class ArrayExpression extends AbstractExpression
 {
@@ -27,7 +27,7 @@ class ArrayExpression extends AbstractExpression
 	 * @param int   $lineno
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (array $elements, int $lineno)
 	{
@@ -45,7 +45,7 @@ class ArrayExpression extends AbstractExpression
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getKeyValuePairs () : array
 	{
@@ -69,7 +69,7 @@ class ArrayExpression extends AbstractExpression
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function hasElement (AbstractExpression $key) : bool
 	{
@@ -87,7 +87,7 @@ class ArrayExpression extends AbstractExpression
 	 * @param AbstractExpression|null $key
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function addElement (AbstractExpression $value, ?AbstractExpression $key = null)
 	{
@@ -100,7 +100,7 @@ class ArrayExpression extends AbstractExpression
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function compile (Compiler $compiler) : void
 	{

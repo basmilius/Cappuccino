@@ -22,7 +22,7 @@ class NameExpression extends AbstractExpression
 	 * @param int    $lineno
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (string $name, int $lineno)
 	{
@@ -32,7 +32,7 @@ class NameExpression extends AbstractExpression
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function compile (Compiler $compiler) : void
 	{
@@ -78,7 +78,7 @@ class NameExpression extends AbstractExpression
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function isSpecial () : bool
 	{
@@ -90,7 +90,7 @@ class NameExpression extends AbstractExpression
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function isSimple () : bool
 	{

@@ -3,15 +3,15 @@ declare(strict_types=1);
 
 namespace Bas\Cappuccino\Error;
 
-use Exception;
 use Bas\Cappuccino\Source;
+use Exception;
 
 /**
  * Class LoaderError
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Error
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class LoaderError extends Error
 {
@@ -25,7 +25,7 @@ final class LoaderError extends Error
 	 * @param Exception|null     $previous
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (string $message, int $lineno = -1, $source = null, Exception $previous = null)
 	{

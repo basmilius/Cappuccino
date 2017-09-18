@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Bas\Cappuccino\NodeVisitor;
 
-use Bas\Cappuccino\Environment;
+use Bas\Cappuccino\Cappuccino;
 use Bas\Cappuccino\Node\Expression\BlockReferenceExpression;
 use Bas\Cappuccino\Node\Expression\ConditionalExpression;
 use Bas\Cappuccino\Node\Expression\ConstantExpression;
@@ -20,7 +20,7 @@ use Bas\Cappuccino\Node\Node;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\NodeVisitor
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 {
@@ -34,7 +34,7 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 	 * @param array $safeVars
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function setSafeVars (array $safeVars)
 	{
@@ -48,7 +48,7 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 	 *
 	 * @return array|null
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getSafe (Node $node) : ?array
 	{
@@ -81,7 +81,7 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 	 * @param bool|bool[] $safe
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function setSafe (Node $node, $safe)
 	{
@@ -105,9 +105,9 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	protected function doEnterNode (Node $node, Environment $environment) : Node
+	protected function doEnterNode (Node $node, Cappuccino $environment) : Node
 	{
 		return $node;
 	}
@@ -115,9 +115,9 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	protected function doLeaveNode (Node $node, Environment $env) : Node
+	protected function doLeaveNode (Node $node, Cappuccino $env) : Node
 	{
 		if ($node instanceof ConstantExpression)
 		{
@@ -198,7 +198,7 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function intersectSafe (array $a = null, array $b = null)
 	{
@@ -217,7 +217,7 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getPriority () : int
 	{

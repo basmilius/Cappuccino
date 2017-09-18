@@ -5,14 +5,14 @@ namespace Bas\Cappuccino\Util;
 
 use ArrayAccess;
 use BadMethodCallException;
-use Countable;
-use Bas\Cappuccino\Environment;
+use Bas\Cappuccino\Cappuccino;
 use Bas\Cappuccino\Error\RuntimeError;
 use Bas\Cappuccino\Extension\SandboxExtension;
 use Bas\Cappuccino\Sandbox\SecurityNotAllowedMethodError;
 use Bas\Cappuccino\Sandbox\SecurityNotAllowedPropertyError;
 use Bas\Cappuccino\Source;
 use Bas\Cappuccino\Template;
+use Countable;
 use Traversable;
 
 /**
@@ -34,7 +34,7 @@ class StaticMethods
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public static function convertEncoding (string $str, string $to, string $from) : string
 	{
@@ -48,7 +48,7 @@ class StaticMethods
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public static function ensureTraversable ($seq)
 	{
@@ -63,23 +63,23 @@ class StaticMethods
 	/**
 	 * Returns the attribute value for a given array/object.
 	 *
-	 * @param Environment $env
-	 * @param Source      $source
-	 * @param mixed       $object
-	 * @param mixed       $item
-	 * @param array       $arguments
-	 * @param string      $type
-	 * @param bool        $isDefinedTest
-	 * @param bool        $ignoreStrictCheck
+	 * @param Cappuccino $env
+	 * @param Source     $source
+	 * @param mixed      $object
+	 * @param mixed      $item
+	 * @param array      $arguments
+	 * @param string     $type
+	 * @param bool       $isDefinedTest
+	 * @param bool       $ignoreStrictCheck
 	 *
 	 * @return mixed
 	 * @throws RuntimeError
 	 * @throws SecurityNotAllowedMethodError
 	 * @throws SecurityNotAllowedPropertyError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	public static function getAttribute (Environment $env, Source $source, $object, $item, array $arguments = [], $type = Template::ANY_CALL, $isDefinedTest = false, $ignoreStrictCheck = false)
+	public static function getAttribute (Cappuccino $env, Source $source, $object, $item, array $arguments = [], $type = Template::ANY_CALL, $isDefinedTest = false, $ignoreStrictCheck = false)
 	{
 		static $cache = [];
 
@@ -283,7 +283,7 @@ class StaticMethods
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public static function inFilter ($value, $compare) : bool
 	{
@@ -324,7 +324,7 @@ class StaticMethods
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public static function isConstantDefined (string $constant, $object) : bool
 	{
@@ -341,7 +341,7 @@ class StaticMethods
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public static function isEmpty ($value) : bool
 	{
@@ -361,7 +361,7 @@ class StaticMethods
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public static function isIterable ($value) : bool
 	{

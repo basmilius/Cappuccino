@@ -18,7 +18,7 @@ use Bas\Cappuccino\TokenStream;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\TokenParser
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class ForTokenParser extends AbstractTokenParser
 {
@@ -26,7 +26,7 @@ final class ForTokenParser extends AbstractTokenParser
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function parse (Token $token) : Node
 	{
@@ -86,7 +86,7 @@ final class ForTokenParser extends AbstractTokenParser
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function decideForFork (Token $token) : bool
 	{
@@ -100,7 +100,7 @@ final class ForTokenParser extends AbstractTokenParser
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function decideForEnd (Token $token) : bool
 	{
@@ -115,7 +115,7 @@ final class ForTokenParser extends AbstractTokenParser
 	 *
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function checkLoopUsageCondition (TokenStream $stream, Node $node)
 	{
@@ -139,7 +139,7 @@ final class ForTokenParser extends AbstractTokenParser
 	 *
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function checkLoopUsageBody (TokenStream $stream, Node $node)
 	{
@@ -166,7 +166,7 @@ final class ForTokenParser extends AbstractTokenParser
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getTag () : string
 	{

@@ -3,27 +3,26 @@ declare(strict_types=1);
 
 namespace Bas\Cappuccino;
 
-use Exception;
 use Bas\Cappuccino\Error\Error;
 use Bas\Cappuccino\Error\LoaderError;
 use Bas\Cappuccino\Error\RuntimeError;
 use Bas\Cappuccino\Node\BlockNode;
+use Exception;
 use LogicException;
-use Throwable;
 
 /**
  * Class Template
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
- * @version 2.3.0
+ * @version 1.0.0
  */
 abstract class Template
 {
 
-	const ANY_CALL = 'any';
-	const ARRAY_CALL = 'array';
-	const METHOD_CALL = 'method';
+	public const ANY_CALL = 'any';
+	public const ARRAY_CALL = 'array';
+	public const METHOD_CALL = 'method';
 
 	/**
 	 * @internal
@@ -41,7 +40,7 @@ abstract class Template
 	protected $parents = [];
 
 	/**
-	 * @var Environment
+	 * @var Cappuccino
 	 */
 	protected $environment;
 
@@ -58,12 +57,12 @@ abstract class Template
 	/**
 	 * Template constructor.
 	 *
-	 * @param Environment $environment
+	 * @param Cappuccino $environment
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	public function __construct (Environment $environment)
+	public function __construct (Cappuccino $environment)
 	{
 		$this->environment = $environment;
 	}
@@ -71,7 +70,7 @@ abstract class Template
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __toString ()
 	{
@@ -83,7 +82,7 @@ abstract class Template
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public abstract function getTemplateName () : string;
 
@@ -92,7 +91,7 @@ abstract class Template
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public abstract function getDebugInfo () : array;
 
@@ -101,7 +100,7 @@ abstract class Template
 	 *
 	 * @return Source
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getSourceContext () : Source
 	{
@@ -117,7 +116,7 @@ abstract class Template
 	 * @throws LoaderError
 	 * @throws Exception
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public function getParent (array $context)
@@ -153,14 +152,14 @@ abstract class Template
 
 	/** @noinspection PhpDocRedundantThrowsInspection */
 	/**
-	 * #twigcode: Do get parent.
+	 * #oldcode: Do get parent.
 	 *
 	 * @param array $context
 	 *
 	 * @return bool
 	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	protected function doGetParent (array $context) : bool
 	{
@@ -168,11 +167,11 @@ abstract class Template
 	}
 
 	/**
-	 * #twigcode: Gets if this template is traitable.
+	 * #oldcode: Gets if this template is traitable.
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function isTraitable () : bool
 	{
@@ -190,7 +189,7 @@ abstract class Template
 	 * @throws LoaderError
 	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public function displayParentBlock (string $name, array $context, array $blocks = [])
@@ -222,7 +221,7 @@ abstract class Template
 	 * @throws LoaderError
 	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function displayBlock (string $name, array $context, array $blocks = [], bool $useBlocks = true)
 	{
@@ -298,7 +297,7 @@ abstract class Template
 	 * @throws LoaderError
 	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public function renderParentBlock (string $name, array $context, array $blocks = []) : string
@@ -323,7 +322,7 @@ abstract class Template
 	 * @throws LoaderError
 	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @internal
 	 */
 	public function renderBlock (string $name, array $context, array $blocks = [], bool $useBlocks = true) : string
@@ -346,7 +345,7 @@ abstract class Template
 	 * @throws Exception
 	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function hasBlock (string $name, array $context, array $blocks = []) : bool
 	{
@@ -373,7 +372,7 @@ abstract class Template
 	 * @throws Exception
 	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getBlockNames (array $context, array $blocks = [])
 	{
@@ -398,7 +397,7 @@ abstract class Template
 	 * @return Template
 	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	protected function loadTemplate ($template, ?string $templateName = null, ?int $line = null, ?int $index = null)
 	{
@@ -437,7 +436,7 @@ abstract class Template
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getBlocks () : array
 	{
@@ -450,9 +449,9 @@ abstract class Template
 	 * @param array $context
 	 * @param array $blocks
 	 *
-	 * @throws Exception
+	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function display (array $context, array $blocks = [])
 	{
@@ -465,9 +464,9 @@ abstract class Template
 	 * @param array $context
 	 *
 	 * @return string
-	 * @throws Throwable
+	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function render (array $context)
 	{
@@ -478,7 +477,7 @@ abstract class Template
 		{
 			$this->display($context);
 		}
-		catch (Throwable $e)
+		catch (RuntimeError $e)
 		{
 			while (ob_get_level() > $level)
 				ob_end_clean();
@@ -495,10 +494,9 @@ abstract class Template
 	 * @param array $context
 	 * @param array $blocks
 	 *
-	 * @throws Error
 	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	protected function displayWithErrorHandling (array $context, array $blocks = [])
 	{
@@ -506,7 +504,7 @@ abstract class Template
 		{
 			$this->doDisplay($context, $blocks);
 		}
-		catch (Error $e)
+		catch (RuntimeError $e)
 		{
 			if (!$e->getSourceContext())
 				$e->setSourceContext($this->getSourceContext());
@@ -532,9 +530,9 @@ abstract class Template
 	 * @param array $blocks
 	 *
 	 * @return mixed
-	 * @throws Error
+	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	protected abstract function doDisplay (array $context, array $blocks = []);
 

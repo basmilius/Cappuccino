@@ -8,7 +8,7 @@ namespace Bas\Cappuccino\Extension;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
- * @version 2.3.0
+ * @version 1.0.0
  */
 abstract class AbstractExtension implements ExtensionInterface
 {
@@ -16,7 +16,7 @@ abstract class AbstractExtension implements ExtensionInterface
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getTokenParsers () : array
 	{
@@ -26,7 +26,7 @@ abstract class AbstractExtension implements ExtensionInterface
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getNodeVisitors () : array
 	{
@@ -36,7 +36,7 @@ abstract class AbstractExtension implements ExtensionInterface
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getFilters () : array
 	{
@@ -46,7 +46,7 @@ abstract class AbstractExtension implements ExtensionInterface
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getTests () : array
 	{
@@ -56,7 +56,7 @@ abstract class AbstractExtension implements ExtensionInterface
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getFunctions () : array
 	{
@@ -66,7 +66,7 @@ abstract class AbstractExtension implements ExtensionInterface
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getOperators () : array
 	{

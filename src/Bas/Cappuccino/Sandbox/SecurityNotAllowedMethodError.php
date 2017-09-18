@@ -10,7 +10,7 @@ use Exception;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Sandbox
- * @version 2.3.0
+ * @version 1.0.0
  */
 class SecurityNotAllowedMethodError extends SecurityError
 {
@@ -36,7 +36,7 @@ class SecurityNotAllowedMethodError extends SecurityError
 	 * @param Exception|null $previous
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (string $message, string $className, string $methodName, int $lineno = -1, ?string $filename = null, Exception $previous = null)
 	{

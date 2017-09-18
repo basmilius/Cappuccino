@@ -8,7 +8,7 @@ namespace Bas\Cappuccino\Extension;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
- * @version 2.3.0
+ * @version 1.0.0
  */
 interface GlobalsInterface
 {
@@ -18,7 +18,7 @@ interface GlobalsInterface
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getGlobals () : array;
 

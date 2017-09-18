@@ -10,7 +10,7 @@ use Bas\Cappuccino\Compiler;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
- * @version 2.3.0
+ * @version 1.0.0
  */
 class TextNode extends Node implements NodeOutputInterface
 {
@@ -22,7 +22,7 @@ class TextNode extends Node implements NodeOutputInterface
 	 * @param int    $lineno
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (string $data, int $lineno)
 	{
@@ -32,7 +32,7 @@ class TextNode extends Node implements NodeOutputInterface
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function compile (Compiler $compiler) : void
 	{

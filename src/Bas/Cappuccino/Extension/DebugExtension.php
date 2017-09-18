@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Bas\Cappuccino\Extension;
 
-use Bas\Cappuccino\Environment;
+use Bas\Cappuccino\Cappuccino;
 use Bas\Cappuccino\SimpleFunction;
 use Bas\Cappuccino\Template;
 
@@ -12,7 +12,7 @@ use Bas\Cappuccino\Template;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class DebugExtension extends AbstractExtension
 {
@@ -20,7 +20,7 @@ final class DebugExtension extends AbstractExtension
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getFunctions () : array
 	{
@@ -34,15 +34,15 @@ final class DebugExtension extends AbstractExtension
 	/**
 	 * Var dump.
 	 *
-	 * @param Environment $environment
-	 * @param array       $context
-	 * @param array       ...$vars
+	 * @param Cappuccino $environment
+	 * @param array      $context
+	 * @param array      ...$vars
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	public final function onSimpleFunctionDump (Environment $environment, array $context, ...$vars) : string
+	public final function onSimpleFunctionDump (Cappuccino $environment, array $context, ...$vars) : string
 	{
 		if (!$environment->isDebug())
 			return '';

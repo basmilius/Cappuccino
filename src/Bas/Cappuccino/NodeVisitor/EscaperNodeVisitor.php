@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Bas\Cappuccino\NodeVisitor;
 
-use Bas\Cappuccino\Environment;
+use Bas\Cappuccino\Cappuccino;
 use Bas\Cappuccino\Extension\EscaperExtension;
 use Bas\Cappuccino\Node\AutoEscapeNode;
 use Bas\Cappuccino\Node\BlockNode;
@@ -21,7 +21,7 @@ use Bas\Cappuccino\NodeTraverser;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\NodeVisitor
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class EscaperNodeVisitor extends AbstractNodeVisitor
 {
@@ -37,7 +37,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * EscaperNodeVisitor constructor.
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct ()
 	{
@@ -47,9 +47,9 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	protected function doEnterNode (Node $node, Environment $environment) : Node
+	protected function doEnterNode (Node $node, Cappuccino $environment) : Node
 	{
 		if ($node instanceof ModuleNode)
 		{
@@ -83,9 +83,9 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	protected function doLeaveNode (Node $node, Environment $env) : Node
+	protected function doLeaveNode (Node $node, Cappuccino $env) : Node
 	{
 		if ($node instanceof ModuleNode)
 		{
@@ -113,15 +113,15 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * Escape Print Node.
 	 *
-	 * @param PrintNode   $node
-	 * @param Environment $env
-	 * @param string      $type
+	 * @param PrintNode  $node
+	 * @param Cappuccino $env
+	 * @param string     $type
 	 *
 	 * @return Node
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	private function escapePrintNode (PrintNode $node, Environment $env, string $type) : Node
+	private function escapePrintNode (PrintNode $node, Cappuccino $env, string $type) : Node
 	{
 		if (false === $type)
 			return $node;
@@ -143,13 +143,13 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * Pre-escapes the filter node.
 	 *
 	 * @param FilterExpression $filter
-	 * @param Environment      $env
+	 * @param Cappuccino       $env
 	 *
 	 * @return FilterExpression
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	private function preEscapeFilterNode (FilterExpression $filter, Environment $env) : FilterExpression
+	private function preEscapeFilterNode (FilterExpression $filter, Cappuccino $env) : FilterExpression
 	{
 		$name = $filter->getNode('filter')->getAttribute('value');
 		$type = $env->getFilter($name)->getPreEscape();
@@ -170,15 +170,15 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * Returns TRUE if it's save.
 	 *
-	 * @param string      $type
-	 * @param Node        $expression
-	 * @param Environment $env
+	 * @param string     $type
+	 * @param Node       $expression
+	 * @param Cappuccino $env
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	private function isSafeFor (string $type, Node $expression, Environment $env) : bool
+	private function isSafeFor (string $type, Node $expression, Cappuccino $env) : bool
 	{
 		$safe = $this->safeAnalysis->getSafe($expression);
 
@@ -201,7 +201,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 *
 	 * @return string|bool
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function needEscaping ()
 	{
@@ -219,7 +219,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 *
 	 * @return FilterExpression
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function getEscaperFilter (string $type, Node $node)
 	{
@@ -233,7 +233,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getPriority () : int
 	{

@@ -10,7 +10,7 @@ use Bas\Cappuccino\Profiler\Profile;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Profiler\Dumper
- * @version 2.3.0
+ * @version 1.0.0
  */
 class TextDumper
 {
@@ -24,7 +24,7 @@ class TextDumper
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function dump (Profile $profile)
 	{
@@ -39,7 +39,7 @@ class TextDumper
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	protected function formatTemplate (Profile $profile, string $prefix)
 	{
@@ -54,7 +54,7 @@ class TextDumper
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	protected function formatNonTemplate (Profile $profile, string $prefix)
 	{
@@ -69,7 +69,7 @@ class TextDumper
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	protected function formatTime (Profile $profile, float $percent)
 	{
@@ -85,7 +85,7 @@ class TextDumper
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function dumpProfile (Profile $profile, string $prefix = '', bool $sibling = false)
 	{

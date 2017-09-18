@@ -10,7 +10,7 @@ use Exception;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Sandbox
- * @version 2.3.0
+ * @version 1.0.0
  */
 class SecurityNotAllowedTagError extends SecurityError
 {
@@ -30,7 +30,7 @@ class SecurityNotAllowedTagError extends SecurityError
 	 * @param Exception|null $previous
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (string $message, string $tagName, int $lineno = -1, ?string $filename = null, Exception $previous = null)
 	{
@@ -44,7 +44,7 @@ class SecurityNotAllowedTagError extends SecurityError
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getTagName () : string
 	{

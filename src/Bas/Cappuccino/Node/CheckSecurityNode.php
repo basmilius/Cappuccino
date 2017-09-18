@@ -15,7 +15,7 @@ use Bas\Cappuccino\Sandbox\SecurityNotAllowedTagError;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
- * @version 2.3.0
+ * @version 1.0.0
  */
 class CheckSecurityNode extends Node
 {
@@ -32,7 +32,7 @@ class CheckSecurityNode extends Node
 	 * @param array $usedFunctions
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (array $usedFilters, array $usedTags, array $usedFunctions)
 	{
@@ -46,7 +46,7 @@ class CheckSecurityNode extends Node
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function compile (Compiler $compiler) : void
 	{

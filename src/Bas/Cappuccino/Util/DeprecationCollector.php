@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Bas\Cappuccino\Util;
 
-use Bas\Cappuccino\Environment;
+use Bas\Cappuccino\Cappuccino;
 use Bas\Cappuccino\Error\SyntaxError;
 use Bas\Cappuccino\Source;
 use RecursiveDirectoryIterator;
@@ -16,42 +16,42 @@ use Traversable;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Util
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class DeprecationCollector
 {
 
 	/**
-	 * @var Environment
+	 * @var Cappuccino
 	 */
-	private $twig;
+	private $cappuccino;
 
 	/**
 	 * DeprecationCollector constructor.
 	 *
-	 * @param Environment $twig
+	 * @param Cappuccino $cappuccino
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	public function __construct (Environment $twig)
+	public function __construct (Cappuccino $cappuccino)
 	{
-		$this->twig = $twig;
+		$this->cappuccino = $cappuccino;
 	}
 
 	/**
 	 * Returns deprecations for templates container in a directory.
 	 *
-	 * @param string $dir
-	 * @param string $ext
+	 * @param string $directory
+	 * @param string $extension
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	public function collectDir (string $dir, string $ext = '.twig') : array
+	public function collectDir (string $directory, string $extension = Cappuccino::DEFAULT_EXTENSION) : array
 	{
-		$iterator = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::LEAVES_ONLY), '{' . preg_quote($ext) . '$}');
+		$iterator = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory), RecursiveIteratorIterator::LEAVES_ONLY), '{' . preg_quote($extension) . '$}');
 
 		return $this->collect(new TemplateDirIterator($iterator));
 	}
@@ -63,7 +63,7 @@ final class DeprecationCollector
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function collect (Traversable $iterator)
 	{
@@ -78,7 +78,7 @@ final class DeprecationCollector
 		{
 			try
 			{
-				$this->twig->parse($this->twig->tokenize(new Source($contents, $name)));
+				$this->cappuccino->parse($this->cappuccino->tokenize(new Source($contents, $name)));
 			}
 			catch (SyntaxError $e)
 			{

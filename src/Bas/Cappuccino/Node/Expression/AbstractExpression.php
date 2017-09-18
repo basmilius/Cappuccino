@@ -10,7 +10,7 @@ use Bas\Cappuccino\Node\Node;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression
- * @version 2.3.0
+ * @version 1.0.0
  */
 abstract class AbstractExpression extends Node
 {

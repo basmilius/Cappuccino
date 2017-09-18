@@ -11,7 +11,7 @@ use JsonSerializable;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
- * @version 2.3.0
+ * @version 1.0.0
  */
 class Markup implements Countable, JsonSerializable
 {
@@ -33,7 +33,7 @@ class Markup implements Countable, JsonSerializable
 	 * @param string $charset
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (string $content, string $charset)
 	{
@@ -44,7 +44,7 @@ class Markup implements Countable, JsonSerializable
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __toString () : string
 	{
@@ -54,7 +54,7 @@ class Markup implements Countable, JsonSerializable
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function count () : int
 	{
@@ -64,7 +64,7 @@ class Markup implements Countable, JsonSerializable
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function jsonSerialize () : string
 	{

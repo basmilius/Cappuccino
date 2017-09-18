@@ -11,22 +11,22 @@ use LogicException;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
- * @version 2.3.0
+ * @version 1.0.0
  */
 class Lexer
 {
 
-	const STATE_DATA = 0;
-	const STATE_BLOCK = 1;
-	const STATE_VAR = 2;
-	const STATE_STRING = 3;
-	const STATE_INTERPOLATION = 4;
-	const REGEX_NAME = '/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/A';
-	const REGEX_NUMBER = '/[0-9]+(?:\.[0-9]+)?/A';
-	const REGEX_STRING = '/"([^#"\\\\]*(?:\\\\.[^#"\\\\]*)*)"|\'([^\'\\\\]*(?:\\\\.[^\'\\\\]*)*)\'/As';
-	const REGEX_DQ_STRING_DELIM = '/"/A';
-	const REGEX_DQ_STRING_PART = '/[^#"\\\\]*(?:(?:\\\\.|#(?!\{))[^#"\\\\]*)*/As';
-	const PUNCTUATION = '()[]{}?:.,|';
+	public const STATE_DATA = 0;
+	public const STATE_BLOCK = 1;
+	public const STATE_VAR = 2;
+	public const STATE_STRING = 3;
+	public const STATE_INTERPOLATION = 4;
+	public const REGEX_NAME = '/[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*/A';
+	public const REGEX_NUMBER = '/[0-9]+(?:\.[0-9]+)?/A';
+	public const REGEX_STRING = '/"([^#"\\\\]*(?:\\\\.[^#"\\\\]*)*)"|\'([^\'\\\\]*(?:\\\\.[^\'\\\\]*)*)\'/As';
+	public const REGEX_DQ_STRING_DELIM = '/"/A';
+	public const REGEX_DQ_STRING_PART = '/[^#"\\\\]*(?:(?:\\\\.|#(?!\{))[^#"\\\\]*)*/As';
+	public const PUNCTUATION = '()[]{}?:.,|';
 
 	private $tokens;
 	private $code;
@@ -47,13 +47,13 @@ class Lexer
 	/**
 	 * Lexer constructor.
 	 *
-	 * @param Environment $env
-	 * @param array       $options
+	 * @param Cappuccino $env
+	 * @param array      $options
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	public function __construct (Environment $env, array $options = [])
+	public function __construct (Cappuccino $env, array $options = [])
 	{
 		$this->env = $env;
 		$this->options = array_merge([
@@ -83,7 +83,7 @@ class Lexer
 	 * @return TokenStream
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function tokenize (Source $source) : TokenStream
 	{
@@ -140,7 +140,7 @@ class Lexer
 	/**
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function lexData () : void
 	{
@@ -206,7 +206,7 @@ class Lexer
 	/**
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function lexBlock () : void
 	{
@@ -225,7 +225,7 @@ class Lexer
 	/**
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function lexVar () : void
 	{
@@ -244,7 +244,7 @@ class Lexer
 	/**
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function lexExpression () : void
 	{
@@ -318,7 +318,7 @@ class Lexer
 	/**
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function lexRawData () : void
 	{
@@ -337,7 +337,7 @@ class Lexer
 	/**
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function lexComment () : void
 	{
@@ -350,7 +350,7 @@ class Lexer
 	/**
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function lexString () : void
 	{
@@ -381,7 +381,7 @@ class Lexer
 	/**
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function lexInterpolation () : void
 	{
@@ -405,7 +405,7 @@ class Lexer
 	 * @param string $value
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function pushToken ($type, $value = '') : void
 	{
@@ -419,7 +419,7 @@ class Lexer
 	 * @param $text
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function moveCursor ($text) : void
 	{
@@ -430,7 +430,7 @@ class Lexer
 	/**
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function getOperatorRegex () : string
 	{
@@ -461,7 +461,7 @@ class Lexer
 	 * @param $state
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function pushState ($state) : void
 	{
@@ -471,7 +471,7 @@ class Lexer
 
 	/**
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function popState () : void
 	{

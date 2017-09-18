@@ -10,7 +10,7 @@ use IteratorIterator;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Util
- * @version 2.3.0
+ * @version 1.0.0
  */
 class TemplateDirIterator extends IteratorIterator
 {
@@ -18,7 +18,7 @@ class TemplateDirIterator extends IteratorIterator
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function current () : string
 	{
@@ -28,7 +28,7 @@ class TemplateDirIterator extends IteratorIterator
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function key () : string
 	{

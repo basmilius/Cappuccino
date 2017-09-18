@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Bas\Cappuccino\NodeVisitor;
 
-use Bas\Cappuccino\Environment;
+use Bas\Cappuccino\Cappuccino;
 use Bas\Cappuccino\Node\BlockReferenceNode;
 use Bas\Cappuccino\Node\Expression\BlockReferenceExpression;
 use Bas\Cappuccino\Node\Expression\ConstantExpression;
@@ -23,16 +23,16 @@ use InvalidArgumentException;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\NodeVisitor
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class OptimizerNodeVisitor extends AbstractNodeVisitor
 {
 
-	const OPTIMIZE_ALL = -1;
-	const OPTIMIZE_NONE = 0;
-	const OPTIMIZE_FOR = 2;
-	const OPTIMIZE_RAW_FILTER = 4;
-	const OPTIMIZE_VAR_ACCESS = 8;
+	public const OPTIMIZE_ALL = -1;
+	public const OPTIMIZE_NONE = 0;
+	public const OPTIMIZE_FOR = 2;
+	public const OPTIMIZE_RAW_FILTER = 4;
+	public const OPTIMIZE_VAR_ACCESS = 8;
 
 	private $loops = [];
 	private $loopsTargets = [];
@@ -44,7 +44,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @param int $optimizers
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (int $optimizers = -1)
 	{
@@ -57,9 +57,9 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	protected function doEnterNode (Node $node, Environment $environment) : Node
+	protected function doEnterNode (Node $node, Cappuccino $environment) : Node
 	{
 		if (self::OPTIMIZE_FOR === (self::OPTIMIZE_FOR & $this->optimizers))
 			$this->enterOptimizeFor($node);
@@ -70,9 +70,9 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	protected function doLeaveNode (Node $node, Environment $environment) : Node
+	protected function doLeaveNode (Node $node, Cappuccino $environment) : Node
 	{
 		if (self::OPTIMIZE_FOR === (self::OPTIMIZE_FOR & $this->optimizers))
 			$this->leaveOptimizeFor($node);
@@ -90,7 +90,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 *
 	 * @return Node
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function optimizePrintNode (Node $node) : Node
 	{
@@ -116,7 +116,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 *
 	 * @return Node
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function optimizeRawFilter (Node $node)
 	{
@@ -132,7 +132,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @param Node $node
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function enterOptimizeFor (Node $node)
 	{
@@ -180,7 +180,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @param Node $node
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function leaveOptimizeFor (Node $node)
 	{
@@ -196,7 +196,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * Adds loop to current.
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function addLoopToCurrent ()
 	{
@@ -207,7 +207,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * Adds loop to all.
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function addLoopToAll ()
 	{
@@ -218,7 +218,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getPriority () : int
 	{

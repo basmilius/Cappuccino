@@ -8,19 +8,19 @@ namespace Bas\Cappuccino\RuntimeLoader;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\RuntimeLoader
- * @version 2.3.0
+ * @version 1.0.0
  */
 interface RuntimeLoaderInterface
 {
 
 	/**
-	 * Creates the runtime implementation of a Twig element (filter/function/test).
+	 * Creates the runtime implementation of a Cappuccino element (filter/function/test).
 	 *
 	 * @param string $class
 	 *
 	 * @return mixed
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function load (string $class);
 

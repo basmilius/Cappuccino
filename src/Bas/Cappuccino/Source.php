@@ -8,7 +8,7 @@ namespace Bas\Cappuccino;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class Source
 {
@@ -36,7 +36,7 @@ final class Source
 	 * @param string      $path
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (string $code, ?string $name, string $path = '')
 	{
@@ -50,7 +50,7 @@ final class Source
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getCode () : string
 	{
@@ -62,7 +62,7 @@ final class Source
 	 *
 	 * @return string|null
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getName () : ?string
 	{
@@ -74,7 +74,7 @@ final class Source
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getPath () : string
 	{

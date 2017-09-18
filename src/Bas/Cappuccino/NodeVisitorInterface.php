@@ -10,7 +10,7 @@ use Bas\Cappuccino\Node\Node;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
- * @since 2.3.0
+ * @since 1.0.0
  */
 interface NodeVisitorInterface
 {
@@ -18,33 +18,33 @@ interface NodeVisitorInterface
 	/**
 	 * Called before child nodes are visited.
 	 *
-	 * @param Node        $node
-	 * @param Environment $env
+	 * @param Node       $node
+	 * @param Cappuccino $env
 	 *
 	 * @return Node
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	public function enterNode (Node $node, Environment $env) : Node;
+	public function enterNode (Node $node, Cappuccino $env) : Node;
 
 	/**
 	 * Called after child nodes are visited.
 	 *
-	 * @param Node        $node
-	 * @param Environment $env
+	 * @param Node       $node
+	 * @param Cappuccino $env
 	 *
 	 * @return Node
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	public function leaveNode (Node $node, Environment $env) : Node;
+	public function leaveNode (Node $node, Cappuccino $env) : Node;
 
 	/**
 	 * Returns the priority for this visitor.
 	 *
 	 * @return int
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getPriority () : int;
 

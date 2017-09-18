@@ -8,7 +8,7 @@ namespace Bas\Cappuccino\Sandbox;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Sandbox
- * @version 2.3.0
+ * @version 1.0.0
  */
 interface SecurityPolicyInterface
 {
@@ -21,7 +21,7 @@ interface SecurityPolicyInterface
 	 * @param array $functions
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @throws SecurityNotAllowedFilterError
 	 * @throws SecurityNotAllowedFunctionError
 	 * @throws SecurityNotAllowedTagError
@@ -35,7 +35,7 @@ interface SecurityPolicyInterface
 	 * @param mixed $method
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @throws SecurityNotAllowedMethodError
 	 */
 	public function checkMethodAllowed ($obj, $method) : void;
@@ -47,7 +47,7 @@ interface SecurityPolicyInterface
 	 * @param mixed $method
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @throws SecurityNotAllowedPropertyError
 	 */
 	public function checkPropertyAllowed ($obj, $method) : void;

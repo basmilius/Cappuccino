@@ -11,13 +11,13 @@ use Throwable;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class TemplateWrapper
 {
 
 	/**
-	 * @var Environment
+	 * @var Cappuccino
 	 */
 	private $environment;
 
@@ -29,13 +29,13 @@ final class TemplateWrapper
 	/**
 	 * TemplateWrapper constructor.
 	 *
-	 * @param Environment $environment
-	 * @param Template    $template
+	 * @param Cappuccino $environment
+	 * @param Template   $template
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	public function __construct (Environment $environment, Template $template)
+	public function __construct (Cappuccino $environment, Template $template)
 	{
 		$this->environment = $environment;
 		$this->template = $template;
@@ -49,7 +49,7 @@ final class TemplateWrapper
 	 * @return string
 	 * @throws Throwable
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function render ($context = []) : string
 	{
@@ -63,7 +63,7 @@ final class TemplateWrapper
 	 *
 	 * @throws Exception
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function display (array $context = []) : void
 	{
@@ -80,7 +80,7 @@ final class TemplateWrapper
 	 * @throws Error\LoaderError
 	 * @throws Exception
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function hasBlock (string $name, array $context = []) : bool
 	{
@@ -96,7 +96,7 @@ final class TemplateWrapper
 	 * @throws Error\LoaderError
 	 * @throws Exception
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getBlockNames (array $context = []) : array
 	{
@@ -112,7 +112,7 @@ final class TemplateWrapper
 	 * @return string
 	 * @throws Throwable
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function renderBlock (string $name, array $context = []) : string
 	{
@@ -148,7 +148,7 @@ final class TemplateWrapper
 	 * @throws Error\RuntimeError
 	 * @throws Exception
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function displayBlock (string $name, array $context = []) : void
 	{
@@ -160,7 +160,7 @@ final class TemplateWrapper
 	 *
 	 * @return Source
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getSourceContext () : Source
 	{

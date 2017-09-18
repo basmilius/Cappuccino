@@ -8,7 +8,7 @@ namespace Bas\Cappuccino\Cache;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Cache
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class NullCache implements CacheInterface
 {
@@ -16,7 +16,7 @@ final class NullCache implements CacheInterface
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function generateKey (string $name, string $className) : string
 	{
@@ -26,7 +26,7 @@ final class NullCache implements CacheInterface
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function write (string $key, string $content) : void
 	{
@@ -35,7 +35,7 @@ final class NullCache implements CacheInterface
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function load (string $key) : void
 	{
@@ -44,7 +44,7 @@ final class NullCache implements CacheInterface
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getTimestamp (string $key) : int
 	{

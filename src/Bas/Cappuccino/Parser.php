@@ -23,7 +23,7 @@ use Bas\Cappuccino\TokenParser\TokenParserInterface;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
- * @version 2.3.0
+ * @version 1.0.0
  */
 class Parser
 {
@@ -57,12 +57,12 @@ class Parser
 	/**
 	 * Parser constructor.
 	 *
-	 * @param Environment $environment
+	 * @param Cappuccino $environment
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	public function __construct (Environment $environment)
+	public function __construct (Cappuccino $environment)
 	{
 		$this->environment = $environment;
 	}
@@ -72,7 +72,7 @@ class Parser
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getVarName () : string
 	{
@@ -89,7 +89,7 @@ class Parser
 	 * @return ModuleNode
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function parse (TokenStream $stream, ?callable $test = null, bool $dropNeedle = false) : ModuleNode
 	{
@@ -163,7 +163,7 @@ class Parser
 	 * @return Node
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function subparse (?callable $test, bool $dropNeedle = false) : Node
 	{
@@ -384,7 +384,7 @@ class Parser
 	 * @return Node|null
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function filterBodyNodes (Node $node) : ?Node
 	{
@@ -393,7 +393,7 @@ class Parser
 			if (strpos((string)$node, chr(0xEF) . chr(0xBB) . chr(0xBF)))
 				throw new SyntaxError('A template that extends another one cannot start with a byte order mark (BOM); it must be removed.', $node->getTemplateLine(), $this->stream->getSourceContext());
 
-			throw new SyntaxError('A template that extends another one cannot include contents outside Twig blocks. Did you forget to put the contents inside a {% block %} tag?', $node->getTemplateLine(), $this->stream->getSourceContext());
+			throw new SyntaxError('A template that extends another one cannot include contents outside Cappuccino blocks. Did you forget to put the contents inside a {% block %} tag?', $node->getTemplateLine(), $this->stream->getSourceContext());
 		}
 
 		if ($node instanceof NodeCaptureInterface)

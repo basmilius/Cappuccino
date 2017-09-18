@@ -13,7 +13,7 @@ use Bas\Cappuccino\Token;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\TokenParser
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class IfTokenParser extends AbstractTokenParser
 {
@@ -21,7 +21,7 @@ final class IfTokenParser extends AbstractTokenParser
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function parse (Token $token) : Node
 	{
@@ -56,7 +56,7 @@ final class IfTokenParser extends AbstractTokenParser
 					break;
 
 				default:
-					throw new SyntaxError(sprintf('Unexpected end of template. Twig was looking for the following tags "else", "elseif", or "endif" to close the "if" block started at line %d).', $lineno), $stream->getCurrent()->getLine(), $stream->getSourceContext());
+					throw new SyntaxError(sprintf('Unexpected end of template. Cappuccino was looking for the following tags "else", "elseif", or "endif" to close the "if" block started at line %d).', $lineno), $stream->getCurrent()->getLine(), $stream->getSourceContext());
 			}
 		}
 
@@ -72,7 +72,7 @@ final class IfTokenParser extends AbstractTokenParser
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function decideIfFork (Token $token) : bool
 	{
@@ -86,7 +86,7 @@ final class IfTokenParser extends AbstractTokenParser
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function decideIfEnd (Token $token) : bool
 	{
@@ -96,7 +96,7 @@ final class IfTokenParser extends AbstractTokenParser
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getTag () : string
 	{

@@ -11,12 +11,12 @@ use Bas\Cappuccino\Error\SyntaxError;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
- * @version 2.3.0
+ * @version 1.0.0
  */
 class MacroNode extends Node
 {
 
-	const VARARGS_NAME = 'varargs';
+	public const VARARGS_NAME = 'varargs';
 
 	/**
 	 * MacroNode constructor.
@@ -28,7 +28,7 @@ class MacroNode extends Node
 	 * @param null|string $tag
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 * @throws SyntaxError
 	 */
 	public function __construct (string $name, Node $body, Node $arguments, int $lineno, ?string $tag = null)
@@ -43,7 +43,7 @@ class MacroNode extends Node
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function compile (Compiler $compiler) : void
 	{

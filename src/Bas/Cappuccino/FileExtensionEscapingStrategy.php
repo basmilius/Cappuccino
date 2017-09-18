@@ -8,7 +8,7 @@ namespace Bas\Cappuccino;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
- * @version 2.3.0
+ * @version 1.0.0
  */
 class FileExtensionEscapingStrategy
 {
@@ -20,14 +20,14 @@ class FileExtensionEscapingStrategy
 	 *
 	 * @return bool|string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public static function guess (string $name)
 	{
 		if (in_array(substr($name, -1), ['/', '\\']))
 			return 'html';
 
-		if (substr($name, -5) === '.twig')
+		if (substr($name, -strlen(Cappuccino::DEFAULT_EXTENSION)) === Cappuccino::DEFAULT_EXTENSION)
 			$name = substr($name, 0, -5);
 
 		$extension = pathinfo($name, PATHINFO_EXTENSION);

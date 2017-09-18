@@ -11,7 +11,7 @@ use LogicException;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
- * @since 2.3.0
+ * @since 1.0.0
  */
 class Compiler
 {
@@ -27,12 +27,12 @@ class Compiler
 	/**
 	 * Compiler constructor.
 	 *
-	 * @param Environment $environment
+	 * @param Cappuccino $environment
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	public function __construct (Environment $environment)
+	public function __construct (Cappuccino $environment)
 	{
 		$this->environment = $environment;
 	}
@@ -40,11 +40,11 @@ class Compiler
 	/**
 	 * Gets the Environment instance.
 	 *
-	 * @return Environment
+	 * @return Cappuccino
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	public function getEnvironment () : Environment
+	public function getEnvironment () : Cappuccino
 	{
 		return $this->environment;
 	}
@@ -54,7 +54,7 @@ class Compiler
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getSource () : string
 	{
@@ -69,7 +69,7 @@ class Compiler
 	 *
 	 * @return Compiler
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function compile (Node $node, int $indentation = 0) : Compiler
 	{
@@ -94,7 +94,7 @@ class Compiler
 	 *
 	 * @return Compiler
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function subcompile (Node $node, bool $raw = true) : Compiler
 	{
@@ -113,7 +113,7 @@ class Compiler
 	 *
 	 * @return Compiler
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function raw (string $string) : Compiler
 	{
@@ -129,7 +129,7 @@ class Compiler
 	 *
 	 * @return Compiler
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function write (string ...$strings) : Compiler
 	{
@@ -146,7 +146,7 @@ class Compiler
 	 *
 	 * @return Compiler
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function string (string $value) : Compiler
 	{
@@ -162,7 +162,7 @@ class Compiler
 	 *
 	 * @return Compiler
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function repr ($value) : Compiler
 	{
@@ -216,7 +216,7 @@ class Compiler
 	 *
 	 * @return Compiler
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function addDebugInfo (Node $node) : Compiler
 	{
@@ -239,7 +239,7 @@ class Compiler
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getDebugInfo () : array
 	{
@@ -255,7 +255,7 @@ class Compiler
 	 *
 	 * @return Compiler
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function indent (int $step = 1) : Compiler
 	{
@@ -271,7 +271,7 @@ class Compiler
 	 *
 	 * @return Compiler
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function outdent (int $step = 1) : Compiler
 	{
@@ -288,7 +288,7 @@ class Compiler
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getVarName () : string
 	{

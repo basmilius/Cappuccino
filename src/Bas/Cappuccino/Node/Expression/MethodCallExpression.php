@@ -10,7 +10,7 @@ use Bas\Cappuccino\Compiler;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression
- * @version 2.3.0
+ * @version 1.0.0
  */
 class MethodCallExpression extends AbstractExpression
 {
@@ -24,7 +24,7 @@ class MethodCallExpression extends AbstractExpression
 	 * @param int                $lineno
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (AbstractExpression $node, string $method, ArrayExpression $arguments, int $lineno)
 	{
@@ -37,7 +37,7 @@ class MethodCallExpression extends AbstractExpression
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function compile (Compiler $compiler) : void
 	{

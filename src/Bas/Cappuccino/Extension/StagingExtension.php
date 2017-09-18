@@ -15,7 +15,7 @@ use LogicException;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class StagingExtension extends AbstractExtension
 {

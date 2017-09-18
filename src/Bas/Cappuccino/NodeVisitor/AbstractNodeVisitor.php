@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Bas\Cappuccino\NodeVisitor;
 
-use Bas\Cappuccino\Environment;
+use Bas\Cappuccino\Cappuccino;
 use Bas\Cappuccino\Node\Node;
 use Bas\Cappuccino\NodeVisitorInterface;
 
@@ -12,7 +12,7 @@ use Bas\Cappuccino\NodeVisitorInterface;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
- * @since 2.3.0
+ * @since 1.0.0
  */
 abstract class AbstractNodeVisitor implements NodeVisitorInterface
 {
@@ -20,9 +20,9 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	final public function enterNode (Node $node, Environment $env) : Node
+	final public function enterNode (Node $node, Cappuccino $env) : Node
 	{
 		return $this->doEnterNode($node, $env);
 	}
@@ -30,9 +30,9 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	final public function leaveNode (Node $node, Environment $env) : Node
+	final public function leaveNode (Node $node, Cappuccino $env) : Node
 	{
 		return $this->doLeaveNode($node, $env);
 	}
@@ -40,28 +40,28 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
 	/**
 	 * Does enterMode function.
 	 *
-	 * @param Node        $node
-	 * @param Environment $environment
+	 * @param Node       $node
+	 * @param Cappuccino $environment
 	 *
 	 * @return Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @see AbstractNodeVisitor::enterNode()
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	protected abstract function doEnterNode (Node $node, Environment $environment) : Node;
+	protected abstract function doEnterNode (Node $node, Cappuccino $environment) : Node;
 
 	/**
 	 * Does leaveMode function.
 	 *
-	 * @param Node        $node
-	 * @param Environment $env
+	 * @param Node       $node
+	 * @param Cappuccino $env
 	 *
 	 * @return Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @see AbstractNodeVisitor::leaveNode()
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	protected abstract function doLeaveNode (Node $node, Environment $env) : Node;
+	protected abstract function doLeaveNode (Node $node, Cappuccino $env) : Node;
 
 }
 

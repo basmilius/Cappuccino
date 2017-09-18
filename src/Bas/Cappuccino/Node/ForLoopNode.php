@@ -10,7 +10,7 @@ use Bas\Cappuccino\Compiler;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
- * @version 2.3.0
+ * @version 1.0.0
  */
 class ForLoopNode extends Node
 {
@@ -22,7 +22,7 @@ class ForLoopNode extends Node
 	 * @param string|null $tag
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (int $lineno, ?string $tag = null)
 	{
@@ -32,7 +32,7 @@ class ForLoopNode extends Node
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function compile (Compiler $compiler) : void
 	{

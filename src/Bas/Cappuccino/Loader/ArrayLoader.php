@@ -11,7 +11,7 @@ use Bas\Cappuccino\Source;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Loader
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class ArrayLoader implements LoaderInterface, ExistsLoaderInterface, SourceContextLoaderInterface
 {
@@ -27,7 +27,7 @@ final class ArrayLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	 * @param string[] $templates
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (array $templates = [])
 	{
@@ -41,7 +41,7 @@ final class ArrayLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	 * @param string $template
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function setTemplate (string $name, string $template) : void
 	{
@@ -51,7 +51,7 @@ final class ArrayLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getSourceContext (string $name) : Source
 	{
@@ -66,7 +66,7 @@ final class ArrayLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function exists (string $name) : bool
 	{
@@ -76,7 +76,7 @@ final class ArrayLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getCacheKey (string $name) : string
 	{
@@ -89,7 +89,7 @@ final class ArrayLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function isFresh (string $name, int $time) : bool
 	{

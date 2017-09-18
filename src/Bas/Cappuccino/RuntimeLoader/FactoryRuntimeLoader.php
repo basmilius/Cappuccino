@@ -8,7 +8,7 @@ namespace Bas\Cappuccino\RuntimeLoader;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\RuntimeLoader
- * @version 2.3.0
+ * @version 1.0.0
  */
 class FactoryRuntimeLoader implements RuntimeLoaderInterface
 {
@@ -24,7 +24,7 @@ class FactoryRuntimeLoader implements RuntimeLoaderInterface
 	 * @param array $map
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (array $map = [])
 	{
@@ -34,7 +34,7 @@ class FactoryRuntimeLoader implements RuntimeLoaderInterface
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function load (string $class)
 	{

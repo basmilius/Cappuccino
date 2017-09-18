@@ -11,7 +11,7 @@ use Bas\Cappuccino\Extension\SandboxExtension;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
- * @version 2.3.0
+ * @version 1.0.0
  */
 class SandboxNode extends Node
 {
@@ -24,7 +24,7 @@ class SandboxNode extends Node
 	 * @param string|null $tag
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (Node $body, int $lineno, ?string $tag = null)
 	{
@@ -34,7 +34,7 @@ class SandboxNode extends Node
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function compile (Compiler $compiler) : void
 	{

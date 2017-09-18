@@ -8,7 +8,7 @@ namespace Bas\Cappuccino\Loader;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Loader
- * @version 2.3.0
+ * @version 1.0.0
  */
 interface ExistsLoaderInterface extends LoaderInterface
 {

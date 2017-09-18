@@ -10,7 +10,7 @@ use Bas\Cappuccino\Profiler\Profile;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Profiler\Dumper
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class BlackfireDumper
 {
@@ -22,7 +22,7 @@ final class BlackfireDumper
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function dump (Profile $profile)
 	{
@@ -55,7 +55,7 @@ EOF;
 	 * @param         $data
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function dumpChildren ($parent, Profile $profile, &$data)
 	{
@@ -82,7 +82,7 @@ EOF;
 	 * @param         $data
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function dumpProfile ($edge, Profile $profile, &$data)
 	{

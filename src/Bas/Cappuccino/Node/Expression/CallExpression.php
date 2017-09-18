@@ -19,7 +19,7 @@ use ReflectionParameter;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression
- * @version 2.3.0
+ * @version 1.0.0
  */
 abstract class CallExpression extends AbstractExpression
 {
@@ -33,7 +33,7 @@ abstract class CallExpression extends AbstractExpression
 	 *
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	protected function compileCallable (Compiler $compiler) : void
 	{
@@ -80,7 +80,7 @@ abstract class CallExpression extends AbstractExpression
 	 *
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	protected function compileArguments (Compiler $compiler) : void
 	{
@@ -152,7 +152,7 @@ abstract class CallExpression extends AbstractExpression
 	 * @return array
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	protected function getArguments (?callable $callable = null, $arguments) : array
 	{
@@ -309,7 +309,7 @@ abstract class CallExpression extends AbstractExpression
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	protected function normalizeName (string $name) : string
 	{
@@ -324,7 +324,7 @@ abstract class CallExpression extends AbstractExpression
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function getCallableParameters (?string $callable, bool $isVariadic) : array
 	{
@@ -386,7 +386,7 @@ abstract class CallExpression extends AbstractExpression
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function reflectCallable ($callable) : array
 	{

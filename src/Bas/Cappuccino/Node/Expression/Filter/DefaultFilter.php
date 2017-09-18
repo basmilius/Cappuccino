@@ -17,7 +17,7 @@ use Bas\Cappuccino\Node\Node;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression\Filter
- * @version 2.3.0
+ * @version 1.0.0
  */
 class DefaultFilter extends FilterExpression
 {
@@ -32,7 +32,7 @@ class DefaultFilter extends FilterExpression
 	 * @param mixed              $tag
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (Node $node, ConstantExpression $filterName, Node $arguments, $lineno, $tag = null)
 	{
@@ -56,7 +56,7 @@ class DefaultFilter extends FilterExpression
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function compile (Compiler $compiler) : void
 	{

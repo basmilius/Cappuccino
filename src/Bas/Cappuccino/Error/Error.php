@@ -3,9 +3,9 @@ declare(strict_types=1);
 
 namespace Bas\Cappuccino\Error;
 
-use Exception;
 use Bas\Cappuccino\Source;
 use Bas\Cappuccino\Template;
+use Exception;
 use ReflectionObject;
 
 /**
@@ -13,7 +13,7 @@ use ReflectionObject;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Error
- * @version 2.3.0
+ * @version 1.0.0
  */
 class Error extends Exception
 {
@@ -33,7 +33,7 @@ class Error extends Exception
 	 * @param Exception|null $previous
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (string $message, int $lineno = -1, ?Source $source = null, ?Exception $previous = null)
 	{
@@ -45,7 +45,6 @@ class Error extends Exception
 		}
 		else if (!$source instanceof Source)
 		{
-			// for compat with the Twig C ext., passing the template name as string is accepted
 			$name = $source;
 		}
 		else
@@ -101,7 +100,7 @@ class Error extends Exception
 	}
 
 	/**
-	 * Gets the source context of the Twig template where the error occurred.
+	 * Gets the source context of the Cappuccino template where the error occurred.
 	 *
 	 * @return Source|null
 	 */
@@ -111,7 +110,7 @@ class Error extends Exception
 	}
 
 	/**
-	 * Sets the source context of the Twig template where the error occurred.
+	 * Sets the source context of the Cappuccino template where the error occurred.
 	 *
 	 * @param Source|null $source
 	 */

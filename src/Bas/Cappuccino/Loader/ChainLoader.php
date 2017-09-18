@@ -11,7 +11,7 @@ use Bas\Cappuccino\Source;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Loader
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class ChainLoader implements LoaderInterface, ExistsLoaderInterface, SourceContextLoaderInterface
 {
@@ -32,7 +32,7 @@ final class ChainLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	 * @param LoaderInterface[] $loaders
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (array $loaders = [])
 	{
@@ -46,7 +46,7 @@ final class ChainLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	 * @param LoaderInterface $loader
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function addLoader (LoaderInterface $loader) : void
 	{
@@ -57,7 +57,7 @@ final class ChainLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getSourceContext (string $name) : Source
 	{
@@ -84,7 +84,7 @@ final class ChainLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function exists (string $name) : bool
 	{
@@ -101,7 +101,7 @@ final class ChainLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getCacheKey (string $name) : string
 	{
@@ -128,7 +128,7 @@ final class ChainLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function isFresh (string $name, int $time) : bool
 	{

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Bas\Cappuccino\NodeVisitor;
 
-use Bas\Cappuccino\Environment;
+use Bas\Cappuccino\Cappuccino;
 use Bas\Cappuccino\Node\CheckSecurityNode;
 use Bas\Cappuccino\Node\Expression\AbstractExpression;
 use Bas\Cappuccino\Node\Expression\FilterExpression;
@@ -24,9 +24,9 @@ final class SandboxNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	protected function doEnterNode (Node $node, Environment $environment) : Node
+	protected function doEnterNode (Node $node, Cappuccino $environment) : Node
 	{
 		if ($node instanceof ModuleNode)
 		{
@@ -69,9 +69,9 @@ final class SandboxNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	protected function doLeaveNode (Node $node, Environment $env) : Node
+	protected function doLeaveNode (Node $node, Cappuccino $env) : Node
 	{
 		if ($node instanceof ModuleNode)
 		{
@@ -86,7 +86,7 @@ final class SandboxNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getPriority () : int
 	{

@@ -11,12 +11,12 @@ use Bas\Cappuccino\Source;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Loader
- * @version 2.3.0
+ * @version 1.0.0
  */
 class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, SourceContextLoaderInterface
 {
 
-	const MAIN_NAMESPACE = '__main__';
+	public const MAIN_NAMESPACE = 'CappuccinoMain';
 
 	protected $paths = [];
 	protected $cache = [];
@@ -32,7 +32,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 *
 	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (array $paths = [], ?string $rootPath = null)
 	{
@@ -52,7 +52,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 *
 	 * @return string[]
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getPaths (string $namespace = self::MAIN_NAMESPACE) : array
 	{
@@ -64,7 +64,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 *
 	 * @return string[]
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getNamespaces () : array
 	{
@@ -79,7 +79,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 *
 	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function setPaths (array $paths, string $namespace = self::MAIN_NAMESPACE) : void
 	{
@@ -100,7 +100,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 *
 	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function addPath (string $path, string $namespace = self::MAIN_NAMESPACE) : void
 	{
@@ -122,7 +122,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 *
 	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function prependPath (string $path, string $namespace = self::MAIN_NAMESPACE)
 	{
@@ -144,7 +144,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getSourceContext (string $name) : Source
 	{
@@ -156,7 +156,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getCacheKey (string $name) : string
 	{
@@ -172,7 +172,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function exists (string $name) : bool
 	{
@@ -187,7 +187,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function isFresh (string $name, int $time) : bool
 	{
@@ -203,7 +203,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 * @return string|bool|mixed
 	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	protected function findTemplate (string $name, bool $throw = true)
 	{
@@ -263,7 +263,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function normalizeName (string $name) : string
 	{
@@ -279,7 +279,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 * @return array
 	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function parseName (string $name, string $default = self::MAIN_NAMESPACE) : array
 	{
@@ -304,7 +304,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 *
 	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function validateName (string $name) : void
 	{
@@ -334,7 +334,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function isAbsolutePath (string $file) : bool
 	{

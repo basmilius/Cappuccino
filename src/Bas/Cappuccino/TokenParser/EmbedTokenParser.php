@@ -14,7 +14,7 @@ use Bas\Cappuccino\Token;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\TokenParser
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class EmbedTokenParser extends IncludeTokenParser
 {
@@ -22,7 +22,7 @@ final class EmbedTokenParser extends IncludeTokenParser
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function parse (Token $token) : Node
 	{
@@ -59,7 +59,7 @@ final class EmbedTokenParser extends IncludeTokenParser
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function decideBlockEnd (Token $token) : bool
 	{
@@ -69,7 +69,7 @@ final class EmbedTokenParser extends IncludeTokenParser
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getTag () : string
 	{

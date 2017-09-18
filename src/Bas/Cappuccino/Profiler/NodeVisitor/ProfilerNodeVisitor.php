@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace Bas\Cappuccino\Profiler\NodeVisitor;
 
-use Bas\Cappuccino\Environment;
+use Bas\Cappuccino\Cappuccino;
 use Bas\Cappuccino\Node\BlockNode;
 use Bas\Cappuccino\Node\BodyNode;
 use Bas\Cappuccino\Node\MacroNode;
@@ -19,7 +19,7 @@ use Bas\Cappuccino\Profiler\Profile;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Profiler\NodeVisitor
- * @version 2.3.0
+ * @version 1.0.0
  */
 final class ProfilerNodeVisitor extends AbstractNodeVisitor
 {
@@ -35,7 +35,7 @@ final class ProfilerNodeVisitor extends AbstractNodeVisitor
 	 * @param string $extensionName
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function __construct (string $extensionName)
 	{
@@ -45,9 +45,9 @@ final class ProfilerNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	protected function doEnterNode (Node $node, Environment $environment) : Node
+	protected function doEnterNode (Node $node, Cappuccino $environment) : Node
 	{
 		return $node;
 	}
@@ -55,9 +55,9 @@ final class ProfilerNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
-	protected function doLeaveNode (Node $node, Environment $env) : Node
+	protected function doLeaveNode (Node $node, Cappuccino $env) : Node
 	{
 		if ($node instanceof ModuleNode)
 		{
@@ -92,7 +92,7 @@ final class ProfilerNodeVisitor extends AbstractNodeVisitor
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function getVarName () : string
 	{
@@ -102,7 +102,7 @@ final class ProfilerNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function getPriority () : int
 	{

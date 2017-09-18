@@ -12,7 +12,7 @@ use Bas\Cappuccino\Node\Expression\FilterExpression;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
- * @version 2.3.0
+ * @version 1.0.0
  */
 class SandboxedPrintNode extends PrintNode
 {
@@ -20,7 +20,7 @@ class SandboxedPrintNode extends PrintNode
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	public function compile (Compiler $compiler) : void
 	{
@@ -40,7 +40,7 @@ class SandboxedPrintNode extends PrintNode
 	 *
 	 * @return Node
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.3.0
+	 * @since 1.0.0
 	 */
 	private function removeNodeFilter (Node $node) : Node
 	{
