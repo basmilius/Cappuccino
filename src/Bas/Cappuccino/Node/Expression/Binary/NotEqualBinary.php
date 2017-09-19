@@ -1,13 +1,15 @@
 <?php
 declare(strict_types=1);
 
+namespace Bas\Cappuccino\Node\Expression\Binary;
+
 use Bas\Cappuccino\Compiler;
-use Bas\Cappuccino\Node\Expression\Binary\AbstractBinary;
 
 /**
  * Class NotEqualBinary
  *
  * @author Bas Milius <bas@mili.us>
+ * @package Bas\Cappuccino\Node\Expression\Binary
  * @version 1.0.0
  */
 class NotEqualBinary extends AbstractBinary

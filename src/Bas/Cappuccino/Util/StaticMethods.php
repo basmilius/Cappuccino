@@ -260,6 +260,19 @@ class StaticMethods
 			$ext->checkMethodAllowed($object, $method);
 		}
 
+		array_walk($arguments, function (&$value) : void
+		{
+			if (ctype_digit($value))
+			{
+				$floatVal = floatval($value);
+
+				if ($floatVal && intval($value) != $floatVal)
+					$value = $floatVal;
+				else
+					$value = intval($value);
+			}
+		});
+
 		try
 		{
 			$ret = $object->$method(...$arguments);

@@ -55,7 +55,7 @@ final class UseTokenParser extends AbstractTokenParser
 
 		$this->parser->addTrait(new Node(['template' => $template, 'targets' => new Node($targets)]));
 
-		return null;
+		return new Node();
 	}
 
 	/**
