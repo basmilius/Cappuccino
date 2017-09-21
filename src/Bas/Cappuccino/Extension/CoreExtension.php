@@ -339,11 +339,14 @@ final class CoreExtension extends AbstractExtension
 	{
 		return [
 			[
+				'!' => ['precedence' => 50, 'class' => NotUnary::class], // Added 21-09-2017
 				'not' => ['precedence' => 50, 'class' => NotUnary::class],
 				'-' => ['precedence' => 500, 'class' => NegUnary::class],
-				'+' => ['precedence' => 500, 'class' => PosUnary::class],
+				'+' => ['precedence' => 500, 'class' => PosUnary::class]
 			],
 			[
+				'||' => ['precedence' => 10, 'class' => OrBinary::class, 'associativity' => ExpressionParser::OPERATOR_LEFT], // Added 21-09-2017
+				'&&' => ['precedence' => 15, 'class' => AndBinary::class, 'associativity' => ExpressionParser::OPERATOR_LEFT], // Added 21-09-2017
 				'or' => ['precedence' => 10, 'class' => OrBinary::class, 'associativity' => ExpressionParser::OPERATOR_LEFT],
 				'and' => ['precedence' => 15, 'class' => AndBinary::class, 'associativity' => ExpressionParser::OPERATOR_LEFT],
 				'b-or' => ['precedence' => 16, 'class' => BitwiseOrBinary::class, 'associativity' => ExpressionParser::OPERATOR_LEFT],
@@ -371,7 +374,7 @@ final class CoreExtension extends AbstractExtension
 				'is' => ['precedence' => 100, 'associativity' => ExpressionParser::OPERATOR_LEFT],
 				'is not' => ['precedence' => 100, 'associativity' => ExpressionParser::OPERATOR_LEFT],
 				'**' => ['precedence' => 200, 'class' => PowerBinary::class, 'associativity' => ExpressionParser::OPERATOR_RIGHT],
-				'??' => ['precedence' => 300, 'class' => NullCoalesceExpression::class, 'associativity' => ExpressionParser::OPERATOR_RIGHT],
+				'??' => ['precedence' => 300, 'class' => NullCoalesceExpression::class, 'associativity' => ExpressionParser::OPERATOR_RIGHT]
 			],
 		];
 	}
