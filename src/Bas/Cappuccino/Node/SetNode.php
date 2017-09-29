@@ -52,7 +52,7 @@ class SetNode extends Node implements NodeCaptureInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler) : void
+	public function compile (Compiler $compiler): void
 	{
 		$classMarkup = Markup::class;
 

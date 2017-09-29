@@ -52,7 +52,7 @@ final class TemplateWrapper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function render ($context = []) : string
+	public function render ($context = []): string
 	{
 		return $this->template->render($context);
 	}
@@ -66,7 +66,7 @@ final class TemplateWrapper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function display (array $context = []) : void
+	public function display (array $context = []): void
 	{
 		$this->template->display($context);
 	}
@@ -83,7 +83,7 @@ final class TemplateWrapper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function hasBlock (string $name, array $context = []) : bool
+	public function hasBlock (string $name, array $context = []): bool
 	{
 		return $this->template->hasBlock($name, $context);
 	}
@@ -99,7 +99,7 @@ final class TemplateWrapper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getBlockNames (array $context = []) : array
+	public function getBlockNames (array $context = []): array
 	{
 		return $this->template->getBlockNames($context);
 	}
@@ -116,7 +116,7 @@ final class TemplateWrapper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function renderBlock (string $name, array $context = []) : string
+	public function renderBlock (string $name, array $context = []): string
 	{
 		$context = $this->cappuccino->mergeGlobals($context);
 		$level = ob_get_level();
@@ -151,7 +151,7 @@ final class TemplateWrapper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function displayBlock (string $name, array $context = []) : void
+	public function displayBlock (string $name, array $context = []): void
 	{
 		$this->template->displayBlock($name, $this->cappuccino->mergeGlobals($context));
 	}
@@ -163,7 +163,7 @@ final class TemplateWrapper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getSourceContext () : Source
+	public function getSourceContext (): Source
 	{
 		return $this->template->getSourceContext();
 	}

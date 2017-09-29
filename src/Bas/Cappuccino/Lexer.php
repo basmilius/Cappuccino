@@ -85,7 +85,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function tokenize (Source $source) : TokenStream
+	public function tokenize (Source $source): TokenStream
 	{
 		$this->source = $source;
 		$this->code = str_replace(["\r\n", "\r"], "\n", $source->getCode());
@@ -142,7 +142,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function lexData () : void
+	private function lexData (): void
 	{
 		if ($this->position == count($this->positions[0]) - 1)
 		{
@@ -208,7 +208,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function lexBlock () : void
+	private function lexBlock (): void
 	{
 		if (empty($this->brackets) && preg_match($this->regexes['lex_block'], $this->code, $match, 0, $this->cursor))
 		{
@@ -227,7 +227,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function lexVar () : void
+	private function lexVar (): void
 	{
 		if (empty($this->brackets) && preg_match($this->regexes['lex_var'], $this->code, $match, 0, $this->cursor))
 		{
@@ -246,7 +246,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function lexExpression () : void
+	private function lexExpression (): void
 	{
 		if (preg_match('/\s+/A', $this->code, $match, 0, $this->cursor))
 		{
@@ -320,7 +320,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function lexRawData () : void
+	private function lexRawData (): void
 	{
 		if (!preg_match($this->regexes['lex_raw_data'], $this->code, $match, PREG_OFFSET_CAPTURE, $this->cursor))
 			throw new SyntaxError('Unexpected end of file: Unclosed "verbatim" block.', $this->lineno, $this->source);
@@ -339,7 +339,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function lexComment () : void
+	private function lexComment (): void
 	{
 		if (!preg_match($this->regexes['lex_comment'], $this->code, $match, PREG_OFFSET_CAPTURE, $this->cursor))
 			throw new SyntaxError('Unclosed comment.', $this->lineno, $this->source);
@@ -352,7 +352,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function lexString () : void
+	private function lexString (): void
 	{
 		if (preg_match($this->regexes['interpolation_start'], $this->code, $match, null, $this->cursor))
 		{
@@ -383,7 +383,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function lexInterpolation () : void
+	private function lexInterpolation (): void
 	{
 		$bracket = end($this->brackets);
 
@@ -407,7 +407,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function pushToken (int $type, string $value = '') : void
+	private function pushToken (int $type, string $value = ''): void
 	{
 		if (Token::TEXT_TYPE === $type && $value === '')
 			return;
@@ -421,7 +421,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function moveCursor ($text) : void
+	private function moveCursor ($text): void
 	{
 		$this->cursor += strlen($text);
 		$this->lineno += substr_count($text, "\n");
@@ -432,7 +432,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function getOperatorRegex () : string
+	private function getOperatorRegex (): string
 	{
 		$operators = array_merge(
 			['='],
@@ -463,7 +463,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function pushState ($state) : void
+	private function pushState ($state): void
 	{
 		$this->states[] = $this->state;
 		$this->state = $state;
@@ -473,7 +473,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function popState () : void
+	private function popState (): void
 	{
 		if (0 === count($this->states))
 			throw new LogicException('Cannot pop state without a previous state.');

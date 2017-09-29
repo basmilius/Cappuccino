@@ -22,7 +22,7 @@ class SandboxedPrintNode extends PrintNode
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler) : void
+	public function compile (Compiler $compiler): void
 	{
 		$classSandboxExtension = SandboxExtension::class;
 
@@ -42,7 +42,7 @@ class SandboxedPrintNode extends PrintNode
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function removeNodeFilter (Node $node) : Node
+	private function removeNodeFilter (Node $node): Node
 	{
 		if ($node instanceof FilterExpression)
 			return $this->removeNodeFilter($node->getNode('node'));

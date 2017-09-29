@@ -55,7 +55,7 @@ final class StagingExtension extends AbstractExtension
 		$this->functions[$function->getName()] = $function;
 	}
 
-	public function getFunctions () : array
+	public function getFunctions (): array
 	{
 		return $this->functions;
 	}
@@ -70,7 +70,7 @@ final class StagingExtension extends AbstractExtension
 		$this->filters[$filter->getName()] = $filter;
 	}
 
-	public function getFilters () : array
+	public function getFilters (): array
 	{
 		return $this->filters;
 	}
@@ -80,7 +80,7 @@ final class StagingExtension extends AbstractExtension
 		$this->visitors[] = $visitor;
 	}
 
-	public function getNodeVisitors () : array
+	public function getNodeVisitors (): array
 	{
 		return $this->visitors;
 	}
@@ -95,7 +95,7 @@ final class StagingExtension extends AbstractExtension
 		$this->tokenParsers[$parser->getTag()] = $parser;
 	}
 
-	public function getTokenParsers () : array
+	public function getTokenParsers (): array
 	{
 		return $this->tokenParsers;
 	}
@@ -108,7 +108,7 @@ final class StagingExtension extends AbstractExtension
 		$this->tests[$test->getName()] = $test;
 	}
 
-	public function getTests () : array
+	public function getTests (): array
 	{
 		return $this->tests;
 	}

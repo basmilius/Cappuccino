@@ -26,7 +26,7 @@ interface LoaderInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getSourceContext (string $name) : Source;
+	public function getSourceContext (string $name): Source;
 
 	/**
 	 * Gets the cache key to use for the cache for a given template name.
@@ -38,7 +38,7 @@ interface LoaderInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getCacheKey (string $name) : string;
+	public function getCacheKey (string $name): string;
 
 	/**
 	 * Returns TRUE if the template is still fresh.
@@ -51,7 +51,7 @@ interface LoaderInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isFresh (string $name, int $time) : bool;
+	public function isFresh (string $name, int $time): bool;
 
 	/**
 	 * Checks if we have the source code of a template, given its name.
@@ -63,6 +63,6 @@ interface LoaderInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function exists (string $name) : bool;
+	public function exists (string $name): bool;
 
 }

@@ -20,7 +20,7 @@ class TemplateDirIterator extends IteratorIterator
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function current () : string
+	public function current (): string
 	{
 		return file_get_contents(parent::current());
 	}
@@ -30,7 +30,7 @@ class TemplateDirIterator extends IteratorIterator
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function key () : string
+	public function key (): string
 	{
 		return (string)parent::key();
 	}

@@ -25,7 +25,7 @@ final class BlockTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token) : Node
+	public function parse (Token $token): Node
 	{
 		$lineno = $token->getLine();
 		$stream = $this->parser->getStream();
@@ -74,7 +74,7 @@ final class BlockTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.30.
 	 */
-	public function decideBlockEnd (Token $token) : bool
+	public function decideBlockEnd (Token $token): bool
 	{
 		return $token->test('endblock');
 	}
@@ -84,7 +84,7 @@ final class BlockTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag () : string
+	public function getTag (): string
 	{
 		return 'block';
 	}

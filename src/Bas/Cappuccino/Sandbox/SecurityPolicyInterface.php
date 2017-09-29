@@ -26,7 +26,7 @@ interface SecurityPolicyInterface
 	 * @throws SecurityNotAllowedFunctionError
 	 * @throws SecurityNotAllowedTagError
 	 */
-	public function checkSecurity (array $tags, array $filters, array $functions) : void;
+	public function checkSecurity (array $tags, array $filters, array $functions): void;
 
 	/**
 	 * Checks if a method is allowed.
@@ -38,7 +38,7 @@ interface SecurityPolicyInterface
 	 * @since 1.0.0
 	 * @throws SecurityNotAllowedMethodError
 	 */
-	public function checkMethodAllowed ($obj, $method) : void;
+	public function checkMethodAllowed ($obj, $method): void;
 
 	/**
 	 * Checks if a property is allowed.
@@ -50,6 +50,6 @@ interface SecurityPolicyInterface
 	 * @since 1.0.0
 	 * @throws SecurityNotAllowedPropertyError
 	 */
-	public function checkPropertyAllowed ($obj, $method) : void;
+	public function checkPropertyAllowed ($obj, $method): void;
 
 }

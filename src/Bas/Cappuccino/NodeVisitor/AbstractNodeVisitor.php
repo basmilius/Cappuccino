@@ -22,7 +22,7 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	final public function enterNode (Node $node, Cappuccino $env) : Node
+	final public function enterNode (Node $node, Cappuccino $env): Node
 	{
 		return $this->doEnterNode($node, $env);
 	}
@@ -32,7 +32,7 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	final public function leaveNode (Node $node, Cappuccino $env) : Node
+	final public function leaveNode (Node $node, Cappuccino $env): Node
 	{
 		return $this->doLeaveNode($node, $env);
 	}
@@ -48,7 +48,7 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
 	 * @see AbstractNodeVisitor::enterNode()
 	 * @since 1.0.0
 	 */
-	protected abstract function doEnterNode (Node $node, Cappuccino $cappuccino) : Node;
+	protected abstract function doEnterNode (Node $node, Cappuccino $cappuccino): Node;
 
 	/**
 	 * Does leaveMode function.
@@ -61,7 +61,7 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
 	 * @see AbstractNodeVisitor::leaveNode()
 	 * @since 1.0.0
 	 */
-	protected abstract function doLeaveNode (Node $node, Cappuccino $env) : Node;
+	protected abstract function doLeaveNode (Node $node, Cappuccino $env): Node;
 
 }
 

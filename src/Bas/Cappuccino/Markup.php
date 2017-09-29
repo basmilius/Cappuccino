@@ -46,7 +46,7 @@ class Markup implements Countable, JsonSerializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __toString () : string
+	public function __toString (): string
 	{
 		return $this->content;
 	}
@@ -56,7 +56,7 @@ class Markup implements Countable, JsonSerializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function count () : int
+	public function count (): int
 	{
 		return mb_strlen($this->content, $this->charset);
 	}
@@ -66,7 +66,7 @@ class Markup implements Countable, JsonSerializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function jsonSerialize () : string
+	public function jsonSerialize (): string
 	{
 		return $this->content;
 	}

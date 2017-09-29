@@ -46,7 +46,7 @@ class SecurityNotAllowedTagError extends SecurityError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTagName () : string
+	public function getTagName (): string
 	{
 		return $this->tagName;
 	}

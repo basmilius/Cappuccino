@@ -140,7 +140,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function hasExtension (string $class) : bool
+	public function hasExtension (string $class): bool
 	{
 		$class = ltrim($class, '\\');
 
@@ -160,7 +160,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getExtension (string $class) : ?ExtensionInterface
+	public function getExtension (string $class): ?ExtensionInterface
 	{
 		$class = ltrim($class, '\\');
 
@@ -181,7 +181,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setExtensions (array $extensions) : void
+	public function setExtensions (array $extensions): void
 	{
 		foreach ($extensions as $extension)
 			$this->addExtension($extension);
@@ -194,7 +194,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getExtensions () : array
+	public function getExtensions (): array
 	{
 		return $this->extensions;
 	}
@@ -206,7 +206,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getSignature () : string
+	public function getSignature (): string
 	{
 		return json_encode(array_keys($this->extensions));
 	}
@@ -218,7 +218,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isInitialized () : bool
+	public function isInitialized (): bool
 	{
 		return $this->initialized || $this->runtimeInitialized;
 	}
@@ -230,7 +230,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getLastModified () : int
+	public function getLastModified (): int
 	{
 		if ($this->lastModified !== 0)
 			return $this->lastModified;
@@ -254,7 +254,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addExtension (ExtensionInterface $extension) : void
+	public function addExtension (ExtensionInterface $extension): void
 	{
 		$class = get_class($extension);
 
@@ -275,7 +275,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addFunction (SimpleFunction $function) : void
+	public function addFunction (SimpleFunction $function): void
 	{
 		if ($this->initialized)
 			throw new LogicException(sprintf('Unable to add function "%s" as extensions have already been initialized.', $function->getName()));
@@ -288,7 +288,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFunctions () : array
+	public function getFunctions (): array
 	{
 		if (!$this->initialized)
 		{
@@ -307,7 +307,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFunction (string $name) : ?SimpleFunction
+	public function getFunction (string $name): ?SimpleFunction
 	{
 		if (!$this->initialized)
 			$this->initExtensions();
@@ -343,7 +343,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function registerUndefinedFunctionCallback (callable $callable) : void
+	public function registerUndefinedFunctionCallback (callable $callable): void
 	{
 		$this->functionCallbacks[] = $callable;
 	}
@@ -356,7 +356,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addFilter (SimpleFilter $filter) : void
+	public function addFilter (SimpleFilter $filter): void
 	{
 		if ($this->initialized)
 			throw new LogicException(sprintf('Unable to add filter "%s" as extensions have already been initialized.', $filter->getName()));
@@ -369,7 +369,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFilters () : array
+	public function getFilters (): array
 	{
 		if (!$this->initialized)
 			$this->initExtensions();
@@ -386,7 +386,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFilter (string $name) : ?SimpleFilter
+	public function getFilter (string $name): ?SimpleFilter
 	{
 		if (!$this->initialized)
 			$this->initExtensions();
@@ -422,7 +422,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function registerUndefinedFilterCallback (callable $callable) : void
+	public function registerUndefinedFilterCallback (callable $callable): void
 	{
 		$this->filterCallbacks[] = $callable;
 	}
@@ -435,7 +435,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addNodeVisitor (NodeVisitorInterface $visitor) : void
+	public function addNodeVisitor (NodeVisitorInterface $visitor): void
 	{
 		if ($this->initialized)
 			throw new LogicException('Unable to add a node visitor as extensions have already been initialized.');
@@ -448,7 +448,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getNodeVisitors () : array
+	public function getNodeVisitors (): array
 	{
 		if (!$this->initialized)
 			$this->initExtensions();
@@ -464,7 +464,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addTokenParser (TokenParserInterface $parser) : void
+	public function addTokenParser (TokenParserInterface $parser): void
 	{
 		if ($this->initialized)
 			throw new LogicException('Unable to add a token parser as extensions have already been initialized.');
@@ -477,7 +477,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTokenParsers () : array
+	public function getTokenParsers (): array
 	{
 		if (!$this->initialized)
 			$this->initExtensions();
@@ -492,7 +492,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getGlobals () : array
+	public function getGlobals (): array
 	{
 		if ($this->globals !== null)
 			return $this->globals;
@@ -526,7 +526,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addTest (SimpleTest $test) : void
+	public function addTest (SimpleTest $test): void
 	{
 		if ($this->initialized)
 			throw new LogicException(sprintf('Unable to add test "%s" as extensions have already been initialized.', $test->getName()));
@@ -543,7 +543,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTest (string $name) : ?SimpleTest
+	public function getTest (string $name): ?SimpleTest
 	{
 		if (!$this->initialized)
 			$this->initExtensions();
@@ -559,7 +559,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTests () : array
+	public function getTests (): array
 	{
 		if (!$this->initialized)
 			$this->initExtensions();
@@ -574,7 +574,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getUnaryOperators () : array
+	public function getUnaryOperators (): array
 	{
 		if (!$this->initialized)
 			$this->initExtensions();
@@ -589,7 +589,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getBinaryOperators () : array
+	public function getBinaryOperators (): array
 	{
 		if (!$this->initialized)
 			$this->initExtensions();
@@ -603,7 +603,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function initExtensions () : void
+	private function initExtensions (): void
 	{
 		$this->parsers = [];
 		$this->filters = [];
@@ -628,7 +628,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function initExtension (ExtensionInterface $extension) : void
+	private function initExtension (ExtensionInterface $extension): void
 	{
 		foreach ($extension->getFilters() as $filter)
 			$this->filters[$filter->getName()] = $filter;
@@ -668,7 +668,7 @@ final class ExtensionSet implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getOperators () : array
+	public function getOperators (): array
 	{
 		return [];
 	}

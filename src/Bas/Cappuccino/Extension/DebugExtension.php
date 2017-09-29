@@ -22,7 +22,7 @@ final class DebugExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFunctions () : array
+	public function getFunctions (): array
 	{
 		$isDumpOutputHtmlSafe = extension_loaded('xdebug') && (false === ini_get('xdebug.overload_var_dump') || ini_get('xdebug.overload_var_dump')) && (false === ini_get('html_errors') || ini_get('html_errors')) || 'cli' === PHP_SAPI;
 
@@ -42,7 +42,7 @@ final class DebugExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function onSimpleFunctionDump (Cappuccino $cappuccino, array $context, ...$vars) : string
+	public final function onSimpleFunctionDump (Cappuccino $cappuccino, array $context, ...$vars): string
 	{
 		if (!$cappuccino->isDebug())
 			return '';

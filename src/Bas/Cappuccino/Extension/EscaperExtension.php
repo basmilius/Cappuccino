@@ -41,7 +41,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTokenParsers () : array
+	public function getTokenParsers (): array
 	{
 		return [new AutoEscapeTokenParser()];
 	}
@@ -51,7 +51,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getNodeVisitors () : array
+	public function getNodeVisitors (): array
 	{
 		return [new EscaperNodeVisitor()];
 	}
@@ -61,7 +61,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFilters () : array
+	public function getFilters (): array
 	{
 		return [
 			new SimpleFilter('raw', [$this, 'onSimpleFilterRaw'], ['is_safe' => ['all']]),
@@ -77,7 +77,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setDefaultStrategy ($defaultStrategy) : void
+	public function setDefaultStrategy ($defaultStrategy): void
 	{
 		if ($defaultStrategy === 'name')
 			$defaultStrategy = [FileExtensionEscapingStrategy::class, 'guess'];
@@ -112,7 +112,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterRaw (string $str) : string
+	public final function onSimpleFilterRaw (string $str): string
 	{
 		return $str;
 	}

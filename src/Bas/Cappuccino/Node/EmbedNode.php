@@ -44,7 +44,7 @@ class EmbedNode extends IncludeNode
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function addGetTemplate (Compiler $compiler) : void
+	protected function addGetTemplate (Compiler $compiler): void
 	{
 		$compiler
 			->write('$this->loadTemplate(')

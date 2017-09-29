@@ -49,7 +49,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doEnterNode (Node $node, Cappuccino $cappuccino) : Node
+	protected function doEnterNode (Node $node, Cappuccino $cappuccino): Node
 	{
 		if ($node instanceof ModuleNode)
 		{
@@ -85,7 +85,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doLeaveNode (Node $node, Cappuccino $env) : Node
+	protected function doLeaveNode (Node $node, Cappuccino $env): Node
 	{
 		if ($node instanceof ModuleNode)
 		{
@@ -121,7 +121,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function escapePrintNode (PrintNode $node, Cappuccino $env, string $type) : Node
+	private function escapePrintNode (PrintNode $node, Cappuccino $env, string $type): Node
 	{
 		if (false === $type)
 			return $node;
@@ -149,7 +149,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function preEscapeFilterNode (FilterExpression $filter, Cappuccino $env) : FilterExpression
+	private function preEscapeFilterNode (FilterExpression $filter, Cappuccino $env): FilterExpression
 	{
 		$name = $filter->getNode('filter')->getAttribute('value');
 		$type = $env->getFilter($name)->getPreEscape();
@@ -178,7 +178,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function isSafeFor (string $type, Node $expression, Cappuccino $env) : bool
+	private function isSafeFor (string $type, Node $expression, Cappuccino $env): bool
 	{
 		$safe = $this->safeAnalysis->getSafe($expression);
 
@@ -235,7 +235,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getPriority () : int
+	public function getPriority (): int
 	{
 		return 0;
 	}

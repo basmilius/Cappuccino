@@ -25,7 +25,7 @@ final class FilterTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token) : Node
+	public function parse (Token $token): Node
 	{
 		$name = $this->parser->getVarName();
 		$ref = new BlockReferenceExpression(new ConstantExpression($name, $token->getLine()), null, $token->getLine(), $this->getTag());
@@ -47,7 +47,7 @@ final class FilterTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function decideBlockEnd (Token $token) : bool
+	public function decideBlockEnd (Token $token): bool
 	{
 		return $token->test('endfilter');
 	}
@@ -57,7 +57,7 @@ final class FilterTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag () : string
+	public function getTag (): string
 	{
 		return 'filter';
 	}

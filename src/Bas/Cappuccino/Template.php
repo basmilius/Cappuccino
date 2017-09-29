@@ -74,7 +74,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public abstract function getTemplateName () : string;
+	public abstract function getTemplateName (): string;
 
 	/**
 	 * Gets debug information about this template.
@@ -83,7 +83,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public abstract function getDebugInfo () : array;
+	public abstract function getDebugInfo (): array;
 
 	/**
 	 * Gets information about the original template source code.
@@ -92,7 +92,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getSourceContext () : Source
+	public function getSourceContext (): Source
 	{
 		return new Source('', $this->getTemplateName());
 	}
@@ -151,7 +151,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doGetParent (array $context) : bool
+	protected function doGetParent (array $context): bool
 	{
 		return count($context) === -1;
 	}
@@ -163,7 +163,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isTraitable () : bool
+	public function isTraitable (): bool
 	{
 		return true;
 	}
@@ -290,7 +290,7 @@ abstract class Template
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public function renderParentBlock (string $name, array $context, array $blocks = []) : string
+	public function renderParentBlock (string $name, array $context, array $blocks = []): string
 	{
 		ob_start();
 		$this->displayParentBlock($name, $context, $blocks);
@@ -315,7 +315,7 @@ abstract class Template
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public function renderBlock (string $name, array $context, array $blocks = [], bool $useBlocks = true) : string
+	public function renderBlock (string $name, array $context, array $blocks = [], bool $useBlocks = true): string
 	{
 		ob_start();
 		$this->displayBlock($name, $context, $blocks, $useBlocks);
@@ -337,7 +337,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function hasBlock (string $name, array $context, array $blocks = []) : bool
+	public function hasBlock (string $name, array $context, array $blocks = []): bool
 	{
 		if (isset($blocks[$name]))
 			return $blocks[$name][0] instanceof self;
@@ -428,7 +428,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getBlocks () : array
+	public function getBlocks (): array
 	{
 		return $this->blocks;
 	}

@@ -23,7 +23,7 @@ class IncludeTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token) : Node
+	public function parse (Token $token): Node
 	{
 		$expr = $this->parser->getExpressionParser()->parseExpression();
 
@@ -40,7 +40,7 @@ class IncludeTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function parseArguments () : array
+	protected function parseArguments (): array
 	{
 		$stream = $this->parser->getStream();
 		$ignoreMissing = false;
@@ -70,7 +70,7 @@ class IncludeTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag () : string
+	public function getTag (): string
 	{
 		return 'include';
 	}

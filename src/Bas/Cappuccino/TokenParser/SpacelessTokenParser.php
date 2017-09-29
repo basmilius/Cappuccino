@@ -22,7 +22,7 @@ final class SpacelessTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token) : Node
+	public function parse (Token $token): Node
 	{
 		$lineno = $token->getLine();
 
@@ -42,7 +42,7 @@ final class SpacelessTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function decideSpacelessEnd (Token $token) : bool
+	public function decideSpacelessEnd (Token $token): bool
 	{
 		return $token->test('endspaceless');
 	}
@@ -52,7 +52,7 @@ final class SpacelessTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag () : string
+	public function getTag (): string
 	{
 		return 'spaceless';
 	}

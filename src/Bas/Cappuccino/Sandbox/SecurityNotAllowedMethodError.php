@@ -53,7 +53,7 @@ class SecurityNotAllowedMethodError extends SecurityError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since string
 	 */
-	public function getClassName () : string
+	public function getClassName (): string
 	{
 		return $this->className;
 	}
@@ -65,7 +65,7 @@ class SecurityNotAllowedMethodError extends SecurityError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since string
 	 */
-	public function getMethodName () : string
+	public function getMethodName (): string
 	{
 		return $this->methodName;
 	}

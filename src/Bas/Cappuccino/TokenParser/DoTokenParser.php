@@ -22,7 +22,7 @@ final class DoTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token) : Node
+	public function parse (Token $token): Node
 	{
 		$expr = $this->parser->getExpressionParser()->parseExpression();
 
@@ -36,7 +36,7 @@ final class DoTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag () : string
+	public function getTag (): string
 	{
 		return 'do';
 	}

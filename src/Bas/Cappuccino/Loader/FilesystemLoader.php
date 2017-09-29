@@ -54,7 +54,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getPaths (string $namespace = self::MAIN_NAMESPACE) : array
+	public function getPaths (string $namespace = self::MAIN_NAMESPACE): array
 	{
 		return isset($this->paths[$namespace]) ? $this->paths[$namespace] : [];
 	}
@@ -66,7 +66,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getNamespaces () : array
+	public function getNamespaces (): array
 	{
 		return array_keys($this->paths);
 	}
@@ -81,7 +81,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setPaths (array $paths, string $namespace = self::MAIN_NAMESPACE) : void
+	public function setPaths (array $paths, string $namespace = self::MAIN_NAMESPACE): void
 	{
 		if (!is_array($paths))
 			$paths = [$paths];
@@ -102,7 +102,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addPath (string $path, string $namespace = self::MAIN_NAMESPACE) : void
+	public function addPath (string $path, string $namespace = self::MAIN_NAMESPACE): void
 	{
 		$this->cache = $this->errorCache = [];
 
@@ -146,7 +146,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getSourceContext (string $name) : Source
+	public function getSourceContext (string $name): Source
 	{
 		$path = $this->findTemplate($name);
 
@@ -158,7 +158,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getCacheKey (string $name) : string
+	public function getCacheKey (string $name): string
 	{
 		$path = $this->findTemplate($name);
 		$len = strlen($this->rootPath);
@@ -174,7 +174,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function exists (string $name) : bool
+	public function exists (string $name): bool
 	{
 		$name = $this->normalizeName($name);
 
@@ -189,7 +189,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isFresh (string $name, int $time) : bool
+	public function isFresh (string $name, int $time): bool
 	{
 		return filemtime($this->findTemplate($name)) <= $time;
 	}
@@ -265,7 +265,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function normalizeName (string $name) : string
+	private function normalizeName (string $name): string
 	{
 		return preg_replace('#/{2,}#', '/', str_replace('\\', '/', $name));
 	}
@@ -281,7 +281,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function parseName (string $name, string $default = self::MAIN_NAMESPACE) : array
+	private function parseName (string $name, string $default = self::MAIN_NAMESPACE): array
 	{
 		if (isset($name[0]) && '@' === $name[0])
 		{
@@ -306,7 +306,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function validateName (string $name) : void
+	private function validateName (string $name): void
 	{
 		if (strpos($name, "\0"))
 			throw new LoaderError('A template name cannot contain NUL bytes.');
@@ -336,7 +336,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function isAbsolutePath (string $file) : bool
+	private function isAbsolutePath (string $file): bool
 	{
 		return strspn($file, '/\\', 0, 1) || (strlen($file) > 3 && ctype_alpha($file[0]) && ':' === $file[1] && strspn($file, '/\\', 2, 1)) || null !== parse_url($file, PHP_URL_SCHEME);
 	}

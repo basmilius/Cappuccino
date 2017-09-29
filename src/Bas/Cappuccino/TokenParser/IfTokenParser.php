@@ -23,7 +23,7 @@ final class IfTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token) : Node
+	public function parse (Token $token): Node
 	{
 		$lineno = $token->getLine();
 		$expr = $this->parser->getExpressionParser()->parseExpression();
@@ -74,7 +74,7 @@ final class IfTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function decideIfFork (Token $token) : bool
+	public function decideIfFork (Token $token): bool
 	{
 		return $token->test(['elseif', 'else', 'endif']);
 	}
@@ -88,7 +88,7 @@ final class IfTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function decideIfEnd (Token $token) : bool
+	public function decideIfEnd (Token $token): bool
 	{
 		return $token->test(['endif']);
 	}
@@ -98,7 +98,7 @@ final class IfTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag () : string
+	public function getTag (): string
 	{
 		return 'if';
 	}

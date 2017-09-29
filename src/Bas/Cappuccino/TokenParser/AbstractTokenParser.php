@@ -28,7 +28,7 @@ abstract class AbstractTokenParser implements TokenParserInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setParser (Parser $parser) : void
+	public function setParser (Parser $parser): void
 	{
 		$this->parser = $parser;
 	}

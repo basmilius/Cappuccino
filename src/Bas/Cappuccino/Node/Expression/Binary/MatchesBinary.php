@@ -20,7 +20,7 @@ class MatchesBinary extends AbstractBinary
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler) : void
+	public function compile (Compiler $compiler): void
 	{
 		$compiler->raw('preg_match(')->subcompile($this->getNode('right'))->raw(', ')->subcompile($this->getNode('left'))->raw(')');
 	}
@@ -30,7 +30,7 @@ class MatchesBinary extends AbstractBinary
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function operator (Compiler $compiler) : Compiler
+	public function operator (Compiler $compiler): Compiler
 	{
 		return $compiler->raw('');
 	}

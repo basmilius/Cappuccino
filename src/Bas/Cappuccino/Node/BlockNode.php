@@ -36,7 +36,7 @@ class BlockNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler) : void
+	public function compile (Compiler $compiler): void
 	{
 		$compiler->addDebugInfo($this)->write(sprintf("public function block_%s(\$context, array \$blocks = array())\n", $this->getAttribute('name')), "{\n")->indent();
 		$compiler->subcompile($this->getNode('body'))->outdent()->write("}\n\n");

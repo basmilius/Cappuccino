@@ -59,7 +59,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTokenParsers () : array
+	public function getTokenParsers (): array
 	{
 		return [new SandboxTokenParser()];
 	}
@@ -69,7 +69,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getNodeVisitors () : array
+	public function getNodeVisitors (): array
 	{
 		return [new SandboxNodeVisitor()];
 	}
@@ -80,7 +80,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function enableSandbox () : void
+	public function enableSandbox (): void
 	{
 		$this->sandboxed = true;
 	}
@@ -91,7 +91,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function disableSandbox () : void
+	public function disableSandbox (): void
 	{
 		$this->sandboxed = false;
 	}
@@ -103,7 +103,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isSandboxed () : bool
+	public function isSandboxed (): bool
 	{
 		return $this->sandboxedGlobally || $this->sandboxed;
 	}
@@ -115,7 +115,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isSandboxedGlobally () : bool
+	public function isSandboxedGlobally (): bool
 	{
 		return $this->sandboxedGlobally;
 	}
@@ -127,7 +127,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getSecurityPolicy () : SecurityPolicyInterface
+	public function getSecurityPolicy (): SecurityPolicyInterface
 	{
 		return $this->policy;
 	}
@@ -140,7 +140,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setSecurityPolicy (SecurityPolicyInterface $policy) : void
+	public function setSecurityPolicy (SecurityPolicyInterface $policy): void
 	{
 		$this->policy = $policy;
 	}
@@ -156,7 +156,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function checkSecurity (array $tags, array $filters, array $functions) : void
+	public function checkSecurity (array $tags, array $filters, array $functions): void
 	{
 		if ($this->isSandboxed())
 			$this->policy->checkSecurity($tags, $filters, $functions);
@@ -172,7 +172,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function checkMethodAllowed ($obj, string $method) : void
+	public function checkMethodAllowed ($obj, string $method): void
 	{
 		if ($this->isSandboxed())
 			$this->policy->checkMethodAllowed($obj, $method);
@@ -188,7 +188,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function checkPropertyAllowed ($obj, string $property) : void
+	public function checkPropertyAllowed ($obj, string $property): void
 	{
 		if ($this->isSandboxed())
 			$this->policy->checkPropertyAllowed($obj, $property);

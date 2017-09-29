@@ -20,7 +20,7 @@ class PosUnary extends AbstractUnary
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function operator (Compiler $compiler) : void
+	public function operator (Compiler $compiler): void
 	{
 		$compiler->raw('+');
 	}

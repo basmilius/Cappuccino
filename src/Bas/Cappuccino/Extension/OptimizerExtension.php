@@ -38,7 +38,7 @@ final class OptimizerExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getNodeVisitors () : array
+	public function getNodeVisitors (): array
 	{
 		return [
 			new OptimizerNodeVisitor($this->optimizers)

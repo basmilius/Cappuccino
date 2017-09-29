@@ -22,7 +22,7 @@ final class WithTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token) : Node
+	public function parse (Token $token): Node
 	{
 		$stream = $this->parser->getStream();
 
@@ -53,7 +53,7 @@ final class WithTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function decideWithEnd (Token $token) : bool
+	public function decideWithEnd (Token $token): bool
 	{
 		return $token->test('endwith');
 	}
@@ -63,7 +63,7 @@ final class WithTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag () : string
+	public function getTag (): string
 	{
 		return 'with';
 	}

@@ -20,7 +20,7 @@ class StartsWithBinary extends AbstractBinary
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler) : void
+	public function compile (Compiler $compiler): void
 	{
 		$left = $compiler->getVarName();
 		$right = $compiler->getVarName();
@@ -32,7 +32,7 @@ class StartsWithBinary extends AbstractBinary
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function operator (Compiler $compiler) : Compiler
+	public function operator (Compiler $compiler): Compiler
 	{
 		return $compiler->raw('');
 	}

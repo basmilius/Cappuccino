@@ -35,7 +35,7 @@ abstract class CallExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function compileCallable (Compiler $compiler) : void
+	protected function compileCallable (Compiler $compiler): void
 	{
 		$callable = $this->getAttribute('callable');
 
@@ -82,7 +82,7 @@ abstract class CallExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function compileArguments (Compiler $compiler) : void
+	protected function compileArguments (Compiler $compiler): void
 	{
 		$compiler->raw('(');
 
@@ -154,7 +154,7 @@ abstract class CallExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function getArguments (?callable $callable = null, $arguments) : array
+	protected function getArguments (?callable $callable = null, $arguments): array
 	{
 		$callType = $this->getAttribute('type');
 		$callName = $this->getAttribute('name');
@@ -311,7 +311,7 @@ abstract class CallExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function normalizeName (string $name) : string
+	protected function normalizeName (string $name): string
 	{
 		return strtolower(preg_replace(['/([A-Z]+)([A-Z][a-z])/', '/([a-z\d])([A-Z])/'], ['\\1_\\2', '\\1_\\2'], $name));
 	}
@@ -326,7 +326,7 @@ abstract class CallExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function getCallableParameters (?string $callable, bool $isVariadic) : array
+	private function getCallableParameters (?string $callable, bool $isVariadic): array
 	{
 		[$r] = $this->reflectCallable($callable);
 
@@ -388,7 +388,7 @@ abstract class CallExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function reflectCallable ($callable) : array
+	private function reflectCallable ($callable): array
 	{
 		if ($this->reflector !== null)
 			return $this->reflector;

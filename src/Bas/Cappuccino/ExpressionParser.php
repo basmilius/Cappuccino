@@ -83,7 +83,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parseExpression (int $precedence = 0) : AbstractExpression
+	public function parseExpression (int $precedence = 0): AbstractExpression
 	{
 		$expr = $this->getPrimary();
 		$token = $this->parser->getCurrentToken();
@@ -131,7 +131,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function getPrimary () : AbstractExpression
+	private function getPrimary (): AbstractExpression
 	{
 		$token = $this->parser->getCurrentToken();
 
@@ -166,7 +166,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function parseConditionalExpression (AbstractExpression $expr) : AbstractExpression
+	private function parseConditionalExpression (AbstractExpression $expr): AbstractExpression
 	{
 		while ($this->parser->getStream()->nextIf(Token::PUNCTUATION_TYPE, '?'))
 		{
@@ -203,7 +203,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function isUnary (Token $token) : bool
+	private function isUnary (Token $token): bool
 	{
 		return $token->test(Token::OPERATOR_TYPE) && isset($this->unaryOperators[$token->getValue()]);
 	}
@@ -217,7 +217,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function isBinary (Token $token) : bool
+	private function isBinary (Token $token): bool
 	{
 		return $token->test(Token::OPERATOR_TYPE) && isset($this->binaryOperators[$token->getValue()]);
 	}
@@ -230,7 +230,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parsePrimaryExpression () : AbstractExpression
+	public function parsePrimaryExpression (): AbstractExpression
 	{
 		$node = null;
 		$token = $this->parser->getCurrentToken();
@@ -332,7 +332,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parseStringExpression () : AbstractExpression
+	public function parseStringExpression (): AbstractExpression
 	{
 		$stream = $this->parser->getStream();
 
@@ -374,7 +374,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parseArrayExpression () : AbstractExpression
+	public function parseArrayExpression (): AbstractExpression
 	{
 		$stream = $this->parser->getStream();
 		$stream->expect(Token::PUNCTUATION_TYPE, '[', 'An array element was expected');
@@ -409,7 +409,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parseHashExpression () : AbstractExpression
+	public function parseHashExpression (): AbstractExpression
 	{
 		$stream = $this->parser->getStream();
 		$stream->expect(Token::PUNCTUATION_TYPE, '{', 'A hash element was expected');
@@ -465,7 +465,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parsePostfixExpression (AbstractExpression $node) : AbstractExpression
+	public function parsePostfixExpression (AbstractExpression $node): AbstractExpression
 	{
 		while (true)
 		{
@@ -506,7 +506,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFunctionNode (string $name, int $line) : AbstractExpression
+	public function getFunctionNode (string $name, int $line): AbstractExpression
 	{
 		switch ($name)
 		{
@@ -571,7 +571,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parseSubscriptExpression (AbstractExpression $node) : AbstractExpression
+	public function parseSubscriptExpression (AbstractExpression $node): AbstractExpression
 	{
 		$stream = $this->parser->getStream();
 		$token = $stream->next();
@@ -663,7 +663,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parseFilterExpression (AbstractExpression $node) : AbstractExpression
+	public function parseFilterExpression (AbstractExpression $node): AbstractExpression
 	{
 		$this->parser->getStream()->next();
 
@@ -681,7 +681,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parseFilterExpressionRaw (AbstractExpression $node, ?string $tag = null) : AbstractExpression
+	public function parseFilterExpressionRaw (AbstractExpression $node, ?string $tag = null): AbstractExpression
 	{
 		while (true)
 		{
@@ -716,7 +716,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parseArguments (bool $namedArguments = false, bool $definition = false) : Node
+	public function parseArguments (bool $namedArguments = false, bool $definition = false): Node
 	{
 		$args = [];
 		$stream = $this->parser->getStream();
@@ -791,7 +791,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parseAssignmentExpression () : Node
+	public function parseAssignmentExpression (): Node
 	{
 		$stream = $this->parser->getStream();
 		$targets = [];
@@ -821,7 +821,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parseMultitargetExpression () : Node
+	public function parseMultitargetExpression (): Node
 	{
 		$targets = [];
 
@@ -846,7 +846,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function parseNotTestExpression (Node $node) : AbstractExpression
+	private function parseNotTestExpression (Node $node): AbstractExpression
 	{
 		return new NotUnary($this->parseTestExpression($node), $this->parser->getCurrentToken()->getLine());
 	}
@@ -861,7 +861,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function parseTestExpression (Node $node) : AbstractExpression
+	private function parseTestExpression (Node $node): AbstractExpression
 	{
 		$stream = $this->parser->getStream();
 		[$name, $test] = $this->getTest($node->getTemplateLine());
@@ -1032,7 +1032,7 @@ class ExpressionParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function checkConstantExpression (Node $node) : bool
+	private function checkConstantExpression (Node $node): bool
 	{
 		if (!($node instanceof ConstantExpression || $node instanceof ArrayExpression || $node instanceof NegUnary || $node instanceof PosUnary))
 			return false;

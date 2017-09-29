@@ -20,7 +20,7 @@ class AddBinary extends AbstractBinary
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function operator (Compiler $compiler) : Compiler
+	public final function operator (Compiler $compiler): Compiler
 	{
 		return $compiler->raw('+');
 	}

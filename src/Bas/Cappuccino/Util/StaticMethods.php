@@ -36,7 +36,7 @@ class StaticMethods
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public static function convertEncoding (string $str, string $to, string $from) : string
+	public static function convertEncoding (string $str, string $to, string $from): string
 	{
 		return iconv($from, $to, $str);
 	}
@@ -260,7 +260,7 @@ class StaticMethods
 			$ext->checkMethodAllowed($object, $method);
 		}
 
-		array_walk($arguments, function (&$value) : void
+		array_walk($arguments, function (&$value): void
 		{
 			if (ctype_digit($value))
 			{
@@ -298,7 +298,7 @@ class StaticMethods
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public static function inFilter ($value, $compare) : bool
+	public static function inFilter ($value, $compare): bool
 	{
 		if (is_array($compare))
 		{
@@ -339,7 +339,7 @@ class StaticMethods
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public static function isConstantDefined (string $constant, $object) : bool
+	public static function isConstantDefined (string $constant, $object): bool
 	{
 		if ($object !== null)
 			$constant = get_class($object) . '::' . $constant;
@@ -356,7 +356,7 @@ class StaticMethods
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public static function isEmpty ($value) : bool
+	public static function isEmpty ($value): bool
 	{
 		if ($value instanceof Countable)
 			return count($value) === 0;
@@ -376,7 +376,7 @@ class StaticMethods
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public static function isIterable ($value) : bool
+	public static function isIterable ($value): bool
 	{
 		return $value instanceof Traversable || is_array($value);
 	}

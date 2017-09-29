@@ -46,7 +46,7 @@ class SecurityNotAllowedFunctionError extends SecurityError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFunctionName () : string
+	public function getFunctionName (): string
 	{
 		return $this->functionName;
 	}

@@ -23,7 +23,7 @@ final class UseTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token) : ?Node
+	public function parse (Token $token): ?Node
 	{
 		$template = $this->parser->getExpressionParser()->parseExpression();
 		$stream = $this->parser->getStream();
@@ -63,7 +63,7 @@ final class UseTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag () : string
+	public function getTag (): string
 	{
 		return 'use';
 	}

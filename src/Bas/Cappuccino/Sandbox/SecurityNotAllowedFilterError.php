@@ -46,7 +46,7 @@ class SecurityNotAllowedFilterError extends SecurityError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFilterName () : string
+	public function getFilterName (): string
 	{
 		return $this->filterName;
 	}

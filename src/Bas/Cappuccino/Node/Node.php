@@ -58,7 +58,7 @@ class Node implements Countable, IteratorAggregate
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler) : void
+	public function compile (Compiler $compiler): void
 	{
 		foreach ($this->nodes as $node)
 		{
@@ -73,7 +73,7 @@ class Node implements Countable, IteratorAggregate
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTemplateLine () : int
+	public function getTemplateLine (): int
 	{
 		return $this->lineno;
 	}
@@ -130,7 +130,7 @@ class Node implements Countable, IteratorAggregate
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setAttribute (string $name, $value) : void
+	public function setAttribute (string $name, $value): void
 	{
 		$this->attributes[$name] = $value;
 	}
@@ -143,7 +143,7 @@ class Node implements Countable, IteratorAggregate
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function removeAttribute ($name) : void
+	public function removeAttribute ($name): void
 	{
 		unset($this->attributes[$name]);
 	}
@@ -157,7 +157,7 @@ class Node implements Countable, IteratorAggregate
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function hasNode ($name) : bool
+	public function hasNode ($name): bool
 	{
 		return isset($this->nodes[$name]);
 	}
@@ -188,7 +188,7 @@ class Node implements Countable, IteratorAggregate
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setNode ($name, Node $node) : void
+	public function setNode ($name, Node $node): void
 	{
 		$this->nodes[$name] = $node;
 	}
@@ -201,7 +201,7 @@ class Node implements Countable, IteratorAggregate
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function removeNode (string $name) : void
+	public function removeNode (string $name): void
 	{
 		unset($this->nodes[$name]);
 	}
@@ -211,7 +211,7 @@ class Node implements Countable, IteratorAggregate
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function count () : int
+	public function count (): int
 	{
 		return count($this->nodes);
 	}
@@ -221,7 +221,7 @@ class Node implements Countable, IteratorAggregate
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getIterator () : ArrayIterator
+	public function getIterator (): ArrayIterator
 	{
 		return new ArrayIterator($this->nodes);
 	}
@@ -233,7 +233,7 @@ class Node implements Countable, IteratorAggregate
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTemplateName () : string
+	public function getTemplateName (): string
 	{
 		return $this->name;
 	}
@@ -246,7 +246,7 @@ class Node implements Countable, IteratorAggregate
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setTemplateName (string $name) : void
+	public function setTemplateName (string $name): void
 	{
 		$this->name = $name;
 
@@ -261,7 +261,7 @@ class Node implements Countable, IteratorAggregate
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __toString () : string
+	public function __toString (): string
 	{
 		$attributes = [];
 
