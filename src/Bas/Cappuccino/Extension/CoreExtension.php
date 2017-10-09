@@ -399,10 +399,15 @@ final class CoreExtension extends AbstractExtension
 			$format = $date instanceof DateInterval ? $formats[1] : $formats[0];
 		}
 
-		if ($date instanceof DateInterval)
-			return $date->format($format);
+		$formatter = new \IntlDateFormatter('nl_NL', \IntlDateFormatter::FULL, \IntlDateFormatter::FULL);
+		$formatter->setPattern($format);
 
-		return $this->onSimpleFunctionDateConverter($date, $timezone)->format($format);
+		if ($date instanceof DateInterval)
+			return $formatter->format($date);
+
+		$dt = $this->onSimpleFunctionDateConverter($date, $timezone);
+
+		return $formatter->format($dt);
 	}
 
 	/**
@@ -1301,7 +1306,7 @@ final class CoreExtension extends AbstractExtension
 	{
 		$charset = $cappuccino->getCharset();
 
-		return mb_strtoupper(mb_substr($str, 0, 1, $charset), $charset) . mb_strtolower(mb_substr($str, 0, null, $charset), $charset);
+		return mb_strtoupper(mb_substr($str, 0, 1, $charset), $charset) . mb_strtolower(mb_substr($str, 1, null, $charset), $charset);
 	}
 
 	/**

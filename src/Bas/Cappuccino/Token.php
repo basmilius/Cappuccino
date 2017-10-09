@@ -181,13 +181,13 @@ final class Token
 	/**
 	 * Gets the English representation of a given type.
 	 *
-	 * @param int $type
+	 * @param string|int $type
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public static function typeToEnglish (int $type): string
+	public static function typeToEnglish ($type): string
 	{
 		switch ($type)
 		{

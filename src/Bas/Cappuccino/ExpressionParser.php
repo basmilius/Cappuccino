@@ -995,13 +995,16 @@ class ExpressionParser
 	 */
 	private function getFilterNodeClass (string $name, int $line)
 	{
-		if (false === $filter = $this->cappuccino->getFilter($name))
+		if (false === ($filter = $this->cappuccino->getFilter($name)))
 		{
 			$e = new SyntaxError(sprintf('Unknown "%s" filter.', $name), $line, $this->parser->getStream()->getSourceContext());
 			$e->addSuggestions($name, array_keys($this->cappuccino->getFilters()));
 
 			throw $e;
 		}
+
+		if ($filter === null)
+			throw new SyntaxError('NULL filter!', $line, $this->parser->getStream()->getSourceContext());
 
 		if ($filter->isDeprecated())
 		{

@@ -187,11 +187,11 @@ class SimpleFilter
 	/**
 	 * Gets PRE escape.
 	 *
-	 * @return bool|null
+	 * @return string|bool|null
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getPreEscape (): ?bool
+	public function getPreEscape ()
 	{
 		return $this->options['pre_escape'];
 	}

@@ -206,12 +206,12 @@ class Error extends Exception
 		foreach ($backtrace as $trace)
 		{
 			/** @var Template $traceObject */
-			$traceObject = $trace['object'];
+			$traceObject = $trace['object'] ?? [];
 
 			if (isset($traceObject) && $traceObject instanceof Template && 'Template' !== get_class($traceObject))
 			{
 				$currentClass = get_class($traceObject);
-				$isEmbedContainer = 0 === strpos($templateClass, $currentClass);
+				$isEmbedContainer = 0 === strpos($templateClass ?? '', $currentClass);
 
 				if ($this->name === null || ($this->name == $traceObject->getTemplateName() && !$isEmbedContainer))
 				{
