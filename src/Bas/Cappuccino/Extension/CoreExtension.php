@@ -326,7 +326,8 @@ final class CoreExtension extends AbstractExtension
 			new SimpleTest('divisible by', null, ['node_class' => DivisiblebyTest::class]),
 			new SimpleTest('constant', null, ['node_class' => ConstantTest::class]),
 			new SimpleTest('empty', [StaticMethods::class, 'isEmpty']),
-			new SimpleTest('iterable', [StaticMethods::class, 'isIterable'])
+			new SimpleTest('iterable', [StaticMethods::class, 'isIterable']),
+			new SimpleTest('numeric', 'is_numeric')
 		];
 	}
 
