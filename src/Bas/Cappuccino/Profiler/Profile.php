@@ -12,7 +12,7 @@ use Serializable;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Profiler
- * @version 1.0.0
+ * @since 1.0.0
  */
 class Profile implements IteratorAggregate, Serializable
 {
@@ -233,6 +233,18 @@ class Profile implements IteratorAggregate, Serializable
 			'mu' => memory_get_usage(),
 			'pmu' => memory_get_peak_usage(),
 		];
+	}
+
+	/**
+	 * Resets the profiling.
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function reset (): void
+	{
+		$this->starts = $this->ends = $this->profiles = [];
+		$this->enter();
 	}
 
 	/**

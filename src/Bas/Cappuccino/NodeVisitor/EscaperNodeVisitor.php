@@ -21,7 +21,7 @@ use Bas\Cappuccino\NodeTraverser;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\NodeVisitor
- * @version 1.0.0
+ * @since 1.0.0
  */
 final class EscaperNodeVisitor extends AbstractNodeVisitor
 {
@@ -113,17 +113,17 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * Escape Print Node.
 	 *
-	 * @param PrintNode  $node
-	 * @param Cappuccino $env
-	 * @param string     $type
+	 * @param PrintNode   $node
+	 * @param Cappuccino  $env
+	 * @param string|bool $type
 	 *
 	 * @return Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function escapePrintNode (PrintNode $node, Cappuccino $env, string $type): Node
+	private function escapePrintNode (PrintNode $node, Cappuccino $env, $type): Node
 	{
-		if (false === $type)
+		if (!$type)
 			return $node;
 
 		$expression = $node->getNode('expr');

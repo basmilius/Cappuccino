@@ -11,7 +11,7 @@ use Bas\Cappuccino\Error\RuntimeError;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node
- * @version 1.0.0
+ * @since 1.0.0
  */
 class WithNode extends Node
 {

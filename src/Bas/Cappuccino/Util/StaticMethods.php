@@ -20,7 +20,7 @@ use Traversable;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Util
- * @version ${CARET}
+ * @since ${CARET}
  */
 class StaticMethods
 {
@@ -81,8 +81,6 @@ class StaticMethods
 	 */
 	public static function getAttribute (Cappuccino $env, Source $source, $object, $item, array $arguments = [], $type = Template::ANY_CALL, $isDefinedTest = false, $ignoreStrictCheck = false)
 	{
-		static $cache = [];
-
 		if (Template::METHOD_CALL !== $type)
 		{
 			$arrayItem = is_bool($item) || is_float($item) ? (int)$item : $item;
@@ -174,6 +172,8 @@ class StaticMethods
 				return $object->{$item};
 			}
 		}
+
+		static $cache = [];
 
 		$class = get_class($object);
 

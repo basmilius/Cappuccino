@@ -9,10 +9,14 @@ use Bas\Cappuccino\Error\Error;
 use Bas\Cappuccino\Error\LoaderError;
 use Bas\Cappuccino\Error\RuntimeError;
 use Bas\Cappuccino\Error\SyntaxError;
+use Bas\Cappuccino\Extension\ArrayExtension;
 use Bas\Cappuccino\Extension\CoreExtension;
+use Bas\Cappuccino\Extension\DateExtension;
 use Bas\Cappuccino\Extension\EscaperExtension;
 use Bas\Cappuccino\Extension\ExtensionInterface;
+use Bas\Cappuccino\Extension\IntlExtension;
 use Bas\Cappuccino\Extension\OptimizerExtension;
+use Bas\Cappuccino\Extension\TextExtension;
 use Bas\Cappuccino\Loader\ArrayLoader;
 use Bas\Cappuccino\Loader\ChainLoader;
 use Bas\Cappuccino\Loader\LoaderInterface;
@@ -33,11 +37,11 @@ use LogicException;
 class Cappuccino
 {
 
-	public const VERSION = '1.0.0-dev';
-	public const VERSION_ID = 10000;
+	public const VERSION = '1.0.1-dev';
+	public const VERSION_ID = 10010;
 	public const MAJOR_VERSION = 1;
 	public const MINOR_VERSION = 0;
-	public const RELEASE_VERSION = 0;
+	public const RELEASE_VERSION = 1;
 	public const EXTRA_VERSION = 'dev';
 
 	public const DEFAULT_EXTENSION = '.capy';
@@ -167,6 +171,12 @@ class Cappuccino
 		$this->addExtension(new CoreExtension());
 		$this->addExtension(new EscaperExtension($options['autoescape']));
 		$this->addExtension(new OptimizerExtension($options['optimizations']));
+
+		// Added 15-10-2017
+		$this->addExtension(new ArrayExtension());
+		$this->addExtension(new DateExtension());
+		$this->addExtension(new IntlExtension());
+		$this->addExtension(new TextExtension());
 	}
 
 	/**
@@ -381,6 +391,29 @@ class Cappuccino
 	public function display (string $name, array $context = []): void
 	{
 		$this->loadTemplate($name)->display($context);
+	}
+
+	/**
+	 * Loads a template.
+	 *
+	 * @param string|Template|TemplateWrapper $name
+	 *
+	 * @return TemplateWrapper
+	 * @throws LoaderError
+	 * @throws RuntimeError
+	 * @throws SyntaxError
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public final function load ($name): TemplateWrapper
+	{
+		if ($name instanceof TemplateWrapper)
+			return $name;
+
+		if ($name instanceof Template)
+			return new TemplateWrapper($this, $name);
+
+		return new TemplateWrapper($this, $this->loadTemplate($name));
 	}
 
 	/**

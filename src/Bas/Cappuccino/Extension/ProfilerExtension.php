@@ -11,25 +11,52 @@ use Bas\Cappuccino\Profiler\Profile;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
- * @version 1.0.0
+ * @since 1.0.0
  */
-class ProfilerExtension extends AbstractExtension
+final class ProfilerExtension extends AbstractExtension
 {
 
+	/**
+	 * @var array
+	 */
 	private $actives = [];
 
+	/**
+	 * ProfilerExtension constructor.
+	 *
+	 * @param Profile $profile
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
 	public function __construct (Profile $profile)
 	{
 		$this->actives[] = $profile;
 	}
 
-	public function enter (Profile $profile)
+	/**
+	 * Enters profiling.
+	 *
+	 * @param Profile $profile
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public final function enter (Profile $profile)
 	{
 		$this->actives[0]->addProfile($profile);
 		array_unshift($this->actives, $profile);
 	}
 
-	public function leave (Profile $profile)
+	/**
+	 * Leaves profiling.
+	 *
+	 * @param Profile $profile
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public final function leave (Profile $profile)
 	{
 		$profile->leave();
 		array_shift($this->actives);
@@ -40,8 +67,15 @@ class ProfilerExtension extends AbstractExtension
 		}
 	}
 
-	public function getNodeVisitors (): array
+	/**
+	 * {@inheritdoc}
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public final function getNodeVisitors (): array
 	{
-		return [new ProfilerNodeVisitor(get_class($this))];
+		return [
+			new ProfilerNodeVisitor(get_class($this))
+		];
 	}
 }

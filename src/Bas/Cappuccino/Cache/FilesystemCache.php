@@ -10,7 +10,7 @@ use RuntimeException;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Cache
- * @version 1.0.0
+ * @since 1.0.0
  */
 class FilesystemCache implements CacheInterface
 {

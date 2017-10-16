@@ -14,50 +14,62 @@ use Bas\Cappuccino\TokenParser\TokenParserInterface;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
- * @version 1.0.0
+ * @since 1.0.0
  */
 interface ExtensionInterface
 {
 
 	/**
-	 * Returns the token parser instances to add to the existing list.
+	 * Gets custom {@see TokenParserInterface}s defined by the {@see ExtensionInterface}.
 	 *
 	 * @return TokenParserInterface[]
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
 	public function getTokenParsers (): array;
 
 	/**
-	 * Returns the node visitor instances to add to the existing list.
+	 * Gets custom {@see NodeVisitorInterface}s defined by the {@see ExtensionInterface}.
 	 *
 	 * @return NodeVisitorInterface[]
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
 	public function getNodeVisitors (): array;
 
 	/**
-	 * Returns a list of filters to add to the existing list.
+	 * Gets custom {@see SimpleFilter}s defined by the {@see ExtensionInterface}.
 	 *
 	 * @return SimpleFilter[]
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
 	public function getFilters (): array;
 
 	/**
-	 * Returns a list of tests to add to the existing list.
+	 * Gets custom {@see SimpleTest}s defined by the {@see ExtensionInterface}.
 	 *
 	 * @return SimpleTest[]
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
 	public function getTests (): array;
 
 	/**
-	 * Returns a list of functions to add to the existing list.
+	 * Gets custom {@see SimpleFunction}s defined by the {@see ExtensionInterface}.
 	 *
 	 * @return SimpleFunction[]
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
 	public function getFunctions (): array;
 
 	/**
-	 * Returns a list of operators to add to the existing list.
+	 * Gets custom unary and binary operators defined by the {@see ExtensionInterface}.
 	 *
-	 * @return array<array> First array of unary operators, second array of binary operators
+	 * @return array[]
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
 	public function getOperators (): array;
 

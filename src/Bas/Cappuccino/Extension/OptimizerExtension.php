@@ -10,7 +10,7 @@ use Bas\Cappuccino\NodeVisitor\OptimizerNodeVisitor;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
- * @version 1.0.0
+ * @since 1.0.0
  */
 final class OptimizerExtension extends AbstractExtension
 {
@@ -38,7 +38,7 @@ final class OptimizerExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getNodeVisitors (): array
+	public final function getNodeVisitors (): array
 	{
 		return [
 			new OptimizerNodeVisitor($this->optimizers)

@@ -86,7 +86,7 @@ use Traversable;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
- * @version 1.0.0
+ * @since 1.0.0
  */
 final class CoreExtension extends AbstractExtension
 {
@@ -103,7 +103,7 @@ final class CoreExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getEscapers (): array
+	public final function getEscapers (): array
 	{
 		return $this->escapers;
 	}
@@ -117,7 +117,7 @@ final class CoreExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setEscaper (string $strategy, callable $callable): void
+	public final function setEscaper (string $strategy, callable $callable): void
 	{
 		$this->escapers[$strategy] = $callable;
 	}
@@ -129,7 +129,7 @@ final class CoreExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getDateFormat (): array
+	public final function getDateFormat (): array
 	{
 		return $this->dateFormats;
 	}
@@ -143,7 +143,7 @@ final class CoreExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setDateFormat (?string $format = null, ?string $dateIntervalFormat = null): void
+	public final function setDateFormat (?string $format = null, ?string $dateIntervalFormat = null): void
 	{
 		if ($format !== null)
 			$this->dateFormats[0] = $format;
@@ -159,7 +159,7 @@ final class CoreExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTimezone (): DateTimeZone
+	public final function getTimezone (): DateTimeZone
 	{
 		if ($this->timezone === null)
 			$this->timezone = new DateTimeZone(date_default_timezone_get());
@@ -175,7 +175,7 @@ final class CoreExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setTimezone ($timezone): void
+	public final function setTimezone ($timezone): void
 	{
 		$this->timezone = $timezone instanceof DateTimeZone ? $timezone : new DateTimeZone($timezone);
 	}
@@ -187,7 +187,7 @@ final class CoreExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getNumberFormat (): array
+	public final function getNumberFormat (): array
 	{
 		return $this->numberFormat;
 	}
@@ -202,7 +202,7 @@ final class CoreExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setNumberFormat (int $decimal, string $decimalPoint, string $thousandSep): void
+	public final function setNumberFormat (int $decimal, string $decimalPoint, string $thousandSep): void
 	{
 		$this->numberFormat = [$decimal, $decimalPoint, $thousandSep];
 	}
@@ -212,7 +212,7 @@ final class CoreExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTokenParsers (): array
+	public final function getTokenParsers (): array
 	{
 		return [
 			new ForTokenParser(),
@@ -239,7 +239,7 @@ final class CoreExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFilters (): array
+	public final function getFilters (): array
 	{
 		return [
 			// formatting filters
@@ -294,7 +294,7 @@ final class CoreExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFunctions (): array
+	public final function getFunctions (): array
 	{
 		return [
 			new SimpleFunction('max', 'max'),
@@ -314,7 +314,7 @@ final class CoreExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTests (): array
+	public final function getTests (): array
 	{
 		return [
 			new SimpleTest('even', null, ['node_class' => EvenTest::class]),
@@ -336,7 +336,7 @@ final class CoreExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getOperators (): array
+	public final function getOperators (): array
 	{
 		return [
 			[
@@ -493,15 +493,20 @@ final class CoreExtension extends AbstractExtension
 	 * @return DateTime|DateTimeImmutable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
-	 * @internal
 	 */
 	public final function onSimpleFunctionDateConverter ($date = null, $timezone = null)
 	{
 		if ($timezone)
+		{
 			if ($timezone === null)
+			{
 				$timezone = $this->getTimezone();
+			}
 			else if (!$timezone instanceof DateTimeZone)
+			{
 				$timezone = new DateTimeZone($timezone);
+			}
+		}
 
 		if ($date instanceof DateTimeImmutable)
 			return $timezone ? $date->setTimezone($timezone) : $date;

@@ -12,7 +12,7 @@ use Bas\Cappuccino\Token;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\TokenParser
- * @version 1.0.0
+ * @since 1.0.0
  */
 final class SpacelessTokenParser extends AbstractTokenParser
 {

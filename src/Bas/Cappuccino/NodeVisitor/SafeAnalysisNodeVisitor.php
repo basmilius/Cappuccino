@@ -20,7 +20,7 @@ use Bas\Cappuccino\Node\Node;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\NodeVisitor
- * @version 1.0.0
+ * @since 1.0.0
  */
 final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 {

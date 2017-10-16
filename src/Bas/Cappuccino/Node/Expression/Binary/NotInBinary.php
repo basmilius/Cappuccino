@@ -11,7 +11,7 @@ use Bas\Cappuccino\Util\StaticMethods;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression\Binary
- * @version 1.0.0
+ * @since 1.0.0
  */
 class NotInBinary extends AbstractBinary
 {

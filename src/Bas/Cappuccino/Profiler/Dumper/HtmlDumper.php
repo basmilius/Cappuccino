@@ -10,7 +10,7 @@ use Bas\Cappuccino\Profiler\Profile;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Profiler\Dumper
- * @version 1.0.0
+ * @since 1.0.0
  */
 final class HtmlDumper extends TextDumper
 {

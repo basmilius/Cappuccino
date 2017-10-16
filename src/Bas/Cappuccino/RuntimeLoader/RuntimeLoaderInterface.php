@@ -8,7 +8,7 @@ namespace Bas\Cappuccino\RuntimeLoader;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\RuntimeLoader
- * @version 1.0.0
+ * @since 1.0.0
  */
 interface RuntimeLoaderInterface
 {

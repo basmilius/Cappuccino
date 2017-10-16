@@ -18,7 +18,7 @@ use Bas\Cappuccino\Node\Node;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression\Test
- * @version 1.0.0
+ * @since 1.0.0
  */
 class DefinedTest extends TestExpression
 {

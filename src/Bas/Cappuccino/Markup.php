@@ -11,7 +11,7 @@ use JsonSerializable;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino
- * @version 1.0.0
+ * @since 1.0.0
  */
 class Markup implements Countable, JsonSerializable
 {

@@ -13,7 +13,7 @@ use Bas\Cappuccino\TokenParser\AutoEscapeTokenParser;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
- * @version 1.0.0
+ * @since 1.0.0
  */
 final class EscaperExtension extends AbstractExtension
 {
@@ -41,7 +41,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTokenParsers (): array
+	public final function getTokenParsers (): array
 	{
 		return [new AutoEscapeTokenParser()];
 	}
@@ -51,7 +51,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getNodeVisitors (): array
+	public final function getNodeVisitors (): array
 	{
 		return [new EscaperNodeVisitor()];
 	}
@@ -61,7 +61,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFilters (): array
+	public final function getFilters (): array
 	{
 		return [
 			new SimpleFilter('raw', [$this, 'onSimpleFilterRaw'], ['is_safe' => ['all']]),
@@ -77,7 +77,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setDefaultStrategy ($defaultStrategy): void
+	public final function setDefaultStrategy ($defaultStrategy): void
 	{
 		if ($defaultStrategy === 'name')
 			$defaultStrategy = [FileExtensionEscapingStrategy::class, 'guess'];
@@ -94,7 +94,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getDefaultStrategy (string $name)
+	public final function getDefaultStrategy (string $name)
 	{
 		if (!is_string($this->defaultStrategy) && $this->defaultStrategy)
 			return call_user_func($this->defaultStrategy, $name);

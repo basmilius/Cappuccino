@@ -15,7 +15,7 @@ use LogicException;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Extension
- * @version 1.0.0
+ * @since 1.0.0
  */
 final class StagingExtension extends AbstractExtension
 {
@@ -45,7 +45,15 @@ final class StagingExtension extends AbstractExtension
 	 */
 	private $tests = [];
 
-	public function addFunction (SimpleFunction $function)
+	/**
+	 * Adds a {@see SimpleFunction.
+	 *
+	 * @param SimpleFunction $function
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public final function addFunction (SimpleFunction $function)
 	{
 		if (isset($this->functions[$function->getName()]))
 		{
@@ -55,12 +63,25 @@ final class StagingExtension extends AbstractExtension
 		$this->functions[$function->getName()] = $function;
 	}
 
-	public function getFunctions (): array
+	/**
+	 * {@inheritdoc}
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public final function getFunctions (): array
 	{
 		return $this->functions;
 	}
 
-	public function addFilter (SimpleFilter $filter)
+	/**
+	 * Adds a {@see SimpleFilter}.
+	 *
+	 * @param SimpleFilter $filter
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public final function addFilter (SimpleFilter $filter)
 	{
 		if (isset($this->filters[$filter->getName()]))
 		{
@@ -70,22 +91,48 @@ final class StagingExtension extends AbstractExtension
 		$this->filters[$filter->getName()] = $filter;
 	}
 
-	public function getFilters (): array
+	/**
+	 * {@inheritdoc}
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public final function getFilters (): array
 	{
 		return $this->filters;
 	}
 
-	public function addNodeVisitor (NodeVisitorInterface $visitor)
+	/**
+	 * Adds a {@see NodeVisitorInterface}.
+	 *
+	 * @param NodeVisitorInterface $visitor
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public final function addNodeVisitor (NodeVisitorInterface $visitor)
 	{
 		$this->visitors[] = $visitor;
 	}
 
-	public function getNodeVisitors (): array
+	/**
+	 * {@inheritdoc}
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public final function getNodeVisitors (): array
 	{
 		return $this->visitors;
 	}
 
-	public function addTokenParser (TokenParserInterface $parser)
+	/**
+	 * Adds a {@see TokenParserInterface}.
+	 *
+	 * @param TokenParserInterface $parser
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public final function addTokenParser (TokenParserInterface $parser)
 	{
 		if (isset($this->tokenParsers[$parser->getTag()]))
 		{
@@ -95,12 +142,25 @@ final class StagingExtension extends AbstractExtension
 		$this->tokenParsers[$parser->getTag()] = $parser;
 	}
 
-	public function getTokenParsers (): array
+	/**
+	 * {@inheritdoc}
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public final function getTokenParsers (): array
 	{
 		return $this->tokenParsers;
 	}
 
-	public function addTest (SimpleTest $test)
+	/**
+	 * Adds a {@see SimpleTest}.
+	 *
+	 * @param SimpleTest $test
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public final function addTest (SimpleTest $test)
 	{
 		if (isset($this->tests[$test->getName()]))
 			throw new LogicException(sprintf('Test "%s" is already registered.', $test->getName()));
@@ -108,7 +168,12 @@ final class StagingExtension extends AbstractExtension
 		$this->tests[$test->getName()] = $test;
 	}
 
-	public function getTests (): array
+	/**
+	 * {@inheritdoc}
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public final function getTests (): array
 	{
 		return $this->tests;
 	}

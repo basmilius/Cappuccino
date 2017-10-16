@@ -10,7 +10,7 @@ use Bas\Cappuccino\Compiler;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Bas\Cappuccino\Node\Expression
- * @version 1.0.0
+ * @since 1.0.0
  */
 class MethodCallExpression extends AbstractExpression
 {
