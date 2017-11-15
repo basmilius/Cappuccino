@@ -354,19 +354,19 @@ class Lexer
 	 */
 	private function lexString (): void
 	{
-		if (preg_match($this->regexes['interpolation_start'], $this->code, $match, null, $this->cursor))
+		if (preg_match($this->regexes['interpolation_start'], $this->code, $match, 0, $this->cursor))
 		{
 			$this->brackets[] = [$this->options['interpolation'][0], $this->lineno];
 			$this->pushToken(Token::INTERPOLATION_START_TYPE);
 			$this->moveCursor($match[0]);
 			$this->pushState(self::STATE_INTERPOLATION);
 		}
-		else if (preg_match(self::REGEX_DQ_STRING_PART, $this->code, $match, null, $this->cursor) && strlen($match[0]) > 0)
+		else if (preg_match(self::REGEX_DQ_STRING_PART, $this->code, $match, 0, $this->cursor) && strlen($match[0]) > 0)
 		{
 			$this->pushToken(Token::STRING_TYPE, stripcslashes($match[0]));
 			$this->moveCursor($match[0]);
 		}
-		else if (preg_match(self::REGEX_DQ_STRING_DELIM, $this->code, $match, null, $this->cursor))
+		else if (preg_match(self::REGEX_DQ_STRING_DELIM, $this->code, $match, 0, $this->cursor))
 		{
 			[$expect, $lineno] = array_pop($this->brackets);
 
@@ -387,7 +387,7 @@ class Lexer
 	{
 		$bracket = end($this->brackets);
 
-		if ($this->options['interpolation'][0] === $bracket[0] && preg_match($this->regexes['interpolation_end'], $this->code, $match, null, $this->cursor))
+		if ($this->options['interpolation'][0] === $bracket[0] && preg_match($this->regexes['interpolation_end'], $this->code, $match, 0, $this->cursor))
 		{
 			array_pop($this->brackets);
 			$this->pushToken(Token::INTERPOLATION_END_TYPE);
