@@ -37,14 +37,14 @@ use LogicException;
 class Cappuccino
 {
 
-	public const VERSION = '1.0.1-dev';
-	public const VERSION_ID = 10010;
+	public const VERSION = '1.0.2';
+	public const VERSION_ID = 10020;
 	public const MAJOR_VERSION = 1;
 	public const MINOR_VERSION = 0;
-	public const RELEASE_VERSION = 1;
-	public const EXTRA_VERSION = 'dev';
+	public const RELEASE_VERSION = 2;
+	public const EXTRA_VERSION = 'release';
 
-	public const DEFAULT_EXTENSION = '.capy';
+	public const DEFAULT_EXTENSION = '.cappy';
 
 	/**
 	 * @var CacheInterface
@@ -523,7 +523,7 @@ class Cappuccino
 	 * Tries to load a template consecutively from an array. Similar to {@see Cappuccino::loadTemplate()} but it also accepts
 	 * Template instances and an array of templates where each is tried to be loaded.
 	 *
-	 * @param Template|string|string[] $names
+	 * @param TemplateWrapper|Template|string|string[] $names
 	 *
 	 * @return Template
 	 * @throws Error
@@ -531,7 +531,7 @@ class Cappuccino
 	 * @throws RuntimeError
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
+	 * @since 1.0.2
 	 */
 	public function resolveTemplate ($names): Template
 	{
@@ -540,6 +540,9 @@ class Cappuccino
 
 		foreach ($names as $name)
 		{
+			if ($name instanceof TemplateWrapper)
+				return $name;
+
 			if ($name instanceof Template)
 				return $name;
 
