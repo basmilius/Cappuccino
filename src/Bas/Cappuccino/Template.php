@@ -488,7 +488,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function displayWithErrorHandling (array $context, array $blocks = [])
+	protected function displayWithErrorHandling (array $context, array $blocks = []): void
 	{
 		try
 		{
@@ -519,12 +519,11 @@ abstract class Template
 	 * @param array $context
 	 * @param array $blocks
 	 *
-	 * @return mixed
 	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected abstract function doDisplay (array $context, array $blocks = []);
+	protected abstract function doDisplay (array $context, array $blocks = []): void;
 
 	/**
 	 * {@inheritdoc}

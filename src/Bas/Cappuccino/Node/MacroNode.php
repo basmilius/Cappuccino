@@ -93,7 +93,7 @@ class MacroNode extends Node
 			->raw("\$__varargs__,\n")
 			->outdent()
 			->write("));\n\n")
-			->write("\$blocks = array();\n\n")
+			->write("\$blocks = [];\n\n")
 			->write("ob_start();\n")
 			->write("try {\n")
 			->indent()

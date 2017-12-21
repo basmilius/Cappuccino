@@ -64,7 +64,7 @@ class WithNode extends Node
 				->write("}\n");
 
 			if ($this->getAttribute('only'))
-				$compiler->write("\$context = array('_parent' => \$context);\n");
+				$compiler->write("\$context = ['_parent' => \$context];\n");
 			else
 				$compiler->write("\$context['_parent'] = \$context;\n");
 

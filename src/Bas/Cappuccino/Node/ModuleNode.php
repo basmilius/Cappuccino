@@ -284,31 +284,42 @@ class ModuleNode extends Node
 				->write("\$this->blocks = array_merge(\n")
 				->indent()
 				->write("\$this->traits,\n")
-				->write("array(\n");
+				->write("[\n");
 		}
 		else
 		{
 			$compiler
-				->write("\$this->blocks = array(\n");
+				->write("\$this->blocks = [\n");
 		}
 
 		$compiler
 			->indent();
 
 		foreach ($this->getNode('blocks') as $name => $node)
-			$compiler->write(sprintf("'%s' => array(\$this, 'block_%s'),\n", $name, $name));
+			$compiler->write(sprintf("'%s' => [\$this, 'block_%s'],\n", $name, $name));
 
 		if ($countTraits)
+		{
 			$compiler
 				->outdent()
-				->write(")\n");
+				->write("]\n");
 
-		$compiler
-			->outdent()
-			->write(");\n")
-			->outdent()
-			->subcompile($this->getNode('constructor_end'))
-			->write("}\n\n");
+			$compiler
+				->outdent()
+				->write(");\n")
+				->outdent()
+				->subcompile($this->getNode('constructor_end'))
+				->write("}\n\n");
+		}
+		else
+		{
+			$compiler
+				->outdent()
+				->write("];\n")
+				->outdent()
+				->subcompile($this->getNode('constructor_end'))
+				->write("}\n\n");
+		}
 	}
 
 	/**
@@ -322,7 +333,7 @@ class ModuleNode extends Node
 	protected function compileDisplay (Compiler $compiler): void
 	{
 		$compiler
-			->write("protected function doDisplay(array \$context, array \$blocks = array())\n", "{\n")
+			->write("protected function doDisplay(array \$context, array \$blocks = []): void\n", "{\n")
 			->indent()
 			->subcompile($this->getNode('display_start'))
 			->subcompile($this->getNode('body'));

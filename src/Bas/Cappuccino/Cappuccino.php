@@ -354,7 +354,7 @@ class Cappuccino
 	{
 		$key = $this->getLoader()->getCacheKey($name) . $this->optionsHash;
 
-		return $this->templateClassPrefix . hash('sha256', $key) . (null === $index ? '' : '_' . $index);
+		return $this->templateClassPrefix . hash('sha1', $key) . (null === $index ? '' : '_' . $index);
 	}
 
 	/**

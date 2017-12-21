@@ -64,7 +64,7 @@ class GetAttrExpression extends AbstractExpression
 			if ($this->hasNode('arguments'))
 				$compiler->raw(', ')->subcompile($this->getNode('arguments'));
 			else
-				$compiler->raw(', array()');
+				$compiler->raw(', []');
 		}
 
 		if ($needSecond)

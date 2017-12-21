@@ -75,12 +75,12 @@ class ForNode extends Node
 		if ($this->getAttribute('with_loop'))
 		{
 			$compiler
-				->write("\$context['loop'] = array(\n")
+				->write("\$context['loop'] = [\n")
 				->write("  'parent' => \$context['_parent'],\n")
 				->write("  'index0' => 0,\n")
 				->write("  'index'  => 1,\n")
 				->write("  'first'  => true,\n")
-				->write(");\n");
+				->write("];\n");
 
 			if (!$this->getAttribute('ifexpr'))
 				$compiler
