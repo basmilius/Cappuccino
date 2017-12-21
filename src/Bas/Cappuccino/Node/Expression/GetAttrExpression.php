@@ -44,7 +44,7 @@ class GetAttrExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler) : void
+	public function compile (Compiler $compiler): void
 	{
 		$compiler->raw(StaticMethods::class . '::getAttribute($this->cappuccino, $this->getSourceContext(), ');
 

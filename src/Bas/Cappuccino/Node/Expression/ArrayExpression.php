@@ -47,7 +47,7 @@ class ArrayExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getKeyValuePairs () : array
+	public function getKeyValuePairs (): array
 	{
 		$pairs = [];
 
@@ -71,7 +71,7 @@ class ArrayExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function hasElement (AbstractExpression $key) : bool
+	public function hasElement (AbstractExpression $key): bool
 	{
 		foreach ($this->getKeyValuePairs() as $pair)
 			if ((string)$key === (string)$pair['key'])
@@ -102,7 +102,7 @@ class ArrayExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler) : void
+	public function compile (Compiler $compiler): void
 	{
 		$compiler->raw('array(');
 		$first = true;

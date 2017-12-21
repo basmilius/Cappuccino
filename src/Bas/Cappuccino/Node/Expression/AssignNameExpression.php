@@ -20,7 +20,7 @@ class AssignNameExpression extends NameExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler) : void
+	public function compile (Compiler $compiler): void
 	{
 		$compiler->raw('$context[')->string($this->getAttribute('name'))->raw(']');
 	}

@@ -38,7 +38,7 @@ class FilterExpression extends CallExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler) : void
+	public function compile (Compiler $compiler): void
 	{
 		$name = $this->getNode('filter')->getAttribute('value');
 		$filter = $compiler->getCappuccino()->getFilter($name);

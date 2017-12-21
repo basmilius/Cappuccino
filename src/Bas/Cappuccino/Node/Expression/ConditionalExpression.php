@@ -36,7 +36,7 @@ class ConditionalExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler) : void
+	public function compile (Compiler $compiler): void
 	{
 		$compiler->raw('((')->subcompile($this->getNode('expr1'))->raw(') ? (')->subcompile($this->getNode('expr2'))->raw(') : (')->subcompile($this->getNode('expr3'))->raw('))');
 	}

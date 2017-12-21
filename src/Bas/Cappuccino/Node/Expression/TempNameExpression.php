@@ -34,7 +34,7 @@ class TempNameExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler) : void
+	public function compile (Compiler $compiler): void
 	{
 		$compiler->raw('$_')->raw($this->getAttribute('name'))->raw('_');
 	}

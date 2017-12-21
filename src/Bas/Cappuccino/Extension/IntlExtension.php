@@ -6,7 +6,7 @@ namespace Bas\Cappuccino\Extension;
 use Bas\Cappuccino\Cappuccino;
 use Bas\Cappuccino\Error\SyntaxError;
 use Bas\Cappuccino\SimpleFilter;
-use Dompdf\Exception;
+use Exception;
 use IntlDateFormatter;
 use Locale;
 use NumberFormatter;

@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace Bas\Cappuccino\Node\Expression;
 
-use Closure;
 use Bas\Cappuccino\Compiler;
 use Bas\Cappuccino\Error\SyntaxError;
 use Bas\Cappuccino\Extension\ExtensionInterface;
 use Bas\Cappuccino\Node\Node;
+use Closure;
 use LogicException;
 use ReflectionFunction;
 use ReflectionMethod;
