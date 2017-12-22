@@ -95,7 +95,7 @@ class SetNode extends Node implements NodeCaptureInterface
 
 			if (count($this->getNode('names')) > 1)
 			{
-				$compiler->write('array(');
+				$compiler->write('[');
 				foreach ($this->getNode('values') as $idx => $value)
 				{
 					if ($idx)
@@ -105,7 +105,7 @@ class SetNode extends Node implements NodeCaptureInterface
 
 					$compiler->subcompile($value);
 				}
-				$compiler->raw(')');
+				$compiler->raw(']');
 			}
 			else
 			{
