@@ -5,6 +5,7 @@ namespace Bas\Cappuccino\Node;
 
 use Bas\Cappuccino\Compiler;
 use Bas\Cappuccino\Error\SyntaxError;
+use Bas\Cappuccino\Markup;
 
 /**
  * Class MacroNode
@@ -47,6 +48,8 @@ class MacroNode extends Node
 	 */
 	public function compile (Compiler $compiler): void
 	{
+		$markupClass = Markup::class;
+
 		$compiler
 			->addDebugInfo($this)
 			->write(sprintf('public function macro_%s(', $this->getAttribute('name')));
@@ -99,7 +102,7 @@ class MacroNode extends Node
 			->indent()
 			->subcompile($this->getNode('body'))
 			->raw("\n")
-			->write("return ('' === \$tmp = ob_get_contents()) ? '' : new Markup(\$tmp, \$this->cappuccino->getCharset());\n")
+			->write("return ('' === \$tmp = ob_get_contents()) ? '' : new {$markupClass}(\$tmp, \$this->cappuccino->getCharset());\n")
 			->outdent()
 			->write("} finally {\n")
 			->indent()
