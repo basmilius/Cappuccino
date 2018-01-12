@@ -955,7 +955,7 @@ class ExpressionParser
 	 */
 	private function getFunctionNodeClass (string $name, int $line)
 	{
-		if (($function = $this->cappuccino->getFunction($name)) === false)
+		if (($function = $this->cappuccino->getFunction($name)) === false || $function === null)
 		{
 			$e = new SyntaxError(sprintf('Unknown "%s" function.', $name), $line, $this->parser->getStream()->getSourceContext());
 			$e->addSuggestions($name, array_keys($this->cappuccino->getFunctions()));
