@@ -47,37 +47,61 @@ class NameExpression extends AbstractExpression
 	{
 		$name = $this->getAttribute('name');
 
-		$compiler->addDebugInfo($this);
+		$compiler
+			->addDebugInfo($this);
 
 		if ($this->getAttribute('is_defined_test'))
 		{
 			if ($this->isSpecial())
 			{
-				$compiler->repr(true);
+				$compiler
+					->repr(true);
 			}
 			else
 			{
-				$compiler->raw('array_key_exists(')->repr($name)->raw(', $context)');
+				$compiler
+					->raw('array_key_exists(')
+					->repr($name)
+					->raw(', $context)');
 			}
 		}
 		else if ($this->isSpecial())
 		{
-			$compiler->raw($this->specialVars[$name]);
+			$compiler
+				->raw($this->specialVars[$name]);
 		}
 		else if ($this->getAttribute('always_defined'))
 		{
-			$compiler->raw('$context[')->string($name)->raw(']');
+			$compiler
+				->raw('$context[')
+				->string($name)
+				->raw(']');
 		}
 		else
 		{
 			if ($this->getAttribute('ignore_strict_check') || !$compiler->getCappuccino()->isStrictVariables())
 			{
-				$compiler->raw('($context[')->string($name)->raw('] ?? null)');
+				$compiler
+					->raw('($context[')
+					->string($name)
+					->raw('] ?? null)');
 			}
 			else
 			{
 				$classRuntimeError = RuntimeError::class;
-				$compiler->raw('(isset($context[')->string($name)->raw(']) || array_key_exists(')->string($name)->raw(', $context) ? $context[')->string($name)->raw('] : (function () { throw new ' . $classRuntimeError . '(\'Variable ')->string($name)->raw(' does not exist.\', ')->repr($this->lineno)->raw(', $this->getSourceContext()); })()')->raw(')');
+				$compiler
+					->raw('(isset($context[')
+					->string($name)
+					->raw(']) || array_key_exists(')
+					->string($name)
+					->raw(', $context) ? $context[')
+					->string($name)
+					->raw('] : (function () { throw new ' . $classRuntimeError . '(\'Variable ')
+					->string($name)
+					->raw(' does not exist.\', ')
+					->repr($this->lineno)
+					->raw(', $this->source); })()')
+					->raw(')');
 			}
 		}
 	}

@@ -1,9 +1,7 @@
 <?php
 /**
  * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
- *
  * This file is part of the Cappuccino package.
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -55,7 +53,27 @@ class GetAttrExpression extends AbstractExpression
 	 */
 	public function compile (Compiler $compiler): void
 	{
-		$compiler->raw(StaticMethods::class . '::getAttribute($this->cappuccino, $this->getSourceContext(), ');
+		if ((!$compiler->getCappuccino()->isStrictVariables() || $this->getAttribute('ignore_strict_check')) && !$this->getAttribute('is_defined_test') && Template::ARRAY_CALL === $this->getAttribute('type'))
+		{
+			$var = '$' . $compiler->getVarName();
+
+			$compiler
+				->raw('((' . $var . ' = ')
+				->subcompile($this->getNode('node'))
+				->raw(') && is_array(')
+				->raw($var)
+				->raw(') || ')
+				->raw($var)
+				->raw(' instanceof \ArrayAccess ? (')
+				->raw($var)
+				->raw('[')
+				->subcompile($this->getNode('attribute'))
+				->raw('] ?? null) : null)');
+
+			return;
+		}
+
+		$compiler->raw(StaticMethods::class . '::getAttribute($this->cappuccino, $this->source, ');
 
 		if ($this->getAttribute('ignore_strict_check'))
 			$this->getNode('node')->setAttribute('ignore_strict_check', true);

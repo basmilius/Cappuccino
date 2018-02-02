@@ -1,9 +1,7 @@
 <?php
 /**
  * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
- *
  * This file is part of the Cappuccino package.
- *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
@@ -114,10 +112,7 @@ class ModuleNode extends Node
 			$compiler->write('<?php');
 
 		$this->compileClassHeader($compiler);
-
-		if (count($this->getNode('blocks')) || count($this->getNode('traits')) || !$this->hasNode('parent') || $this->getNode('parent') instanceof ConstantExpression || count($this->getNode('constructor_start')) || count($this->getNode('constructor_end')))
-			$this->compileConstructor($compiler);
-
+		$this->compileConstructor($compiler);
 		$this->compileGetParent($compiler);
 		$this->compileDisplay($compiler);
 
@@ -187,7 +182,8 @@ class ModuleNode extends Node
 			->write('class ' . $compiler->getCappuccino()->getTemplateClass($this->source->getName(), $this->getAttribute('index')))
 			->raw(sprintf(" extends %s\n", $compiler->getCappuccino()->getBaseTemplateClass()))
 			->write("{\n")
-			->indent();
+			->indent()
+			->write("private \$source;\n\n");
 	}
 
 	/**
@@ -206,7 +202,8 @@ class ModuleNode extends Node
 			->write("public function __construct($classCappuccino \$cappuccino)\n", "{\n")
 			->indent()
 			->subcompile($this->getNode('constructor_start'))
-			->write("parent::__construct(\$cappuccino);\n\n");
+			->write("parent::__construct(\$cappuccino);\n\n")
+			->write("\$this->source = \$this->getSourceContext();\n\n");
 
 		if (!$this->hasNode('parent'))
 			$compiler->write("\$this->parent = false;\n\n");
