@@ -275,7 +275,7 @@ final class CoreExtension extends AbstractExtension
 			new SimpleFilter('nl2br', 'nl2br', ['pre_escape' => 'html', 'is_safe' => ['html']]),
 
 			// array helpers
-			new SimpleFilter('join', [$this, 'onSimpleFIlterArrayJoin']),
+			new SimpleFilter('join', [$this, 'onSimpleFilterArrayJoin']),
 			new SimpleFilter('split', [$this, 'onSimpleFilterArraySplit'], ['needs_cappuccino' => true]),
 			new SimpleFilter('sort', [$this, 'onSimpleFilterArraySort']),
 			new SimpleFilter('merge', [$this, 'onSimpleFilterArrayMerge']),
@@ -754,7 +754,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFIlterArrayJoin ($array, $glue = ''): string
+	public final function onSimpleFilterArrayJoin ($array, $glue = ''): string
 	{
 		if ($array instanceof Traversable)
 			$array = iterator_to_array($array);
