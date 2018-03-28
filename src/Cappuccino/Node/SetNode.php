@@ -38,7 +38,7 @@ class SetNode extends Node implements NodeCaptureInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (bool $capture, Node $names, Node $values, int $lineno, ?string $tag = null)
+	public function __construct(bool $capture, Node $names, Node $values, int $lineno, ?string $tag = null)
 	{
 		parent::__construct(['names' => $names, 'values' => $values], ['capture' => $capture, 'safe' => false], $lineno, $tag);
 
@@ -61,7 +61,7 @@ class SetNode extends Node implements NodeCaptureInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$classMarkup = Markup::class;
 

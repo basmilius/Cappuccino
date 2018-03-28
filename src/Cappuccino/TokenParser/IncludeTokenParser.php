@@ -33,7 +33,7 @@ class IncludeTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token): Node
+	public function parse(Token $token): Node
 	{
 		$expr = $this->parser->getExpressionParser()->parseExpression();
 
@@ -51,27 +51,32 @@ class IncludeTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function parseArguments (): array
+	protected function parseArguments(): array
 	{
 		$stream = $this->parser->getStream();
 		$ignoreMissing = false;
 		$variables = null;
 		$only = false;
 
-		if ($stream->nextIf(/*Token::NAME_TYPE*/ 5, 'ignore'))
+		if ($stream->nextIf(/*Token::NAME_TYPE*/
+			5, 'ignore'))
 		{
-			$stream->expect(/*Token::NAME_TYPE*/ 5, 'missing');
+			$stream->expect(/*Token::NAME_TYPE*/
+				5, 'missing');
 
 			$ignoreMissing = true;
 		}
 
-		if ($stream->nextIf(/*Token::NAME_TYPE*/ 5, 'with'))
+		if ($stream->nextIf(/*Token::NAME_TYPE*/
+			5, 'with'))
 			$variables = $this->parser->getExpressionParser()->parseExpression();
 
-		if ($stream->nextIf(/*Token::NAME_TYPE*/ 5, 'only'))
+		if ($stream->nextIf(/*Token::NAME_TYPE*/
+			5, 'only'))
 			$only = true;
 
-		$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
+		$stream->expect(/*Token::BLOCK_END_TYPE*/
+			3);
 
 		return [$variables, $only, $ignoreMissing];
 	}
@@ -81,7 +86,7 @@ class IncludeTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag (): string
+	public function getTag(): string
 	{
 		return 'include';
 	}

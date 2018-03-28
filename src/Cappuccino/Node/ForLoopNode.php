@@ -33,7 +33,7 @@ class ForLoopNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (int $lineno, ?string $tag = null)
+	public function __construct(int $lineno, ?string $tag = null)
 	{
 		parent::__construct([], ['with_loop' => false, 'ifexpr' => false, 'else' => false], $lineno, $tag);
 	}
@@ -43,7 +43,7 @@ class ForLoopNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		if ($this->getAttribute('else'))
 			$compiler->write("\$context['_iterated'] = true;\n");

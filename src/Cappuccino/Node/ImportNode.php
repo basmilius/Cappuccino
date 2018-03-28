@@ -37,7 +37,7 @@ class ImportNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (AbstractExpression $expr, AbstractExpression $var, int $lineno, ?string $tag = null)
+	public function __construct(AbstractExpression $expr, AbstractExpression $var, int $lineno, ?string $tag = null)
 	{
 		parent::__construct(['expr' => $expr, 'var' => $var], [], $lineno, $tag);
 	}
@@ -47,7 +47,7 @@ class ImportNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$compiler
 			->addDebugInfo($this)

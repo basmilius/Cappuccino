@@ -55,7 +55,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (int $optimizers = -1)
+	public function __construct(int $optimizers = -1)
 	{
 		if (!is_int($optimizers) || $optimizers > (self::OPTIMIZE_FOR | self::OPTIMIZE_RAW_FILTER | self::OPTIMIZE_VAR_ACCESS))
 			throw new InvalidArgumentException(sprintf('Optimizer mode "%s" is not valid.', $optimizers));
@@ -68,7 +68,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doEnterNode (Node $node, Cappuccino $cappuccino): Node
+	protected function doEnterNode(Node $node, Cappuccino $cappuccino): Node
 	{
 		if (self::OPTIMIZE_FOR === (self::OPTIMIZE_FOR & $this->optimizers))
 			$this->enterOptimizeFor($node);
@@ -81,7 +81,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doLeaveNode (Node $node, Cappuccino $cappuccino): Node
+	protected function doLeaveNode(Node $node, Cappuccino $cappuccino): Node
 	{
 		if (self::OPTIMIZE_FOR === (self::OPTIMIZE_FOR & $this->optimizers))
 			$this->leaveOptimizeFor($node);
@@ -101,7 +101,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function optimizePrintNode (Node $node): Node
+	private function optimizePrintNode(Node $node): Node
 	{
 		if (!$node instanceof PrintNode)
 			return $node;
@@ -127,7 +127,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function optimizeRawFilter (Node $node)
+	private function optimizeRawFilter(Node $node)
 	{
 		if ($node instanceof FilterExpression && 'raw' == $node->getNode('filter')->getAttribute('value'))
 			return $node->getNode('node');
@@ -143,7 +143,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function enterOptimizeFor (Node $node)
+	private function enterOptimizeFor(Node $node)
 	{
 		if ($node instanceof ForNode)
 		{
@@ -191,7 +191,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function leaveOptimizeFor (Node $node)
+	private function leaveOptimizeFor(Node $node)
 	{
 		if ($node instanceof ForNode)
 		{
@@ -207,7 +207,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function addLoopToCurrent ()
+	private function addLoopToCurrent()
 	{
 		$this->loops[0]->setAttribute('with_loop', true);
 	}
@@ -218,7 +218,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function addLoopToAll ()
+	private function addLoopToAll()
 	{
 		foreach ($this->loops as $loop)
 			$loop->setAttribute('with_loop', true);
@@ -229,7 +229,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getPriority (): int
+	public function getPriority(): int
 	{
 		return 255;
 	}

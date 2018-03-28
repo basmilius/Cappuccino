@@ -41,7 +41,7 @@ class MacroNode extends Node
 	 * @since 1.0.0
 	 * @throws SyntaxError
 	 */
-	public function __construct (string $name, Node $body, Node $arguments, int $lineno, ?string $tag = null)
+	public function __construct(string $name, Node $body, Node $arguments, int $lineno, ?string $tag = null)
 	{
 		foreach ($arguments as $argumentName => $argument)
 			if (self::VARARGS_NAME === $argumentName)
@@ -55,7 +55,7 @@ class MacroNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$markupClass = Markup::class;
 

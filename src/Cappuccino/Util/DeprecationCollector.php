@@ -43,7 +43,7 @@ final class DeprecationCollector
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Cappuccino $cappuccino)
+	public function __construct(Cappuccino $cappuccino)
 	{
 		$this->cappuccino = $cappuccino;
 	}
@@ -58,7 +58,7 @@ final class DeprecationCollector
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function collectDir (string $directory, string $extension = Cappuccino::DEFAULT_EXTENSION): array
+	public function collectDir(string $directory, string $extension = Cappuccino::DEFAULT_EXTENSION): array
 	{
 		$iterator = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory), RecursiveIteratorIterator::LEAVES_ONLY), '{' . preg_quote($extension) . '$}');
 
@@ -74,7 +74,7 @@ final class DeprecationCollector
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function collect (Traversable $iterator)
+	public function collect(Traversable $iterator)
 	{
 		$deprecations = [];
 		set_error_handler(function ($type, $msg) use (&$deprecations)

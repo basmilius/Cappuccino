@@ -38,7 +38,7 @@ final class ArrayLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (array $templates = [])
+	public function __construct(array $templates = [])
 	{
 		$this->templates = $templates;
 	}
@@ -52,7 +52,7 @@ final class ArrayLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setTemplate (string $name, string $template): void
+	public function setTemplate(string $name, string $template): void
 	{
 		$this->templates[$name] = $template;
 	}
@@ -62,7 +62,7 @@ final class ArrayLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getSourceContext (string $name): Source
+	public function getSourceContext(string $name): Source
 	{
 		$name = (string)$name;
 
@@ -77,7 +77,7 @@ final class ArrayLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function exists (string $name): bool
+	public function exists(string $name): bool
 	{
 		return isset($this->templates[$name]);
 	}
@@ -87,7 +87,7 @@ final class ArrayLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getCacheKey (string $name): string
+	public function getCacheKey(string $name): string
 	{
 		if (!isset($this->templates[$name]))
 			throw new LoaderError(sprintf('Template "%s" is not defined.', $name));
@@ -100,7 +100,7 @@ final class ArrayLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isFresh (string $name, int $time): bool
+	public function isFresh(string $name, int $time): bool
 	{
 		if (!isset($this->templates[$name]))
 			throw new LoaderError(sprintf('Template "%s" is not defined.', $name));

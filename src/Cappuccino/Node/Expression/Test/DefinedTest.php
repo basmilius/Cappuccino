@@ -44,7 +44,7 @@ class DefinedTest extends TestExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Node $node, string $name, Node $arguments = null, int $lineno)
+	public function __construct(Node $node, string $name, Node $arguments = null, int $lineno)
 	{
 		if ($node instanceof NameExpression)
 		{
@@ -75,7 +75,7 @@ class DefinedTest extends TestExpression
 		parent::__construct($node, $name, $arguments, $lineno);
 	}
 
-	private function changeIgnoreStrictCheck (GetAttrExpression $node)
+	private function changeIgnoreStrictCheck(GetAttrExpression $node)
 	{
 		$node->setAttribute('ignore_strict_check', true);
 
@@ -92,7 +92,7 @@ class DefinedTest extends TestExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$compiler->subcompile($this->getNode('node'));
 	}

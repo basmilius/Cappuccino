@@ -43,7 +43,7 @@ final class ChainLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (array $loaders = [])
+	public function __construct(array $loaders = [])
 	{
 		foreach ($loaders as $loader)
 			$this->addLoader($loader);
@@ -57,7 +57,7 @@ final class ChainLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addLoader (LoaderInterface $loader): void
+	public function addLoader(LoaderInterface $loader): void
 	{
 		$this->loaders[] = $loader;
 		$this->hasSourceCache = [];
@@ -68,7 +68,7 @@ final class ChainLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getSourceContext (string $name): Source
+	public function getSourceContext(string $name): Source
 	{
 		$exceptions = [];
 
@@ -95,7 +95,7 @@ final class ChainLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function exists (string $name): bool
+	public function exists(string $name): bool
 	{
 		if (isset($this->hasSourceCache[$name]))
 			return $this->hasSourceCache[$name];
@@ -112,7 +112,7 @@ final class ChainLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getCacheKey (string $name): string
+	public function getCacheKey(string $name): string
 	{
 		$exceptions = [];
 
@@ -139,7 +139,7 @@ final class ChainLoader implements LoaderInterface, ExistsLoaderInterface, Sourc
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isFresh (string $name, int $time): bool
+	public function isFresh(string $name, int $time): bool
 	{
 		$exceptions = [];
 

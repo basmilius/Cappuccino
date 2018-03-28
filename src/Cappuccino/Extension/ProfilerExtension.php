@@ -38,7 +38,7 @@ final class ProfilerExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Profile $profile)
+	public function __construct(Profile $profile)
 	{
 		$this->actives[] = $profile;
 	}
@@ -51,7 +51,7 @@ final class ProfilerExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function enter (Profile $profile)
+	public final function enter(Profile $profile)
 	{
 		$this->actives[0]->addProfile($profile);
 		array_unshift($this->actives, $profile);
@@ -65,7 +65,7 @@ final class ProfilerExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function leave (Profile $profile)
+	public final function leave(Profile $profile)
 	{
 		$profile->leave();
 		array_shift($this->actives);
@@ -81,7 +81,7 @@ final class ProfilerExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function getNodeVisitors (): array
+	public final function getNodeVisitors(): array
 	{
 		return [
 			new ProfilerNodeVisitor(get_class($this))

@@ -32,7 +32,7 @@ final class UseTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token): ?Node
+	public function parse(Token $token): ?Node
 	{
 		$template = $this->parser->getExpressionParser()->parseExpression();
 		$stream = $this->parser->getStream();
@@ -46,21 +46,25 @@ final class UseTokenParser extends AbstractTokenParser
 		{
 			do
 			{
-				$name = $stream->expect(/*Token::NAME_TYPE*/ 5)->getValue();
+				$name = $stream->expect(/*Token::NAME_TYPE*/
+					5)->getValue();
 				$alias = $name;
 
 				if ($stream->nextIf('as'))
-					$alias = $stream->expect(/*Token::NAME_TYPE*/ 5)->getValue();
+					$alias = $stream->expect(/*Token::NAME_TYPE*/
+						5)->getValue();
 
 				$targets[$name] = new ConstantExpression($alias, -1);
 
-				if (!$stream->nextIf(/*Token::PUNCTUATION_TYPE*/ 9, ','))
+				if (!$stream->nextIf(/*Token::PUNCTUATION_TYPE*/
+					9, ','))
 					break;
 			}
 			while (true);
 		}
 
-		$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
+		$stream->expect(/*Token::BLOCK_END_TYPE*/
+			3);
 
 		$this->parser->addTrait(new Node(['template' => $template, 'targets' => new Node($targets)]));
 
@@ -72,7 +76,7 @@ final class UseTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag (): string
+	public function getTag(): string
 	{
 		return 'use';
 	}

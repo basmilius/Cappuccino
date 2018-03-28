@@ -34,7 +34,7 @@ interface NodeVisitorInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function enterNode (Node $node, Cappuccino $env): Node;
+	public function enterNode(Node $node, Cappuccino $env): Node;
 
 	/**
 	 * Called after child nodes are visited.
@@ -46,7 +46,7 @@ interface NodeVisitorInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function leaveNode (Node $node, Cappuccino $env): Node;
+	public function leaveNode(Node $node, Cappuccino $env): Node;
 
 	/**
 	 * Returns the priority for this visitor.
@@ -55,6 +55,6 @@ interface NodeVisitorInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getPriority (): int;
+	public function getPriority(): int;
 
 }

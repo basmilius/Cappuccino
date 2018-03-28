@@ -33,6 +33,6 @@ interface InitRuntimeInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function initRuntime (Cappuccino $cappuccino);
+	public function initRuntime(Cappuccino $cappuccino);
 
 }

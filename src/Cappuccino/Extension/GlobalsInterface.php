@@ -29,6 +29,6 @@ interface GlobalsInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getGlobals (): array;
+	public function getGlobals(): array;
 
 }

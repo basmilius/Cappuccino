@@ -62,7 +62,7 @@ final class StagingExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function addFunction (SimpleFunction $function)
+	public final function addFunction(SimpleFunction $function)
 	{
 		if (isset($this->functions[$function->getName()]))
 		{
@@ -77,7 +77,7 @@ final class StagingExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function getFunctions (): array
+	public final function getFunctions(): array
 	{
 		return $this->functions;
 	}
@@ -90,7 +90,7 @@ final class StagingExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function addFilter (SimpleFilter $filter)
+	public final function addFilter(SimpleFilter $filter)
 	{
 		if (isset($this->filters[$filter->getName()]))
 		{
@@ -105,7 +105,7 @@ final class StagingExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function getFilters (): array
+	public final function getFilters(): array
 	{
 		return $this->filters;
 	}
@@ -118,7 +118,7 @@ final class StagingExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function addNodeVisitor (NodeVisitorInterface $visitor)
+	public final function addNodeVisitor(NodeVisitorInterface $visitor)
 	{
 		$this->visitors[] = $visitor;
 	}
@@ -128,7 +128,7 @@ final class StagingExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function getNodeVisitors (): array
+	public final function getNodeVisitors(): array
 	{
 		return $this->visitors;
 	}
@@ -141,7 +141,7 @@ final class StagingExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function addTokenParser (TokenParserInterface $parser)
+	public final function addTokenParser(TokenParserInterface $parser)
 	{
 		if (isset($this->tokenParsers[$parser->getTag()]))
 		{
@@ -156,7 +156,7 @@ final class StagingExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function getTokenParsers (): array
+	public final function getTokenParsers(): array
 	{
 		return $this->tokenParsers;
 	}
@@ -169,7 +169,7 @@ final class StagingExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function addTest (SimpleTest $test)
+	public final function addTest(SimpleTest $test)
 	{
 		if (isset($this->tests[$test->getName()]))
 			throw new LogicException(sprintf('Test "%s" is already registered.', $test->getName()));
@@ -182,7 +182,7 @@ final class StagingExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function getTests (): array
+	public final function getTests(): array
 	{
 		return $this->tests;
 	}

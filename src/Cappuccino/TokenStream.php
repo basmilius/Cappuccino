@@ -48,7 +48,7 @@ final class TokenStream
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (array $tokens, ?Source $source = null)
+	public function __construct(array $tokens, ?Source $source = null)
 	{
 		$this->tokens = $tokens;
 		$this->source = $source ?: new Source('', '');
@@ -59,7 +59,7 @@ final class TokenStream
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.30.
 	 */
-	public function __toString ()
+	public function __toString()
 	{
 		return implode("\n", $this->tokens);
 	}
@@ -72,7 +72,7 @@ final class TokenStream
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function injectTokens (array $tokens): void
+	public function injectTokens(array $tokens): void
 	{
 		$this->tokens = array_merge(array_slice($this->tokens, 0, $this->current), $tokens, array_slice($this->tokens, $this->current));
 	}
@@ -85,7 +85,7 @@ final class TokenStream
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function next (): Token
+	public function next(): Token
 	{
 		if (!isset($this->tokens[++$this->current]))
 			throw new SyntaxError('Unexpected end of template.', $this->tokens[$this->current - 1]->getLine(), $this->source);
@@ -104,7 +104,7 @@ final class TokenStream
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function nextIf ($primary, $secondary = null): ?Token
+	public function nextIf($primary, $secondary = null): ?Token
 	{
 		if ($this->tokens[$this->current]->test($primary, $secondary))
 			return $this->next();
@@ -124,7 +124,7 @@ final class TokenStream
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function expect ($type, ?string $value = null, ?string $message = null): Token
+	public function expect($type, ?string $value = null, ?string $message = null): Token
 	{
 		$token = $this->tokens[$this->current];
 
@@ -155,7 +155,7 @@ final class TokenStream
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function look (int $number = 1): Token
+	public function look(int $number = 1): Token
 	{
 		if (!isset($this->tokens[$this->current + $number]))
 			throw new SyntaxError('Unexpected end of template.', $this->tokens[$this->current + $number - 1]->getLine(), $this->source);
@@ -173,7 +173,7 @@ final class TokenStream
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function test ($primary, $secondary = null): bool
+	public function test($primary, $secondary = null): bool
 	{
 		return $this->tokens[$this->current]->test($primary, $secondary);
 	}
@@ -185,9 +185,10 @@ final class TokenStream
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isEOF (): bool
+	public function isEOF(): bool
 	{
-		return $this->tokens[$this->current]->getType() === /*Token::EOF_TYPE*/ -1;
+		return $this->tokens[$this->current]->getType() === /*Token::EOF_TYPE*/
+			-1;
 	}
 
 	/**
@@ -195,7 +196,7 @@ final class TokenStream
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getCurrent (): Token
+	public function getCurrent(): Token
 	{
 		return $this->tokens[$this->current];
 	}
@@ -207,7 +208,7 @@ final class TokenStream
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getSourceContext (): Source
+	public function getSourceContext(): Source
 	{
 		return $this->source;
 	}

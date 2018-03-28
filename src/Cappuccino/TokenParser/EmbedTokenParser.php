@@ -33,25 +33,31 @@ final class EmbedTokenParser extends IncludeTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token): Node
+	public function parse(Token $token): Node
 	{
 		$stream = $this->parser->getStream();
 		$parent = $this->parser->getExpressionParser()->parseExpression();
 
 		[$variables, $only, $ignoreMissing] = $this->parseArguments();
 
-		$parentToken = $fakeParentToken = new Token(/*Token::STRING_TYPE*/ 7, '__parent__', $token->getLine());
+		$parentToken = $fakeParentToken = new Token(/*Token::STRING_TYPE*/
+			7, '__parent__', $token->getLine());
 
 		if ($parent instanceof ConstantExpression)
-			$parentToken = new Token(/*Token::STRING_TYPE*/ 7, $parent->getAttribute('value'), $token->getLine());
+			$parentToken = new Token(/*Token::STRING_TYPE*/
+				7, $parent->getAttribute('value'), $token->getLine());
 		else if ($parent instanceof NameExpression)
-			$parentToken = new Token(/*Token::NAME_TYPE*/ 5, $parent->getAttribute('name'), $token->getLine());
+			$parentToken = new Token(/*Token::NAME_TYPE*/
+				5, $parent->getAttribute('name'), $token->getLine());
 
 		$stream->injectTokens([
-			new Token(/*Token::BLOCK_START_TYPE*/ 1, '', $token->getLine()),
-			new Token(/*Token::NAME_TYPE*/ 5, 'extends', $token->getLine()),
+			new Token(/*Token::BLOCK_START_TYPE*/
+				1, '', $token->getLine()),
+			new Token(/*Token::NAME_TYPE*/
+				5, 'extends', $token->getLine()),
 			$parentToken,
-			new Token(/*Token::BLOCK_END_TYPE*/ 3, '', $token->getLine()),
+			new Token(/*Token::BLOCK_END_TYPE*/
+				3, '', $token->getLine()),
 		]);
 
 		$module = $this->parser->parse($stream, [$this, 'decideBlockEnd'], true);
@@ -60,7 +66,8 @@ final class EmbedTokenParser extends IncludeTokenParser
 			$module->setNode('parent', $parent);
 
 		$this->parser->embedTemplate($module);
-		$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
+		$stream->expect(/*Token::BLOCK_END_TYPE*/
+			3);
 
 		return new EmbedNode($module->getTemplateName(), $module->getAttribute('index'), $variables, $only, $ignoreMissing, $token->getLine(), $this->getTag());
 	}
@@ -70,7 +77,7 @@ final class EmbedTokenParser extends IncludeTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function decideBlockEnd (Token $token): bool
+	public function decideBlockEnd(Token $token): bool
 	{
 		return $token->test('endembed');
 	}
@@ -80,7 +87,7 @@ final class EmbedTokenParser extends IncludeTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag (): string
+	public function getTag(): string
 	{
 		return 'embed';
 	}

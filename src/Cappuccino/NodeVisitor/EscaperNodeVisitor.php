@@ -48,7 +48,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct ()
+	public function __construct()
 	{
 		$this->safeAnalysis = new SafeAnalysisNodeVisitor();
 	}
@@ -58,7 +58,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doEnterNode (Node $node, Cappuccino $cappuccino): Node
+	protected function doEnterNode(Node $node, Cappuccino $cappuccino): Node
 	{
 		if ($node instanceof ModuleNode)
 		{
@@ -94,7 +94,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doLeaveNode (Node $node, Cappuccino $env): Node
+	protected function doLeaveNode(Node $node, Cappuccino $env): Node
 	{
 		if ($node instanceof ModuleNode)
 		{
@@ -130,7 +130,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function escapePrintNode (PrintNode $node, Cappuccino $env, $type): Node
+	private function escapePrintNode(PrintNode $node, Cappuccino $env, $type): Node
 	{
 		if (!$type)
 			return $node;
@@ -158,7 +158,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function preEscapeFilterNode (FilterExpression $filter, Cappuccino $env): FilterExpression
+	private function preEscapeFilterNode(FilterExpression $filter, Cappuccino $env): FilterExpression
 	{
 		$name = $filter->getNode('filter')->getAttribute('value');
 		$type = $env->getFilter($name)->getPreEscape();
@@ -187,7 +187,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function isSafeFor (string $type, Node $expression, Cappuccino $env): bool
+	private function isSafeFor(string $type, Node $expression, Cappuccino $env): bool
 	{
 		$safe = $this->safeAnalysis->getSafe($expression);
 
@@ -212,7 +212,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function needEscaping ()
+	private function needEscaping()
 	{
 		if (count($this->statusStack))
 			return $this->statusStack[count($this->statusStack) - 1];
@@ -230,7 +230,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function getEscaperFilter (string $type, Node $node)
+	private function getEscaperFilter(string $type, Node $node)
 	{
 		$line = $node->getTemplateLine();
 		$name = new ConstantExpression('escape', $line);
@@ -244,7 +244,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getPriority (): int
+	public function getPriority(): int
 	{
 		return 0;
 	}

@@ -31,13 +31,15 @@ final class SpacelessTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token): Node
+	public function parse(Token $token): Node
 	{
 		$lineno = $token->getLine();
 
-		$this->parser->getStream()->expect(/*Token::BLOCK_END_TYPE*/ 3);
+		$this->parser->getStream()->expect(/*Token::BLOCK_END_TYPE*/
+			3);
 		$body = $this->parser->subparse([$this, 'decideSpacelessEnd'], true);
-		$this->parser->getStream()->expect(/*Token::BLOCK_END_TYPE*/ 3);
+		$this->parser->getStream()->expect(/*Token::BLOCK_END_TYPE*/
+			3);
 
 		return new SpacelessNode($body, $lineno, $this->getTag());
 	}
@@ -51,7 +53,7 @@ final class SpacelessTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function decideSpacelessEnd (Token $token): bool
+	public function decideSpacelessEnd(Token $token): bool
 	{
 		return $token->test('endspaceless');
 	}
@@ -61,7 +63,7 @@ final class SpacelessTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag (): string
+	public function getTag(): string
 	{
 		return 'spaceless';
 	}

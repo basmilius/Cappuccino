@@ -32,12 +32,14 @@ final class ImportTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token): Node
+	public function parse(Token $token): Node
 	{
 		$macro = $this->parser->getExpressionParser()->parseExpression();
 		$this->parser->getStream()->expect('as');
-		$var = new AssignNameExpression($this->parser->getStream()->expect(/*Token::NAME_TYPE*/ 5)->getValue(), $token->getLine());
-		$this->parser->getStream()->expect(/*Token::BLOCK_END_TYPE*/ 3);
+		$var = new AssignNameExpression($this->parser->getStream()->expect(/*Token::NAME_TYPE*/
+			5)->getValue(), $token->getLine());
+		$this->parser->getStream()->expect(/*Token::BLOCK_END_TYPE*/
+			3);
 
 		$this->parser->addImportedSymbol('template', $var->getAttribute('name'));
 
@@ -49,7 +51,7 @@ final class ImportTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag (): string
+	public function getTag(): string
 	{
 		return 'import';
 	}

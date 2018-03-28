@@ -48,7 +48,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (string $template = 'main', string $type = self::ROOT, string $name = 'main')
+	public function __construct(string $template = 'main', string $type = self::ROOT, string $name = 'main')
 	{
 		if (__CLASS__ !== get_class($this))
 			@trigger_error('Overriding ' . __CLASS__ . ' is deprecated since version 2.4.0 and the class will be final in 3.0.', E_USER_DEPRECATED);
@@ -66,7 +66,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTemplate (): string
+	public function getTemplate(): string
 	{
 		return $this->template;
 	}
@@ -78,7 +78,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getType (): string
+	public function getType(): string
 	{
 		return $this->type;
 	}
@@ -90,7 +90,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getName (): string
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -102,7 +102,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isRoot (): bool
+	public function isRoot(): bool
 	{
 		return self::ROOT === $this->type;
 	}
@@ -114,7 +114,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isTemplate (): bool
+	public function isTemplate(): bool
 	{
 		return self::TEMPLATE === $this->type;
 	}
@@ -126,7 +126,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isBlock (): bool
+	public function isBlock(): bool
 	{
 		return self::BLOCK === $this->type;
 	}
@@ -138,7 +138,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isMacro (): bool
+	public function isMacro(): bool
 	{
 		return self::MACRO === $this->type;
 	}
@@ -150,7 +150,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getProfiles (): array
+	public function getProfiles(): array
 	{
 		return $this->profiles;
 	}
@@ -163,7 +163,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addProfile (Profile $profile): void
+	public function addProfile(Profile $profile): void
 	{
 		$this->profiles[] = $profile;
 	}
@@ -175,7 +175,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getDuration (): int
+	public function getDuration(): int
 	{
 		if ($this->isRoot() && $this->profiles)
 		{
@@ -197,7 +197,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getMemoryUsage (): int
+	public function getMemoryUsage(): int
 	{
 		return isset($this->ends['mu']) && isset($this->starts['mu']) ? $this->ends['mu'] - $this->starts['mu'] : 0;
 	}
@@ -209,7 +209,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getPeakMemoryUsage (): int
+	public function getPeakMemoryUsage(): int
 	{
 		return isset($this->ends['pmu']) && isset($this->starts['pmu']) ? $this->ends['pmu'] - $this->starts['pmu'] : 0;
 	}
@@ -220,7 +220,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function enter ()
+	public function enter()
 	{
 		$this->starts = [
 			'wt' => microtime(true),
@@ -235,7 +235,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function leave (): void
+	public function leave(): void
 	{
 		$this->ends = [
 			'wt' => microtime(true),
@@ -250,7 +250,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function reset (): void
+	public function reset(): void
 	{
 		$this->starts = $this->ends = $this->profiles = [];
 		$this->enter();
@@ -261,7 +261,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getIterator (): ArrayIterator
+	public function getIterator(): ArrayIterator
 	{
 		return new ArrayIterator($this->profiles);
 	}
@@ -271,7 +271,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function serialize (): string
+	public function serialize(): string
 	{
 		return serialize([$this->template, $this->name, $this->type, $this->starts, $this->ends, $this->profiles]);
 	}
@@ -281,7 +281,7 @@ class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function unserialize ($data): void
+	public function unserialize($data): void
 	{
 		[$this->template, $this->name, $this->type, $this->starts, $this->ends, $this->profiles] = unserialize($data);
 	}

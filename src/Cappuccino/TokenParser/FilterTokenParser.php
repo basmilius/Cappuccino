@@ -34,16 +34,18 @@ final class FilterTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token): Node
+	public function parse(Token $token): Node
 	{
 		$name = $this->parser->getVarName();
 		$ref = new BlockReferenceExpression(new ConstantExpression($name, $token->getLine()), null, $token->getLine(), $this->getTag());
 
 		$filter = $this->parser->getExpressionParser()->parseFilterExpressionRaw($ref, $this->getTag());
-		$this->parser->getStream()->expect(/*Token::BLOCK_END_TYPE*/ 3);
+		$this->parser->getStream()->expect(/*Token::BLOCK_END_TYPE*/
+			3);
 
 		$body = $this->parser->subparse([$this, 'decideBlockEnd'], true);
-		$this->parser->getStream()->expect(/*Token::BLOCK_END_TYPE*/ 3);
+		$this->parser->getStream()->expect(/*Token::BLOCK_END_TYPE*/
+			3);
 
 		$block = new BlockNode($name, $body, $token->getLine());
 		$this->parser->setBlock($name, $block);
@@ -56,7 +58,7 @@ final class FilterTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function decideBlockEnd (Token $token): bool
+	public function decideBlockEnd(Token $token): bool
 	{
 		return $token->test('endfilter');
 	}
@@ -66,7 +68,7 @@ final class FilterTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag (): string
+	public function getTag(): string
 	{
 		return 'filter';
 	}

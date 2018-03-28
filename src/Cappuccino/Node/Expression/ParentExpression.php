@@ -34,7 +34,7 @@ class ParentExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (string $name, int $lineno, $tag = null)
+	public function __construct(string $name, int $lineno, $tag = null)
 	{
 		parent::__construct([], ['output' => false, 'name' => $name], $lineno, $tag);
 	}
@@ -44,7 +44,7 @@ class ParentExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		if ($this->getAttribute('output'))
 			$compiler->addDebugInfo($this)->write('$this->displayParentBlock(')->string($this->getAttribute('name'))->raw(", \$context, \$blocks);\n");

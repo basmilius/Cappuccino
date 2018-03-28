@@ -43,7 +43,7 @@ final class NodeTraverser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Cappuccino $cappuccino, array $visitors = [])
+	public function __construct(Cappuccino $cappuccino, array $visitors = [])
 	{
 		$this->cappuccino = $cappuccino;
 
@@ -59,7 +59,7 @@ final class NodeTraverser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addVisitor (NodeVisitorInterface $visitor)
+	public function addVisitor(NodeVisitorInterface $visitor)
 	{
 		if (!isset($this->visitors[$visitor->getPriority()]))
 			$this->visitors[$visitor->getPriority()] = [];
@@ -76,7 +76,7 @@ final class NodeTraverser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function traverse (Node $node)
+	public function traverse(Node $node)
 	{
 		ksort($this->visitors);
 		foreach ($this->visitors as $visitors)
@@ -100,7 +100,7 @@ final class NodeTraverser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function traverseForVisitor (NodeVisitorInterface $visitor, Node $node)
+	private function traverseForVisitor(NodeVisitorInterface $visitor, Node $node)
 	{
 		$node = $visitor->enterNode($node, $this->cappuccino);
 

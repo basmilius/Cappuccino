@@ -62,7 +62,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Cappuccino $env, array $options = [])
+	public function __construct(Cappuccino $env, array $options = [])
 	{
 		$this->env = $env;
 		$this->options = array_merge([
@@ -94,7 +94,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function tokenize (Source $source): TokenStream
+	public function tokenize(Source $source): TokenStream
 	{
 		$this->source = $source;
 		$this->code = str_replace(["\r\n", "\r"], "\n", $source->getCode());
@@ -134,7 +134,8 @@ class Lexer
 			}
 		}
 
-		$this->pushToken(/*Token::EOF_TYPE*/ -1);
+		$this->pushToken(/*Token::EOF_TYPE*/
+			-1);
 
 		if (!empty($this->brackets))
 		{
@@ -151,11 +152,12 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function lexData (): void
+	private function lexData(): void
 	{
 		if ($this->position == count($this->positions[0]) - 1)
 		{
-			$this->pushToken(/*Token::TEXT_TYPE*/ 0, substr($this->code, $this->cursor));
+			$this->pushToken(/*Token::TEXT_TYPE*/
+				0, substr($this->code, $this->cursor));
 			$this->cursor = $this->end;
 
 			return;
@@ -176,7 +178,8 @@ class Lexer
 		if (isset($this->positions[2][$this->position][0]))
 			$text = rtrim($text);
 
-		$this->pushToken(/*Token::TEXT_TYPE*/ 0, $text);
+		$this->pushToken(/*Token::TEXT_TYPE*/
+			0, $text);
 		$this->moveCursor($textContent . $position[0]);
 
 		switch ($this->positions[1][$this->position][0])
@@ -198,14 +201,16 @@ class Lexer
 				}
 				else
 				{
-					$this->pushToken(/*Token::BLOCK_START_TYPE*/ 1);
+					$this->pushToken(/*Token::BLOCK_START_TYPE*/
+						1);
 					$this->pushState(self::STATE_BLOCK);
 					$this->currentVarBlockLine = $this->lineno;
 				}
 				break;
 
 			case $this->options['tag_variable'][0]:
-				$this->pushToken(/*Token::VAR_START_TYPE*/ 2);
+				$this->pushToken(/*Token::VAR_START_TYPE*/
+					2);
 				$this->pushState(self::STATE_VAR);
 				$this->currentVarBlockLine = $this->lineno;
 				break;
@@ -217,11 +222,12 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function lexBlock (): void
+	private function lexBlock(): void
 	{
 		if (empty($this->brackets) && preg_match($this->regexes['lex_block'], $this->code, $match, 0, $this->cursor))
 		{
-			$this->pushToken(/*Token::BLOCK_END_TYPE*/ 3);
+			$this->pushToken(/*Token::BLOCK_END_TYPE*/
+				3);
 			$this->moveCursor($match[0]);
 			$this->popState();
 		}
@@ -236,11 +242,12 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function lexVar (): void
+	private function lexVar(): void
 	{
 		if (empty($this->brackets) && preg_match($this->regexes['lex_var'], $this->code, $match, 0, $this->cursor))
 		{
-			$this->pushToken(/*Token::VAR_END_TYPE*/ 4);
+			$this->pushToken(/*Token::VAR_END_TYPE*/
+				4);
 			$this->moveCursor($match[0]);
 			$this->popState();
 		}
@@ -255,7 +262,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function lexExpression (): void
+	private function lexExpression(): void
 	{
 		if (preg_match('/\s+/A', $this->code, $match, 0, $this->cursor))
 		{
@@ -266,12 +273,14 @@ class Lexer
 		}
 		if (preg_match($this->regexes['operator'], $this->code, $match, 0, $this->cursor))
 		{
-			$this->pushToken(/*Token::OPERATOR_TYPE*/ 8, preg_replace('/\s+/', ' ', $match[0]));
+			$this->pushToken(/*Token::OPERATOR_TYPE*/
+				8, preg_replace('/\s+/', ' ', $match[0]));
 			$this->moveCursor($match[0]);
 		}
 		else if (preg_match(self::REGEX_NAME, $this->code, $match, 0, $this->cursor))
 		{
-			$this->pushToken(/*Token::NAME_TYPE*/ 5, $match[0]);
+			$this->pushToken(/*Token::NAME_TYPE*/
+				5, $match[0]);
 			$this->moveCursor($match[0]);
 		}
 		else if (preg_match(self::REGEX_NUMBER, $this->code, $match, 0, $this->cursor))
@@ -281,7 +290,8 @@ class Lexer
 			{
 				$number = (int)$match[0]; // integers lower than the maximum
 			}
-			$this->pushToken(/*Token::NUMBER_TYPE*/ 6, strval($number));
+			$this->pushToken(/*Token::NUMBER_TYPE*/
+				6, strval($number));
 			$this->moveCursor($match[0]);
 		}
 		else if (false !== strpos(self::PUNCTUATION, $this->code[$this->cursor]))
@@ -304,12 +314,14 @@ class Lexer
 					throw new SyntaxError(sprintf('Unclosed "%s".', $expect), $lineno, $this->source);
 				}
 			}
-			$this->pushToken(/*Token::PUNCTUATION_TYPE*/ 9, $this->code[$this->cursor]);
+			$this->pushToken(/*Token::PUNCTUATION_TYPE*/
+				9, $this->code[$this->cursor]);
 			++$this->cursor;
 		}
 		else if (preg_match(self::REGEX_STRING, $this->code, $match, 0, $this->cursor))
 		{
-			$this->pushToken(/*Token::STRING_TYPE*/ 7, stripcslashes(substr($match[0], 1, -1)));
+			$this->pushToken(/*Token::STRING_TYPE*/
+				7, stripcslashes(substr($match[0], 1, -1)));
 			$this->moveCursor($match[0]);
 		}
 		else if (preg_match(self::REGEX_DQ_STRING_DELIM, $this->code, $match, 0, $this->cursor))
@@ -329,7 +341,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function lexRawData (): void
+	private function lexRawData(): void
 	{
 		if (!preg_match($this->regexes['lex_raw_data'], $this->code, $match, PREG_OFFSET_CAPTURE, $this->cursor))
 			throw new SyntaxError('Unexpected end of file: Unclosed "verbatim" block.', $this->lineno, $this->source);
@@ -340,7 +352,8 @@ class Lexer
 		if (false !== strpos($match[1][0], $this->options['whitespace_trim']))
 			$text = rtrim($text);
 
-		$this->pushToken(/*Token::TEXT_TYPE*/ 0, $text);
+		$this->pushToken(/*Token::TEXT_TYPE*/
+			0, $text);
 	}
 
 	/**
@@ -348,7 +361,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function lexComment (): void
+	private function lexComment(): void
 	{
 		if (!preg_match($this->regexes['lex_comment'], $this->code, $match, PREG_OFFSET_CAPTURE, $this->cursor))
 			throw new SyntaxError('Unclosed comment.', $this->lineno, $this->source);
@@ -361,18 +374,20 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function lexString (): void
+	private function lexString(): void
 	{
 		if (preg_match($this->regexes['interpolation_start'], $this->code, $match, 0, $this->cursor))
 		{
 			$this->brackets[] = [$this->options['interpolation'][0], $this->lineno];
-			$this->pushToken(/*Token::INTERPOLATION_START_TYPE*/ 10);
+			$this->pushToken(/*Token::INTERPOLATION_START_TYPE*/
+				10);
 			$this->moveCursor($match[0]);
 			$this->pushState(self::STATE_INTERPOLATION);
 		}
 		else if (preg_match(self::REGEX_DQ_STRING_PART, $this->code, $match, 0, $this->cursor) && strlen($match[0]) > 0)
 		{
-			$this->pushToken(/*Token::STRING_TYPE*/ 7, stripcslashes($match[0]));
+			$this->pushToken(/*Token::STRING_TYPE*/
+				7, stripcslashes($match[0]));
 			$this->moveCursor($match[0]);
 		}
 		else if (preg_match(self::REGEX_DQ_STRING_DELIM, $this->code, $match, 0, $this->cursor))
@@ -396,14 +411,15 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function lexInterpolation (): void
+	private function lexInterpolation(): void
 	{
 		$bracket = end($this->brackets);
 
 		if ($this->options['interpolation'][0] === $bracket[0] && preg_match($this->regexes['interpolation_end'], $this->code, $match, 0, $this->cursor))
 		{
 			array_pop($this->brackets);
-			$this->pushToken(/*Token::INTERPOLATION_END_TYPE*/ 11);
+			$this->pushToken(/*Token::INTERPOLATION_END_TYPE*/
+				11);
 			$this->moveCursor($match[0]);
 			$this->popState();
 		}
@@ -420,9 +436,10 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function pushToken (int $type, string $value = ''): void
+	private function pushToken(int $type, string $value = ''): void
 	{
-		if (/*Token::TEXT_TYPE*/ 0 === $type && $value === '')
+		if (/*Token::TEXT_TYPE*/
+			0 === $type && $value === '')
 			return;
 
 		$this->tokens[] = new Token($type, $value, $this->lineno);
@@ -434,7 +451,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function moveCursor ($text): void
+	private function moveCursor($text): void
 	{
 		$this->cursor += strlen($text);
 		$this->lineno += substr_count($text, "\n");
@@ -445,7 +462,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function getOperatorRegex (): string
+	private function getOperatorRegex(): string
 	{
 		$operators = array_merge(
 			['='],
@@ -476,7 +493,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function pushState ($state): void
+	private function pushState($state): void
 	{
 		$this->states[] = $this->state;
 		$this->state = $state;
@@ -486,7 +503,7 @@ class Lexer
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function popState (): void
+	private function popState(): void
 	{
 		if (0 === count($this->states))
 			throw new LogicException('Cannot pop state without a previous state.');

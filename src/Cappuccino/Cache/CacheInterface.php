@@ -32,7 +32,7 @@ interface CacheInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function generateKey (string $name, string $className): string;
+	public function generateKey(string $name, string $className): string;
 
 	/**
 	 * Writes the compiled template to cache.
@@ -43,7 +43,7 @@ interface CacheInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function write (string $key, string $content): void;
+	public function write(string $key, string $content): void;
 
 	/**
 	 * Loads a template from the cache.
@@ -53,7 +53,7 @@ interface CacheInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function load (string $key): void;
+	public function load(string $key): void;
 
 	/**
 	 * Returns the modification timestamp of a key.
@@ -64,6 +64,6 @@ interface CacheInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTimestamp (string $key): int;
+	public function getTimestamp(string $key): int;
 
 }

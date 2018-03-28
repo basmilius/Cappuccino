@@ -41,7 +41,7 @@ final class DateExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.1
 	 */
-	public final function getFilters (): array
+	public final function getFilters(): array
 	{
 		return [
 			new SimpleFilter('time_diff', [$this, 'onSimpleFilterTimeDiff'], ['needs_cappuccino' => true])
@@ -60,7 +60,7 @@ final class DateExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.1
 	 */
-	public final function onSimpleFilterTimeDiff (Cappuccino $cappuccino, $date, $now): string
+	public final function onSimpleFilterTimeDiff(Cappuccino $cappuccino, $date, $now): string
 	{
 		/** @var CoreExtension $core */
 		$core = $cappuccino->getExtension(CoreExtension::class);
@@ -92,7 +92,7 @@ final class DateExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.1
 	 */
-	private final function getPluralizedInterval (int $count, bool $invert, string $unit): string
+	private final function getPluralizedInterval(int $count, bool $invert, string $unit): string
 	{
 		if ($count !== 1)
 			$unit .= 's';

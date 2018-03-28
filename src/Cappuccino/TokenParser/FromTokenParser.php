@@ -32,7 +32,7 @@ final class FromTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token): Node
+	public function parse(Token $token): Node
 	{
 		$macro = $this->parser->getExpressionParser()->parseExpression();
 		$stream = $this->parser->getStream();
@@ -42,20 +42,24 @@ final class FromTokenParser extends AbstractTokenParser
 
 		do
 		{
-			$name = $stream->expect(/*Token::NAME_TYPE*/ 5)->getValue();
+			$name = $stream->expect(/*Token::NAME_TYPE*/
+				5)->getValue();
 			$alias = $name;
 
 			if ($stream->nextIf('as'))
-				$alias = $stream->expect(/*Token::NAME_TYPE*/ 5)->getValue();
+				$alias = $stream->expect(/*Token::NAME_TYPE*/
+					5)->getValue();
 
 			$targets[$name] = $alias;
 
-			if (!$stream->nextIf(/*Token::PUNCTUATION_TYPE*/ 9, ','))
+			if (!$stream->nextIf(/*Token::PUNCTUATION_TYPE*/
+				9, ','))
 				break;
 		}
 		while (true);
 
-		$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
+		$stream->expect(/*Token::BLOCK_END_TYPE*/
+			3);
 
 		$node = new ImportNode($macro, new AssignNameExpression($this->parser->getVarName(), $token->getLine()), $token->getLine(), $this->getTag());
 
@@ -70,7 +74,7 @@ final class FromTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag (): string
+	public function getTag(): string
 	{
 		return 'from';
 	}

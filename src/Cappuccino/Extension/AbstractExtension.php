@@ -27,7 +27,7 @@ abstract class AbstractExtension implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTokenParsers (): array
+	public function getTokenParsers(): array
 	{
 		return [];
 	}
@@ -37,7 +37,7 @@ abstract class AbstractExtension implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getNodeVisitors (): array
+	public function getNodeVisitors(): array
 	{
 		return [];
 	}
@@ -47,7 +47,7 @@ abstract class AbstractExtension implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFilters (): array
+	public function getFilters(): array
 	{
 		return [];
 	}
@@ -57,7 +57,7 @@ abstract class AbstractExtension implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTests (): array
+	public function getTests(): array
 	{
 		return [];
 	}
@@ -67,7 +67,7 @@ abstract class AbstractExtension implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFunctions (): array
+	public function getFunctions(): array
 	{
 		return [];
 	}
@@ -77,7 +77,7 @@ abstract class AbstractExtension implements ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getOperators (): array
+	public function getOperators(): array
 	{
 		return [];
 	}

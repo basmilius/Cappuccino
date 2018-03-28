@@ -44,7 +44,7 @@ class Error extends Exception
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (string $message, int $lineno = -1, ?Source $source = null, ?Exception $previous = null)
+	public function __construct(string $message, int $lineno = -1, ?Source $source = null, ?Exception $previous = null)
 	{
 		parent::__construct('', 0, $previous);
 
@@ -81,7 +81,7 @@ class Error extends Exception
 	 *
 	 * @return string The raw message
 	 */
-	public function getRawMessage ()
+	public function getRawMessage()
 	{
 		return $this->rawMessage;
 	}
@@ -91,7 +91,7 @@ class Error extends Exception
 	 *
 	 * @return int The template line
 	 */
-	public function getTemplateLine ()
+	public function getTemplateLine()
 	{
 		return $this->lineno;
 	}
@@ -101,7 +101,7 @@ class Error extends Exception
 	 *
 	 * @param int $lineno The template line
 	 */
-	public function setTemplateLine ($lineno)
+	public function setTemplateLine($lineno)
 	{
 		$this->lineno = $lineno;
 
@@ -113,7 +113,7 @@ class Error extends Exception
 	 *
 	 * @return Source|null
 	 */
-	public function getSourceContext ()
+	public function getSourceContext()
 	{
 		return $this->name ? new Source($this->sourceCode, $this->name, $this->sourcePath) : null;
 	}
@@ -123,7 +123,7 @@ class Error extends Exception
 	 *
 	 * @param Source|null $source
 	 */
-	public function setSourceContext (Source $source = null)
+	public function setSourceContext(Source $source = null)
 	{
 		if (null === $source)
 		{
@@ -139,19 +139,19 @@ class Error extends Exception
 		$this->updateRepr();
 	}
 
-	public function guess ()
+	public function guess()
 	{
 		$this->guessTemplateInfo();
 		$this->updateRepr();
 	}
 
-	public function appendMessage ($rawMessage)
+	public function appendMessage($rawMessage)
 	{
 		$this->rawMessage .= $rawMessage;
 		$this->updateRepr();
 	}
 
-	private function updateRepr ()
+	private function updateRepr()
 	{
 		$this->message = $this->rawMessage;
 
@@ -206,7 +206,7 @@ class Error extends Exception
 		}
 	}
 
-	private function guessTemplateInfo ()
+	private function guessTemplateInfo()
 	{
 		$template = null;
 		$templateClass = null;

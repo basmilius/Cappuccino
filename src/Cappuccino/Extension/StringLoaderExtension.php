@@ -35,7 +35,7 @@ final class StringLoaderExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFunctions (): array
+	public function getFunctions(): array
 	{
 		return [
 			new SimpleFunction('template_from_string', [$this, 'onSimpleFunctionTemplateFromString'], ['needs_cappuccino' => true]),
@@ -57,7 +57,7 @@ final class StringLoaderExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFunctionTemplateFromString (Cappuccino $env, string $template): Template
+	public final function onSimpleFunctionTemplateFromString(Cappuccino $env, string $template): Template
 	{
 		return $env->createTemplate((string)$template);
 	}

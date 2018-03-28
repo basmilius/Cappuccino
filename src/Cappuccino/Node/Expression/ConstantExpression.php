@@ -33,7 +33,7 @@ class ConstantExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct ($value, int $lineno)
+	public function __construct($value, int $lineno)
 	{
 		parent::__construct([], ['value' => $value], $lineno);
 	}
@@ -43,7 +43,7 @@ class ConstantExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$compiler->repr($this->getAttribute('value'));
 	}

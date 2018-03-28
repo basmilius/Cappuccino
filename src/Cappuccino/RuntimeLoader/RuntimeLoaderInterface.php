@@ -31,6 +31,6 @@ interface RuntimeLoaderInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function load (string $class);
+	public function load(string $class);
 
 }

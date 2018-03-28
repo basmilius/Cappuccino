@@ -47,7 +47,7 @@ final class Source
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (string $code, ?string $name, string $path = '')
+	public function __construct(string $code, ?string $name, string $path = '')
 	{
 		$this->code = $code;
 		$this->name = $name;
@@ -61,7 +61,7 @@ final class Source
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getCode (): string
+	public function getCode(): string
 	{
 		return $this->code;
 	}
@@ -73,7 +73,7 @@ final class Source
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getName (): ?string
+	public function getName(): ?string
 	{
 		return $this->name;
 	}
@@ -85,7 +85,7 @@ final class Source
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getPath (): string
+	public function getPath(): string
 	{
 		return $this->path;
 	}

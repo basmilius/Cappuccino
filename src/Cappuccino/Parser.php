@@ -116,7 +116,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Cappuccino $cappuccino)
+	public function __construct(Cappuccino $cappuccino)
 	{
 		$this->cappuccino = $cappuccino;
 		$this->varNameSalt = 0;
@@ -129,7 +129,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getVarName (): string
+	public function getVarName(): string
 	{
 		return sprintf('__internal_%s', hash('sha256', __METHOD__ . $this->stream->getSourceContext()->getCode() . $this->varNameSalt++));
 	}
@@ -147,7 +147,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (TokenStream $stream, ?callable $test = null, bool $dropNeedle = false): ModuleNode
+	public function parse(TokenStream $stream, ?callable $test = null, bool $dropNeedle = false): ModuleNode
 	{
 		$vars = get_object_vars($this);
 		unset($vars['stack'], $vars['env'], $vars['handlers'], $vars['visitors'], $vars['expressionParser'], $vars['reservedMacroNames']);
@@ -223,7 +223,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function subparse (?callable $test, bool $dropNeedle = false): Node
+	public function subparse(?callable $test, bool $dropNeedle = false): Node
 	{
 		$lineno = $this->getCurrentToken()->getLine();
 		$rv = [];
@@ -232,23 +232,27 @@ class Parser
 		{
 			switch ($this->getCurrentToken()->getType())
 			{
-				case /*Token::TEXT_TYPE*/ 0:
+				case /*Token::TEXT_TYPE*/
+				0:
 					$token = $this->stream->next();
 					$rv[] = new TextNode($token->getValue(), $token->getLine());
 					break;
 
-				case /*Token::VAR_START_TYPE*/ 2:
+				case /*Token::VAR_START_TYPE*/
+				2:
 					$token = $this->stream->next();
 					$expr = $this->expressionParser->parseExpression();
 					$this->stream->expect(Token::VAR_END_TYPE);
 					$rv[] = new PrintNode($expr, $token->getLine());
 					break;
 
-				case /*Token::BLOCK_START_TYPE*/ 1:
+				case /*Token::BLOCK_START_TYPE*/
+				1:
 					$this->stream->next();
 					$token = $this->getCurrentToken();
 
-					if ($token->getType() !== /*Token::NAME_TYPE*/ 5)
+					if ($token->getType() !== /*Token::NAME_TYPE*/
+						5)
 						throw new SyntaxError('A block must start with a tag name.', $token->getLine(), $this->stream->getSourceContext());
 
 					if ($test !== null && $test($token))
@@ -308,7 +312,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getBlockStack (): array
+	public function getBlockStack(): array
 	{
 		return $this->blockStack;
 	}
@@ -320,7 +324,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function peekBlockStack ()
+	public function peekBlockStack()
 	{
 		return $this->blockStack[count($this->blockStack) - 1];
 	}
@@ -331,7 +335,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function popBlockStack (): void
+	public function popBlockStack(): void
 	{
 		array_pop($this->blockStack);
 	}
@@ -344,7 +348,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function pushBlockStack (string $name): void
+	public function pushBlockStack(string $name): void
 	{
 		$this->blockStack[] = $name;
 	}
@@ -358,7 +362,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function hasBlock (string $name): bool
+	public function hasBlock(string $name): bool
 	{
 		return isset($this->blocks[$name]);
 	}
@@ -372,7 +376,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getBlock (string $name): ?BlockNode
+	public function getBlock(string $name): ?BlockNode
 	{
 		return $this->blocks[$name];
 	}
@@ -386,7 +390,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setBlock (string $name, BlockNode $value): void
+	public function setBlock(string $name, BlockNode $value): void
 	{
 		$this->blocks[$name] = new BodyNode([$value], [], $value->getTemplateLine());
 	}
@@ -400,7 +404,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function hasMacro (string $name): bool
+	public function hasMacro(string $name): bool
 	{
 		return isset($this->macros[$name]);
 	}
@@ -414,7 +418,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setMacro (string $name, MacroNode $node): void
+	public function setMacro(string $name, MacroNode $node): void
 	{
 		$this->macros[$name] = $node;
 	}
@@ -428,7 +432,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isReservedMacroName (string $name): bool
+	public function isReservedMacroName(string $name): bool
 	{
 		if ($name === 'bas')
 			return true;
@@ -444,7 +448,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addTrait (Node $trait): void
+	public function addTrait(Node $trait): void
 	{
 		$this->traits[] = $trait;
 	}
@@ -456,7 +460,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function hasTraits (): bool
+	public function hasTraits(): bool
 	{
 		return count($this->traits) > 0;
 	}
@@ -469,7 +473,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function embedTemplate (ModuleNode $template): void
+	public function embedTemplate(ModuleNode $template): void
 	{
 		$template->setIndex(mt_rand());
 
@@ -487,7 +491,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addImportedSymbol (string $type, string $alias, ?string $name = null, ?AbstractExpression $node = null): void
+	public function addImportedSymbol(string $type, string $alias, ?string $name = null, ?AbstractExpression $node = null): void
 	{
 		$this->importedSymbols[0][$type][$alias] = ['name' => $name, 'node' => $node];
 	}
@@ -502,7 +506,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getImportedSymbol (string $type, string $alias): ?array
+	public function getImportedSymbol(string $type, string $alias): ?array
 	{
 		foreach ($this->importedSymbols as $functions)
 			if (isset($functions[$type][$alias]))
@@ -518,7 +522,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isMainScope (): bool
+	public function isMainScope(): bool
 	{
 		return count($this->importedSymbols) === 1;
 	}
@@ -529,7 +533,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function pushLocalScope (): void
+	public function pushLocalScope(): void
 	{
 		array_unshift($this->importedSymbols, []);
 	}
@@ -540,7 +544,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function popLocalScope (): void
+	public function popLocalScope(): void
 	{
 		array_shift($this->importedSymbols);
 	}
@@ -552,7 +556,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getExpressionParser (): ExpressionParser
+	public function getExpressionParser(): ExpressionParser
 	{
 		return $this->expressionParser;
 	}
@@ -564,7 +568,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getParent (): ?AbstractExpression
+	public function getParent(): ?AbstractExpression
 	{
 		return $this->parent;
 	}
@@ -577,7 +581,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setParent (AbstractExpression $parent)
+	public function setParent(AbstractExpression $parent)
 	{
 		$this->parent = $parent;
 	}
@@ -589,7 +593,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getStream (): TokenStream
+	public function getStream(): TokenStream
 	{
 		return $this->stream;
 	}
@@ -601,7 +605,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getCurrentToken (): Token
+	public function getCurrentToken(): Token
 	{
 		return $this->stream->getCurrent();
 	}
@@ -616,7 +620,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function filterBodyNodes (Node $node): ?Node
+	private function filterBodyNodes(Node $node): ?Node
 	{
 		if (($node instanceof TextNode && !ctype_space($node->getAttribute('data'))) || (!$node instanceof TextNode && !$node instanceof BlockReferenceNode && $node instanceof NodeOutputInterface))
 		{

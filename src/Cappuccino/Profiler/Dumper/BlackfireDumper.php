@@ -33,7 +33,7 @@ final class BlackfireDumper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function dump (Profile $profile)
+	public function dump(Profile $profile)
 	{
 		$data = [];
 		$this->dumpProfile('main()', $profile, $data);
@@ -66,7 +66,7 @@ EOF;
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function dumpChildren ($parent, Profile $profile, &$data)
+	private function dumpChildren($parent, Profile $profile, &$data)
 	{
 		foreach ($profile as $p)
 		{
@@ -93,7 +93,7 @@ EOF;
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function dumpProfile ($edge, Profile $profile, &$data)
+	private function dumpProfile($edge, Profile $profile, &$data)
 	{
 		if (isset($data[$edge]))
 		{

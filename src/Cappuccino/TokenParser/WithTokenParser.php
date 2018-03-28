@@ -31,24 +31,28 @@ final class WithTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token): Node
+	public function parse(Token $token): Node
 	{
 		$stream = $this->parser->getStream();
 
 		$variables = null;
 		$only = false;
 
-		if (!$stream->test(/*Token::BLOCK_END_TYPE*/ 3))
+		if (!$stream->test(/*Token::BLOCK_END_TYPE*/
+			3))
 		{
 			$variables = $this->parser->getExpressionParser()->parseExpression();
-			$only = $stream->nextIf(/*Token::NAME_TYPE*/ 5, 'only');
+			$only = $stream->nextIf(/*Token::NAME_TYPE*/
+				5, 'only');
 		}
 
-		$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
+		$stream->expect(/*Token::BLOCK_END_TYPE*/
+			3);
 
 		$body = $this->parser->subparse([$this, 'decideWithEnd'], true);
 
-		$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
+		$stream->expect(/*Token::BLOCK_END_TYPE*/
+			3);
 
 		return new WithNode($body, $variables, $only, $token->getLine(), $this->getTag());
 	}
@@ -62,7 +66,7 @@ final class WithTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function decideWithEnd (Token $token): bool
+	public function decideWithEnd(Token $token): bool
 	{
 		return $token->test('endwith');
 	}
@@ -72,7 +76,7 @@ final class WithTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag (): string
+	public function getTag(): string
 	{
 		return 'with';
 	}

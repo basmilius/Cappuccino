@@ -62,7 +62,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (array $allowedTags = [], array $allowedFilters = [], array $allowedMethods = [], array $allowedProperties = [], array $allowedFunctions = [])
+	public function __construct(array $allowedTags = [], array $allowedFilters = [], array $allowedMethods = [], array $allowedProperties = [], array $allowedFunctions = [])
 	{
 		$this->allowedTags = $allowedTags;
 		$this->allowedFilters = $allowedFilters;
@@ -79,7 +79,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setAllowedTags (array $tags): void
+	public function setAllowedTags(array $tags): void
 	{
 		$this->allowedTags = $tags;
 	}
@@ -92,7 +92,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setAllowedFilters (array $filters): void
+	public function setAllowedFilters(array $filters): void
 	{
 		$this->allowedFilters = $filters;
 	}
@@ -105,7 +105,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setAllowedMethods (array $methods): void
+	public function setAllowedMethods(array $methods): void
 	{
 		$this->allowedMethods = [];
 		foreach ($methods as $class => $m)
@@ -122,7 +122,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setAllowedProperties (array $properties): void
+	public function setAllowedProperties(array $properties): void
 	{
 		$this->allowedProperties = $properties;
 	}
@@ -135,7 +135,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setAllowedFunctions (array $functions): void
+	public function setAllowedFunctions(array $functions): void
 	{
 		$this->allowedFunctions = $functions;
 	}
@@ -145,7 +145,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function checkSecurity (array $tags, array $filters, array $functions): void
+	public function checkSecurity(array $tags, array $filters, array $functions): void
 	{
 		foreach ($tags as $tag)
 			if (!in_array($tag, $this->allowedTags))
@@ -165,7 +165,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function checkMethodAllowed ($obj, $method): void
+	public function checkMethodAllowed($obj, $method): void
 	{
 		if ($obj instanceof Template || $obj instanceof Markup)
 			return;
@@ -194,7 +194,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function checkPropertyAllowed ($obj, $property): void
+	public function checkPropertyAllowed($obj, $property): void
 	{
 		$allowed = false;
 

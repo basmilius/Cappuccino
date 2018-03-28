@@ -35,7 +35,7 @@ class DoNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (AbstractExpression $expr, int $lineno, ?string $tag = null)
+	public function __construct(AbstractExpression $expr, int $lineno, ?string $tag = null)
 	{
 		parent::__construct(['expr' => $expr], [], $lineno, $tag);
 	}
@@ -45,7 +45,7 @@ class DoNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$compiler
 			->addDebugInfo($this)

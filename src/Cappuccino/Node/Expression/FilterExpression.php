@@ -37,7 +37,7 @@ class FilterExpression extends CallExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Node $node, ConstantExpression $filterName, Node $arguments, int $lineno, $tag = null)
+	public function __construct(Node $node, ConstantExpression $filterName, Node $arguments, int $lineno, $tag = null)
 	{
 		parent::__construct(['node' => $node, 'filter' => $filterName, 'arguments' => $arguments], [], $lineno, $tag);
 	}
@@ -47,7 +47,7 @@ class FilterExpression extends CallExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$name = $this->getNode('filter')->getAttribute('value');
 		$filter = $compiler->getCappuccino()->getFilter($name);

@@ -37,7 +37,7 @@ final class OptimizerExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (int $optimizers = -1)
+	public function __construct(int $optimizers = -1)
 	{
 		$this->optimizers = $optimizers;
 	}
@@ -47,7 +47,7 @@ final class OptimizerExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function getNodeVisitors (): array
+	public final function getNodeVisitors(): array
 	{
 		return [
 			new OptimizerNodeVisitor($this->optimizers)

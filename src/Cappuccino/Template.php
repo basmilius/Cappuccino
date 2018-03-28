@@ -72,7 +72,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Cappuccino $cappuccino)
+	public function __construct(Cappuccino $cappuccino)
 	{
 		$this->cappuccino = $cappuccino;
 		$this->extensions = $this->cappuccino->getExtensions();
@@ -85,7 +85,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public abstract function getTemplateName (): string;
+	public abstract function getTemplateName(): string;
 
 	/**
 	 * Gets debug information about this template.
@@ -94,7 +94,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public abstract function getDebugInfo (): array;
+	public abstract function getDebugInfo(): array;
 
 	/**
 	 * Gets information about the original template source code.
@@ -103,7 +103,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getSourceContext (): Source
+	public function getSourceContext(): Source
 	{
 		return new Source('', $this->getTemplateName());
 	}
@@ -120,7 +120,7 @@ abstract class Template
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public function getParent (array $context)
+	public function getParent(array $context)
 	{
 		if ($this->parent !== null)
 			return $this->parent;
@@ -162,7 +162,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doGetParent (array $context): bool
+	protected function doGetParent(array $context): bool
 	{
 		return count($context) === -1;
 	}
@@ -174,7 +174,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isTraitable (): bool
+	public function isTraitable(): bool
 	{
 		return true;
 	}
@@ -193,7 +193,7 @@ abstract class Template
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public function displayParentBlock (string $name, array $context, array $blocks = [])
+	public function displayParentBlock(string $name, array $context, array $blocks = [])
 	{
 		if (isset($this->traits[$name]))
 		{
@@ -224,7 +224,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function displayBlock (string $name, array $context, array $blocks = [], bool $useBlocks = true)
+	public function displayBlock(string $name, array $context, array $blocks = [], bool $useBlocks = true)
 	{
 		if ($useBlocks && isset($blocks[$name]))
 		{
@@ -301,7 +301,7 @@ abstract class Template
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public function renderParentBlock (string $name, array $context, array $blocks = []): string
+	public function renderParentBlock(string $name, array $context, array $blocks = []): string
 	{
 		ob_start();
 		$this->displayParentBlock($name, $context, $blocks);
@@ -326,7 +326,7 @@ abstract class Template
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public function renderBlock (string $name, array $context, array $blocks = [], bool $useBlocks = true): string
+	public function renderBlock(string $name, array $context, array $blocks = [], bool $useBlocks = true): string
 	{
 		ob_start();
 		$this->displayBlock($name, $context, $blocks, $useBlocks);
@@ -348,7 +348,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function hasBlock (string $name, array $context, array $blocks = []): bool
+	public function hasBlock(string $name, array $context, array $blocks = []): bool
 	{
 		if (isset($blocks[$name]))
 			return $blocks[$name][0] instanceof self;
@@ -375,7 +375,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getBlockNames (array $context, array $blocks = [])
+	public function getBlockNames(array $context, array $blocks = [])
 	{
 		$names = array_merge(array_keys($blocks), array_keys($this->blocks));
 
@@ -400,7 +400,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function loadTemplate ($template, ?string $templateName = null, ?int $line = null, ?int $index = null)
+	protected function loadTemplate($template, ?string $templateName = null, ?int $line = null, ?int $index = null)
 	{
 		try
 		{
@@ -439,7 +439,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getBlocks (): array
+	public function getBlocks(): array
 	{
 		return $this->blocks;
 	}
@@ -454,7 +454,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function display (array $context, array $blocks = [])
+	public function display(array $context, array $blocks = [])
 	{
 		$this->displayWithErrorHandling($this->cappuccino->mergeGlobals($context), array_merge($this->blocks, $blocks));
 	}
@@ -469,7 +469,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function render (array $context)
+	public function render(array $context)
 	{
 		$level = ob_get_level();
 		ob_start();
@@ -499,7 +499,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function displayWithErrorHandling (array $context, array $blocks = []): void
+	protected function displayWithErrorHandling(array $context, array $blocks = []): void
 	{
 		try
 		{
@@ -534,14 +534,14 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected abstract function doDisplay (array $context, array $blocks = []): void;
+	protected abstract function doDisplay(array $context, array $blocks = []): void;
 
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __toString ()
+	public function __toString()
 	{
 		return $this->getTemplateName();
 	}

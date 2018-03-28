@@ -36,7 +36,7 @@ class BlockReferenceExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Node $name, Node $template = null, int $lineno, $tag = null)
+	public function __construct(Node $name, Node $template = null, int $lineno, $tag = null)
 	{
 		$nodes = ['name' => $name];
 
@@ -53,7 +53,7 @@ class BlockReferenceExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		if ($this->getAttribute('is_defined_test'))
 		{
@@ -74,7 +74,7 @@ class BlockReferenceExpression extends AbstractExpression
 		}
 	}
 
-	private function compileTemplateCall (Compiler $compiler, $method): Compiler
+	private function compileTemplateCall(Compiler $compiler, $method): Compiler
 	{
 		if (!$this->hasNode('template'))
 		{
@@ -91,7 +91,7 @@ class BlockReferenceExpression extends AbstractExpression
 		return $compiler;
 	}
 
-	private function compileBlockArguments (Compiler $compiler): Compiler
+	private function compileBlockArguments(Compiler $compiler): Compiler
 	{
 		$compiler->raw('(')->subcompile($this->getNode('name'))->raw(', $context');
 

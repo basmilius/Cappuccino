@@ -35,7 +35,7 @@ interface ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTokenParsers (): array;
+	public function getTokenParsers(): array;
 
 	/**
 	 * Gets custom {@see NodeVisitorInterface}s defined by the {@see ExtensionInterface}.
@@ -44,7 +44,7 @@ interface ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getNodeVisitors (): array;
+	public function getNodeVisitors(): array;
 
 	/**
 	 * Gets custom {@see SimpleFilter}s defined by the {@see ExtensionInterface}.
@@ -53,7 +53,7 @@ interface ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFilters (): array;
+	public function getFilters(): array;
 
 	/**
 	 * Gets custom {@see SimpleTest}s defined by the {@see ExtensionInterface}.
@@ -62,7 +62,7 @@ interface ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTests (): array;
+	public function getTests(): array;
 
 	/**
 	 * Gets custom {@see SimpleFunction}s defined by the {@see ExtensionInterface}.
@@ -71,7 +71,7 @@ interface ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFunctions (): array;
+	public function getFunctions(): array;
 
 	/**
 	 * Gets custom unary and binary operators defined by the {@see ExtensionInterface}.
@@ -80,6 +80,6 @@ interface ExtensionInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getOperators (): array;
+	public function getOperators(): array;
 
 }

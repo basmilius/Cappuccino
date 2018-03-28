@@ -47,7 +47,7 @@ class SecurityNotAllowedPropertyError extends SecurityError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (string $message, string $className, string $propertyName, int $lineno = -1, ?string $filename = null, Exception $previous = null)
+	public function __construct(string $message, string $className, string $propertyName, int $lineno = -1, ?string $filename = null, Exception $previous = null)
 	{
 		parent::__construct($message, $lineno, $filename, $previous);
 
@@ -62,7 +62,7 @@ class SecurityNotAllowedPropertyError extends SecurityError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getClassName ()
+	public function getClassName()
 	{
 		return $this->className;
 	}
@@ -74,7 +74,7 @@ class SecurityNotAllowedPropertyError extends SecurityError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getPropertyName ()
+	public function getPropertyName()
 	{
 		return $this->propertyName;
 	}

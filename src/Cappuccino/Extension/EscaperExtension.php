@@ -40,7 +40,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct ($defaultStrategy = 'html')
+	public function __construct($defaultStrategy = 'html')
 	{
 		$this->setDefaultStrategy($defaultStrategy);
 	}
@@ -50,7 +50,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function getTokenParsers (): array
+	public final function getTokenParsers(): array
 	{
 		return [new AutoEscapeTokenParser()];
 	}
@@ -60,7 +60,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function getNodeVisitors (): array
+	public final function getNodeVisitors(): array
 	{
 		return [new EscaperNodeVisitor()];
 	}
@@ -70,7 +70,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function getFilters (): array
+	public final function getFilters(): array
 	{
 		return [
 			new SimpleFilter('raw', [$this, 'onSimpleFilterRaw'], ['is_safe' => ['all']]),
@@ -86,7 +86,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function setDefaultStrategy ($defaultStrategy): void
+	public final function setDefaultStrategy($defaultStrategy): void
 	{
 		if ($defaultStrategy === 'name')
 			$defaultStrategy = [FileExtensionEscapingStrategy::class, 'guess'];
@@ -103,7 +103,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function getDefaultStrategy (string $name)
+	public final function getDefaultStrategy(string $name)
 	{
 		if (!is_string($this->defaultStrategy) && $this->defaultStrategy)
 			return call_user_func($this->defaultStrategy, $name);
@@ -121,7 +121,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterRaw (string $str): string
+	public final function onSimpleFilterRaw(string $str): string
 	{
 		return $str;
 	}

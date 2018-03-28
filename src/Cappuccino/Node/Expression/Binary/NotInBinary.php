@@ -30,7 +30,7 @@ class NotInBinary extends AbstractBinary
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$compiler->raw('!' . StaticMethods::class . '::inFilter(')->subcompile($this->getNode('left'))->raw(', ')->subcompile($this->getNode('right'))->raw(')');
 	}
@@ -40,7 +40,7 @@ class NotInBinary extends AbstractBinary
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function operator (Compiler $compiler): Compiler
+	public function operator(Compiler $compiler): Compiler
 	{
 		return $compiler->raw('not in');
 	}

@@ -27,7 +27,7 @@ final class NullCache implements CacheInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function generateKey (string $name, string $className): string
+	public function generateKey(string $name, string $className): string
 	{
 		return '';
 	}
@@ -37,7 +37,7 @@ final class NullCache implements CacheInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function write (string $key, string $content): void
+	public function write(string $key, string $content): void
 	{
 	}
 
@@ -46,7 +46,7 @@ final class NullCache implements CacheInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function load (string $key): void
+	public function load(string $key): void
 	{
 	}
 
@@ -55,7 +55,7 @@ final class NullCache implements CacheInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTimestamp (string $key): int
+	public function getTimestamp(string $key): int
 	{
 		return 0;
 	}

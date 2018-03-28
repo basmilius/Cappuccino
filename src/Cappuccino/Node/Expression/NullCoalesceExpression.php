@@ -32,7 +32,7 @@ class NullCoalesceExpression extends ConditionalExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (AbstractExpression $left, AbstractExpression $right, int $lineno)
+	public function __construct(AbstractExpression $left, AbstractExpression $right, int $lineno)
 	{
 		$test = new AndBinary(
 			new DefinedTest(clone $left, 'defined', new Node(), $left->getTemplateLine()),
@@ -48,7 +48,7 @@ class NullCoalesceExpression extends ConditionalExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		if ($this->getNode('expr2') instanceof NameExpression)
 		{

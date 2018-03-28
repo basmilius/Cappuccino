@@ -36,7 +36,7 @@ final class HtmlDumper extends TextDumper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function dump (Profile $profile)
+	public function dump(Profile $profile)
 	{
 		return '<pre>' . parent::dump($profile) . '</pre>';
 	}
@@ -46,7 +46,7 @@ final class HtmlDumper extends TextDumper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function formatTemplate (Profile $profile, string $prefix)
+	protected function formatTemplate(Profile $profile, string $prefix)
 	{
 		return sprintf('%s└ <span style="background-color: %s">%s</span>', $prefix, self::$colors['template'], $profile->getTemplate());
 	}
@@ -56,7 +56,7 @@ final class HtmlDumper extends TextDumper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function formatNonTemplate (Profile $profile, string $prefix)
+	protected function formatNonTemplate(Profile $profile, string $prefix)
 	{
 		return sprintf('%s└ %s::%s(<span style="background-color: %s">%s</span>)', $prefix, $profile->getTemplate(), $profile->getType(), isset(self::$colors[$profile->getType()]) ? self::$colors[$profile->getType()] : 'auto', $profile->getName());
 	}
@@ -66,7 +66,7 @@ final class HtmlDumper extends TextDumper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function formatTime (Profile $profile, float $percent)
+	protected function formatTime(Profile $profile, float $percent)
 	{
 		return sprintf('<span style="color: %s">%.2fms/%.0f%%</span>', $percent > 20 ? self::$colors['big'] : 'auto', $profile->getDuration() * 1000, $percent);
 	}

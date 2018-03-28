@@ -37,25 +37,29 @@ final class ForTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token): Node
+	public function parse(Token $token): Node
 	{
 		$lineno = $token->getLine();
 		$stream = $this->parser->getStream();
 		$targets = $this->parser->getExpressionParser()->parseAssignmentExpression();
-		$stream->expect(/*Token::OPERATOR_TYPE*/ 8, 'in');
+		$stream->expect(/*Token::OPERATOR_TYPE*/
+			8, 'in');
 		$seq = $this->parser->getExpressionParser()->parseExpression();
 
 		$ifexpr = null;
 
-		if ($stream->nextIf(/*Token::NAME_TYPE*/ 5, 'if'))
+		if ($stream->nextIf(/*Token::NAME_TYPE*/
+			5, 'if'))
 			$ifexpr = $this->parser->getExpressionParser()->parseExpression();
 
-		$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
+		$stream->expect(/*Token::BLOCK_END_TYPE*/
+			3);
 		$body = $this->parser->subparse([$this, 'decideForFork']);
 
 		if ($stream->next()->getValue() == 'else')
 		{
-			$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
+			$stream->expect(/*Token::BLOCK_END_TYPE*/
+				3);
 			$else = $this->parser->subparse([$this, 'decideForEnd'], true);
 		}
 		else
@@ -63,7 +67,8 @@ final class ForTokenParser extends AbstractTokenParser
 			$else = null;
 		}
 
-		$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
+		$stream->expect(/*Token::BLOCK_END_TYPE*/
+			3);
 
 		if (count($targets) > 1)
 		{
@@ -97,7 +102,7 @@ final class ForTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function decideForFork (Token $token): bool
+	public function decideForFork(Token $token): bool
 	{
 		return $token->test(['else', 'endfor']);
 	}
@@ -111,7 +116,7 @@ final class ForTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function decideForEnd (Token $token): bool
+	public function decideForEnd(Token $token): bool
 	{
 		return $token->test('endfor');
 	}
@@ -126,7 +131,7 @@ final class ForTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function checkLoopUsageCondition (TokenStream $stream, Node $node)
+	private function checkLoopUsageCondition(TokenStream $stream, Node $node)
 	{
 		if ($node instanceof GetAttrExpression && $node->getNode('node') instanceof NameExpression && $node->getNode('node')->getAttribute('name') === 'loop')
 			throw new SyntaxError('The "loop" variable cannot be used in a looping condition.', $node->getTemplateLine(), $stream->getSourceContext());
@@ -150,7 +155,7 @@ final class ForTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function checkLoopUsageBody (TokenStream $stream, Node $node)
+	private function checkLoopUsageBody(TokenStream $stream, Node $node)
 	{
 		if ($node instanceof GetAttrExpression && $node->getNode('node') instanceof NameExpression && $node->getNode('node')->getAttribute('name') === 'loop')
 		{
@@ -177,7 +182,7 @@ final class ForTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag (): string
+	public function getTag(): string
 	{
 		return 'for';
 	}

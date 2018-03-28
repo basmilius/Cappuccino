@@ -35,7 +35,7 @@ class TextDumper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function dump (Profile $profile)
+	public function dump(Profile $profile)
 	{
 		return $this->dumpProfile($profile);
 	}
@@ -50,7 +50,7 @@ class TextDumper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function formatTemplate (Profile $profile, string $prefix)
+	protected function formatTemplate(Profile $profile, string $prefix)
 	{
 		return sprintf('%s└ %s', $prefix, $profile->getTemplate());
 	}
@@ -65,7 +65,7 @@ class TextDumper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function formatNonTemplate (Profile $profile, string $prefix)
+	protected function formatNonTemplate(Profile $profile, string $prefix)
 	{
 		return sprintf('%s└ %s::%s(%s)', $prefix, $profile->getTemplate(), $profile->getType(), $profile->getName());
 	}
@@ -80,7 +80,7 @@ class TextDumper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function formatTime (Profile $profile, float $percent)
+	protected function formatTime(Profile $profile, float $percent)
 	{
 		return sprintf('%.2fms/%.0f%%', $profile->getDuration() * 1000, $percent);
 	}
@@ -96,7 +96,7 @@ class TextDumper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function dumpProfile (Profile $profile, string $prefix = '', bool $sibling = false)
+	private function dumpProfile(Profile $profile, string $prefix = '', bool $sibling = false)
 	{
 		if ($profile->isRoot())
 		{

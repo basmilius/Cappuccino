@@ -37,7 +37,7 @@ class GetAttrExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (AbstractExpression $node, AbstractExpression $attribute, ?AbstractExpression $arguments = null, $type, int $lineno)
+	public function __construct(AbstractExpression $node, AbstractExpression $attribute, ?AbstractExpression $arguments = null, $type, int $lineno)
 	{
 		$nodes = ['node' => $node, 'attribute' => $attribute];
 
@@ -52,7 +52,7 @@ class GetAttrExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$cappuccino = $compiler->getCappuccino();
 		$hasSandbox = $cappuccino->hasExtension(SandboxExtension::class);

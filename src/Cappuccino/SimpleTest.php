@@ -49,7 +49,7 @@ class SimpleTest
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (string $name, ?callable $callable = null, array $options = [])
+	public function __construct(string $name, ?callable $callable = null, array $options = [])
 	{
 		if (get_class($this) !== __CLASS__)
 			@trigger_error('Overriding ' . __CLASS__ . ' is deprecated since version 2.4.0 and the class will be final in 3.0.', E_USER_DEPRECATED);
@@ -71,7 +71,7 @@ class SimpleTest
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getName (): string
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -83,7 +83,7 @@ class SimpleTest
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getCallable (): ?callable
+	public function getCallable(): ?callable
 	{
 		return $this->callable;
 	}
@@ -95,7 +95,7 @@ class SimpleTest
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getNodeClass (): string
+	public function getNodeClass(): string
 	{
 		return $this->options['node_class'];
 	}
@@ -107,7 +107,7 @@ class SimpleTest
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isVariadic (): bool
+	public function isVariadic(): bool
 	{
 		return $this->options['is_variadic'];
 	}
@@ -119,7 +119,7 @@ class SimpleTest
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isDeprecated (): bool
+	public function isDeprecated(): bool
 	{
 		return (bool)$this->options['deprecated'];
 	}
@@ -131,7 +131,7 @@ class SimpleTest
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getDeprecatedVersion (): string
+	public function getDeprecatedVersion(): string
 	{
 		return $this->options['deprecated'];
 	}
@@ -143,7 +143,7 @@ class SimpleTest
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getAlternative (): ?string
+	public function getAlternative(): ?string
 	{
 		return $this->options['alternative'] ?? null;
 	}

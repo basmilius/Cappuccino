@@ -36,7 +36,7 @@ class FunctionExpression extends CallExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (string $name, Node $arguments, int $lineno)
+	public function __construct(string $name, Node $arguments, int $lineno)
 	{
 		parent::__construct(['arguments' => $arguments], ['name' => $name, 'is_defined_test' => false], $lineno);
 	}
@@ -46,7 +46,7 @@ class FunctionExpression extends CallExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$name = $this->getAttribute('name');
 		$function = $compiler->getCappuccino()->getFunction($name);

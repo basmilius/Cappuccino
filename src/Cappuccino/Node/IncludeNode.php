@@ -39,7 +39,7 @@ class IncludeNode extends Node implements NodeOutputInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (AbstractExpression $expr, AbstractExpression $variables = null, bool $only = false, bool $ignoreMissing = false, int $lineno, ?string $tag = null)
+	public function __construct(AbstractExpression $expr, AbstractExpression $variables = null, bool $only = false, bool $ignoreMissing = false, int $lineno, ?string $tag = null)
 	{
 		$nodes = ['expr' => $expr];
 
@@ -54,7 +54,7 @@ class IncludeNode extends Node implements NodeOutputInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$compiler->addDebugInfo($this);
 
@@ -83,7 +83,7 @@ class IncludeNode extends Node implements NodeOutputInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function addGetTemplate (Compiler $compiler): void
+	protected function addGetTemplate(Compiler $compiler): void
 	{
 		$compiler->write('$this->loadTemplate(')->subcompile($this->getNode('expr'))->raw(', ')->repr($this->getTemplateName())->raw(', ')->repr($this->getTemplateLine())->raw(')');
 	}
@@ -96,7 +96,7 @@ class IncludeNode extends Node implements NodeOutputInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function addTemplateArguments (Compiler $compiler): void
+	protected function addTemplateArguments(Compiler $compiler): void
 	{
 		if (!$this->hasNode('variables'))
 			$compiler->raw(false === $this->getAttribute('only') ? '$context' : 'array()');

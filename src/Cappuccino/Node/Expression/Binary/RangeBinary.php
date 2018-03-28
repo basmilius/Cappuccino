@@ -29,7 +29,7 @@ class RangeBinary extends AbstractBinary
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 2.3.3
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$compiler->raw('range(')->subcompile($this->getNode('left'))->raw(', ')->subcompile($this->getNode('right'))->raw(')');
 	}
@@ -39,7 +39,7 @@ class RangeBinary extends AbstractBinary
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function operator (Compiler $compiler): Compiler
+	public function operator(Compiler $compiler): Compiler
 	{
 		return $compiler->raw('..');
 	}

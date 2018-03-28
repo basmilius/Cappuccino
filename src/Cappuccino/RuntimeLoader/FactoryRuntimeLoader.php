@@ -35,7 +35,7 @@ class FactoryRuntimeLoader implements RuntimeLoaderInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (array $map = [])
+	public function __construct(array $map = [])
 	{
 		$this->map = $map;
 	}
@@ -45,7 +45,7 @@ class FactoryRuntimeLoader implements RuntimeLoaderInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function load (string $class)
+	public function load(string $class)
 	{
 		if (isset($this->map[$class]))
 		{

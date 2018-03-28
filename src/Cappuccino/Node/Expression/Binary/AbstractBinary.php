@@ -36,7 +36,7 @@ abstract class AbstractBinary extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Node $left, Node $right, int $lineno)
+	public function __construct(Node $left, Node $right, int $lineno)
 	{
 		parent::__construct(['left' => $left, 'right' => $right], [], $lineno);
 	}
@@ -49,7 +49,7 @@ abstract class AbstractBinary extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$compiler->raw('(')->subcompile($this->getNode('left'))->raw(' ');
 
@@ -67,6 +67,6 @@ abstract class AbstractBinary extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public abstract function operator (Compiler $compiler): Compiler;
+	public abstract function operator(Compiler $compiler): Compiler;
 
 }

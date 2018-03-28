@@ -73,7 +73,7 @@ class Compiler
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Cappuccino $cappuccino)
+	public function __construct(Cappuccino $cappuccino)
 	{
 		$this->cappuccino = $cappuccino;
 		$this->varNameSalt = 0;
@@ -86,7 +86,7 @@ class Compiler
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getCappuccino (): Cappuccino
+	public function getCappuccino(): Cappuccino
 	{
 		return $this->cappuccino;
 	}
@@ -98,7 +98,7 @@ class Compiler
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getSource (): string
+	public function getSource(): string
 	{
 		return $this->source;
 	}
@@ -113,7 +113,7 @@ class Compiler
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Node $node, int $indentation = 0): Compiler
+	public function compile(Node $node, int $indentation = 0): Compiler
 	{
 		$this->lastLine = null;
 		$this->source = '';
@@ -138,7 +138,7 @@ class Compiler
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function subcompile (Node $node, bool $raw = true): Compiler
+	public function subcompile(Node $node, bool $raw = true): Compiler
 	{
 		if (!$raw)
 			$this->source .= str_repeat(' ', $this->indentation * 4);
@@ -157,7 +157,7 @@ class Compiler
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function raw (string $string): Compiler
+	public function raw(string $string): Compiler
 	{
 		$this->source .= $string;
 
@@ -173,7 +173,7 @@ class Compiler
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function write (string ...$strings): Compiler
+	public function write(string ...$strings): Compiler
 	{
 		foreach ($strings as $string)
 			$this->source .= str_repeat(' ', $this->indentation * 4) . $string;
@@ -190,7 +190,7 @@ class Compiler
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function string (string $value): Compiler
+	public function string(string $value): Compiler
 	{
 		$this->source .= sprintf('"%s"', addcslashes($value, "\0\t\"\$\\"));
 
@@ -206,7 +206,7 @@ class Compiler
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function repr ($value): Compiler
+	public function repr($value): Compiler
 	{
 		if (is_int($value) || is_float($value))
 		{
@@ -260,7 +260,7 @@ class Compiler
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addDebugInfo (Node $node): Compiler
+	public function addDebugInfo(Node $node): Compiler
 	{
 		if ($node->getTemplateLine() != $this->lastLine)
 		{
@@ -283,7 +283,7 @@ class Compiler
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getDebugInfo (): array
+	public function getDebugInfo(): array
 	{
 		ksort($this->debugInfo);
 
@@ -299,7 +299,7 @@ class Compiler
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function indent (int $step = 1): Compiler
+	public function indent(int $step = 1): Compiler
 	{
 		$this->indentation += $step;
 
@@ -315,7 +315,7 @@ class Compiler
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function outdent (int $step = 1): Compiler
+	public function outdent(int $step = 1): Compiler
 	{
 		if ($this->indentation < $step)
 			throw new LogicException('Unable to call outdent() as the indentation would become negative.');
@@ -332,7 +332,7 @@ class Compiler
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getVarName (): string
+	public function getVarName(): string
 	{
 		return sprintf('__internal_%s', hash('sha256', __METHOD__ . $this->varNameSalt++));
 	}

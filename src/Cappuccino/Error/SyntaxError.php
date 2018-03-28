@@ -31,7 +31,7 @@ final class SyntaxError extends Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addSuggestions (string $name, array $items)
+	public function addSuggestions(string $name, array $items)
 	{
 		$alternatives = [];
 

@@ -33,7 +33,7 @@ class LeaveProfileNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (string $varName)
+	public function __construct(string $varName)
 	{
 		parent::__construct([], ['var_name' => $varName]);
 	}
@@ -43,7 +43,7 @@ class LeaveProfileNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$compiler
 			->write("\n")

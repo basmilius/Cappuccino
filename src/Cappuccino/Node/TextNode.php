@@ -33,7 +33,7 @@ class TextNode extends Node implements NodeOutputInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (string $data, int $lineno)
+	public function __construct(string $data, int $lineno)
 	{
 		parent::__construct([], ['data' => $data], $lineno);
 	}
@@ -43,7 +43,7 @@ class TextNode extends Node implements NodeOutputInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$compiler
 			->addDebugInfo($this)

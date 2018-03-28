@@ -44,7 +44,7 @@ class ModuleNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Node $body, ?AbstractExpression $parent, Node $blocks, Node $macros, Node $traits, array $embeddedTemplates, Source $source)
+	public function __construct(Node $body, ?AbstractExpression $parent, Node $blocks, Node $macros, Node $traits, array $embeddedTemplates, Source $source)
 	{
 		if (__CLASS__ !== get_class($this))
 			@trigger_error('Overriding ' . __CLASS__ . ' is deprecated since version 2.4.0 and the class will be final in 3.0.', E_USER_DEPRECATED);
@@ -79,7 +79,7 @@ class ModuleNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setIndex (int $index): void
+	public function setIndex(int $index): void
 	{
 		$this->setAttribute('index', $index);
 	}
@@ -89,7 +89,7 @@ class ModuleNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$this->compileTemplate($compiler);
 
@@ -106,7 +106,7 @@ class ModuleNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function compileTemplate (Compiler $compiler): void
+	protected function compileTemplate(Compiler $compiler): void
 	{
 		if (!$this->getAttribute('index'))
 			$compiler->write('<?php');
@@ -134,7 +134,7 @@ class ModuleNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function compileGetParent (Compiler $compiler): void
+	protected function compileGetParent(Compiler $compiler): void
 	{
 		if (!$this->hasNode('parent'))
 			return;
@@ -174,7 +174,7 @@ class ModuleNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function compileClassHeader (Compiler $compiler): void
+	protected function compileClassHeader(Compiler $compiler): void
 	{
 		$compiler
 			->write("\n\n")
@@ -194,7 +194,7 @@ class ModuleNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function compileConstructor (Compiler $compiler): void
+	protected function compileConstructor(Compiler $compiler): void
 	{
 		$classCappuccino = Cappuccino::class;
 
@@ -336,7 +336,7 @@ class ModuleNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function compileDisplay (Compiler $compiler): void
+	protected function compileDisplay(Compiler $compiler): void
 	{
 		$compiler
 			->write("protected function doDisplay(array \$context, array \$blocks = []): void\n", "{\n")
@@ -371,7 +371,7 @@ class ModuleNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function compileClassFooter (Compiler $compiler): void
+	protected function compileClassFooter(Compiler $compiler): void
 	{
 		$compiler
 			->subcompile($this->getNode('class_end'))
@@ -387,7 +387,7 @@ class ModuleNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function compileMacros (Compiler $compiler): void
+	protected function compileMacros(Compiler $compiler): void
 	{
 		$compiler->subcompile($this->getNode('macros'));
 	}
@@ -400,7 +400,7 @@ class ModuleNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function compileGetTemplateName (Compiler $compiler): void
+	protected function compileGetTemplateName(Compiler $compiler): void
 	{
 		$compiler
 			->write("public function getTemplateName() : string\n", "{\n")
@@ -420,7 +420,7 @@ class ModuleNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function compileIsTraitable (Compiler $compiler): void
+	protected function compileIsTraitable(Compiler $compiler): void
 	{
 		$traitable = !$this->hasNode('parent') && 0 === count($this->getNode('macros'));
 
@@ -469,7 +469,7 @@ class ModuleNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function compileDebugInfo (Compiler $compiler): void
+	protected function compileDebugInfo(Compiler $compiler): void
 	{
 		$compiler
 			->write("public function getDebugInfo() : array\n", "{\n")
@@ -487,7 +487,7 @@ class ModuleNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function compileGetSourceContext (Compiler $compiler): void
+	protected function compileGetSourceContext(Compiler $compiler): void
 	{
 		$classSource = Source::class;
 
@@ -515,7 +515,7 @@ class ModuleNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function compileLoadTemplate (Compiler $compiler, Node $node, string $var): void
+	protected function compileLoadTemplate(Compiler $compiler, Node $node, string $var): void
 	{
 		if ($node instanceof ConstantExpression)
 			$compiler

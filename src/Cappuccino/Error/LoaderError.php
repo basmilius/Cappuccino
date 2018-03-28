@@ -36,7 +36,7 @@ final class LoaderError extends Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (string $message, int $lineno = -1, $source = null, Exception $previous = null)
+	public function __construct(string $message, int $lineno = -1, $source = null, Exception $previous = null)
 	{
 		parent::__construct('', 0, null, $previous);
 

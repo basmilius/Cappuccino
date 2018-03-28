@@ -34,12 +34,14 @@ final class SandboxTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token): Node
+	public function parse(Token $token): Node
 	{
 		$stream = $this->parser->getStream();
-		$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
+		$stream->expect(/*Token::BLOCK_END_TYPE*/
+			3);
 		$body = $this->parser->subparse([$this, 'decideBlockEnd'], true);
-		$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
+		$stream->expect(/*Token::BLOCK_END_TYPE*/
+			3);
 
 		if (!$body instanceof IncludeNode)
 			foreach ($body as $node)
@@ -63,7 +65,7 @@ final class SandboxTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function decideBlockEnd (Token $token): bool
+	public function decideBlockEnd(Token $token): bool
 	{
 		return $token->test('endsandbox');
 	}
@@ -73,7 +75,7 @@ final class SandboxTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag (): string
+	public function getTag(): string
 	{
 		return 'sandbox';
 	}

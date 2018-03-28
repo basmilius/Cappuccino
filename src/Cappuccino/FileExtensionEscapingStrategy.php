@@ -31,7 +31,7 @@ class FileExtensionEscapingStrategy
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public static function guess (string $name)
+	public static function guess(string $name)
 	{
 		if (in_array(substr($name, -1), ['/', '\\']))
 			return 'html';

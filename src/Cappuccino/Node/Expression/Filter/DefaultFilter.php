@@ -43,7 +43,7 @@ class DefaultFilter extends FilterExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Node $node, ConstantExpression $filterName, Node $arguments, $lineno, $tag = null)
+	public function __construct(Node $node, ConstantExpression $filterName, Node $arguments, $lineno, $tag = null)
 	{
 		$default = new FilterExpression($node, new ConstantExpression('default', $node->getTemplateLine()), $arguments, $node->getTemplateLine());
 
@@ -67,7 +67,7 @@ class DefaultFilter extends FilterExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$compiler->subcompile($this->getNode('node'));
 	}

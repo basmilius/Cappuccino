@@ -36,7 +36,7 @@ final class SandboxNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doEnterNode (Node $node, Cappuccino $cappuccino): Node
+	protected function doEnterNode(Node $node, Cappuccino $cappuccino): Node
 	{
 		if ($node instanceof ModuleNode)
 		{
@@ -78,7 +78,7 @@ final class SandboxNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doLeaveNode (Node $node, Cappuccino $env): Node
+	protected function doLeaveNode(Node $node, Cappuccino $env): Node
 	{
 		if ($node instanceof ModuleNode)
 		{
@@ -95,7 +95,7 @@ final class SandboxNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getPriority (): int
+	public function getPriority(): int
 	{
 		return 0;
 	}

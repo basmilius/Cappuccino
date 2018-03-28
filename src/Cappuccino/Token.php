@@ -63,7 +63,7 @@ final class Token
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (int $type, string $value, int $lineno)
+	public function __construct(int $type, string $value, int $lineno)
 	{
 		$this->type = $type;
 		$this->value = $value;
@@ -80,7 +80,7 @@ final class Token
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function test ($type, $values = null): bool
+	public function test($type, $values = null): bool
 	{
 		if ($values === null && !is_int($type))
 		{
@@ -98,7 +98,7 @@ final class Token
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getLine (): int
+	public function getLine(): int
 	{
 		return $this->lineno;
 	}
@@ -110,7 +110,7 @@ final class Token
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getType (): int
+	public function getType(): int
 	{
 		return $this->type;
 	}
@@ -122,7 +122,7 @@ final class Token
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getValue (): string
+	public function getValue(): string
 	{
 		return $this->value;
 	}
@@ -137,7 +137,7 @@ final class Token
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public static function typeToString (int $type, bool $short = false): string
+	public static function typeToString(int $type, bool $short = false): string
 	{
 		switch ($type)
 		{
@@ -196,7 +196,7 @@ final class Token
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public static function typeToEnglish ($type): string
+	public static function typeToEnglish($type): string
 	{
 		switch ($type)
 		{
@@ -236,7 +236,7 @@ final class Token
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __toString (): string
+	public function __toString(): string
 	{
 		return sprintf('%s(%s)', self::typeToString($this->type, true), $this->value);
 	}

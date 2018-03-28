@@ -35,7 +35,7 @@ class MethodCallExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (AbstractExpression $node, string $method, ArrayExpression $arguments, int $lineno)
+	public function __construct(AbstractExpression $node, string $method, ArrayExpression $arguments, int $lineno)
 	{
 		parent::__construct(['node' => $node, 'arguments' => $arguments], ['method' => $method, 'safe' => false], $lineno);
 
@@ -48,7 +48,7 @@ class MethodCallExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$compiler->subcompile($this->getNode('node'))->raw('->')->raw($this->getAttribute('method'))->raw('(');
 		$first = true;

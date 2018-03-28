@@ -36,7 +36,7 @@ interface TokenParserInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setParser (Parser $parser): void;
+	public function setParser(Parser $parser): void;
 
 	/**
 	 * Parses a token and returns a Node.
@@ -49,7 +49,7 @@ interface TokenParserInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token): ?Node;
+	public function parse(Token $token): ?Node;
 
 	/**
 	 * Gets the tag name associated with this token parser.
@@ -58,6 +58,6 @@ interface TokenParserInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag (): string;
+	public function getTag(): string;
 
 }

@@ -34,7 +34,7 @@ class SpacelessNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Node $body, int $lineno, ?string $tag = 'spaceless')
+	public function __construct(Node $body, int $lineno, ?string $tag = 'spaceless')
 	{
 		parent::__construct(['body' => $body], [], $lineno, $tag);
 	}
@@ -44,7 +44,7 @@ class SpacelessNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$compiler
 			->addDebugInfo($this)

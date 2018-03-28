@@ -45,7 +45,7 @@ class StaticMethods
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public static function convertEncoding (string $str, string $to, string $from): string
+	public static function convertEncoding(string $str, string $to, string $from): string
 	{
 		return iconv($from, $to, $str);
 	}
@@ -59,7 +59,7 @@ class StaticMethods
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public static function ensureTraversable ($seq)
+	public static function ensureTraversable($seq)
 	{
 		if ($seq instanceof Traversable || is_array($seq))
 		{
@@ -89,9 +89,10 @@ class StaticMethods
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public static function getAttribute (Cappuccino $cappuccino, Source $source, $object, $item, array $arguments = [], string $type = Template::ANY_CALL, bool $isDefinedTest = false, bool $ignoreStrictCheck = false, bool $sandboxed = false)
+	public static function getAttribute(Cappuccino $cappuccino, Source $source, $object, $item, array $arguments = [], string $type = Template::ANY_CALL, bool $isDefinedTest = false, bool $ignoreStrictCheck = false, bool $sandboxed = false)
 	{
-		if ($type !== /*Template::METHOD_CALL*/ 'method')
+		if ($type !== /*Template::METHOD_CALL*/
+			'method')
 		{
 			$arrayItem = is_bool($item) || is_float($item) ? (int)$item : $item;
 
@@ -103,7 +104,8 @@ class StaticMethods
 				return $object[$arrayItem];
 			}
 
-			if ($type === /*Template::ARRAY_CALL*/ 'array' || !is_object($object))
+			if ($type === /*Template::ARRAY_CALL*/
+				'array' || !is_object($object))
 			{
 				if ($isDefinedTest)
 					return false;
@@ -126,7 +128,8 @@ class StaticMethods
 					else
 						$message = sprintf('Key "%s" for array with keys "%s" does not exist.', $arrayItem, implode(', ', array_keys($object)));
 				}
-				else if ($type === /*Template::ARRAY_CALL*/ 'array')
+				else if ($type === /*Template::ARRAY_CALL*/
+					'array')
 				{
 					if ($object === null)
 						$message = sprintf('Impossible to access a key ("%s") on a null variable.', $item);
@@ -167,7 +170,8 @@ class StaticMethods
 		if ($object instanceof Template)
 			throw new RuntimeError('Accessing Template attributes is forbidden.');
 
-		if ($type !== /*Template::METHOD_CALL*/ 'method')
+		if ($type !== /*Template::METHOD_CALL*/
+			'method')
 		{
 			if (isset($object->{$item}) || array_key_exists((string)$item, $object))
 			{
@@ -311,7 +315,7 @@ class StaticMethods
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public static function inFilter ($value, $compare): bool
+	public static function inFilter($value, $compare): bool
 	{
 		if (is_array($compare))
 		{
@@ -352,7 +356,7 @@ class StaticMethods
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public static function isConstantDefined (string $constant, $object): bool
+	public static function isConstantDefined(string $constant, $object): bool
 	{
 		if ($object !== null)
 			$constant = get_class($object) . '::' . $constant;
@@ -369,7 +373,7 @@ class StaticMethods
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public static function isEmpty ($value): bool
+	public static function isEmpty($value): bool
 	{
 		if ($value instanceof Countable)
 			return count($value) === 0;
@@ -389,7 +393,7 @@ class StaticMethods
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public static function isIterable ($value): bool
+	public static function isIterable($value): bool
 	{
 		return $value instanceof Traversable || is_array($value);
 	}

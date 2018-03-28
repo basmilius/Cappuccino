@@ -46,7 +46,7 @@ final class ProfilerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (string $extensionName)
+	public function __construct(string $extensionName)
 	{
 		$this->extensionName = $extensionName;
 	}
@@ -56,7 +56,7 @@ final class ProfilerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doEnterNode (Node $node, Cappuccino $cappuccino): Node
+	protected function doEnterNode(Node $node, Cappuccino $cappuccino): Node
 	{
 		return $node;
 	}
@@ -66,7 +66,7 @@ final class ProfilerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doLeaveNode (Node $node, Cappuccino $env): Node
+	protected function doLeaveNode(Node $node, Cappuccino $env): Node
 	{
 		if ($node instanceof ModuleNode)
 		{
@@ -103,7 +103,7 @@ final class ProfilerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function getVarName (): string
+	private function getVarName(): string
 	{
 		return sprintf('__internal_%s', hash('sha256', $this->extensionName));
 	}
@@ -113,7 +113,7 @@ final class ProfilerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getPriority (): int
+	public function getPriority(): int
 	{
 		return 0;
 	}

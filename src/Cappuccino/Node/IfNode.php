@@ -35,7 +35,7 @@ class IfNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Node $tests, ?Node $else = null, int $lineno, ?string $tag = null)
+	public function __construct(Node $tests, ?Node $else = null, int $lineno, ?string $tag = null)
 	{
 		$nodes = ['tests' => $tests];
 
@@ -50,7 +50,7 @@ class IfNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$compiler->addDebugInfo($this);
 

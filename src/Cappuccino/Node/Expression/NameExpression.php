@@ -33,7 +33,7 @@ class NameExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (string $name, int $lineno)
+	public function __construct(string $name, int $lineno)
 	{
 		parent::__construct([], ['name' => $name, 'is_defined_test' => false, 'ignore_strict_check' => false, 'always_defined' => false], $lineno);
 	}
@@ -43,7 +43,7 @@ class NameExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$name = $this->getAttribute('name');
 
@@ -113,7 +113,7 @@ class NameExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isSpecial (): bool
+	public function isSpecial(): bool
 	{
 		return isset($this->specialVars[$this->getAttribute('name')]);
 	}
@@ -125,7 +125,7 @@ class NameExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isSimple (): bool
+	public function isSimple(): bool
 	{
 		return !$this->isSpecial() && !$this->getAttribute('is_defined_test');
 	}

@@ -16,7 +16,6 @@ use Cappuccino\Cappuccino;
 use Cappuccino\Error\RuntimeError;
 use Cappuccino\Error\SyntaxError;
 use Cappuccino\SimpleFilter;
-use Exception;
 use IntlDateFormatter;
 use Locale;
 use NumberFormatter;
@@ -38,7 +37,7 @@ final class IntlExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.1
 	 */
-	public function __construct ()
+	public function __construct()
 	{
 		if (!class_exists(IntlDateFormatter::class))
 			throw new RuntimeError('The PHP intl extension is needed to use intl-based filters.');
@@ -49,7 +48,7 @@ final class IntlExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.1
 	 */
-	public final function getFilters (): array
+	public final function getFilters(): array
 	{
 		return [
 			new SimpleFilter('localizedcurrency', [$this, 'onSimpleFilterLocalizedCurrency']),
@@ -69,7 +68,7 @@ final class IntlExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.1
 	 */
-	public final function onSimpleFilterLocalizedCurrency ($number, ?string $currency = null, ?string $locale = null): string
+	public final function onSimpleFilterLocalizedCurrency($number, ?string $currency = null, ?string $locale = null): string
 	{
 		return self::getNumberFormatter($locale, 'currency')->formatCurrency($number, $currency);
 	}
@@ -91,7 +90,7 @@ final class IntlExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.1
 	 */
-	public final function onSimpleFilterLocalizedDate (Cappuccino $cappuccino, $date, string $dateFormat = 'full', string $timeFormat = 'full', ?string $locale = null, $timezone = null, ?string $format = null, string $calendar = 'gregorian'): string
+	public final function onSimpleFilterLocalizedDate(Cappuccino $cappuccino, $date, string $dateFormat = 'full', string $timeFormat = 'full', ?string $locale = null, $timezone = null, ?string $format = null, string $calendar = 'gregorian'): string
 	{
 		/** @var CoreExtension $core */
 		$core = $cappuccino->getExtension(CoreExtension::class);
@@ -131,7 +130,7 @@ final class IntlExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.1
 	 */
-	public final function onSimpleFilterLocalizedNumber ($number, string $style = 'decimal', string $type = 'default', ?string $locale = null): string
+	public final function onSimpleFilterLocalizedNumber($number, string $style = 'decimal', string $type = 'default', ?string $locale = null): string
 	{
 		static $typeValues = [
 			'default' => NumberFormatter::TYPE_DEFAULT,
@@ -157,7 +156,7 @@ final class IntlExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.1
 	 */
-	private static function getNumberFormatter (?string $locale, string $style): NumberFormatter
+	private static function getNumberFormatter(?string $locale, string $style): NumberFormatter
 	{
 		static $currentStyle;
 		/** @var NumberFormatter $formatter */

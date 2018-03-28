@@ -35,7 +35,7 @@ class AutoEscapeNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct ($value, Node $body, int $lineno, ?string $tag = 'autoescape')
+	public function __construct($value, Node $body, int $lineno, ?string $tag = 'autoescape')
 	{
 		parent::__construct(['body' => $body], ['value' => $value], $lineno, $tag);
 	}
@@ -45,7 +45,7 @@ class AutoEscapeNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$compiler->subcompile($this->getNode('body'));
 	}

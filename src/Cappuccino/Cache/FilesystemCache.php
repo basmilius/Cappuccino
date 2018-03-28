@@ -38,7 +38,7 @@ class FilesystemCache implements CacheInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (string $directory, int $options = 0)
+	public function __construct(string $directory, int $options = 0)
 	{
 		$this->directory = rtrim($directory, '\/') . '/';
 		$this->options = $options;
@@ -49,7 +49,7 @@ class FilesystemCache implements CacheInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function generateKey (string $name, string $className): string
+	public function generateKey(string $name, string $className): string
 	{
 		$hash = hash('sha256', $className);
 
@@ -61,7 +61,7 @@ class FilesystemCache implements CacheInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function load (string $key): void
+	public function load(string $key): void
 	{
 		if (file_exists($key))
 		{
@@ -75,7 +75,7 @@ class FilesystemCache implements CacheInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function write (string $key, string $content): void
+	public function write(string $key, string $content): void
 	{
 		$dir = dirname($key);
 		if (!is_dir($dir))
@@ -123,7 +123,7 @@ class FilesystemCache implements CacheInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTimestamp (string $key): int
+	public function getTimestamp(string $key): int
 	{
 		if (!file_exists($key))
 			return 0;

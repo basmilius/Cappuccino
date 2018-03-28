@@ -155,7 +155,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (LoaderInterface $loader, array $options = [])
+	public function __construct(LoaderInterface $loader, array $options = [])
 	{
 		$this->setLoader($loader);
 
@@ -196,7 +196,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getBaseTemplateClass (): string
+	public function getBaseTemplateClass(): string
 	{
 		return $this->baseTemplateClass;
 	}
@@ -209,7 +209,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setBaseTemplateClass (string $class): void
+	public function setBaseTemplateClass(string $class): void
 	{
 		$this->baseTemplateClass = $class;
 		$this->updateOptionsHash();
@@ -221,7 +221,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function enableDebug (): void
+	public function enableDebug(): void
 	{
 		$this->debug = true;
 		$this->updateOptionsHash();
@@ -233,7 +233,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function disableDebug (): void
+	public function disableDebug(): void
 	{
 		$this->debug = false;
 		$this->updateOptionsHash();
@@ -246,7 +246,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isDebug (): bool
+	public function isDebug(): bool
 	{
 		return $this->debug;
 	}
@@ -257,7 +257,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function enableAutoReload (): void
+	public function enableAutoReload(): void
 	{
 		$this->autoReload = true;
 	}
@@ -268,7 +268,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function disableAutoReload (): void
+	public function disableAutoReload(): void
 	{
 		$this->autoReload = false;
 	}
@@ -280,7 +280,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isAutoReload (): bool
+	public function isAutoReload(): bool
 	{
 		return $this->autoReload;
 	}
@@ -291,7 +291,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function enableStrictVariables (): void
+	public function enableStrictVariables(): void
 	{
 		$this->strictVariables = true;
 		$this->updateOptionsHash();
@@ -303,7 +303,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function disableStrictVariables (): void
+	public function disableStrictVariables(): void
 	{
 		$this->strictVariables = false;
 		$this->updateOptionsHash();
@@ -316,7 +316,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isStrictVariables (): bool
+	public function isStrictVariables(): bool
 	{
 		return $this->strictVariables;
 	}
@@ -328,7 +328,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getCache (): CacheInterface
+	public function getCache(): CacheInterface
 	{
 		return $this->cache;
 	}
@@ -341,7 +341,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setCache (CacheInterface $cache): void
+	public function setCache(CacheInterface $cache): void
 	{
 		if ($cache instanceof CacheInterface)
 			$this->cache = $cache;
@@ -360,7 +360,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTemplateClass (string $name, ?int $index = null): string
+	public function getTemplateClass(string $name, ?int $index = null): string
 	{
 		$key = $this->getLoader()->getCacheKey($name) . $this->optionsHash;
 
@@ -380,7 +380,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function render (string $name, array $context = []): string
+	public function render(string $name, array $context = []): string
 	{
 		return $this->loadTemplate($name)->render($context);
 	}
@@ -398,7 +398,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function display (string $name, array $context = []): void
+	public function display(string $name, array $context = []): void
 	{
 		$this->loadTemplate($name)->display($context);
 	}
@@ -415,7 +415,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function load ($name): TemplateWrapper
+	public final function load($name): TemplateWrapper
 	{
 		if ($name instanceof TemplateWrapper)
 			return $name;
@@ -439,7 +439,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function loadTemplate (string $name, ?int $index = null): Template
+	public function loadTemplate(string $name, ?int $index = null): Template
 	{
 //		if (!strpos($name, '.'))
 //			$name .= Cappuccino::DEFAULT_EXTENSION;
@@ -492,7 +492,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function createTemplate (string $template): Template
+	public function createTemplate(string $template): Template
 	{
 		$name = sprintf('__string_template__%s', hash('sha256', $template, false));
 
@@ -527,7 +527,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function isTemplateFresh (string $name, int $time): bool
+	public function isTemplateFresh(string $name, int $time): bool
 	{
 		return $this->extensionSet->getLastModified() <= $time && $this->getLoader()->isFresh($name, $time);
 	}
@@ -546,7 +546,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.2
 	 */
-	public function resolveTemplate ($names): Template
+	public function resolveTemplate($names): Template
 	{
 		if (!is_array($names))
 			$names = [$names];
@@ -581,7 +581,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setLexer (Lexer $lexer): void
+	public function setLexer(Lexer $lexer): void
 	{
 		$this->lexer = $lexer;
 	}
@@ -596,7 +596,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function tokenize (Source $source): TokenStream
+	public function tokenize(Source $source): TokenStream
 	{
 		if ($this->lexer === null)
 			$this->lexer = new Lexer($this);
@@ -612,7 +612,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setParser (Parser $parser): void
+	public function setParser(Parser $parser): void
 	{
 		$this->parser = $parser;
 	}
@@ -627,7 +627,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (TokenStream $stream): ModuleNode
+	public function parse(TokenStream $stream): ModuleNode
 	{
 		if ($this->parser === null)
 			$this->parser = new Parser($this);
@@ -643,7 +643,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setCompiler (Compiler $compiler): void
+	public function setCompiler(Compiler $compiler): void
 	{
 		$this->compiler = $compiler;
 	}
@@ -657,7 +657,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Node $node): string
+	public function compile(Node $node): string
 	{
 		if ($this->compiler === null)
 			$this->compiler = new Compiler($this);
@@ -675,7 +675,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compileSource (Source $source): string
+	public function compileSource(Source $source): string
 	{
 		try
 		{
@@ -701,7 +701,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setLoader (LoaderInterface $loader): void
+	public function setLoader(LoaderInterface $loader): void
 	{
 		$this->loader = $loader;
 	}
@@ -713,7 +713,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getLoader (): LoaderInterface
+	public function getLoader(): LoaderInterface
 	{
 		return $this->loader;
 	}
@@ -726,7 +726,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setCharset (string $charset): void
+	public function setCharset(string $charset): void
 	{
 		if (($charset = strtoupper($charset)) === 'UTF8')
 			$charset = 'UTF-8';
@@ -741,7 +741,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getCharset (): string
+	public function getCharset(): string
 	{
 		return $this->charset;
 	}
@@ -755,7 +755,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function hasExtension (string $class): bool
+	public function hasExtension(string $class): bool
 	{
 		return $this->extensionSet->hasExtension($class);
 	}
@@ -768,7 +768,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addRuntimeLoader (RuntimeLoaderInterface $loader): void
+	public function addRuntimeLoader(RuntimeLoaderInterface $loader): void
 	{
 		$this->runtimeLoaders[] = $loader;
 	}
@@ -783,7 +783,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getExtension (string $class): ExtensionInterface
+	public function getExtension(string $class): ExtensionInterface
 	{
 		return $this->extensionSet->getExtension($class);
 	}
@@ -799,7 +799,7 @@ class Cappuccino
 	 * @since 1.0.0
 	 * @todo Validate return type.
 	 */
-	public function getRuntime (string $class)
+	public function getRuntime(string $class)
 	{
 		if (isset($this->runtimes[$class]))
 			return $this->runtimes[$class];
@@ -819,7 +819,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addExtension (ExtensionInterface $extension): void
+	public function addExtension(ExtensionInterface $extension): void
 	{
 		$this->extensionSet->addExtension($extension);
 		$this->updateOptionsHash();
@@ -833,7 +833,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setExtensions (array $extensions): void
+	public function setExtensions(array $extensions): void
 	{
 		$this->extensionSet->setExtensions($extensions);
 		$this->updateOptionsHash();
@@ -846,7 +846,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getExtensions (): array
+	public function getExtensions(): array
 	{
 		return $this->extensionSet->getExtensions();
 	}
@@ -859,7 +859,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addTokenParser (TokenParserInterface $parser): void
+	public function addTokenParser(TokenParserInterface $parser): void
 	{
 		$this->extensionSet->addTokenParser($parser);
 	}
@@ -871,7 +871,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTokenParsers (): array
+	public function getTokenParsers(): array
 	{
 		return $this->extensionSet->getTokenParsers();
 	}
@@ -883,7 +883,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTags (): array
+	public function getTags(): array
 	{
 		$tags = [];
 
@@ -901,7 +901,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addNodeVisitor (NodeVisitorInterface $visitor): void
+	public function addNodeVisitor(NodeVisitorInterface $visitor): void
 	{
 		$this->extensionSet->addNodeVisitor($visitor);
 	}
@@ -913,7 +913,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getNodeVisitors (): array
+	public function getNodeVisitors(): array
 	{
 		return $this->extensionSet->getNodeVisitors();
 	}
@@ -926,7 +926,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addFilter (SimpleFilter $filter): void
+	public function addFilter(SimpleFilter $filter): void
 	{
 		$this->extensionSet->addFilter($filter);
 	}
@@ -940,7 +940,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFilter (string $name): ?SimpleFilter
+	public function getFilter(string $name): ?SimpleFilter
 	{
 		return $this->extensionSet->getFilter($name);
 	}
@@ -952,7 +952,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFilters (): array
+	public function getFilters(): array
 	{
 		return $this->extensionSet->getFilters();
 	}
@@ -965,7 +965,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function registerUndefinedFilterCallback (callable $callable): void
+	public function registerUndefinedFilterCallback(callable $callable): void
 	{
 		$this->extensionSet->registerUndefinedFilterCallback($callable);
 	}
@@ -979,7 +979,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTest (string $name): ?SimpleTest
+	public function getTest(string $name): ?SimpleTest
 	{
 		return $this->extensionSet->getTest($name);
 	}
@@ -991,7 +991,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTests (): array
+	public function getTests(): array
 	{
 		return $this->extensionSet->getTests();
 	}
@@ -1004,7 +1004,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addFunction (SimpleFunction $function): void
+	public function addFunction(SimpleFunction $function): void
 	{
 		$this->extensionSet->addFunction($function);
 	}
@@ -1018,7 +1018,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFunction (string $name): ?SimpleFunction
+	public function getFunction(string $name): ?SimpleFunction
 	{
 		return $this->extensionSet->getFunction($name);
 	}
@@ -1031,7 +1031,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function registerUndefinedFunctionCallback (callable $callable): void
+	public function registerUndefinedFunctionCallback(callable $callable): void
 	{
 		$this->extensionSet->registerUndefinedFunctionCallback($callable);
 	}
@@ -1043,7 +1043,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFunctions (): array
+	public function getFunctions(): array
 	{
 		return $this->extensionSet->getFunctions();
 	}
@@ -1057,7 +1057,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addGlobal (string $name, $value): void
+	public function addGlobal(string $name, $value): void
 	{
 		if ($this->extensionSet->isInitialized() && !array_key_exists($name, $this->getGlobals()))
 			throw new LogicException(sprintf('Unable to add global "%s" as the runtime or the extensions have already been initialized.', $name));
@@ -1075,7 +1075,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getGlobals (): array
+	public function getGlobals(): array
 	{
 		if ($this->extensionSet->isInitialized())
 		{
@@ -1097,7 +1097,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function mergeGlobals (array $context): array
+	public function mergeGlobals(array $context): array
 	{
 		foreach ($this->getGlobals() as $key => $value)
 			if (!array_key_exists($key, $context))
@@ -1113,7 +1113,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getUnaryOperators (): array
+	public function getUnaryOperators(): array
 	{
 		return $this->extensionSet->getUnaryOperators();
 	}
@@ -1125,7 +1125,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getBinaryOperators (): array
+	public function getBinaryOperators(): array
 	{
 		return $this->extensionSet->getBinaryOperators();
 	}
@@ -1136,7 +1136,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function updateOptionsHash (): void
+	private function updateOptionsHash(): void
 	{
 		$this->optionsHash = implode(':', [
 			$this->extensionSet->getSignature(),

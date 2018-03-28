@@ -41,7 +41,7 @@ class SecurityNotAllowedFilterError extends SecurityError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (string $message, string $functionName, int $lineno = -1, ?string $filename = null, Exception $previous = null)
+	public function __construct(string $message, string $functionName, int $lineno = -1, ?string $filename = null, Exception $previous = null)
 	{
 		parent::__construct($message, $lineno, $filename, $previous);
 
@@ -55,7 +55,7 @@ class SecurityNotAllowedFilterError extends SecurityError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFilterName (): string
+	public function getFilterName(): string
 	{
 		return $this->filterName;
 	}

@@ -57,7 +57,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (SecurityPolicyInterface $policy, bool $sandboxed = false)
+	public function __construct(SecurityPolicyInterface $policy, bool $sandboxed = false)
 	{
 		$this->policy = $policy;
 		$this->sandboxedGlobally = $sandboxed;
@@ -68,7 +68,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function getTokenParsers (): array
+	public final function getTokenParsers(): array
 	{
 		return [new SandboxTokenParser()];
 	}
@@ -78,7 +78,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function getNodeVisitors (): array
+	public final function getNodeVisitors(): array
 	{
 		return [new SandboxNodeVisitor()];
 	}
@@ -89,7 +89,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function enableSandbox (): void
+	public final function enableSandbox(): void
 	{
 		$this->sandboxed = true;
 	}
@@ -100,7 +100,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function disableSandbox (): void
+	public final function disableSandbox(): void
 	{
 		$this->sandboxed = false;
 	}
@@ -112,7 +112,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function isSandboxed (): bool
+	public final function isSandboxed(): bool
 	{
 		return $this->sandboxedGlobally || $this->sandboxed;
 	}
@@ -124,7 +124,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function isSandboxedGlobally (): bool
+	public final function isSandboxedGlobally(): bool
 	{
 		return $this->sandboxedGlobally;
 	}
@@ -136,7 +136,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function getSecurityPolicy (): SecurityPolicyInterface
+	public final function getSecurityPolicy(): SecurityPolicyInterface
 	{
 		return $this->policy;
 	}
@@ -149,7 +149,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function setSecurityPolicy (SecurityPolicyInterface $policy): void
+	public final function setSecurityPolicy(SecurityPolicyInterface $policy): void
 	{
 		$this->policy = $policy;
 	}
@@ -165,7 +165,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function checkSecurity (array $tags, array $filters, array $functions): void
+	public final function checkSecurity(array $tags, array $filters, array $functions): void
 	{
 		if ($this->isSandboxed())
 			$this->policy->checkSecurity($tags, $filters, $functions);
@@ -181,7 +181,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function checkMethodAllowed ($obj, string $method): void
+	public final function checkMethodAllowed($obj, string $method): void
 	{
 		if ($this->isSandboxed())
 			$this->policy->checkMethodAllowed($obj, $method);
@@ -197,7 +197,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function checkPropertyAllowed ($obj, string $property): void
+	public final function checkPropertyAllowed($obj, string $property): void
 	{
 		if ($this->isSandboxed())
 			$this->policy->checkPropertyAllowed($obj, $property);
@@ -213,7 +213,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function ensureToStringAllowed ($obj)
+	public final function ensureToStringAllowed($obj)
 	{
 		if ($this->isSandboxed() && is_object($obj))
 			$this->policy->checkMethodAllowed($obj, '__toString');

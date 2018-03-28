@@ -33,12 +33,13 @@ final class AutoEscapeTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse (Token $token): Node
+	public function parse(Token $token): Node
 	{
 		$lineno = $token->getLine();
 		$stream = $this->parser->getStream();
 
-		if ($stream->test(/*Token::BLOCK_END_TYPE*/ 3))
+		if ($stream->test(/*Token::BLOCK_END_TYPE*/
+			3))
 		{
 			$value = 'html';
 		}
@@ -52,9 +53,11 @@ final class AutoEscapeTokenParser extends AbstractTokenParser
 			$value = $expr->getAttribute('value');
 		}
 
-		$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
+		$stream->expect(/*Token::BLOCK_END_TYPE*/
+			3);
 		$body = $this->parser->subparse([$this, 'decideBlockEnd'], true);
-		$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
+		$stream->expect(/*Token::BLOCK_END_TYPE*/
+			3);
 
 		return new AutoEscapeNode($value, $body, $lineno, $this->getTag());
 	}
@@ -64,7 +67,7 @@ final class AutoEscapeTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function decideBlockEnd (Token $token): bool
+	public function decideBlockEnd(Token $token): bool
 	{
 		return $token->test('endautoescape');
 	}
@@ -74,7 +77,7 @@ final class AutoEscapeTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTag (): string
+	public function getTag(): string
 	{
 		return 'autoescape';
 	}

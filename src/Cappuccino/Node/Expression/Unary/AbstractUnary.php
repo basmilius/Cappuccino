@@ -34,7 +34,7 @@ abstract class AbstractUnary extends AbstractExpression
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 */
-	public function __construct (Node $node, int $lineno)
+	public function __construct(Node $node, int $lineno)
 	{
 		parent::__construct(['node' => $node], [], $lineno);
 	}
@@ -44,7 +44,7 @@ abstract class AbstractUnary extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$compiler->raw(' ');
 		$this->operator($compiler);
@@ -56,6 +56,6 @@ abstract class AbstractUnary extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public abstract function operator (Compiler $compiler): void;
+	public abstract function operator(Compiler $compiler): void;
 
 }

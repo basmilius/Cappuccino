@@ -37,7 +37,7 @@ class WithNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct (Node $body, ?Node $variables = null, bool $only = false, int $lineno, ?string $tag = null)
+	public function __construct(Node $body, ?Node $variables = null, bool $only = false, int $lineno, ?string $tag = null)
 	{
 		$nodes = ['body' => $body];
 
@@ -52,7 +52,7 @@ class WithNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function compile (Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$compiler->addDebugInfo($this);
 
