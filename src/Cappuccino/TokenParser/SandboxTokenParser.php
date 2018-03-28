@@ -37,9 +37,9 @@ final class SandboxTokenParser extends AbstractTokenParser
 	public function parse (Token $token): Node
 	{
 		$stream = $this->parser->getStream();
-		$stream->expect(Token::BLOCK_END_TYPE);
+		$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
 		$body = $this->parser->subparse([$this, 'decideBlockEnd'], true);
-		$stream->expect(Token::BLOCK_END_TYPE);
+		$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
 
 		if (!$body instanceof IncludeNode)
 			foreach ($body as $node)

@@ -46,11 +46,11 @@ use LogicException;
 class Cappuccino
 {
 
-	public const VERSION = '1.0.2';
-	public const VERSION_ID = 10020;
+	public const VERSION = '1.1.0';
+	public const VERSION_ID = 10100;
 	public const MAJOR_VERSION = 1;
-	public const MINOR_VERSION = 0;
-	public const RELEASE_VERSION = 2;
+	public const MINOR_VERSION = 1;
+	public const RELEASE_VERSION = 0;
 	public const EXTRA_VERSION = 'release';
 
 	public const DEFAULT_EXTENSION = '.cappy';
@@ -151,6 +151,7 @@ class Cappuccino
 	 * @param LoaderInterface $loader
 	 * @param array           $options
 	 *
+	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -440,9 +441,12 @@ class Cappuccino
 	 */
 	public function loadTemplate (string $name, ?int $index = null): Template
 	{
+//		if (!strpos($name, '.'))
+//			$name .= Cappuccino::DEFAULT_EXTENSION;
+
 		$cls = $mainCls = $this->getTemplateClass($name);
 
-		if (null !== $index)
+		if ($index !== null)
 			$cls .= '_' . $index;
 
 		if (isset($this->loadedTemplates[$cls]))
@@ -832,6 +836,7 @@ class Cappuccino
 	public function setExtensions (array $extensions): void
 	{
 		$this->extensionSet->setExtensions($extensions);
+		$this->updateOptionsHash();
 	}
 
 	/**

@@ -15,6 +15,7 @@ namespace Cappuccino\NodeVisitor;
 use Cappuccino\Cappuccino;
 use Cappuccino\Node\CheckSecurityNode;
 use Cappuccino\Node\Expression\AbstractExpression;
+use Cappuccino\Node\Expression\Binary\RangeBinary;
 use Cappuccino\Node\Expression\FilterExpression;
 use Cappuccino\Node\Expression\FunctionExpression;
 use Cappuccino\Node\ModuleNode;
@@ -49,19 +50,16 @@ final class SandboxNodeVisitor extends AbstractNodeVisitor
 		else if ($this->inAModule)
 		{
 			if ($node->getNodeTag() && !isset($this->tags[$node->getNodeTag()]))
-			{
 				$this->tags[$node->getNodeTag()] = $node;
-			}
 
 			if ($node instanceof FilterExpression && !isset($this->filters[$node->getNode('filter')->getAttribute('value')]))
-			{
 				$this->filters[$node->getNode('filter')->getAttribute('value')] = $node;
-			}
 
 			if ($node instanceof FunctionExpression && !isset($this->functions[$node->getAttribute('name')]))
-			{
 				$this->functions[$node->getAttribute('name')] = $node;
-			}
+
+			if ($node instanceof RangeBinary && !isset($this->functions['range']))
+				$this->functions['range'] = $node;
 
 			if ($node instanceof PrintNode)
 			{

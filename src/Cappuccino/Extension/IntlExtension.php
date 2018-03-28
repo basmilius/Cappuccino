@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\Extension;
 
 use Cappuccino\Cappuccino;
+use Cappuccino\Error\RuntimeError;
 use Cappuccino\Error\SyntaxError;
 use Cappuccino\SimpleFilter;
 use Exception;
@@ -33,14 +34,14 @@ final class IntlExtension extends AbstractExtension
 	/**
 	 * IntlExtension constructor.
 	 *
-	 * @throws Exception
+	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.1
 	 */
 	public function __construct ()
 	{
 		if (!class_exists(IntlDateFormatter::class))
-			throw new Exception('The PHP intl extension is needed to use intl-based filters.');
+			throw new RuntimeError('The PHP intl extension is needed to use intl-based filters.');
 	}
 
 	/**

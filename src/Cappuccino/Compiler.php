@@ -61,6 +61,11 @@ class Compiler
 	private $sourceLine;
 
 	/**
+	 * @var int
+	 */
+	private $varNameSalt;
+
+	/**
 	 * Compiler constructor.
 	 *
 	 * @param Cappuccino $cappuccino
@@ -71,6 +76,7 @@ class Compiler
 	public function __construct (Cappuccino $cappuccino)
 	{
 		$this->cappuccino = $cappuccino;
+		$this->varNameSalt = 0;
 	}
 
 	/**
@@ -161,7 +167,7 @@ class Compiler
 	/**
 	 * Writes a string to the compiled code by adding indentation.
 	 *
-	 * @param string[] ...$strings
+	 * @param string ...$strings
 	 *
 	 * @return Compiler
 	 * @author Bas Milius <bas@mili.us>
@@ -328,7 +334,7 @@ class Compiler
 	 */
 	public function getVarName (): string
 	{
-		return sprintf('__internal_%s', hash('sha256', uniqid(mt_rand() . '', true), false));
+		return sprintf('__internal_%s', hash('sha256', __METHOD__ . $this->varNameSalt++));
 	}
 
 }

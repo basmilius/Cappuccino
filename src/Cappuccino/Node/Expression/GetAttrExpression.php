@@ -11,6 +11,7 @@ declare(strict_types=1);
 namespace Cappuccino\Node\Expression;
 
 use Cappuccino\Compiler;
+use Cappuccino\Extension\SandboxExtension;
 use Cappuccino\Template;
 use Cappuccino\Util\StaticMethods;
 
@@ -53,7 +54,10 @@ class GetAttrExpression extends AbstractExpression
 	 */
 	public function compile (Compiler $compiler): void
 	{
-		if ((!$compiler->getCappuccino()->isStrictVariables() || $this->getAttribute('ignore_strict_check')) && !$this->getAttribute('is_defined_test') && Template::ARRAY_CALL === $this->getAttribute('type'))
+		$cappuccino = $compiler->getCappuccino();
+		$hasSandbox = $cappuccino->hasExtension(SandboxExtension::class);
+
+		if ((!$cappuccino->isStrictVariables() || $this->getAttribute('ignore_strict_check')) && !$this->getAttribute('is_defined_test') && Template::ARRAY_CALL === $this->getAttribute('type'))
 		{
 			$var = '$' . $compiler->getVarName();
 
@@ -81,7 +85,8 @@ class GetAttrExpression extends AbstractExpression
 		$compiler->subcompile($this->getNode('node'));
 		$compiler->raw(', ')->subcompile($this->getNode('attribute'));
 
-		$needFourth = $this->getAttribute('ignore_strict_check');
+		$needFifth = $hasSandbox;
+		$needFourth = $needFifth || $this->getAttribute('ignore_strict_check');
 		$needThird = $needFourth || $this->getAttribute('is_defined_test');
 		$needSecond = $needThird || Template::ANY_CALL !== $this->getAttribute('type');
 		$needFirst = $needSecond || $this->hasNode('arguments');
@@ -102,6 +107,9 @@ class GetAttrExpression extends AbstractExpression
 
 		if ($needFourth)
 			$compiler->raw(', ')->repr($this->getAttribute('ignore_strict_check'));
+
+		if ($needFifth)
+			$compiler->raw(', ')->repr($hasSandbox);
 
 		$compiler->raw(')');
 	}

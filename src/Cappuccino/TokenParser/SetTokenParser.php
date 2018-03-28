@@ -40,11 +40,11 @@ final class SetTokenParser extends AbstractTokenParser
 
 		$capture = false;
 
-		if ($stream->nextIf(Token::OPERATOR_TYPE, '='))
+		if ($stream->nextIf(/*Token::OPERATOR_TYPE*/ 8, '='))
 		{
 			$values = $this->parser->getExpressionParser()->parseMultitargetExpression();
 
-			$stream->expect(Token::BLOCK_END_TYPE);
+			$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
 
 			if (count($names) !== count($values))
 				throw new SyntaxError('When using set, you must have the same number of variables and assignments.', $stream->getCurrent()->getLine(), $stream->getSourceContext());
@@ -56,11 +56,11 @@ final class SetTokenParser extends AbstractTokenParser
 			if (count($names) > 1)
 				throw new SyntaxError('When using set with a block, you cannot have a multi-target.', $stream->getCurrent()->getLine(), $stream->getSourceContext());
 
-			$stream->expect(Token::BLOCK_END_TYPE);
+			$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
 
 			$values = $this->parser->subparse([$this, 'decideBlockEnd'], true);
 
-			$stream->expect(Token::BLOCK_END_TYPE);
+			$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
 		}
 
 		return new SetNode($capture, $names, $values, $lineno, $this->getTag());

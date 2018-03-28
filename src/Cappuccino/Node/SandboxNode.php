@@ -51,7 +51,7 @@ class SandboxNode extends Node
 
 		$compiler
 			->addDebugInfo($this)
-			->write("\$sandbox = \$this->cappuccino->getExtension(" . $classSandboxExtension . "::class);\n")
+			->write("\$sandbox = \$this->extensions['" . $classSandboxExtension . "'];\n")
 			->write("if (!\$alreadySandboxed = \$sandbox->isSandboxed()) {\n")
 			->indent()
 			->write("\$sandbox->enableSandbox();\n")

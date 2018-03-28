@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\Node\Expression;
 
 use Cappuccino\Compiler;
+use Cappuccino\Error\RuntimeError;
 use Cappuccino\Error\SyntaxError;
 use Cappuccino\Extension\ExtensionInterface;
 use Cappuccino\Node\Node;
@@ -40,6 +41,7 @@ abstract class CallExpression extends AbstractExpression
 	 *
 	 * @param Compiler $compiler
 	 *
+	 * @throws RuntimeError
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
@@ -67,7 +69,12 @@ abstract class CallExpression extends AbstractExpression
 			}
 			else if ($r instanceof ReflectionMethod && $callable[0] instanceof ExtensionInterface)
 			{
-				$compiler->raw(sprintf('$this->cappuccino->getExtension(\'%s\')->%s', get_class($callable[0]), $callable[1]));
+				$class = get_class($callable[0]);
+
+				if (!$compiler->getCappuccino()->hasExtension($class))
+					throw new RuntimeError(sprintf('The "%s" extension is not enabled.', $class));
+
+				$compiler->raw(sprintf("\$this->extensions['%s']->%s", $class, $callable[1]));
 			}
 			else
 			{

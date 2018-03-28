@@ -61,21 +61,28 @@ class CheckSecurityNode extends Node
 	{
 		$tags = $filters = $functions = [];
 
-		foreach (['tags', 'filters', 'functions'] as $type)
+		foreach ($this->usedTags as $name => $node)
 		{
-			foreach ($this->{'used' . ucfirst($type)} as $name => $node)
-			{
-				if ($node instanceof Node)
-				{
-					/** @noinspection PhpVariableVariableInspection */
-					${$type}[$name] = $node->getTemplateLine();
-				}
-				else
-				{
-					/** @noinspection PhpVariableVariableInspection */
-					${$type}[$node] = null;
-				}
-			}
+			if ($node instanceof Node)
+				$tags[$name] = $node->getTemplateLine();
+			else
+				$tags[$node] = null;
+		}
+
+		foreach ($this->usedFilters as $name => $node)
+		{
+			if ($node instanceof Node)
+				$tags[$name] = $node->getTemplateLine();
+			else
+				$tags[$node] = null;
+		}
+
+		foreach ($this->usedFunctions as $name => $node)
+		{
+			if ($node instanceof Node)
+				$tags[$name] = $node->getTemplateLine();
+			else
+				$tags[$node] = null;
 		}
 
 		$classSandboxExtension = SandboxExtension::class;
@@ -90,7 +97,7 @@ class CheckSecurityNode extends Node
 			->write('$functions = ')->repr(array_filter($functions))->raw(";\n\n")
 			->write("try {\n")
 			->indent()
-			->write("\$this->cappuccino->getExtension('" . $classSandboxExtension . "')->checkSecurity(\n")
+			->write("\$this->extensions['" . $classSandboxExtension . "']->checkSecurity(\n")
 			->indent()
 			->write(!$tags ? "[],\n" : "['" . implode("', '", array_keys($tags)) . "'],\n")
 			->write(!$filters ? "[],\n" : "['" . implode("', '", array_keys($filters)) . "'],\n")

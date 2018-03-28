@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Cappuccino;
 
+use Cappuccino\Error\RuntimeError;
 use Cappuccino\Error\SyntaxError;
 use Cappuccino\Node\BlockNode;
 use Cappuccino\Node\BlockReferenceNode;
@@ -103,6 +104,11 @@ class Parser
 	private $embeddedTemplates = [];
 
 	/**
+	 * @var int
+	 */
+	private $varNameSalt;
+
+	/**
 	 * Parser constructor.
 	 *
 	 * @param Cappuccino $cappuccino
@@ -113,6 +119,7 @@ class Parser
 	public function __construct (Cappuccino $cappuccino)
 	{
 		$this->cappuccino = $cappuccino;
+		$this->varNameSalt = 0;
 	}
 
 	/**
@@ -124,7 +131,7 @@ class Parser
 	 */
 	public function getVarName (): string
 	{
-		return sprintf('__internal_%s', hash('sha256', uniqid(mt_rand(), true), false));
+		return sprintf('__internal_%s', hash('sha256', __METHOD__ . $this->stream->getSourceContext()->getCode() . $this->varNameSalt++));
 	}
 
 	/**
@@ -135,6 +142,7 @@ class Parser
 	 * @param bool          $dropNeedle
 	 *
 	 * @return ModuleNode
+	 * @throws RuntimeError
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
@@ -171,6 +179,7 @@ class Parser
 		$this->blockStack = [];
 		$this->importedSymbols = [[]];
 		$this->embeddedTemplates = [];
+		$this->varNameSalt = 0;
 
 		try
 		{
@@ -209,6 +218,7 @@ class Parser
 	 * @param bool          $dropNeedle
 	 *
 	 * @return Node
+	 * @throws RuntimeError
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
@@ -222,23 +232,23 @@ class Parser
 		{
 			switch ($this->getCurrentToken()->getType())
 			{
-				case Token::TEXT_TYPE:
+				case /*Token::TEXT_TYPE*/ 0:
 					$token = $this->stream->next();
 					$rv[] = new TextNode($token->getValue(), $token->getLine());
 					break;
 
-				case Token::VAR_START_TYPE:
+				case /*Token::VAR_START_TYPE*/ 2:
 					$token = $this->stream->next();
 					$expr = $this->expressionParser->parseExpression();
 					$this->stream->expect(Token::VAR_END_TYPE);
 					$rv[] = new PrintNode($expr, $token->getLine());
 					break;
 
-				case Token::BLOCK_START_TYPE:
+				case /*Token::BLOCK_START_TYPE*/ 1:
 					$this->stream->next();
 					$token = $this->getCurrentToken();
 
-					if ($token->getType() !== Token::NAME_TYPE)
+					if ($token->getType() !== /*Token::NAME_TYPE*/ 5)
 						throw new SyntaxError('A block must start with a tag name.', $token->getLine(), $this->stream->getSourceContext());
 
 					if ($test !== null && $test($token))

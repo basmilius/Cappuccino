@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Cappuccino\Loader;
 
+use Cappuccino\Cappuccino;
 use Cappuccino\Error\LoaderError;
 use Cappuccino\Source;
 
@@ -250,10 +251,18 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 
 			if (is_file($path . '/' . $shortname))
 			{
-				if (false !== $realpath = realpath($path . '/' . $shortname))
+				if ($realpath = realpath($path . '/' . $shortname))
 					return $this->cache[$name] = $realpath;
 
 				return $this->cache[$name] = $path . '/' . $shortname;
+			}
+
+			if (is_file($path . '/' . $shortname . Cappuccino::DEFAULT_EXTENSION))
+			{
+				if ($realpath = realpath($path . '/' . $shortname . Cappuccino::DEFAULT_EXTENSION))
+					return $this->cache[$name] = $realpath;
+
+				return $this->cache[$name] = $path . '/' . $shortname . Cappuccino::DEFAULT_EXTENSION;
 			}
 		}
 

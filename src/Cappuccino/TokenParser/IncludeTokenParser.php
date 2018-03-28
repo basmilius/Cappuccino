@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Cappuccino\TokenParser;
 
+use Cappuccino\Error\RuntimeError;
 use Cappuccino\Error\SyntaxError;
 use Cappuccino\Node\IncludeNode;
 use Cappuccino\Node\Node;
@@ -45,6 +46,7 @@ class IncludeTokenParser extends AbstractTokenParser
 	 * Parses arguments.
 	 *
 	 * @return array
+	 * @throws RuntimeError
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
@@ -56,20 +58,20 @@ class IncludeTokenParser extends AbstractTokenParser
 		$variables = null;
 		$only = false;
 
-		if ($stream->nextIf(Token::NAME_TYPE, 'ignore'))
+		if ($stream->nextIf(/*Token::NAME_TYPE*/ 5, 'ignore'))
 		{
-			$stream->expect(Token::NAME_TYPE, 'missing');
+			$stream->expect(/*Token::NAME_TYPE*/ 5, 'missing');
 
 			$ignoreMissing = true;
 		}
 
-		if ($stream->nextIf(Token::NAME_TYPE, 'with'))
+		if ($stream->nextIf(/*Token::NAME_TYPE*/ 5, 'with'))
 			$variables = $this->parser->getExpressionParser()->parseExpression();
 
-		if ($stream->nextIf(Token::NAME_TYPE, 'only'))
+		if ($stream->nextIf(/*Token::NAME_TYPE*/ 5, 'only'))
 			$only = true;
 
-		$stream->expect(Token::BLOCK_END_TYPE);
+		$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
 
 		return [$variables, $only, $ignoreMissing];
 	}

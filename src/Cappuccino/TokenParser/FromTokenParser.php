@@ -42,20 +42,20 @@ final class FromTokenParser extends AbstractTokenParser
 
 		do
 		{
-			$name = $stream->expect(Token::NAME_TYPE)->getValue();
+			$name = $stream->expect(/*Token::NAME_TYPE*/ 5)->getValue();
 			$alias = $name;
 
 			if ($stream->nextIf('as'))
-				$alias = $stream->expect(Token::NAME_TYPE)->getValue();
+				$alias = $stream->expect(/*Token::NAME_TYPE*/ 5)->getValue();
 
 			$targets[$name] = $alias;
 
-			if (!$stream->nextIf(Token::PUNCTUATION_TYPE, ','))
+			if (!$stream->nextIf(/*Token::PUNCTUATION_TYPE*/ 9, ','))
 				break;
 		}
 		while (true);
 
-		$stream->expect(Token::BLOCK_END_TYPE);
+		$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
 
 		$node = new ImportNode($macro, new AssignNameExpression($this->parser->getVarName(), $token->getLine()), $token->getLine(), $this->getTag());
 

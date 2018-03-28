@@ -33,7 +33,7 @@ final class FlushTokenParser extends AbstractTokenParser
 	 */
 	public function parse (Token $token): Node
 	{
-		$this->parser->getStream()->expect(Token::BLOCK_END_TYPE);
+		$this->parser->getStream()->expect(/*Token::BLOCK_END_TYPE*/ 3);
 
 		return new FlushNode($token->getLine(), $this->getTag());
 	}

@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Cappuccino\TokenParser;
 
+use Cappuccino\Error\RuntimeError;
+use Cappuccino\Error\SyntaxError;
 use Cappuccino\Node\Node;
 use Cappuccino\Parser;
 use Cappuccino\Token;
@@ -42,6 +44,8 @@ interface TokenParserInterface
 	 * @param Token $token
 	 *
 	 * @return Node|null
+	 * @throws RuntimeError
+	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */

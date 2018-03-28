@@ -43,7 +43,7 @@ final class ExtendsTokenParser extends AbstractTokenParser
 
 		$this->parser->setParent($this->parser->getExpressionParser()->parseExpression());
 
-		$stream->expect(Token::BLOCK_END_TYPE);
+		$stream->expect(/*Token::BLOCK_END_TYPE*/ 3);
 
 		return null;
 	}

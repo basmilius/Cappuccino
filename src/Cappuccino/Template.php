@@ -15,6 +15,7 @@ namespace Cappuccino;
 use Cappuccino\Error\Error;
 use Cappuccino\Error\LoaderError;
 use Cappuccino\Error\RuntimeError;
+use Cappuccino\Extension\ExtensionInterface;
 use Cappuccino\Node\BlockNode;
 use Exception;
 use LogicException;
@@ -32,11 +33,6 @@ abstract class Template
 	public const ANY_CALL = 'any';
 	public const ARRAY_CALL = 'array';
 	public const METHOD_CALL = 'method';
-
-	/**
-	 * @internal
-	 */
-	protected static $cache = [];
 
 	/**
 	 * @var Cappuccino
@@ -64,6 +60,11 @@ abstract class Template
 	protected $traits = [];
 
 	/**
+	 * @var ExtensionInterface[]
+	 */
+	protected $extensions = [];
+
+	/**
 	 * Template constructor.
 	 *
 	 * @param Cappuccino $cappuccino
@@ -74,6 +75,7 @@ abstract class Template
 	public function __construct (Cappuccino $cappuccino)
 	{
 		$this->cappuccino = $cappuccino;
+		$this->extensions = $this->cappuccino->getExtensions();
 	}
 
 	/**

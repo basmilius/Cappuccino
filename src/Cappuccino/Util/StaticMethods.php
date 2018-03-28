@@ -72,7 +72,7 @@ class StaticMethods
 	/**
 	 * Returns the attribute value for a given array/object.
 	 *
-	 * @param Cappuccino $env
+	 * @param Cappuccino $cappuccino
 	 * @param Source     $source
 	 * @param mixed      $object
 	 * @param mixed      $item
@@ -80,6 +80,7 @@ class StaticMethods
 	 * @param string     $type
 	 * @param bool       $isDefinedTest
 	 * @param bool       $ignoreStrictCheck
+	 * @param bool       $sandboxed
 	 *
 	 * @return mixed
 	 * @throws RuntimeError
@@ -88,9 +89,9 @@ class StaticMethods
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public static function getAttribute (Cappuccino $env, Source $source, $object, $item, array $arguments = [], $type = Template::ANY_CALL, $isDefinedTest = false, $ignoreStrictCheck = false)
+	public static function getAttribute (Cappuccino $cappuccino, Source $source, $object, $item, array $arguments = [], string $type = Template::ANY_CALL, bool $isDefinedTest = false, bool $ignoreStrictCheck = false, bool $sandboxed = false)
 	{
-		if (Template::METHOD_CALL !== $type)
+		if ($type !== /*Template::METHOD_CALL*/ 'method')
 		{
 			$arrayItem = is_bool($item) || is_float($item) ? (int)$item : $item;
 
@@ -102,12 +103,12 @@ class StaticMethods
 				return $object[$arrayItem];
 			}
 
-			if (Template::ARRAY_CALL === $type || !is_object($object))
+			if ($type === /*Template::ARRAY_CALL*/ 'array' || !is_object($object))
 			{
 				if ($isDefinedTest)
 					return false;
 
-				if ($ignoreStrictCheck || !$env->isStrictVariables())
+				if ($ignoreStrictCheck || !$cappuccino->isStrictVariables())
 					return null;
 
 				if ($object instanceof ArrayAccess)
@@ -125,14 +126,14 @@ class StaticMethods
 					else
 						$message = sprintf('Key "%s" for array with keys "%s" does not exist.', $arrayItem, implode(', ', array_keys($object)));
 				}
-				else if (Template::ARRAY_CALL === $type)
+				else if ($type === /*Template::ARRAY_CALL*/ 'array')
 				{
-					if (null === $object)
+					if ($object === null)
 						$message = sprintf('Impossible to access a key ("%s") on a null variable.', $item);
 					else
 						$message = sprintf('Impossible to access a key ("%s") on a %s variable ("%s").', $item, gettype($object), $object);
 				}
-				else if (null === $object)
+				else if ($object === null)
 				{
 					$message = sprintf('Impossible to access an attribute ("%s") on a null variable.', $item);
 				}
@@ -150,11 +151,13 @@ class StaticMethods
 			if ($isDefinedTest)
 				return false;
 
-			if ($ignoreStrictCheck || !$env->isStrictVariables())
+			if ($ignoreStrictCheck || !$cappuccino->isStrictVariables())
 				return null;
 
 			if ($object === null)
 				$message = sprintf('Impossible to invoke a method ("%s") on a null variable.', $item);
+			else if (is_array($object))
+				$message = sprintf('Impossible to invoke a method ("%s") on an array.', $item);
 			else
 				$message = sprintf('Impossible to invoke a method ("%s") on a %s variable ("%s").', $item, gettype($object), $object);
 
@@ -164,17 +167,17 @@ class StaticMethods
 		if ($object instanceof Template)
 			throw new RuntimeError('Accessing Template attributes is forbidden.');
 
-		if (Template::METHOD_CALL !== $type)
+		if ($type !== /*Template::METHOD_CALL*/ 'method')
 		{
 			if (isset($object->{$item}) || array_key_exists((string)$item, $object))
 			{
 				if ($isDefinedTest)
 					return true;
 
-				if ($env->hasExtension(SandboxExtension::class))
+				if ($sandboxed)
 				{
 					/** @var SandboxExtension $ext */
-					$ext = $env->getExtension(SandboxExtension::class);
+					$ext = $cappuccino->getExtension(SandboxExtension::class);
 					$ext->checkPropertyAllowed($object, (string)$item);
 				}
 
@@ -235,6 +238,7 @@ class StaticMethods
 		}
 
 		$call = false;
+
 		if (isset($cache[$class][$item]))
 		{
 			$method = $cache[$class][$item];
@@ -253,7 +257,7 @@ class StaticMethods
 			if ($isDefinedTest)
 				return false;
 
-			if ($ignoreStrictCheck || !$env->isStrictVariables())
+			if ($ignoreStrictCheck || !$cappuccino->isStrictVariables())
 				return null;
 
 			throw new RuntimeError(sprintf('Neither the property "%1$s" nor one of the methods "%1$s()", "get%1$s()"/"is%1$s()"/"has%1$s()" or "__call()" exist and have public access in class "%2$s".', $item, $class), -1, $source);
@@ -262,10 +266,10 @@ class StaticMethods
 		if ($isDefinedTest)
 			return true;
 
-		if ($env->hasExtension(SandboxExtension::class))
+		if ($sandboxed)
 		{
 			/** @var SandboxExtension $ext */
-			$ext = $env->getExtension(SandboxExtension::class);
+			$ext = $cappuccino->getExtension(SandboxExtension::class);
 			$ext->checkMethodAllowed($object, $method);
 		}
 
@@ -288,7 +292,7 @@ class StaticMethods
 		}
 		catch (BadMethodCallException $e)
 		{
-			if ($call && ($ignoreStrictCheck || !$env->isStrictVariables()))
+			if ($call && ($ignoreStrictCheck || !$cappuccino->isStrictVariables()))
 				return null;
 
 			throw $e;

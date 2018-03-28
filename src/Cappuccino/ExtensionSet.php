@@ -20,7 +20,6 @@ use Cappuccino\Extension\StagingExtension;
 use Cappuccino\TokenParser\TokenParserInterface;
 use InvalidArgumentException;
 use LogicException;
-use ReflectionClass;
 use ReflectionObject;
 use UnexpectedValueException;
 
@@ -153,9 +152,6 @@ final class ExtensionSet implements ExtensionInterface
 	{
 		$class = ltrim($class, '\\');
 
-		if (!isset($this->extensions[$class]) && class_exists($class, false))
-			$class = (new ReflectionClass($class))->name;
-
 		return isset($this->extensions[$class]);
 	}
 
@@ -172,9 +168,6 @@ final class ExtensionSet implements ExtensionInterface
 	public function getExtension (string $class): ?ExtensionInterface
 	{
 		$class = ltrim($class, '\\');
-
-		if (!isset($this->extensions[$class]) && class_exists($class, false))
-			$class = (new ReflectionClass($class))->name;
 
 		if (!isset($this->extensions[$class]))
 			throw new RuntimeError(sprintf('The "%s" extension is not enabled.', $class));
