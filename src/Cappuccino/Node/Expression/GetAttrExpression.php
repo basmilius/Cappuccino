@@ -44,7 +44,7 @@ class GetAttrExpression extends AbstractExpression
 		if ($arguments !== null)
 			$nodes['arguments'] = $arguments;
 
-		parent::__construct($nodes, ['type' => $type, 'is_defined_test' => false, 'ignore_strict_check' => false], $lineno);
+		parent::__construct($nodes, ['type' => $type, 'is_defined_test' => false, 'ignore_strict_check' => false, 'optimizable' => true], $lineno);
 	}
 
 	/**
@@ -57,7 +57,7 @@ class GetAttrExpression extends AbstractExpression
 		$cappuccino = $compiler->getCappuccino();
 		$hasSandbox = $cappuccino->hasExtension(SandboxExtension::class);
 
-		if ((!$cappuccino->isStrictVariables() || $this->getAttribute('ignore_strict_check')) && !$this->getAttribute('is_defined_test') && Template::ARRAY_CALL === $this->getAttribute('type'))
+		if ($this->getAttribute('optimizable') && (!$cappuccino->isStrictVariables() || $this->getAttribute('ignore_strict_check')) && !$this->getAttribute('is_defined_test') && Template::ARRAY_CALL === $this->getAttribute('type'))
 		{
 			$var = '$' . $compiler->getVarName();
 
