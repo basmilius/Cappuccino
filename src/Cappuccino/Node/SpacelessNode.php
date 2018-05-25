@@ -21,7 +21,7 @@ use Cappuccino\Compiler;
  * @package Cappuccino\Node
  * @since 1.0.0
  */
-class SpacelessNode extends Node
+class SpacelessNode extends Node implements NodeOutputInterface
 {
 
 	/**
