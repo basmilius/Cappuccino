@@ -614,13 +614,14 @@ class Parser
 	 * Filters body nodes.
 	 *
 	 * @param Node $node
+	 * @param bool $nested
 	 *
 	 * @return Node|null
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function filterBodyNodes(Node $node): ?Node
+	private function filterBodyNodes(Node $node, bool $nested = false): ?Node
 	{
 		if (($node instanceof TextNode && !ctype_space($node->getAttribute('data'))) || (!$node instanceof TextNode && !$node instanceof BlockReferenceNode && $node instanceof NodeOutputInterface))
 		{
@@ -633,13 +634,19 @@ class Parser
 		if ($node instanceof NodeCaptureInterface)
 			return $node;
 
+		if ($nested && $node instanceof BlockReferenceNode)
+			throw new SyntaxError('A block definition cannot be nested under non-capturing nodes.', $node->getTemplateLine(), $this->stream->getSourceContext());
+
 		if ($node instanceof NodeOutputInterface)
 			return null;
 
+		$nested = $nested || get_class($node) !== Node::class;
+
 		foreach ($node as $k => $n)
-			if ($n !== null && $this->filterBodyNodes($n) === null)
+			if ($n !== null && $this->filterBodyNodes($n, $nested) === null)
 				$node->removeNode((string)$k);
 
 		return $node;
 	}
+
 }
