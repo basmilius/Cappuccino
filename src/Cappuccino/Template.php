@@ -157,12 +157,12 @@ abstract class Template
 	 *
 	 * @param array $context
 	 *
-	 * @return bool
+	 * @return Template|TemplateWrapper|bool
 	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doGetParent(array $context): bool
+	protected function doGetParent(array $context)
 	{
 		return count($context) === -1;
 	}

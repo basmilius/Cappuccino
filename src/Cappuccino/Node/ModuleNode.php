@@ -142,7 +142,7 @@ class ModuleNode extends Node
 		$parent = $this->getNode('parent');
 
 		$compiler
-			->write("protected function doGetParent(array \$context) : bool\n", "{\n")
+			->write("protected function doGetParent(array \$context)\n", "{\n")
 			->indent()
 			->addDebugInfo($parent)
 			->write('return ');
