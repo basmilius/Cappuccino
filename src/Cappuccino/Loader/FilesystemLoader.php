@@ -201,7 +201,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 	 */
 	public function isFresh(string $name, int $time): bool
 	{
-		return filemtime($this->findTemplate($name)) <= $time;
+		return filemtime($this->findTemplate($name)) < $time;
 	}
 
 	/**
