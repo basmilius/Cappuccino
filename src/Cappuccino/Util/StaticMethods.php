@@ -170,10 +170,9 @@ class StaticMethods
 		if ($object instanceof Template)
 			throw new RuntimeError('Accessing Template attributes is forbidden.');
 
-		if ($type !== /*Template::METHOD_CALL*/
-			'method')
+		if ($type !== /*Template::METHOD_CALL*/'method')
 		{
-			if (isset($object->{$item}) || isset($object[(string)$item]))
+			if (isset($object->{$item}) || (is_iterable($object) && isset($object[(string)$item])))
 			{
 				if ($isDefinedTest)
 					return true;
