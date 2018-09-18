@@ -39,7 +39,7 @@ class IncludeNode extends Node implements NodeOutputInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(AbstractExpression $expr, AbstractExpression $variables = null, bool $only = false, bool $ignoreMissing = false, int $lineno, ?string $tag = null)
+	public function __construct(AbstractExpression $expr, AbstractExpression $variables = null, bool $only = false, bool $ignoreMissing = false, int $lineno = 0, ?string $tag = null)
 	{
 		$nodes = ['expr' => $expr];
 

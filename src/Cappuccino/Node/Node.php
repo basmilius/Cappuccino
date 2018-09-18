@@ -110,7 +110,7 @@ class Node implements Countable, IteratorAggregate
 	 */
 	public function hasAttribute(string $name)
 	{
-		return isset($this->attributes[$name]);
+		return isset($this->attributes[$name]) || is_null($this->attributes[$name]);
 	}
 
 	/**
