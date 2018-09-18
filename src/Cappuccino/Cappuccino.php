@@ -1059,7 +1059,7 @@ class Cappuccino
 	 */
 	public function addGlobal(string $name, $value): void
 	{
-		if ($this->extensionSet->isInitialized() && !array_key_exists($name, $this->getGlobals()))
+		if ($this->extensionSet->isInitialized() && !isset($this->getGlobals()[$name]))
 			throw new LogicException(sprintf('Unable to add global "%s" as the runtime or the extensions have already been initialized.', $name));
 
 		if ($this->resolvedGlobals !== null)
@@ -1100,7 +1100,7 @@ class Cappuccino
 	public function mergeGlobals(array $context): array
 	{
 		foreach ($this->getGlobals() as $key => $value)
-			if (!array_key_exists($key, $context))
+			if (!isset($context[$key]))
 				$context[$key] = $value;
 
 		return $context;

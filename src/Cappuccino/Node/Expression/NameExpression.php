@@ -60,9 +60,9 @@ class NameExpression extends AbstractExpression
 			else
 			{
 				$compiler
-					->raw('array_key_exists(')
+					->raw('isset($context[')
 					->repr($name)
-					->raw(', $context)');
+					->raw('])');
 			}
 		}
 		else if ($this->isSpecial())
@@ -92,9 +92,9 @@ class NameExpression extends AbstractExpression
 				$compiler
 					->raw('(isset($context[')
 					->string($name)
-					->raw(']) || array_key_exists(')
+					->raw(']) || isset($context[')
 					->string($name)
-					->raw(', $context) ? $context[')
+					->raw(']) ? $context[')
 					->string($name)
 					->raw('] : (function () { throw new ' . $classRuntimeError . '(\'Variable ')
 					->string($name)

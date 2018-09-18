@@ -170,7 +170,7 @@ abstract class CallExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function getArguments(?callable $callable = null, $arguments): array
+	protected function getArguments(?callable $callable = null, $arguments = []): array
 	{
 		$callType = $this->getAttribute('type');
 		$callName = $this->getAttribute('name');
@@ -225,27 +225,20 @@ abstract class CallExpression extends AbstractExpression
 		{
 			$names[] = $name = $this->normalizeName($callableParameter->name);
 
-			if (array_key_exists($name, $parameters))
+			if (isset($parameters[$name]))
 			{
-				if (array_key_exists($pos, $parameters))
-				{
+				if (isset($parameters[$pos]))
 					throw new SyntaxError(sprintf('Argument "%s" is defined twice for %s "%s".', $name, $callType, $callName));
-				}
 
 				if (count($missingArguments))
-				{
-					throw new SyntaxError(sprintf(
-							'Argument "%s" could not be assigned for %s "%s(%s)" because it is mapped to an internal PHP function which cannot determine default value for optional argument%s "%s".',
-							$name, $callType, $callName, implode(', ', $names), count($missingArguments) > 1 ? 's' : '', implode('", "', $missingArguments))
-					);
-				}
+					throw new SyntaxError(sprintf('Argument "%s" could not be assigned for %s "%s(%s)" because it is mapped to an internal PHP function which cannot determine default value for optional argument%s "%s".', $name, $callType, $callName, implode(', ', $names), count($missingArguments) > 1 ? 's' : '', implode('", "', $missingArguments)));
 
 				$arguments = array_merge($arguments, $optionalArguments);
 				$arguments[] = $parameters[$name];
 				unset($parameters[$name]);
 				$optionalArguments = [];
 			}
-			else if (array_key_exists($pos, $parameters))
+			else if (isset($parameters[$pos]))
 			{
 				$arguments = array_merge($arguments, $optionalArguments);
 				$arguments[] = $parameters[$pos];

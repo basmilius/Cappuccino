@@ -241,7 +241,7 @@ final class ExtensionSet implements ExtensionInterface
 		{
 			$r = new ReflectionObject($extension);
 
-			if (file_exists($r->getFileName()) && ($extensionTime = filemtime($r->getFileName())) > $this->lastModified)
+			if (is_file($r->getFileName()) && ($extensionTime = filemtime($r->getFileName())) > $this->lastModified)
 				$this->lastModified = $extensionTime;
 		}
 

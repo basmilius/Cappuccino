@@ -861,7 +861,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param Cappuccino  $cappuccino
 	 * @param             $item
 	 * @param int         $start
-	 * @param int         $length
+	 * @param int|null    $length
 	 * @param bool        $preserveKeys
 	 *
 	 * @return array|LimitIterator|string
@@ -869,7 +869,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterArraySlice(Cappuccino $cappuccino, $item, int $start, int $length, bool $preserveKeys)
+	public final function onSimpleFilterArraySlice(Cappuccino $cappuccino, $item, int $start, ?int $length = null, bool $preserveKeys = false)
 	{
 		if ($item instanceof Traversable)
 		{
@@ -1115,7 +1115,7 @@ final class CoreExtension extends AbstractExtension
 
 					$int = hexdec($hex);
 
-					if (array_key_exists($int, $entityMap))
+					if (isset($entityMap[$int]))
 						return sprintf('&%s;', $entityMap[$int]);
 
 					return sprintf('&#x%s;', $hex);

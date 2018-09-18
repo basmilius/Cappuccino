@@ -86,7 +86,7 @@ class MacroNode extends Node
 			->indent();
 
 		$compiler
-			->write("\$context = \$this->cappuccino->mergeGlobals(array(\n")
+			->write("\$context = \$this->cappuccino->mergeGlobals([\n")
 			->indent();
 
 		foreach ($this->getNode('arguments') as $name => $default)
@@ -104,7 +104,7 @@ class MacroNode extends Node
 		$compiler
 			->raw("\$__varargs__,\n")
 			->outdent()
-			->write("));\n\n")
+			->write("]);\n\n")
 			->write("\$blocks = [];\n\n")
 			->write("ob_start();\n")
 			->write("try {\n")

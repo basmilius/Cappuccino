@@ -110,7 +110,7 @@ class Node implements Countable, IteratorAggregate
 	 */
 	public function hasAttribute(string $name)
 	{
-		return array_key_exists($name, $this->attributes);
+		return isset($this->attributes[$name]);
 	}
 
 	/**
@@ -124,7 +124,7 @@ class Node implements Countable, IteratorAggregate
 	 */
 	public function getAttribute(string $name)
 	{
-		if (!array_key_exists($name, $this->attributes))
+		if (!$this->hasAttribute($name))
 			throw new LogicException(sprintf('Attribute "%s" does not exist for Node "%s".', $name, get_class($this)));
 
 		return $this->attributes[$name];

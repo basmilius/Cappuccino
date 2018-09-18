@@ -228,20 +228,19 @@ class Compiler
 		}
 		else if (is_array($value))
 		{
-			$this->raw('array(');
+			$this->raw('[');
 			$first = true;
 			foreach ($value as $key => $v)
 			{
 				if (!$first)
-				{
 					$this->raw(', ');
-				}
+
 				$first = false;
 				$this->repr($key);
 				$this->raw(' => ');
 				$this->repr($v);
 			}
-			$this->raw(')');
+			$this->raw(']');
 		}
 		else
 		{

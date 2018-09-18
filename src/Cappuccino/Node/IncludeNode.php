@@ -99,7 +99,7 @@ class IncludeNode extends Node implements NodeOutputInterface
 	protected function addTemplateArguments(Compiler $compiler): void
 	{
 		if (!$this->hasNode('variables'))
-			$compiler->raw(false === $this->getAttribute('only') ? '$context' : 'array()');
+			$compiler->raw(false === $this->getAttribute('only') ? '$context' : '[]');
 		else if (false === $this->getAttribute('only'))
 			$compiler->raw('array_merge($context, ')->subcompile($this->getNode('variables'))->raw(')');
 		else

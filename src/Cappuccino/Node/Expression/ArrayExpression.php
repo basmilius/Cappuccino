@@ -113,7 +113,7 @@ class ArrayExpression extends AbstractExpression
 	 */
 	public function compile(Compiler $compiler): void
 	{
-		$compiler->raw('array(');
+		$compiler->raw('[');
 		$first = true;
 
 		foreach ($this->getKeyValuePairs() as $pair)
@@ -126,7 +126,7 @@ class ArrayExpression extends AbstractExpression
 			$compiler->subcompile($pair['key'])->raw(' => ')->subcompile($pair['value']);
 		}
 
-		$compiler->raw(')');
+		$compiler->raw(']');
 	}
 
 }
