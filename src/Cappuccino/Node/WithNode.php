@@ -37,7 +37,7 @@ class WithNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(Node $body, ?Node $variables = null, bool $only = false, int $lineno, ?string $tag = null)
+	public function __construct(Node $body, ?Node $variables = null, bool $only = false, int $lineno = -1, ?string $tag = null)
 	{
 		$nodes = ['body' => $body];
 
@@ -68,7 +68,9 @@ class WithNode extends Node
 				->raw(";\n")
 				->write(sprintf("if (!is_array(\$%s)) {\n", $varsName))
 				->indent()
-				->write("throw new " . $classRuntimeError . "('Variables passed to the \"with\" tag must be a hash.');\n")
+				->write("throw new " . $classRuntimeError . "('Variables passed to the \"with\" tag must be a hash.', ")
+				->repr($this->getTemplateLine())
+				->raw(", \$this->source);\n")
 				->outdent()
 				->write("}\n");
 

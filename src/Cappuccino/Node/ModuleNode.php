@@ -13,6 +13,7 @@ namespace Cappuccino\Node;
 use Cappuccino\Cappuccino;
 use Cappuccino\Compiler;
 use Cappuccino\Error\LoaderError;
+use Cappuccino\Error\RuntimeError;
 use Cappuccino\Node\Expression\AbstractExpression;
 use Cappuccino\Node\Expression\ConstantExpression;
 use Cappuccino\Source;
@@ -197,6 +198,7 @@ class ModuleNode extends Node
 	protected function compileConstructor(Compiler $compiler): void
 	{
 		$classCappuccino = Cappuccino::class;
+		$classRuntimeError = RuntimeError::class;
 
 		$compiler
 			->write("public function __construct($classCappuccino \$cappuccino)\n", "{\n")
@@ -239,9 +241,11 @@ class ModuleNode extends Node
 					->addDebugInfo($trait->getNode('template'))
 					->write(sprintf("if (!\$_trait_%s->isTraitable()) {\n", $i))
 					->indent()
-					->write("throw new Error_Runtime('Template \"'.")
+					->write("throw new $classRuntimeError('Template \"'.")
 					->subcompile($trait->getNode('template'))
-					->raw(".'\" cannot be used as a trait.');\n")
+					->raw(".'\" cannot be used as a trait.', ")
+					->repr($node->getTemplateLine())
+					->raw(", \$this->source);\n")
 					->outdent()
 					->write("}\n")
 					->write(sprintf("\$_trait_%s_blocks = \$_trait_%s->getBlocks();\n\n", $i, $i));
@@ -252,11 +256,13 @@ class ModuleNode extends Node
 						->string($key)
 						->raw("])) {\n")
 						->indent()
-						->write("throw new Error_Runtime(sprintf('Block ")
+						->write("throw new $classRuntimeError('Block ")
 						->string($key)
 						->raw(' is not defined in trait ')
 						->subcompile($trait->getNode('template'))
-						->raw(".'));\n")
+						->raw(".', ")
+						->repr($node->getTemplateLine())
+						->raw(", \$this->source);\n")
 						->outdent()
 						->write("}\n\n")
 						->write(sprintf('$_trait_%s_blocks[', $i))

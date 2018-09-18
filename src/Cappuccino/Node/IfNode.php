@@ -35,7 +35,7 @@ class IfNode extends Node
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(Node $tests, ?Node $else = null, int $lineno, ?string $tag = null)
+	public function __construct(Node $tests, ?Node $else = null, int $lineno = -1, ?string $tag = null)
 	{
 		$nodes = ['tests' => $tests];
 

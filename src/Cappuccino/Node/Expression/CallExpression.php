@@ -187,7 +187,7 @@ abstract class CallExpression extends AbstractExpression
 			}
 			else if ($named)
 			{
-				throw new SyntaxError(sprintf('Positional arguments cannot be used after named arguments for %s "%s".', $callType, $callName));
+				throw new SyntaxError(sprintf('Positional arguments cannot be used after named arguments for %s "%s".', $callType, $callName), $this->getTemplateLine());
 			}
 
 			$parameters[$name] = $node;
@@ -202,13 +202,9 @@ abstract class CallExpression extends AbstractExpression
 		if (!$callable)
 		{
 			if ($named)
-			{
 				$message = sprintf('Named arguments are not supported for %s "%s".', $callType, $callName);
-			}
 			else
-			{
 				$message = sprintf('Arbitrary positional arguments are not supported for %s "%s".', $callType, $callName);
-			}
 
 			throw new LogicException($message);
 		}
@@ -228,7 +224,7 @@ abstract class CallExpression extends AbstractExpression
 			if (isset($parameters[$name]))
 			{
 				if (isset($parameters[$pos]))
-					throw new SyntaxError(sprintf('Argument "%s" is defined twice for %s "%s".', $name, $callType, $callName));
+					throw new SyntaxError(sprintf('Argument "%s" is defined twice for %s "%s".', $name, $callType, $callName), $this->getTemplateLine());
 
 				if (count($missingArguments))
 					throw new SyntaxError(sprintf('Argument "%s" could not be assigned for %s "%s(%s)" because it is mapped to an internal PHP function which cannot determine default value for optional argument%s "%s".', $name, $callType, $callName, implode(', ', $names), count($missingArguments) > 1 ? 's' : '', implode('", "', $missingArguments)));
@@ -253,33 +249,27 @@ abstract class CallExpression extends AbstractExpression
 			else if ($callableParameter->isOptional())
 			{
 				if (empty($parameters))
-				{
 					break;
-				}
 				else
-				{
 					$missingArguments[] = $name;
-				}
 			}
 			else
 			{
-				throw new SyntaxError(sprintf('Value for argument "%s" is required for %s "%s".', $name, $callType, $callName));
+				throw new SyntaxError(sprintf('Value for argument "%s" is required for %s "%s".', $name, $callType, $callName), $this->getTemplateLine());
 			}
 		}
 
 		if ($isVariadic)
 		{
 			$arbitraryArguments = new ArrayExpression([], -1);
+
 			foreach ($parameters as $key => $value)
 			{
 				if (is_int($key))
-				{
 					$arbitraryArguments->addElement($value);
-				}
 				else
-				{
 					$arbitraryArguments->addElement($value, new ConstantExpression($key, -1));
-				}
+
 				unset($parameters[$key]);
 			}
 
@@ -302,10 +292,7 @@ abstract class CallExpression extends AbstractExpression
 				}
 			}
 
-			throw new SyntaxError(sprintf(
-				'Unknown argument%s "%s" for %s "%s(%s)".',
-				count($parameters) > 1 ? 's' : '', implode('", "', array_keys($parameters)), $callType, $callName, implode(', ', $names)
-			), $unknownParameter ? $unknownParameter->getTemplateLine() : -1);
+			throw new SyntaxError(sprintf('Unknown argument%s "%s" for %s "%s(%s)".', count($parameters) > 1 ? 's' : '', implode('", "', array_keys($parameters)), $callType, $callName, implode(', ', $names)), $unknownParameter ? $unknownParameter->getTemplateLine() : $this->getTemplateLine());
 		}
 
 		return $arguments;
@@ -345,26 +332,18 @@ abstract class CallExpression extends AbstractExpression
 		$parameters = $r->getParameters();
 
 		if ($this->hasNode('node'))
-		{
 			array_shift($parameters);
-		}
 
 		if ($this->hasAttribute('needs_cappuccino') && $this->getAttribute('needs_cappuccino'))
-		{
 			array_shift($parameters);
-		}
 
 		if ($this->hasAttribute('needs_context') && $this->getAttribute('needs_context'))
-		{
 			array_shift($parameters);
-		}
 
 		if ($this->hasAttribute('arguments') && null !== $this->getAttribute('arguments'))
-		{
 			/** @noinspection PhpUnusedLocalVariableInspection */
 			foreach ($this->getAttribute('arguments') as $argument)
 				array_shift($parameters);
-		}
 
 		if ($isVariadic)
 		{
