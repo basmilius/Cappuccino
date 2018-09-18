@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\NodeVisitor;
 
 use Cappuccino\Cappuccino;
+use Cappuccino\Error\Error;
 use Cappuccino\Node\Node;
 use Cappuccino\NodeVisitorInterface;
 
@@ -53,6 +54,7 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
 	 * @param Cappuccino $cappuccino
 	 *
 	 * @return Node
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @see AbstractNodeVisitor::enterNode()
 	 * @since 1.0.0
@@ -66,6 +68,7 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
 	 * @param Cappuccino $env
 	 *
 	 * @return Node
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @see AbstractNodeVisitor::leaveNode()
 	 * @since 1.0.0

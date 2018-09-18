@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\NodeVisitor;
 
 use Cappuccino\Cappuccino;
+use Cappuccino\Error\Error;
 use Cappuccino\Extension\EscaperExtension;
 use Cappuccino\Node\AutoEscapeNode;
 use Cappuccino\Node\BlockNode;
@@ -127,6 +128,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @param string|bool $type
 	 *
 	 * @return Node
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -155,6 +157,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @param Cappuccino       $env
 	 *
 	 * @return FilterExpression
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -184,6 +187,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @param Cappuccino $env
 	 *
 	 * @return bool
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */

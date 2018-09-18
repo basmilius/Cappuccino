@@ -12,6 +12,7 @@ namespace Cappuccino\Node;
 
 use Cappuccino\Cappuccino;
 use Cappuccino\Compiler;
+use Cappuccino\Error\Error;
 use Cappuccino\Error\LoaderError;
 use Cappuccino\Error\RuntimeError;
 use Cappuccino\Node\Expression\AbstractExpression;
@@ -103,7 +104,7 @@ class ModuleNode extends Node
 	 *
 	 * @param Compiler $compiler
 	 *
-	 * @throws LoaderError
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -132,6 +133,7 @@ class ModuleNode extends Node
 	 *
 	 * @param Compiler $compiler
 	 *
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -192,6 +194,7 @@ class ModuleNode extends Node
 	 *
 	 * @param Compiler $compiler
 	 *
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -339,6 +342,7 @@ class ModuleNode extends Node
 	 *
 	 * @param Compiler $compiler
 	 *
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -374,6 +378,7 @@ class ModuleNode extends Node
 	 *
 	 * @param Compiler $compiler
 	 *
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -390,6 +395,7 @@ class ModuleNode extends Node
 	 *
 	 * @param Compiler $compiler
 	 *
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -518,6 +524,7 @@ class ModuleNode extends Node
 	 * @param Node     $node
 	 * @param string   $var
 	 *
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */

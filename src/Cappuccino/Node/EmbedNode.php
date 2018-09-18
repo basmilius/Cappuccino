@@ -40,7 +40,7 @@ class EmbedNode extends IncludeNode
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(string $name, int $index, AbstractExpression $variables = null, bool $only = false, bool $ignoreMissing = false, int $lineno, ?string $tag = null)
+	public function __construct(string $name, int $index, AbstractExpression $variables = null, bool $only = false, bool $ignoreMissing = false, int $lineno = -1, ?string $tag = null)
 	{
 		parent::__construct(new ConstantExpression('not_used', $lineno), $variables, $only, $ignoreMissing, $lineno, $tag);
 

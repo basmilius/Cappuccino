@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Cappuccino;
 
+use Cappuccino\Error\Error;
 use Cappuccino\Node\Node;
 use LogicException;
 
@@ -109,6 +110,7 @@ class Compiler
 	 * @param Node $node
 	 * @param int  $indentation
 	 *
+	 * @throws Error
 	 * @return Compiler
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
@@ -134,6 +136,7 @@ class Compiler
 	 * @param Node $node
 	 * @param bool $raw
 	 *
+	 * @throws Error
 	 * @return Compiler
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0

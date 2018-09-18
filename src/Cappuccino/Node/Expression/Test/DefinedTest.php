@@ -44,7 +44,7 @@ class DefinedTest extends TestExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(Node $node, string $name, Node $arguments = null, int $lineno)
+	public function __construct(Node $node, string $name, Node $arguments = null, int $lineno = -1)
 	{
 		if ($node instanceof NameExpression)
 		{

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\Node\Expression\Binary;
 
 use Cappuccino\Compiler;
+use Cappuccino\Error\Error;
 use Cappuccino\Node\Expression\AbstractExpression;
 use Cappuccino\Node\Node;
 
@@ -46,6 +47,7 @@ abstract class AbstractBinary extends AbstractExpression
 	 *
 	 * @param Compiler $compiler
 	 *
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */

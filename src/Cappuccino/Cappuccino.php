@@ -623,6 +623,8 @@ class Cappuccino
 	 * @param TokenStream $stream
 	 *
 	 * @return ModuleNode
+	 * @throws Error
+	 * @throws RuntimeError
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
@@ -654,6 +656,7 @@ class Cappuccino
 	 * @param Node $node
 	 *
 	 * @return string
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */

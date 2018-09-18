@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\Node\Expression;
 
 use Cappuccino\Compiler;
+use Cappuccino\Error\Error;
 use Cappuccino\Error\RuntimeError;
 use Cappuccino\Error\SyntaxError;
 use Cappuccino\Extension\ExtensionInterface;
@@ -41,8 +42,7 @@ abstract class CallExpression extends AbstractExpression
 	 *
 	 * @param Compiler $compiler
 	 *
-	 * @throws RuntimeError
-	 * @throws SyntaxError
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -94,7 +94,7 @@ abstract class CallExpression extends AbstractExpression
 	 *
 	 * @param Compiler $compiler
 	 *
-	 * @throws SyntaxError
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\Node\Expression;
 
 use Cappuccino\Compiler;
+use Cappuccino\Error\Error;
 use Cappuccino\Node\Expression\Binary\AndBinary;
 use Cappuccino\Node\Expression\Test\DefinedTest;
 use Cappuccino\Node\Expression\Test\NullTest;
@@ -29,6 +30,7 @@ class NullCoalesceExpression extends ConditionalExpression
 	 * @param AbstractExpression $right
 	 * @param int                $lineno
 	 *
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */

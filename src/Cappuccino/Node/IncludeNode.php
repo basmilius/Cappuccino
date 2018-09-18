@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\Node;
 
 use Cappuccino\Compiler;
+use Cappuccino\Error\Error;
 use Cappuccino\Error\LoaderError;
 use Cappuccino\Node\Expression\AbstractExpression;
 
@@ -80,6 +81,7 @@ class IncludeNode extends Node implements NodeOutputInterface
 	 *
 	 * @param Compiler $compiler
 	 *
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -93,6 +95,7 @@ class IncludeNode extends Node implements NodeOutputInterface
 	 *
 	 * @param Compiler $compiler
 	 *
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */

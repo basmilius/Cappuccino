@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Cappuccino;
 
+use Cappuccino\Error\Error;
 use Cappuccino\Error\RuntimeError;
 use Cappuccino\Error\SyntaxError;
 use Cappuccino\Node\BlockNode;
@@ -142,6 +143,7 @@ class Parser
 	 * @param bool          $dropNeedle
 	 *
 	 * @return ModuleNode
+	 * @throws Error
 	 * @throws RuntimeError
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
@@ -218,6 +220,7 @@ class Parser
 	 * @param bool          $dropNeedle
 	 *
 	 * @return Node
+	 * @throws Error
 	 * @throws RuntimeError
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>

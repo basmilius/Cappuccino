@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\Node\Expression\Filter;
 
 use Cappuccino\Compiler;
+use Cappuccino\Error\SyntaxError;
 use Cappuccino\Node\Expression\ConditionalExpression;
 use Cappuccino\Node\Expression\ConstantExpression;
 use Cappuccino\Node\Expression\FilterExpression;
@@ -40,6 +41,7 @@ class DefaultFilter extends FilterExpression
 	 * @param int                $lineno
 	 * @param mixed              $tag
 	 *
+	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */

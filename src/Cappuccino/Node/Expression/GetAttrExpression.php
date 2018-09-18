@@ -37,7 +37,7 @@ class GetAttrExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(AbstractExpression $node, AbstractExpression $attribute, ?AbstractExpression $arguments = null, $type, int $lineno)
+	public function __construct(AbstractExpression $node, AbstractExpression $attribute, ?AbstractExpression $arguments = null, $type = null, int $lineno = -1)
 	{
 		$nodes = ['node' => $node, 'attribute' => $attribute];
 

@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Cappuccino;
 
+use Cappuccino\Error\Error;
 use Cappuccino\Node\Node;
 
 /**
@@ -73,6 +74,7 @@ final class NodeTraverser
 	 * @param Node $node
 	 *
 	 * @return Node
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -97,6 +99,7 @@ final class NodeTraverser
 	 * @param Node                 $node
 	 *
 	 * @return Node
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\Node\Expression;
 
 use Cappuccino\Compiler;
+use Cappuccino\Error\Error;
 use Cappuccino\Node\Node;
 
 /**
@@ -36,7 +37,7 @@ class BlockReferenceExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(Node $name, Node $template = null, int $lineno, $tag = null)
+	public function __construct(Node $name, Node $template = null, int $lineno = -1, $tag = null)
 	{
 		$nodes = ['name' => $name];
 
@@ -74,16 +75,23 @@ class BlockReferenceExpression extends AbstractExpression
 		}
 	}
 
+	/**
+	 * Compiles a template call.
+	 *
+	 * @param Compiler $compiler
+	 * @param          $method
+	 *
+	 * @return Compiler
+	 * @throws Error
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
 	private function compileTemplateCall(Compiler $compiler, $method): Compiler
 	{
 		if (!$this->hasNode('template'))
-		{
 			$compiler->write('$this');
-		}
 		else
-		{
 			$compiler->write('$this->loadTemplate(')->subcompile($this->getNode('template'))->raw(', ')->repr($this->getTemplateName())->raw(', ')->repr($this->getTemplateLine())->raw(')');
-		}
 
 		$compiler->raw(sprintf('->%s', $method));
 		$this->compileBlockArguments($compiler);
@@ -91,6 +99,16 @@ class BlockReferenceExpression extends AbstractExpression
 		return $compiler;
 	}
 
+	/**
+	 * Compiles block arguments.
+	 *
+	 * @param Compiler $compiler
+	 *
+	 * @return Compiler
+	 * @throws Error
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
 	private function compileBlockArguments(Compiler $compiler): Compiler
 	{
 		$compiler->raw('(')->subcompile($this->getNode('name'))->raw(', $context');

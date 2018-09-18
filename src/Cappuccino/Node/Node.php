@@ -14,6 +14,7 @@ namespace Cappuccino\Node;
 
 use ArrayIterator;
 use Cappuccino\Compiler;
+use Cappuccino\Error\Error;
 use Countable;
 use InvalidArgumentException;
 use IteratorAggregate;
@@ -64,6 +65,7 @@ class Node implements Countable, IteratorAggregate
 	 *
 	 * @param Compiler $compiler
 	 *
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\Util;
 
 use Cappuccino\Cappuccino;
+use Cappuccino\Error\Error;
 use Cappuccino\Error\SyntaxError;
 use Cappuccino\Source;
 use RecursiveDirectoryIterator;
@@ -55,6 +56,7 @@ final class DeprecationCollector
 	 * @param string $extension
 	 *
 	 * @return array
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -71,6 +73,7 @@ final class DeprecationCollector
 	 * @param Traversable $iterator
 	 *
 	 * @return array
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
