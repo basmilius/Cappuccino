@@ -265,7 +265,7 @@ final class CoreExtension extends AbstractExtension
 			// encoding
 			new SimpleFilter('url_encode', [$this, 'onSimpleFilterUrlEncode']),
 			new SimpleFilter('json_encode', 'json_encode'),
-			new SimpleFilter('convert_encoding', [StaticMethods::class, 'convertEncoding']),
+			new SimpleFilter('convert_encoding', 'mb_convert_encoding'),
 
 			// string filters
 			new SimpleFilter('title', [$this, 'onSimpleFilterStringTitle'], ['needs_cappuccino' => true]),
