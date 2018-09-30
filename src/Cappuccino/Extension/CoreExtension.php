@@ -61,6 +61,7 @@ use Cappuccino\SimpleFilter;
 use Cappuccino\SimpleFunction;
 use Cappuccino\SimpleTest;
 use Cappuccino\TokenParser\BlockTokenParser;
+use Cappuccino\TokenParser\DeprecatedTokenParser;
 use Cappuccino\TokenParser\DoTokenParser;
 use Cappuccino\TokenParser\EmbedTokenParser;
 use Cappuccino\TokenParser\ExtendsTokenParser;
@@ -239,7 +240,8 @@ final class CoreExtension extends AbstractExtension
 			new FlushTokenParser(),
 			new DoTokenParser(),
 			new EmbedTokenParser(),
-			new WithTokenParser()
+			new WithTokenParser(),
+			new DeprecatedTokenParser()
 		];
 	}
 
