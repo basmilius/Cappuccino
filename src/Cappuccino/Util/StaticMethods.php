@@ -29,26 +29,10 @@ use Traversable;
  *
  * @author Bas Milius <bas@mili.us>
  * @package Cappuccino\Util
- * @since ${CARET}
+ * @since 1.0.0
  */
 class StaticMethods
 {
-
-	/**
-	 * Converts the encoding of a string.
-	 *
-	 * @param string $str
-	 * @param string $to
-	 * @param string $from
-	 *
-	 * @return string
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public static function convertEncoding(string $str, string $to, string $from): string
-	{
-		return iconv($from, $to, $str);
-	}
 
 	/**
 	 * Ensures traversable.

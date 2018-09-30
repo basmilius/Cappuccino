@@ -987,6 +987,9 @@ final class CoreExtension extends AbstractExtension
 			else if (in_array($strategy, ['html', 'js', 'css', 'html_attr', 'url']))
 				return $string;
 
+		if ($string === '')
+			return '';
+
 		if ($charset === null)
 			$charset = $cappuccino->getCharset();
 
@@ -1026,10 +1029,10 @@ final class CoreExtension extends AbstractExtension
 				return iconv('UTF-8', $charset, $string);
 
 			case 'js':
-				if ('UTF-8' !== $charset)
+				if ($charset !== 'UTF-8')
 					$string = iconv($charset, 'UTF-8', $string);
 
-				if (0 == strlen($string) ? false : 1 !== preg_match('/^./su', $string))
+				if (!preg_match('//u', $string))
 					throw new RuntimeError('The string to escape is not a valid UTF-8 string.');
 
 				$string = preg_replace_callback('#[^a-zA-Z0-9,\._]#Su', function ($matches)
@@ -1039,7 +1042,7 @@ final class CoreExtension extends AbstractExtension
 					if (!isset($char[1]))
 						return '\\x' . strtoupper(substr('00' . bin2hex($char), -2));
 
-					$char = StaticMethods::convertEncoding($char, 'UTF-16BE', 'UTF-8');
+					$char = mb_convert_encoding($char, 'UTF-16BE', 'UTF-8');
 					$char = strtoupper(bin2hex($char));
 
 					if (4 >= strlen($char))
@@ -1048,82 +1051,64 @@ final class CoreExtension extends AbstractExtension
 					return sprintf('\u%04s\u%04s', substr($char, 0, -4), substr($char, -4));
 				}, $string);
 
-				if ('UTF-8' !== $charset)
+				if ($charset !== 'UTF-8')
 					$string = iconv('UTF-8', $charset, $string);
 
 				return $string;
 
 			case 'css':
-				if ('UTF-8' !== $charset)
+				if ($charset !== 'UTF-8')
 					$string = iconv($charset, 'UTF-8', $string);
 
-				if (0 == strlen($string) ? false : 1 !== preg_match('/^./su', $string))
+				if (!preg_match('//u', $string))
 					throw new RuntimeError('The string to escape is not a valid UTF-8 string.');
 
 				$string = preg_replace_callback('#[^a-zA-Z0-9]#Su', function ($matches)
 				{
 					$char = $matches[0];
 
-					if (!isset($char[1]))
-					{
-						$hex = ltrim(strtoupper(bin2hex($char)), '0');
-						if (0 === strlen($hex))
-							$hex = '0';
-
-						return '\\' . $hex . ' ';
-					}
-
-					$char = StaticMethods::convertEncoding($char, 'UTF-16BE', 'UTF-8');
-
-					return '\\' . ltrim(strtoupper(bin2hex($char)), '0') . ' ';
+					return sprintf('\\%X ', strlen($char) === 1 ? ord($char) : mb_ord($char, 'UTF-8'));
 				}, $string);
 
-				if ('UTF-8' !== $charset)
+				if ($charset !== 'UTF-8')
 					$string = iconv('UTF-8', $charset, $string);
 
 				return $string;
 
 			case 'html_attr':
-				if ('UTF-8' !== $charset)
+				if ($charset !== 'UTF-8')
 					$string = iconv($charset, 'UTF-8', $string);
 
-				if (0 == strlen($string) ? false : 1 !== preg_match('/^./su', $string))
+				if (!preg_match('//u', $string))
 					throw new RuntimeError('The string to escape is not a valid UTF-8 string.');
 
 				$string = preg_replace_callback('#[^a-zA-Z0-9,\.\-_]#Su', function ($matches)
 				{
-					static $entityMap = [
-						34 => 'quot',
-						38 => 'amp',
-						60 => 'lt',
-						62 => 'gt',
-					];
-
 					$chr = $matches[0];
 					$ord = ord($chr);
 
-					if (($ord <= 0x1f && $chr != "\t" && $chr != "\n" && $chr != "\r") || ($ord >= 0x7f && $ord <= 0x9f))
+					if (($ord <= 0x1f && "\t" != $chr && "\n" != $chr && "\r" != $chr) || ($ord >= 0x7f && $ord <= 0x9f))
 						return '&#xFFFD;';
 
-					if (strlen($chr) == 1)
+					if (strlen($chr) === 1)
 					{
-						$hex = strtoupper(substr('00' . bin2hex($chr), -2));
+						static $entityMap = [
+							34 => '&quot;',
+							38 => '&amp;',
+							60 => '&lt;',
+							62 => '&gt;',
+						];
+
+						if (isset($entityMap[$ord]))
+							return $entityMap[$ord];
+
+						return sprintf('&#x%02X;', $ord);
 					}
-					else
-					{
-						$chr = StaticMethods::convertEncoding($chr, 'UTF-16BE', 'UTF-8');
-						$hex = strtoupper(substr('0000' . bin2hex($chr), -4));
-					}
 
-					$int = hexdec($hex);
-
-					if (isset($entityMap[$int]))
-						return sprintf('&%s;', $entityMap[$int]);
-
-					return sprintf('&#x%s;', $hex);
+					return sprintf('&#x%04X;', mb_ord($chr, 'UTF-8'));
 				}, $string);
 
-				if ('UTF-8' !== $charset)
+				if ($charset !== 'UTF-8')
 					$string = iconv('UTF-8', $charset, $string);
 
 				return $string;

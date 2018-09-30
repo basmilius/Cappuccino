@@ -62,7 +62,7 @@ final class DeprecatedNode extends Node
 
 		$compiler
 			->raw('.')
-			->string(sprintf('("%s" at line %d).', $this->getTemplateName(), $this->getTemplateLine()))
+			->string(sprintf(' ("%s" at line %d).', $this->getTemplateName(), $this->getTemplateLine()))
 			->raw(", E_USER_DEPRECATED);\n");
 	}
 
