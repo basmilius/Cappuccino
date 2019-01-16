@@ -63,7 +63,7 @@ final class TemplateWrapper
 	 */
 	public function render($context = []): string
 	{
-		return $this->template->render($context);
+		return $this->template->render($context, func_get_args()[1] ?? []);
 	}
 
 	/**
@@ -77,7 +77,7 @@ final class TemplateWrapper
 	 */
 	public function display(array $context = []): void
 	{
-		$this->template->display($context);
+		$this->template->display($context, func_get_args()[1] ?? []);
 	}
 
 	/**

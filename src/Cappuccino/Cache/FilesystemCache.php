@@ -76,15 +76,15 @@ class FilesystemCache implements CacheInterface
 	public function write(string $key, string $content): void
 	{
 		$dir = dirname($key);
+
 		if (!is_dir($dir))
 		{
-			if (false === @mkdir($dir, 0777, true))
+			if (@mkdir($dir, 0777, true) === false)
 			{
 				clearstatcache(true, $dir);
+
 				if (!is_dir($dir))
-				{
 					throw new RuntimeException(sprintf('Unable to create the cache directory (%s).', $dir));
-				}
 			}
 		}
 		else if (!is_writable($dir))
@@ -93,21 +93,17 @@ class FilesystemCache implements CacheInterface
 		}
 
 		$tmpFile = tempnam($dir, basename($key));
-		if (false !== @file_put_contents($tmpFile, $content) && @rename($tmpFile, $key))
+
+		if (@file_put_contents($tmpFile, $content) !== false && @rename($tmpFile, $key))
 		{
 			@chmod($key, 0666 & ~umask());
 
 			if (self::FORCE_BYTECODE_INVALIDATION == ($this->options & self::FORCE_BYTECODE_INVALIDATION))
 			{
-				// Compile cached file into bytecode cache
 				if (function_exists('opcache_invalidate'))
-				{
 					opcache_invalidate($key, true);
-				}
 				else if (function_exists('apc_compile_file'))
-				{
 					apc_compile_file($key);
-				}
 			}
 
 			return;

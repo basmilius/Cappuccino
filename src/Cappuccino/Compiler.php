@@ -216,12 +216,12 @@ class Compiler
 			if ($locale = setlocale(LC_NUMERIC, '0'))
 				setlocale(LC_NUMERIC, 'C');
 
-			$this->raw(strval($value));
+			$this->raw(var_export($value, true));
 
 			if ($locale)
 				setlocale(LC_NUMERIC, $locale);
 		}
-		else if (null === $value)
+		else if ($value === null)
 		{
 			$this->raw('null');
 		}

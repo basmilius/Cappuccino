@@ -48,12 +48,13 @@ class Error extends Exception
 	{
 		parent::__construct('', 0, $previous);
 
-		if (null === $source)
+		if ($source === null)
 		{
 			$name = null;
 		}
 		else if (!$source instanceof Source)
 		{
+			@trigger_error(sprintf('Passing a string as a soruce to %s is deprecated since version 1.2.0; pass a %s instance instead.', __CLASS__, Source::class), E_USER_DEPRECATED);
 			$name = $source;
 		}
 		else
@@ -66,10 +67,8 @@ class Error extends Exception
 		$this->lineno = $lineno;
 		$this->name = $name;
 
-		if (-1 === $lineno || null === $name || null === $this->sourcePath)
-		{
+		if ($lineno === -1 || $name === null || $this->sourcePath === null)
 			$this->guessTemplateInfo();
-		}
 
 		$this->rawMessage = $message;
 
@@ -217,7 +216,7 @@ class Error extends Exception
 			/** @var Template $traceObject */
 			$traceObject = $trace['object'] ?? [];
 
-			if (isset($traceObject) && $traceObject instanceof Template && 'Template' !== get_class($traceObject))
+			if (isset($traceObject) && $traceObject instanceof Template && get_class($traceObject) !== Template::class)
 			{
 				$currentClass = get_class($traceObject);
 				$isEmbedContainer = 0 === strpos($templateClass ?? '', $currentClass);

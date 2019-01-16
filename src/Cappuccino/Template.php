@@ -113,7 +113,7 @@ abstract class Template
 	 *
 	 * @param array $context
 	 *
-	 * @return Template|bool
+	 * @return Template|TemplateWrapper|bool
 	 * @throws LoaderError
 	 * @throws Exception
 	 * @author Bas Milius <bas@mili.us>
@@ -132,13 +132,11 @@ abstract class Template
 			if (!$parent)
 				return false;
 
-			if ($parent instanceof self)
-				return $this->parents[$parent->getTemplateName()] = $parent;
+			if ($parent instanceof self || $parent instanceof TemplateWrapper)
+				return $this->parents[$parent->getSourceContext()->getName()] = $parent;
 
 			if (!isset($this->parents[$parent]))
-			{
 				$this->parents[$parent] = $this->loadTemplate($parent);
-			}
 		}
 		catch (LoaderError $e)
 		{
@@ -214,7 +212,7 @@ abstract class Template
 	 *
 	 * @param string        $name
 	 * @param array         $context
-	 * @param BlockNode[][] $blocks
+	 * @param Template[][] $blocks
 	 * @param bool          $useBlocks
 	 *
 	 * @throws Error
@@ -224,7 +222,7 @@ abstract class Template
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function displayBlock(string $name, array $context, array $blocks = [], bool $useBlocks = true)
+	public function displayBlock(string $name, array $context, array $blocks = [], bool $useBlocks = true, ?Template $templateContext = null)
 	{
 		if ($useBlocks && isset($blocks[$name]))
 		{
@@ -242,10 +240,8 @@ abstract class Template
 			$block = null;
 		}
 
-		if (null !== $template && !$template instanceof self)
-		{
+		if ($template !== null && !$template instanceof self)
 			throw new LogicException('A block must be a method on a Template instance.');
-		}
 
 		if (null !== $template)
 		{
@@ -259,7 +255,7 @@ abstract class Template
 				if (!$e->getSourceContext())
 					$e->setSourceContext($template->getSourceContext());
 
-				if (false === $e->getTemplateLine())
+				if ($e->getTemplateLine() === false)
 				{
 					$e->setTemplateLine(-1);
 					$e->guess();
@@ -272,17 +268,17 @@ abstract class Template
 				throw new RuntimeError(sprintf('An exception has been thrown during the rendering of a template ("%s").', $e->getMessage()), -1, $template->getSourceContext(), $e);
 			}
 		}
-		else if (false !== $parent = $this->getParent($context))
+		else if (($parent = $this->getParent($context)) === false)
 		{
-			$parent->displayBlock($name, $context, array_merge($this->blocks, $blocks), false);
+			$parent->displayBlock($name, $context, array_merge($this->blocks, $blocks), false, $templateContext ?? $this);
 		}
 		else if (isset($blocks[$name]))
 		{
-			throw new RuntimeError(sprintf('Block "%s" should not call parent() in "%s" as the block does not exist in the parent template "%s".', $name, $blocks[$name][0]->getTemplateName(), $this->getTemplateName()), -1);
+			throw new RuntimeError(sprintf('Block "%s" should not call parent() in "%s" as the block does not exist in the parent template "%s".', $name, $blocks[$name][0]->getTemplateName(), $this->getTemplateName()), -1, $blocks[$name][0]->getSourceContext());
 		}
 		else
 		{
-			throw new RuntimeError(sprintf('Block "%s" on template "%s" does not exist.', $name, $this->getTemplateName()), -1, $this->getSourceContext());
+			throw new RuntimeError(sprintf('Block "%s" on template "%s" does not exist.', $name, $this->getTemplateName()), -1, ($templateContext ?? $this)->getSourceContext());
 		}
 	}
 
@@ -407,10 +403,7 @@ abstract class Template
 			if (is_array($template))
 				return $this->cappuccino->resolveTemplate($template);
 
-			if ($template instanceof self)
-				return $template;
-
-			if ($template instanceof TemplateWrapper)
+			if ($template instanceof self || $template instanceof TemplateWrapper)
 				return $template;
 
 			return $this->cappuccino->loadTemplate($template, $index);

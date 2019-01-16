@@ -629,7 +629,12 @@ class Parser
 		if (($node instanceof TextNode && !ctype_space($node->getAttribute('data'))) || (!$node instanceof TextNode && !$node instanceof BlockReferenceNode && $node instanceof NodeOutputInterface))
 		{
 			if (strpos((string)$node, chr(0xEF) . chr(0xBB) . chr(0xBF)))
-				throw new SyntaxError('A template that extends another one cannot start with a byte order mark (BOM); it must be removed.', $node->getTemplateLine(), $this->stream->getSourceContext());
+			{
+				$t = substr($node->getAttribute('data'), 3);
+
+				if ($t === '' || ctype_space($t))
+					return null;
+			}
 
 			throw new SyntaxError('A template that extends another one cannot include contents outside Cappuccino blocks. Did you forget to put the contents inside a {% block %} tag?', $node->getTemplateLine(), $this->stream->getSourceContext());
 		}

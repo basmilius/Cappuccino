@@ -51,6 +51,7 @@ abstract class CallExpression extends AbstractExpression
 		$callable = $this->getAttribute('callable');
 
 		$closingParenthesis = false;
+		$isArray = false;
 
 		if (is_string($callable) && strpos($callable, '::') === false)
 		{
@@ -79,11 +80,12 @@ abstract class CallExpression extends AbstractExpression
 			else
 			{
 				$closingParenthesis = true;
-				$compiler->raw(sprintf('call_user_func_array($this->cappuccino->get%s(\'%s\')->getCallable(), array', ucfirst($this->getAttribute('type')), $this->getAttribute('name')));
+				$isArray = true;
+				$compiler->raw(sprintf('call_user_func_array($this->cappuccino->get%s(\'%s\')->getCallable(), ', ucfirst($this->getAttribute('type')), $this->getAttribute('name')));
 			}
 		}
 
-		$this->compileArguments($compiler);
+		$this->compileArguments($compiler, $isArray);
 
 		if ($closingParenthesis)
 			$compiler->raw(')');
@@ -93,14 +95,16 @@ abstract class CallExpression extends AbstractExpression
 	 * Compiles arguments.
 	 *
 	 * @param Compiler $compiler
+	 * @param bool     $isArray
 	 *
 	 * @throws Error
+	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function compileArguments(Compiler $compiler): void
+	protected function compileArguments(Compiler $compiler, bool $isArray): void
 	{
-		$compiler->raw('(');
+		$compiler->raw($isArray ? '[' : '(');
 
 		$first = true;
 
@@ -156,7 +160,7 @@ abstract class CallExpression extends AbstractExpression
 			}
 		}
 
-		$compiler->raw(')');
+		$compiler->raw($isArray ? ']' : ')');
 	}
 
 	/**
@@ -194,10 +198,9 @@ abstract class CallExpression extends AbstractExpression
 		}
 
 		$isVariadic = $this->hasAttribute('is_variadic') && $this->getAttribute('is_variadic');
+
 		if (!$named && !$isVariadic)
-		{
 			return $parameters;
-		}
 
 		if (!$callable)
 		{

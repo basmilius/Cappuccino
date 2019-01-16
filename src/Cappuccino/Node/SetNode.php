@@ -70,12 +70,11 @@ class SetNode extends Node implements NodeCaptureInterface
 		if (count($this->getNode('names')) > 1)
 		{
 			$compiler->write('list(');
+
 			foreach ($this->getNode('names') as $idx => $node)
 			{
 				if ($idx)
-				{
 					$compiler->raw(', ');
-				}
 
 				$compiler->subcompile($node);
 			}
@@ -93,9 +92,7 @@ class SetNode extends Node implements NodeCaptureInterface
 			$compiler->subcompile($this->getNode('names'), false);
 
 			if ($this->getAttribute('capture'))
-			{
 				$compiler->raw(" = ('' === \$tmp = ob_get_clean()) ? '' : new " . $classMarkup . "(\$tmp, \$this->cappuccino->getCharset())");
-			}
 		}
 
 		if (!$this->getAttribute('capture'))
@@ -105,15 +102,15 @@ class SetNode extends Node implements NodeCaptureInterface
 			if (count($this->getNode('names')) > 1)
 			{
 				$compiler->write('[');
+
 				foreach ($this->getNode('values') as $idx => $value)
 				{
 					if ($idx)
-					{
 						$compiler->raw(', ');
-					}
 
 					$compiler->subcompile($value);
 				}
+
 				$compiler->raw(']');
 			}
 			else
