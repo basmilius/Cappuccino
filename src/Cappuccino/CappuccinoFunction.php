@@ -12,17 +12,17 @@ declare(strict_types=1);
 
 namespace Cappuccino;
 
-use Cappuccino\Node\Expression\FilterExpression;
+use Cappuccino\Node\Expression\FunctionExpression;
 use Cappuccino\Node\Node;
 
 /**
- * Class SimpleFilter
+ * Class CappuccinoFunction
  *
  * @author Bas Milius <bas@mili.us>
  * @package Cappuccino
  * @since 1.0.0
  */
-class SimpleFilter
+final class CappuccinoFunction
 {
 
 	/**
@@ -46,7 +46,7 @@ class SimpleFilter
 	private $arguments = [];
 
 	/**
-	 * SimpleFilter constructor.
+	 * CappuccinoFunction constructor.
 	 *
 	 * @param string        $name
 	 * @param callable|null $callable
@@ -57,9 +57,6 @@ class SimpleFilter
 	 */
 	public function __construct(string $name, ?callable $callable = null, array $options = [])
 	{
-		if (get_class($this) !== __CLASS__)
-			@trigger_error('Overriding ' . __CLASS__ . ' is deprecated since version 2.4.0 and the class will be final in 3.0.', E_USER_DEPRECATED);
-
 		$this->name = $name;
 		$this->callable = $callable;
 		$this->options = array_merge([
@@ -68,16 +65,14 @@ class SimpleFilter
 			'is_variadic' => false,
 			'is_safe' => null,
 			'is_safe_callback' => null,
-			'pre_escape' => null,
-			'preserves_safety' => null,
-			'node_class' => FilterExpression::class,
+			'node_class' => FunctionExpression::class,
 			'deprecated' => false,
 			'alternative' => null,
 		], $options);
 	}
 
 	/**
-	 * Gets the name of our filter.
+	 * Gets the name of this function.
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
@@ -89,7 +84,7 @@ class SimpleFilter
 	}
 
 	/**
-	 * Callable to be executed when this filter is used.
+	 * Gets the callable to execute for this function.
 	 *
 	 * @return callable|null
 	 * @author Bas Milius <bas@mili.us>
@@ -113,7 +108,7 @@ class SimpleFilter
 	}
 
 	/**
-	 * Gets the filter instance.
+	 * Gets the arguments.
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
@@ -125,7 +120,7 @@ class SimpleFilter
 	}
 
 	/**
-	 * Sets the filter arguments.
+	 * Sets the arguments.
 	 *
 	 * @param array $arguments
 	 *
@@ -138,7 +133,7 @@ class SimpleFilter
 	}
 
 	/**
-	 * Does this filter need a {@see Cappuccino} instance.
+	 * Does this function need our {@see Cappuccino} instance?
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
@@ -150,7 +145,7 @@ class SimpleFilter
 	}
 
 	/**
-	 * Does this filter need the Node context.
+	 * Does this function need the Node context.
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
@@ -162,51 +157,27 @@ class SimpleFilter
 	}
 
 	/**
-	 * Gets the filter safe status.
+	 * Gets function safe status.
 	 *
-	 * @param Node $filterArgs
+	 * @param Node $functionArgs
 	 *
-	 * @return bool|mixed
+	 * @return array|mixed
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getSafe(Node $filterArgs)
+	public function getSafe(Node $functionArgs)
 	{
 		if ($this->options['is_safe'] !== null)
 			return $this->options['is_safe'];
 
 		if ($this->options['is_safe_callback'] !== null)
-			return $this->options['is_safe_callback']($filterArgs);
+			return $this->options['is_safe_callback']($functionArgs);
 
-		return false;
+		return [];
 	}
 
 	/**
-	 * Gets preserves safety.
-	 *
-	 * @return bool|null
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public function getPreservesSafety(): ?bool
-	{
-		return $this->options['preserves_safety'];
-	}
-
-	/**
-	 * Gets PRE escape.
-	 *
-	 * @return string|bool|null
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public function getPreEscape()
-	{
-		return $this->options['pre_escape'];
-	}
-
-	/**
-	 * Returns TRUE if this filter is variadic.
+	 * Returns TRUE if this function is variadic.
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
@@ -218,7 +189,7 @@ class SimpleFilter
 	}
 
 	/**
-	 * Returns TRUE if this filter is deprecated.
+	 * Returns TRUE if this function is deprecated.
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>

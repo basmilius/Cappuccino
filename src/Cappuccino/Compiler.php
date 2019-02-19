@@ -110,8 +110,8 @@ class Compiler
 	 * @param Node $node
 	 * @param int  $indentation
 	 *
-	 * @throws Error
 	 * @return Compiler
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -136,8 +136,8 @@ class Compiler
 	 * @param Node $node
 	 * @param bool $raw
 	 *
-	 * @throws Error
 	 * @return Compiler
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -195,7 +195,10 @@ class Compiler
 	 */
 	public function string(string $value): Compiler
 	{
-		$this->source .= sprintf('"%s"', addcslashes($value, "\0\t\"\$\\"));
+		$this->source .= sprintf('\'%s\'', addcslashes($value, "\0\t'\\"));
+
+		// Old version with double quoted strings.
+		// $this->source .= sprintf('"%s"', addcslashes($value, "\0\t\"\$\\"));
 
 		return $this;
 	}

@@ -64,17 +64,17 @@ final class ExtensionSet implements ExtensionInterface
 	private $visitors;
 
 	/**
-	 * @var SimpleFilter[]
+	 * @var CappuccinoFilter[]
 	 */
 	private $filters;
 
 	/**
-	 * @var SimpleTest[]
+	 * @var CappuccinoTest[]
 	 */
 	private $tests;
 
 	/**
-	 * @var SimpleFunction[]
+	 * @var CappuccinoFunction[]
 	 */
 	private $functions;
 
@@ -270,14 +270,14 @@ final class ExtensionSet implements ExtensionInterface
 	}
 
 	/**
-	 * Adds a {@see SimpleFunction}.
+	 * Adds a {@see CappuccinoFunction}.
 	 *
-	 * @param SimpleFunction $function
+	 * @param CappuccinoFunction $function
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addFunction(SimpleFunction $function): void
+	public function addFunction(CappuccinoFunction $function): void
 	{
 		if ($this->initialized)
 			throw new LogicException(sprintf('Unable to add function "%s" as extensions have already been initialized.', $function->getName()));
@@ -301,15 +301,15 @@ final class ExtensionSet implements ExtensionInterface
 	}
 
 	/**
-	 * Gets a {@see SimpleFunction}.
+	 * Gets a {@see CappuccinoFunction}.
 	 *
 	 * @param string $name
 	 *
-	 * @return SimpleFunction|null
+	 * @return CappuccinoFunction|null
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFunction(string $name): ?SimpleFunction
+	public function getFunction(string $name): ?CappuccinoFunction
 	{
 		if (!$this->initialized)
 			$this->initExtensions();
@@ -351,14 +351,14 @@ final class ExtensionSet implements ExtensionInterface
 	}
 
 	/**
-	 * Adds a {@see SimpleFilter}.
+	 * Adds a {@see CappuccinoFilter}.
 	 *
-	 * @param SimpleFilter $filter
+	 * @param CappuccinoFilter $filter
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addFilter(SimpleFilter $filter): void
+	public function addFilter(CappuccinoFilter $filter): void
 	{
 		if ($this->initialized)
 			throw new LogicException(sprintf('Unable to add filter "%s" as extensions have already been initialized.', $filter->getName()));
@@ -384,11 +384,11 @@ final class ExtensionSet implements ExtensionInterface
 	 *
 	 * @param string $name
 	 *
-	 * @return SimpleFilter|null
+	 * @return CappuccinoFilter|null
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFilter(string $name): ?SimpleFilter
+	public function getFilter(string $name): ?CappuccinoFilter
 	{
 		if (!$this->initialized)
 			$this->initExtensions();
@@ -523,12 +523,12 @@ final class ExtensionSet implements ExtensionInterface
 	/**
 	 * Adds a Test.
 	 *
-	 * @param SimpleTest $test
+	 * @param CappuccinoTest $test
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addTest(SimpleTest $test): void
+	public function addTest(CappuccinoTest $test): void
 	{
 		if ($this->initialized)
 			throw new LogicException(sprintf('Unable to add test "%s" as extensions have already been initialized.', $test->getName()));
@@ -541,11 +541,11 @@ final class ExtensionSet implements ExtensionInterface
 	 *
 	 * @param string $name
 	 *
-	 * @return SimpleTest|null
+	 * @return CappuccinoTest|null
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTest(string $name): ?SimpleTest
+	public function getTest(string $name): ?CappuccinoTest
 	{
 		if (!$this->initialized)
 			$this->initExtensions();

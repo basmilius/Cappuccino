@@ -15,13 +15,13 @@ namespace Cappuccino;
 use Cappuccino\Node\Expression\Test\TestExpression;
 
 /**
- * Class SimpleTest
+ * Class CappuccinoTest
  *
  * @author Bas Milius <bas@mili.us>
  * @package Cappuccino
  * @since 1.0.0
  */
-class SimpleTest
+final class CappuccinoTest
 {
 
 	/**
@@ -40,7 +40,7 @@ class SimpleTest
 	private $options;
 
 	/**
-	 * SimpleTest constructor.
+	 * CappuccinoTest constructor.
 	 *
 	 * @param string        $name
 	 * @param callable|null $callable
@@ -51,9 +51,6 @@ class SimpleTest
 	 */
 	public function __construct(string $name, ?callable $callable = null, array $options = [])
 	{
-		if (get_class($this) !== __CLASS__)
-			@trigger_error('Overriding ' . __CLASS__ . ' is deprecated since version 2.4.0 and the class will be final in 3.0.', E_USER_DEPRECATED);
-
 		$this->name = $name;
 		$this->callable = $callable;
 		$this->options = array_merge([

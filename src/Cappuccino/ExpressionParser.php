@@ -990,15 +990,15 @@ class ExpressionParser
 	}
 
 	/**
-	 * Gets a SimpleTest class.
+	 * Gets a CappuccinoTest class.
 	 *
-	 * @param SimpleTest $test
+	 * @param CappuccinoTest $test
 	 *
 	 * @return mixed
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function getTestNodeClass(SimpleTest $test)
+	private function getTestNodeClass(CappuccinoTest $test)
 	{
 		if ($test->isDeprecated())
 		{
@@ -1006,7 +1006,7 @@ class ExpressionParser
 			$message = sprintf('Cappuccino Test "%s" is deprecated', $test->getName());
 
 			if (!is_bool($test->getDeprecatedVersion()))
-				$message .= sprintf(' since version %s', $test->getDeprecatedVersion());
+				$message .= sprintf(' since Cappuccino %s', $test->getDeprecatedVersion());
 
 			if ($test->getAlternative())
 				$message .= sprintf('. Use "%s" instead', $test->getAlternative());
@@ -1021,7 +1021,7 @@ class ExpressionParser
 	}
 
 	/**
-	 * Gets a SimpleFunction class.
+	 * Gets a CappuccinoFunction class.
 	 *
 	 * @param string $name
 	 * @param int    $line
@@ -1046,7 +1046,7 @@ class ExpressionParser
 			$message = sprintf('Cappuccino Function "%s" is deprecated', $function->getName());
 
 			if (!is_bool($function->getDeprecatedVersion()))
-				$message .= sprintf(' since version %s', $function->getDeprecatedVersion());
+				$message .= sprintf(' since Cappuccino %s', $function->getDeprecatedVersion());
 
 			if ($function->getAlternative())
 				$message .= sprintf('. Use "%s" instead', $function->getAlternative());
@@ -1061,7 +1061,7 @@ class ExpressionParser
 	}
 
 	/**
-	 * Gets a SimpleFilter class.
+	 * Gets a Filter class.
 	 *
 	 * @param string $name
 	 * @param int    $line
@@ -1089,7 +1089,7 @@ class ExpressionParser
 			$message = sprintf('Cappuccino Filter "%s" is deprecated', $filter->getName());
 			if (!is_bool($filter->getDeprecatedVersion()))
 			{
-				$message .= sprintf(' since version %s', $filter->getDeprecatedVersion());
+				$message .= sprintf(' since Cappuccino %s', $filter->getDeprecatedVersion());
 			}
 			if ($filter->getAlternative())
 			{

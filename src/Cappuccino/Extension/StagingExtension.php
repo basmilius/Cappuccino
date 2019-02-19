@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace Cappuccino\Extension;
 
 use Cappuccino\NodeVisitorInterface;
-use Cappuccino\SimpleFilter;
-use Cappuccino\SimpleFunction;
-use Cappuccino\SimpleTest;
+use Cappuccino\CappuccinoFilter;
+use Cappuccino\CappuccinoFunction;
+use Cappuccino\CappuccinoTest;
 use Cappuccino\TokenParser\TokenParserInterface;
 use LogicException;
 
@@ -30,12 +30,12 @@ final class StagingExtension extends AbstractExtension
 {
 
 	/**
-	 * @var SimpleFunction[]
+	 * @var CappuccinoFunction[]
 	 */
 	private $functions = [];
 
 	/**
-	 * @var SimpleFilter[]
+	 * @var CappuccinoFilter[]
 	 */
 	private $filters = [];
 
@@ -50,19 +50,19 @@ final class StagingExtension extends AbstractExtension
 	private $tokenParsers = [];
 
 	/**
-	 * @var SimpleTest[]
+	 * @var CappuccinoTest[]
 	 */
 	private $tests = [];
 
 	/**
-	 * Adds a {@see SimpleFunction.
+	 * Adds a {@see CappuccinoFunction}.
 	 *
-	 * @param SimpleFunction $function
+	 * @param CappuccinoFunction $function
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function addFunction(SimpleFunction $function)
+	public final function addFunction(CappuccinoFunction $function)
 	{
 		if (isset($this->functions[$function->getName()]))
 		{
@@ -83,14 +83,14 @@ final class StagingExtension extends AbstractExtension
 	}
 
 	/**
-	 * Adds a {@see SimpleFilter}.
+	 * Adds a {@see CappuccinoFilter}.
 	 *
-	 * @param SimpleFilter $filter
+	 * @param CappuccinoFilter $filter
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function addFilter(SimpleFilter $filter)
+	public final function addFilter(CappuccinoFilter $filter)
 	{
 		if (isset($this->filters[$filter->getName()]))
 		{
@@ -162,14 +162,14 @@ final class StagingExtension extends AbstractExtension
 	}
 
 	/**
-	 * Adds a {@see SimpleTest}.
+	 * Adds a {@see CappuccinoTest}.
 	 *
-	 * @param SimpleTest $test
+	 * @param CappuccinoTest $test
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function addTest(SimpleTest $test)
+	public final function addTest(CappuccinoTest $test)
 	{
 		if (isset($this->tests[$test->getName()]))
 			throw new LogicException(sprintf('Test "%s" is already registered.', $test->getName()));

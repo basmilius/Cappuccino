@@ -247,7 +247,7 @@ class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, Source
 		foreach ($this->paths[$namespace] as $path)
 		{
 			if (!$this->isAbsolutePath($path))
-				$path = $this->rootPath . '/' . $path;
+				$path = $this->rootPath . $path;
 
 			if (is_file($path . '/' . $shortname))
 			{

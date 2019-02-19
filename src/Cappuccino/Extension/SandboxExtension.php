@@ -19,8 +19,8 @@ use Cappuccino\Sandbox\SecurityNotAllowedMethodError;
 use Cappuccino\Sandbox\SecurityNotAllowedPropertyError;
 use Cappuccino\Sandbox\SecurityNotAllowedTagError;
 use Cappuccino\Sandbox\SecurityPolicyInterface;
-use Cappuccino\SimpleFilter;
-use Cappuccino\SimpleFunction;
+use Cappuccino\CappuccinoFilter;
+use Cappuccino\CappuccinoFunction;
 use Cappuccino\TokenParser\SandboxTokenParser;
 
 /**
@@ -155,9 +155,9 @@ final class SandboxExtension extends AbstractExtension
 	}
 
 	/**
-	 * @param array            $tags
-	 * @param SimpleFilter[]   $filters
-	 * @param SimpleFunction[] $functions
+	 * @param array                $tags
+	 * @param CappuccinoFilter[]   $filters
+	 * @param CappuccinoFunction[] $functions
 	 *
 	 * @throws SecurityNotAllowedFilterError
 	 * @throws SecurityNotAllowedFunctionError

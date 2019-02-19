@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\Extension;
 
 use Cappuccino\Cappuccino;
-use Cappuccino\SimpleFilter;
+use Cappuccino\CappuccinoFilter;
 use DateTime;
 use DateTimeInterface;
 
@@ -44,7 +44,7 @@ final class DateExtension extends AbstractExtension
 	public final function getFilters(): array
 	{
 		return [
-			new SimpleFilter('time_diff', [$this, 'onSimpleFilterTimeDiff'], ['needs_cappuccino' => true])
+			new CappuccinoFilter('time_diff', [$this, 'onFilterTimeDiff'], ['needs_cappuccino' => true])
 		];
 	}
 
@@ -60,13 +60,13 @@ final class DateExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.1
 	 */
-	public final function onSimpleFilterTimeDiff(Cappuccino $cappuccino, $date, $now): string
+	public final function onFilterTimeDiff(Cappuccino $cappuccino, $date, $now): string
 	{
 		/** @var CoreExtension $core */
 		$core = $cappuccino->getExtension(CoreExtension::class);
 
-		$date = $core->onSimpleFunctionDateConverter($cappuccino, $date);
-		$now = $core->onSimpleFunctionDateConverter($cappuccino, $now);
+		$date = $core->onFunctionDateConverter($cappuccino, $date);
+		$now = $core->onFunctionDateConverter($cappuccino, $now);
 
 		$diff = $date->diff($now);
 

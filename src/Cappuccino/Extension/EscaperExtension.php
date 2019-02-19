@@ -14,7 +14,7 @@ namespace Cappuccino\Extension;
 
 use Cappuccino\FileExtensionEscapingStrategy;
 use Cappuccino\NodeVisitor\EscaperNodeVisitor;
-use Cappuccino\SimpleFilter;
+use Cappuccino\CappuccinoFilter;
 use Cappuccino\TokenParser\AutoEscapeTokenParser;
 
 /**
@@ -73,7 +73,7 @@ final class EscaperExtension extends AbstractExtension
 	public final function getFilters(): array
 	{
 		return [
-			new SimpleFilter('raw', [$this, 'onSimpleFilterRaw'], ['is_safe' => ['all']]),
+			new CappuccinoFilter('raw', [$this, 'onFilterRaw'], ['is_safe' => ['all']]),
 		];
 	}
 
@@ -121,7 +121,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterRaw(string $str): string
+	public final function onFilterRaw(string $str): string
 	{
 		return $str;
 	}

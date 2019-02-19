@@ -18,6 +18,7 @@ use Cappuccino\Error\RuntimeError;
 use Cappuccino\Node\Expression\AbstractExpression;
 use Cappuccino\Node\Expression\ConstantExpression;
 use Cappuccino\Source;
+use Cappuccino\Template;
 use LogicException;
 
 /**
@@ -27,7 +28,7 @@ use LogicException;
  * @package Cappuccino\Node
  * @since 1.0.0
  */
-class ModuleNode extends Node
+final class ModuleNode extends Node
 {
 
 	private $source;
@@ -48,9 +49,6 @@ class ModuleNode extends Node
 	 */
 	public function __construct(Node $body, ?AbstractExpression $parent, Node $blocks, Node $macros, Node $traits, array $embeddedTemplates, Source $source)
 	{
-		if (__CLASS__ !== get_class($this))
-			@trigger_error('Overriding ' . __CLASS__ . ' is deprecated since version 2.4.0 and the class will be final in 3.0.', E_USER_DEPRECATED);
-
 		$this->source = $source;
 
 		$nodes = [
@@ -179,12 +177,13 @@ class ModuleNode extends Node
 	 */
 	protected function compileClassHeader(Compiler $compiler): void
 	{
+		$templateClassName = $compiler->getCappuccino()->getTemplateClass($this->source->getName(), $this->getAttribute('index'));
+
 		$compiler
 			->write("\n\n")
 			->write('/* ' . str_replace('*/', '* /', $this->source->getName()) . " */\n")
-			->write('class ' . $compiler->getCappuccino()->getTemplateClass($this->source->getName(), $this->getAttribute('index')))
-			->raw(sprintf(" extends %s\n", $compiler->getCappuccino()->getBaseTemplateClass()))
-			->write("{\n")
+			->write(sprintf('class %s extends %s', $templateClassName, Template::class))
+			->write("\n{\n\n")
 			->indent()
 			->write("private \$source;\n\n");
 	}
@@ -208,7 +207,7 @@ class ModuleNode extends Node
 			->indent()
 			->subcompile($this->getNode('constructor_start'))
 			->write("parent::__construct(\$cappuccino);\n\n")
-			->write("\$this->source = \$this->getSourceContext();\n\n");
+			->write("\$this->source = \$this->getSourceContext();\n");
 
 		if (!$this->hasNode('parent'))
 			$compiler->write("\$this->parent = false;\n\n");
@@ -387,7 +386,7 @@ class ModuleNode extends Node
 		$compiler
 			->subcompile($this->getNode('class_end'))
 			->outdent()
-			->write("}\n");
+			->write("\n}\n");
 	}
 
 	/**
@@ -415,7 +414,7 @@ class ModuleNode extends Node
 	protected function compileGetTemplateName(Compiler $compiler): void
 	{
 		$compiler
-			->write("public function getTemplateName() : string\n", "{\n")
+			->write("public function getTemplateName(): string\n", "{\n")
 			->indent()
 			->write('return ')
 			->repr($this->source->getName())
@@ -466,7 +465,7 @@ class ModuleNode extends Node
 			return;
 
 		$compiler
-			->write("public function isTraitable() : bool\n", "{\n")
+			->write("public function isTraitable(): bool\n", "{\n")
 			->indent()
 			->write(sprintf("return %s;\n", $traitable ? 'true' : 'false'))
 			->outdent()
@@ -484,7 +483,7 @@ class ModuleNode extends Node
 	protected function compileDebugInfo(Compiler $compiler): void
 	{
 		$compiler
-			->write("public function getDebugInfo() : array\n", "{\n")
+			->write("public function getDebugInfo(): array\n", "{\n")
 			->indent()
 			->write(sprintf("return %s;\n", str_replace("\n", '', var_export(array_reverse($compiler->getDebugInfo(), true), true))))
 			->outdent()
@@ -504,7 +503,7 @@ class ModuleNode extends Node
 		$classSource = Source::class;
 
 		$compiler
-			->write("public function getSourceContext() : $classSource\n", "{\n")
+			->write("public function getSourceContext(): $classSource\n", "{\n")
 			->indent()
 			->write("return new $classSource(")
 			->string($compiler->getCappuccino()->isDebug() ? $this->source->getCode() : '')

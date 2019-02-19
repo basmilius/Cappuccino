@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\Extension;
 
 use Cappuccino\Cappuccino;
-use Cappuccino\SimpleFunction;
+use Cappuccino\CappuccinoFunction;
 use Cappuccino\Template;
 
 /**
@@ -36,7 +36,7 @@ final class DebugExtension extends AbstractExtension
 		$isDumpOutputHtmlSafe = extension_loaded('xdebug') && (false === ini_get('xdebug.overload_var_dump') || ini_get('xdebug.overload_var_dump')) && (false === ini_get('html_errors') || ini_get('html_errors')) || 'cli' === PHP_SAPI;
 
 		return [
-			new SimpleFunction ('dump', [$this, 'onSimpleFunctionDump'], ['is_safe' => $isDumpOutputHtmlSafe ? ['html'] : [], 'needs_context' => true, 'needs_cappuccino' => true]),
+			new CappuccinoFunction ('dump', [$this, 'onFunctionDump'], ['is_safe' => $isDumpOutputHtmlSafe ? ['html'] : [], 'needs_context' => true, 'needs_cappuccino' => true]),
 		];
 	}
 
@@ -51,7 +51,7 @@ final class DebugExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function onSimpleFunctionDump(Cappuccino $cappuccino, array $context, ...$vars): string
+	public final function onFunctionDump(Cappuccino $cappuccino, array $context, ...$vars): string
 	{
 		if (!$cappuccino->isDebug())
 			return '';

@@ -75,7 +75,7 @@ abstract class CallExpression extends AbstractExpression
 				if (!$compiler->getCappuccino()->hasExtension($class))
 					throw new RuntimeError(sprintf('The "%s" extension is not enabled.', $class));
 
-				$compiler->raw(sprintf("\$this->extensions['%s']->%s", $class, $callable[1]));
+				$compiler->raw(sprintf("\$this->extensions[%s::class]->%s", $class, $callable[1]));
 			}
 			else
 			{

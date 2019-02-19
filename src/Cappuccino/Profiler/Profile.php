@@ -23,7 +23,7 @@ use Serializable;
  * @package Cappuccino\Profiler
  * @since 1.0.0
  */
-class Profile implements IteratorAggregate, Serializable
+final class Profile implements IteratorAggregate, Serializable
 {
 
 	public const ROOT = 'ROOT';
@@ -50,9 +50,6 @@ class Profile implements IteratorAggregate, Serializable
 	 */
 	public function __construct(string $template = 'main', string $type = self::ROOT, string $name = 'main')
 	{
-		if (__CLASS__ !== get_class($this))
-			@trigger_error('Overriding ' . __CLASS__ . ' is deprecated since version 2.4.0 and the class will be final in 3.0.', E_USER_DEPRECATED);
-
 		$this->template = $template;
 		$this->type = $type;
 		$this->name = 0 === strpos($name, '__internal_') ? 'INTERNAL' : $name;

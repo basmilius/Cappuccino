@@ -15,7 +15,7 @@ namespace Cappuccino\Extension;
 use Cappuccino\Cappuccino;
 use Cappuccino\Error\RuntimeError;
 use Cappuccino\Error\SyntaxError;
-use Cappuccino\SimpleFilter;
+use Cappuccino\CappuccinoFilter;
 use IntlDateFormatter;
 use Locale;
 use NumberFormatter;
@@ -51,9 +51,9 @@ final class IntlExtension extends AbstractExtension
 	public final function getFilters(): array
 	{
 		return [
-			new SimpleFilter('localizedcurrency', [$this, 'onSimpleFilterLocalizedCurrency']),
-			new SimpleFilter('localizeddate', [$this, 'onSimpleFilterLocalizedDate'], ['needs_cappuccino' => true]),
-			new SimpleFilter('localizednumber', [$this, 'onSimpleFilterLocalizedNumber'])
+			new CappuccinoFilter('localizedcurrency', [$this, 'onFilterLocalizedCurrency']),
+			new CappuccinoFilter('localizeddate', [$this, 'onFilterLocalizedDate'], ['needs_cappuccino' => true]),
+			new CappuccinoFilter('localizednumber', [$this, 'onFilterLocalizedNumber'])
 		];
 	}
 
@@ -68,7 +68,7 @@ final class IntlExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.1
 	 */
-	public final function onSimpleFilterLocalizedCurrency($number, ?string $currency = null, ?string $locale = null): string
+	public final function onFilterLocalizedCurrency($number, ?string $currency = null, ?string $locale = null): string
 	{
 		return self::getNumberFormatter($locale, 'currency')->formatCurrency($number, $currency);
 	}
@@ -90,12 +90,12 @@ final class IntlExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.1
 	 */
-	public final function onSimpleFilterLocalizedDate(Cappuccino $cappuccino, $date, string $dateFormat = 'full', string $timeFormat = 'full', ?string $locale = null, $timezone = null, ?string $format = null, string $calendar = 'gregorian'): string
+	public final function onFilterLocalizedDate(Cappuccino $cappuccino, $date, string $dateFormat = 'full', string $timeFormat = 'full', ?string $locale = null, $timezone = null, ?string $format = null, string $calendar = 'gregorian'): string
 	{
 		/** @var CoreExtension $core */
 		$core = $cappuccino->getExtension(CoreExtension::class);
 
-		$date = $core->onSimpleFunctionDateConverter($date, $timezone);
+		$date = $core->onFunctionDateConverter($date, $timezone);
 
 		$formatValues = [
 			'none' => IntlDateFormatter::NONE,
@@ -130,7 +130,7 @@ final class IntlExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.1
 	 */
-	public final function onSimpleFilterLocalizedNumber($number, string $style = 'decimal', string $type = 'default', ?string $locale = null): string
+	public final function onFilterLocalizedNumber($number, string $style = 'decimal', string $type = 'default', ?string $locale = null): string
 	{
 		static $typeValues = [
 			'default' => NumberFormatter::TYPE_DEFAULT,

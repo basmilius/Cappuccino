@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace Cappuccino\Extension;
 
-use Cappuccino\SimpleFilter;
+use Cappuccino\CappuccinoFilter;
 
 /**
  * Class ArrayExtension
@@ -32,7 +32,7 @@ final class ArrayExtension extends AbstractExtension
 	public final function getFilters(): array
 	{
 		return [
-			new SimpleFilter('shuffle', [$this, 'onSimpleFunctionShuffle'])
+			new CappuccinoFilter('shuffle', [$this, 'onFilterShuffle'])
 		];
 	}
 
@@ -45,7 +45,7 @@ final class ArrayExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.1
 	 */
-	public final function onSimpleFunctionShuffle($array): array
+	public final function onFilterShuffle($array): array
 	{
 		if ($array instanceof \Traversable)
 			$array = iterator_to_array($array);

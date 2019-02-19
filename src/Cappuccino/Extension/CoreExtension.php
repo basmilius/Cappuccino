@@ -57,9 +57,9 @@ use Cappuccino\Node\Expression\Unary\NegUnary;
 use Cappuccino\Node\Expression\Unary\NotUnary;
 use Cappuccino\Node\Expression\Unary\PosUnary;
 use Cappuccino\Node\Node;
-use Cappuccino\SimpleFilter;
-use Cappuccino\SimpleFunction;
-use Cappuccino\SimpleTest;
+use Cappuccino\CappuccinoFilter;
+use Cappuccino\CappuccinoFunction;
+use Cappuccino\CappuccinoTest;
 use Cappuccino\TokenParser\BlockTokenParser;
 use Cappuccino\TokenParser\DeprecatedTokenParser;
 use Cappuccino\TokenParser\DoTokenParser;
@@ -254,49 +254,49 @@ final class CoreExtension extends AbstractExtension
 	{
 		return [
 			// formatting filters
-			new SimpleFilter('date', [$this, 'onSimpleFilterDateFormat']),
-			new SimpleFilter('date_modify', [$this, 'onSimpleFilterDateModify']),
-			new SimpleFilter('format', 'sprintf'),
-			new SimpleFilter('replace', [$this, 'onSimpleFilterReplace']),
-			new SimpleFilter('number_format', [$this, 'onSimpleFilterNumberFormat']),
-			new SimpleFilter('abs', 'abs'),
-			new SimpleFilter('round', [$this, 'onSimpleFilterRound']),
+			new CappuccinoFilter('date', [$this, 'onFilterDateFormat']),
+			new CappuccinoFilter('date_modify', [$this, 'onFilterDateModify']),
+			new CappuccinoFilter('format', 'sprintf'),
+			new CappuccinoFilter('replace', [$this, 'onFilterReplace']),
+			new CappuccinoFilter('number_format', [$this, 'onFilterNumberFormat']),
+			new CappuccinoFilter('abs', 'abs'),
+			new CappuccinoFilter('round', [$this, 'onFilterRound']),
 
 			// encoding
-			new SimpleFilter('url_encode', [$this, 'onSimpleFilterUrlEncode']),
-			new SimpleFilter('json_encode', 'json_encode'),
-			new SimpleFilter('convert_encoding', 'mb_convert_encoding'),
+			new CappuccinoFilter('url_encode', [$this, 'onFilterUrlEncode']),
+			new CappuccinoFilter('json_encode', 'json_encode'),
+			new CappuccinoFilter('convert_encoding', 'mb_convert_encoding'),
 
 			// string filters
-			new SimpleFilter('title', [$this, 'onSimpleFilterStringTitle'], ['needs_cappuccino' => true]),
-			new SimpleFilter('capitalize', [$this, 'onSimpleFilterStringCapitalize'], ['needs_cappuccino' => true]),
-			new SimpleFilter('upper', [$this, 'onSimpleFilterStringUpper'], ['needs_cappuccino' => true]),
-			new SimpleFilter('lower', [$this, 'onSimpleFilterStringLower'], ['needs_cappuccino' => true]),
-			new SimpleFilter('striptags', 'strip_tags'),
-			new SimpleFilter('trim', [$this, 'onSimpleFilterStringTrim']),
-			new SimpleFilter('nl2br', 'nl2br', ['pre_escape' => 'html', 'is_safe' => ['html']]),
+			new CappuccinoFilter('title', [$this, 'onFilterStringTitle'], ['needs_cappuccino' => true]),
+			new CappuccinoFilter('capitalize', [$this, 'onFilterStringCapitalize'], ['needs_cappuccino' => true]),
+			new CappuccinoFilter('upper', [$this, 'onFilterStringUpper'], ['needs_cappuccino' => true]),
+			new CappuccinoFilter('lower', [$this, 'onFilterStringLower'], ['needs_cappuccino' => true]),
+			new CappuccinoFilter('striptags', 'strip_tags'),
+			new CappuccinoFilter('trim', [$this, 'onFilterStringTrim']),
+			new CappuccinoFilter('nl2br', 'nl2br', ['pre_escape' => 'html', 'is_safe' => ['html']]),
 
 			// array helpers
-			new SimpleFilter('join', [$this, 'onSimpleFilterArrayJoin']),
-			new SimpleFilter('split', [$this, 'onSimpleFilterArraySplit'], ['needs_cappuccino' => true]),
-			new SimpleFilter('sort', [$this, 'onSimpleFilterArraySort']),
-			new SimpleFilter('merge', [$this, 'onSimpleFilterArrayMerge']),
-			new SimpleFilter('batch', [$this, 'onSimpleFilterArrayBatch']),
+			new CappuccinoFilter('join', [$this, 'onFilterArrayJoin']),
+			new CappuccinoFilter('split', [$this, 'onFilterArraySplit'], ['needs_cappuccino' => true]),
+			new CappuccinoFilter('sort', [$this, 'onFilterArraySort']),
+			new CappuccinoFilter('merge', [$this, 'onFilterArrayMerge']),
+			new CappuccinoFilter('batch', [$this, 'onFilterArrayBatch']),
 
 			// string/array filters
-			new SimpleFilter('reverse', [$this, 'onSimpleFilterReverse'], ['needs_cappuccino' => true]),
-			new SimpleFilter('length', [$this, 'onSimpleFilterLength'], ['needs_cappuccino' => true]),
-			new SimpleFilter('slice', [$this, 'onSimpleFilterArraySlice'], ['needs_cappuccino' => true]),
-			new SimpleFilter('first', [$this, 'onSimpleFilterArrayFirst'], ['needs_cappuccino' => true]),
-			new SimpleFilter('last', [$this, 'onSimpleFilterArrayLast'], ['needs_cappuccino' => true]),
+			new CappuccinoFilter('reverse', [$this, 'onFilterReverse'], ['needs_cappuccino' => true]),
+			new CappuccinoFilter('length', [$this, 'onFilterLength'], ['needs_cappuccino' => true]),
+			new CappuccinoFilter('slice', [$this, 'onFilterArraySlice'], ['needs_cappuccino' => true]),
+			new CappuccinoFilter('first', [$this, 'onFilterArrayFirst'], ['needs_cappuccino' => true]),
+			new CappuccinoFilter('last', [$this, 'onFilterArrayLast'], ['needs_cappuccino' => true]),
 
 			// iteration and runtime
-			new SimpleFilter('default', [$this, 'onSimpleFilterDefault'], ['node_class' => DefaultFilter::class]),
-			new SimpleFilter('keys', [$this, 'onSimpleFilterArrayKeys']),
+			new CappuccinoFilter('default', [$this, 'onFilterDefault'], ['node_class' => DefaultFilter::class]),
+			new CappuccinoFilter('keys', [$this, 'onFilterArrayKeys']),
 
 			// escaping
-			new SimpleFilter('escape', [$this, 'onSimpleFilterEscape'], ['needs_cappuccino' => true, 'is_safe_callback' => [$this, 'onSimpleFilterEscapeIsSave']]),
-			new SimpleFilter('e', [$this, 'onSimpleFilterEscape'], ['needs_cappuccino' => true, 'is_safe_callback' => [$this, 'onSimpleFilterEscapeIsSave']])
+			new CappuccinoFilter('escape', [$this, 'onFilterEscape'], ['needs_cappuccino' => true, 'is_safe_callback' => [$this, 'onFilterEscapeIsSave']]),
+			new CappuccinoFilter('e', [$this, 'onFilterEscape'], ['needs_cappuccino' => true, 'is_safe_callback' => [$this, 'onFilterEscapeIsSave']])
 		];
 	}
 
@@ -308,15 +308,15 @@ final class CoreExtension extends AbstractExtension
 	public final function getFunctions(): array
 	{
 		return [
-			new SimpleFunction('max', 'max'),
-			new SimpleFunction('min', 'min'),
-			new SimpleFunction('range', 'range'),
-			new SimpleFunction('constant', [$this, 'onSimpleFunctionConstant']),
-			new SimpleFunction('cycle', [$this, 'onSimpleFunctionCycle']),
-			new SimpleFunction('random', [$this, 'onSimpleFunctionRandom'], ['needs_cappuccino' => true]),
-			new SimpleFunction('date', [$this, 'onSimpleFunctionDateConverter']),
-			new SimpleFunction('include', [$this, 'onSimpleFunctionInclude'], ['needs_cappuccino' => true, 'needs_context' => true, 'is_safe' => ['all']]),
-			new SimpleFunction('source', [$this, 'onSimpleFunctionSource'], ['needs_cappuccino' => true, 'is_safe' => ['all']])
+			new CappuccinoFunction('max', 'max'),
+			new CappuccinoFunction('min', 'min'),
+			new CappuccinoFunction('range', 'range'),
+			new CappuccinoFunction('constant', [StaticMethods::class, 'isConstant']),
+			new CappuccinoFunction('cycle', [$this, 'onFunctionCycle']),
+			new CappuccinoFunction('random', [$this, 'onFunctionRandom'], ['needs_cappuccino' => true]),
+			new CappuccinoFunction('date', [$this, 'onFunctionDateConverter']),
+			new CappuccinoFunction('include', [$this, 'onFunctionInclude'], ['needs_cappuccino' => true, 'needs_context' => true, 'is_safe' => ['all']]),
+			new CappuccinoFunction('source', [$this, 'onFunctionSource'], ['needs_cappuccino' => true, 'is_safe' => ['all']])
 		];
 	}
 
@@ -328,17 +328,17 @@ final class CoreExtension extends AbstractExtension
 	public final function getTests(): array
 	{
 		return [
-			new SimpleTest('even', null, ['node_class' => EvenTest::class]),
-			new SimpleTest('odd', null, ['node_class' => OddTest::class]),
-			new SimpleTest('defined', null, ['node_class' => DefinedTest::class]),
-			new SimpleTest('same as', null, ['node_class' => SameasTest::class]),
-			new SimpleTest('none', null, ['node_class' => NullTest::class]),
-			new SimpleTest('null', null, ['node_class' => NullTest::class]),
-			new SimpleTest('divisible by', null, ['node_class' => DivisiblebyTest::class]),
-			new SimpleTest('constant', null, ['node_class' => ConstantTest::class]),
-			new SimpleTest('empty', [StaticMethods::class, 'isEmpty']),
-			new SimpleTest('iterable', [StaticMethods::class, 'isIterable']),
-			new SimpleTest('numeric', 'is_numeric')
+			new CappuccinoTest('even', null, ['node_class' => EvenTest::class]),
+			new CappuccinoTest('odd', null, ['node_class' => OddTest::class]),
+			new CappuccinoTest('defined', null, ['node_class' => DefinedTest::class]),
+			new CappuccinoTest('same as', null, ['node_class' => SameasTest::class]),
+			new CappuccinoTest('none', null, ['node_class' => NullTest::class]),
+			new CappuccinoTest('null', null, ['node_class' => NullTest::class]),
+			new CappuccinoTest('divisible by', null, ['node_class' => DivisiblebyTest::class]),
+			new CappuccinoTest('constant', null, ['node_class' => ConstantTest::class]),
+			new CappuccinoTest('empty', [StaticMethods::class, 'isEmpty']),
+			new CappuccinoTest('iterable', [StaticMethods::class, 'isIterable']),
+			new CappuccinoTest('numeric', 'is_numeric')
 		];
 	}
 
@@ -403,7 +403,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterDateFormat($date, ?string $format = null, $timezone = null): string
+	public final function onFilterDateFormat($date, ?string $format = null, $timezone = null): string
 	{
 		if ($format === null)
 		{
@@ -417,7 +417,7 @@ final class CoreExtension extends AbstractExtension
 		if ($date instanceof DateInterval)
 			return $formatter->format($date);
 
-		$dt = $this->onSimpleFunctionDateConverter($date, $timezone);
+		$dt = $this->onFunctionDateConverter($date, $timezone);
 
 		return $formatter->format($dt);
 	}
@@ -433,9 +433,9 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterDateModify($date, $modifier)
+	public final function onFilterDateModify($date, $modifier)
 	{
-		return $this->onSimpleFunctionDateConverter($date, false)->modify($modifier);
+		return $this->onFunctionDateConverter($date, false)->modify($modifier);
 	}
 
 	/**
@@ -449,7 +449,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterDefault($value, $default = '')
+	public final function onFilterDefault($value, $default = '')
 	{
 		if (StaticMethods::isEmpty($value))
 			return $default;
@@ -468,26 +468,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFunctionConstant(string $constant, $object = null): string
-	{
-		if ($object !== null)
-			$constant = get_class($object) . '::' . $constant;
-
-		return constant($constant);
-	}
-
-	/**
-	 * Cycles over a value.
-	 *
-	 * @param ArrayAccess|array $values
-	 * @param int               $position
-	 *
-	 * @return string
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 * @internal
-	 */
-	public final function onSimpleFunctionCycle($values, int $position): string
+	public final function onFunctionCycle($values, int $position): string
 	{
 //		if (!is_array($values) && !($values instanceof ArrayAccess))
 //			return $values;
@@ -505,7 +486,7 @@ final class CoreExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function onSimpleFunctionDateConverter($date = null, $timezone = null)
+	public final function onFunctionDateConverter($date = null, $timezone = null)
 	{
 		if ($timezone)
 		{
@@ -567,7 +548,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFunctionInclude(Cappuccino $cappuccino, array $context, $template, array $variables = [], bool $withContext = true, bool $ignoreMissing = false, bool $sandboxed = false): string
+	public final function onFunctionInclude(Cappuccino $cappuccino, array $context, $template, array $variables = [], bool $withContext = true, bool $ignoreMissing = false, bool $sandboxed = false): string
 	{
 		$alreadySandboxed = false;
 		$isSandboxed = false;
@@ -627,7 +608,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFunctionRandom(Cappuccino $cappuccino, $values = null)
+	public final function onFunctionRandom(Cappuccino $cappuccino, $values = null)
 	{
 		if ($values === null)
 			return mt_rand();
@@ -678,7 +659,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFunctionSource(Cappuccino $cappuccino, string $name, bool $ignoreMissing = false): ?string
+	public final function onFunctionSource(Cappuccino $cappuccino, string $name, bool $ignoreMissing = false): ?string
 	{
 		$loader = $cappuccino->getLoader();
 
@@ -707,7 +688,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterArrayBatch($items, int $size, $fill = null): array
+	public final function onFilterArrayBatch($items, int $size, $fill = null): array
 	{
 		if ($items instanceof Traversable)
 			$items = iterator_to_array($items, false);
@@ -737,9 +718,9 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterArrayFirst(Cappuccino $cappuccino, $item)
+	public final function onFilterArrayFirst(Cappuccino $cappuccino, $item)
 	{
-		$elements = $this->onSimpleFilterArraySlice($cappuccino, $item, 0, 1, false);
+		$elements = $this->onFilterArraySlice($cappuccino, $item, 0, 1, false);
 
 		return is_string($elements) ? $elements : current($elements);
 	}
@@ -756,7 +737,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterArrayJoin($array, $glue = ''): string
+	public final function onFilterArrayJoin($array, $glue = ''): string
 	{
 		if ($array instanceof Traversable)
 			$array = iterator_to_array($array);
@@ -774,7 +755,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterArrayKeys($array): array
+	public final function onFilterArrayKeys($array): array
 	{
 		if ($array instanceof Traversable)
 		{
@@ -821,9 +802,9 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterArrayLast(Cappuccino $cappuccino, $item)
+	public final function onFilterArrayLast(Cappuccino $cappuccino, $item)
 	{
-		$elements = $this->onSimpleFilterArraySlice($cappuccino, $item, -1, 1, false);
+		$elements = $this->onFilterArraySlice($cappuccino, $item, -1, 1, false);
 
 		return is_string($elements) ? $elements : current($elements);
 	}
@@ -840,7 +821,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterArrayMerge($array1, $array2): array
+	public final function onFilterArrayMerge($array1, $array2): array
 	{
 		if ($array1 instanceof Traversable)
 			$array1 = iterator_to_array($array1);
@@ -871,7 +852,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterArraySlice(Cappuccino $cappuccino, $item, int $start, ?int $length = null, bool $preserveKeys = false)
+	public final function onFilterArraySlice(Cappuccino $cappuccino, $item, int $start, ?int $length = null, bool $preserveKeys = false)
 	{
 		if ($item instanceof Traversable)
 		{
@@ -910,7 +891,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterArraySort($array): array
+	public final function onFilterArraySort($array): array
 	{
 		if ($array instanceof Traversable)
 			$array = iterator_to_array($array);
@@ -936,7 +917,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterArraySplit(Cappuccino $cappuccino, string $str, string $delimiter, ?int $limit = null): array
+	public final function onFilterArraySplit(Cappuccino $cappuccino, string $str, string $delimiter, ?int $limit = null): array
 	{
 		if (!empty($delimiter))
 		{
@@ -976,7 +957,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterEscape(Cappuccino $cappuccino, $string, string $strategy = 'html', ?string $charset = null, bool $autoescape = false)
+	public final function onFilterEscape(Cappuccino $cappuccino, $string, string $strategy = 'html', ?string $charset = null, bool $autoescape = false)
 	{
 		if ($autoescape && $string instanceof Markup)
 			return $string;
@@ -1141,7 +1122,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterEscapeIsSave(Node $filterArgs): array
+	public final function onFilterEscapeIsSave(Node $filterArgs): array
 	{
 		foreach ($filterArgs as $arg)
 		{
@@ -1165,7 +1146,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterLength(Cappuccino $cappuccino, $thing): int
+	public final function onFilterLength(Cappuccino $cappuccino, $thing): int
 	{
 		if ($thing === null)
 			return 0;
@@ -1201,7 +1182,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterNumberFormat($number, ?int $decimal = null, ?string $decimalPoint = null, ?string $thousandSep = null): string
+	public final function onFilterNumberFormat($number, ?int $decimal = null, ?string $decimalPoint = null, ?string $thousandSep = null): string
 	{
 		$defaults = $this->getNumberFormat();
 
@@ -1229,7 +1210,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterReplace(string $str, $from): string
+	public final function onFilterReplace(string $str, $from): string
 	{
 		if ($from instanceof Traversable)
 			$from = iterator_to_array($from);
@@ -1251,7 +1232,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterReverse(Cappuccino $cappuccino, $item, bool $preserveKeys = false)
+	public final function onFilterReverse(Cappuccino $cappuccino, $item, bool $preserveKeys = false)
 	{
 		if ($item instanceof Traversable)
 			return array_reverse(iterator_to_array($item), $preserveKeys);
@@ -1288,7 +1269,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterRound($value, int $precision = 0, string $method = 'common')
+	public final function onFilterRound($value, int $precision = 0, string $method = 'common')
 	{
 		if ($method === 'common')
 			return round($value, $precision);
@@ -1310,7 +1291,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterStringCapitalize(Cappuccino $cappuccino, string $str): string
+	public final function onFilterStringCapitalize(Cappuccino $cappuccino, string $str): string
 	{
 		$charset = $cappuccino->getCharset();
 
@@ -1328,7 +1309,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterStringLower(Cappuccino $cappuccino, string $str): string
+	public final function onFilterStringLower(Cappuccino $cappuccino, string $str): string
 	{
 		return mb_strtolower($str, $cappuccino->getCharset());
 	}
@@ -1344,7 +1325,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterStringTitle(Cappuccino $cappuccino, string $str): string
+	public final function onFilterStringTitle(Cappuccino $cappuccino, string $str): string
 	{
 		if (($charset = $cappuccino->getCharset()) !== null)
 			return mb_convert_case($str, MB_CASE_TITLE, $charset);
@@ -1365,7 +1346,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterStringTrim(string $str, ?string $characterMask = null, string $side = 'both'): string
+	public final function onFilterStringTrim(string $str, ?string $characterMask = null, string $side = 'both'): string
 	{
 		if ($characterMask === null)
 			$characterMask = " \t\n\r\0\x0B";
@@ -1394,7 +1375,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterStringUpper(Cappuccino $cappuccino, string $str): string
+	public final function onFilterStringUpper(Cappuccino $cappuccino, string $str): string
 	{
 		return mb_strtoupper($str, $cappuccino->getCharset());
 	}
@@ -1409,7 +1390,7 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFilterUrlEncode($url): string
+	public final function onFilterUrlEncode($url): string
 	{
 		if (is_array($url))
 			return http_build_query($url, '', '&', PHP_QUERY_RFC3986);

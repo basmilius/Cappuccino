@@ -17,7 +17,7 @@ use Cappuccino\Error\Error;
 use Cappuccino\Error\LoaderError;
 use Cappuccino\Error\RuntimeError;
 use Cappuccino\Error\SyntaxError;
-use Cappuccino\SimpleFunction;
+use Cappuccino\CappuccinoFunction;
 use Cappuccino\Template;
 
 /**
@@ -38,7 +38,7 @@ final class StringLoaderExtension extends AbstractExtension
 	public function getFunctions(): array
 	{
 		return [
-			new SimpleFunction('template_from_string', [$this, 'onSimpleFunctionTemplateFromString'], ['needs_cappuccino' => true]),
+			new CappuccinoFunction('template_from_string', [$this, 'onFunctionTemplateFromString'], ['needs_cappuccino' => true]),
 		];
 	}
 
@@ -57,7 +57,7 @@ final class StringLoaderExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onSimpleFunctionTemplateFromString(Cappuccino $env, string $template): Template
+	public final function onFunctionTemplateFromString(Cappuccino $env, string $template): Template
 	{
 		return $env->createTemplate((string)$template);
 	}

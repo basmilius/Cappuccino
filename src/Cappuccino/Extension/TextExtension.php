@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\Extension;
 
 use Cappuccino\Cappuccino;
-use Cappuccino\SimpleFilter;
+use Cappuccino\CappuccinoFilter;
 
 /**
  * Class TextExtension
@@ -33,8 +33,8 @@ final class TextExtension extends AbstractExtension
 	public function getFilters(): array
 	{
 		return [
-			new SimpleFilter('truncate', [$this, 'onSimpleFilterTruncate'], ['needs_cappuccino' => true]),
-			new SimpleFilter('wordwrap', [$this, 'onSimpleFilterWordwrap'], ['needs_cappuccino' => true])
+			new CappuccinoFilter('truncate', [$this, 'onFilterTruncate'], ['needs_cappuccino' => true]),
+			new CappuccinoFilter('wordwrap', [$this, 'onFilterWordwrap'], ['needs_cappuccino' => true])
 		];
 	}
 
@@ -51,7 +51,7 @@ final class TextExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function onSimpleFilterTruncate(Cappuccino $cappuccino, string $value, int $length = 30, bool $preserve = false, string $ending = '...'): string
+	public final function onFilterTruncate(Cappuccino $cappuccino, string $value, int $length = 30, bool $preserve = false, string $ending = '...'): string
 	{
 		if (mb_strlen($value, $cappuccino->getCharset()) > $length)
 		{
@@ -82,7 +82,7 @@ final class TextExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function onSimpleFilterWordwrap(Cappuccino $cappuccino, string $value, int $length = 80, string $separator = PHP_EOL, bool $preserve = false): string
+	public final function onFilterWordwrap(Cappuccino $cappuccino, string $value, int $length = 80, string $separator = PHP_EOL, bool $preserve = false): string
 	{
 		$sentences = [];
 

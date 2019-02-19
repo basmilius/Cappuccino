@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\Util;
 
 use ArrayAccess;
+use ArrayObject;
 use BadMethodCallException;
 use Cappuccino\Cappuccino;
 use Cappuccino\Error\RuntimeError;
@@ -75,12 +76,11 @@ class StaticMethods
 	 */
 	public static function getAttribute(Cappuccino $cappuccino, Source $source, $object, $item, array $arguments = [], string $type = Template::ANY_CALL, bool $isDefinedTest = false, bool $ignoreStrictCheck = false, bool $sandboxed = false)
 	{
-		if ($type !== /*Template::METHOD_CALL*/
-			'method')
+		if ($type !== Template::METHOD_CALL)
 		{
 			$arrayItem = is_bool($item) || is_float($item) ? (int)$item : $item;
 
-			if((is_array($object) || $object instanceof ArrayAccess) && (isset($object[$arrayItem]) || array_key_exists($arrayItem, $object)))
+			if (((is_array($object) || $object instanceof ArrayObject) && (isset($object[$arrayItem]) || array_key_exists($arrayItem, $object))) || ($object instanceof ArrayAccess && isset($object[$arrayItem])))
 			{
 				if ($isDefinedTest)
 					return true;
@@ -88,8 +88,7 @@ class StaticMethods
 				return $object[$arrayItem];
 			}
 
-			if ($type === /*Template::ARRAY_CALL*/
-				'array' || !is_object($object))
+			if ($type === Template::ARRAY_CALL || !is_object($object))
 			{
 				if ($isDefinedTest)
 					return false;
@@ -112,8 +111,7 @@ class StaticMethods
 					else
 						$message = sprintf('Key "%s" for array with keys "%s" does not exist.', $arrayItem, implode(', ', array_keys($object)));
 				}
-				else if ($type === /*Template::ARRAY_CALL*/
-					'array')
+				else if ($type === Template::ARRAY_CALL)
 				{
 					if ($object === null)
 						$message = sprintf('Impossible to access a key ("%s") on a null variable.', $item);
@@ -154,7 +152,7 @@ class StaticMethods
 		if ($object instanceof Template)
 			throw new RuntimeError('Accessing Template attributes is forbidden.');
 
-		if ($type !== /*Template::METHOD_CALL*/'method')
+		if ($type !== Template::METHOD_CALL)
 		{
 			if (isset($object->{$item}) || (is_iterable($object) && isset($object[(string)$item])))
 			{
@@ -180,6 +178,7 @@ class StaticMethods
 		{
 			$methods = get_class_methods($object);
 			sort($methods);
+
 			$lcMethods = array_map('strtolower', $methods);
 			$classCache = [];
 
@@ -221,6 +220,7 @@ class StaticMethods
 						$classCache[$lcName] = $method;
 				}
 			}
+
 			$cache[$class] = $classCache;
 		}
 
@@ -262,15 +262,15 @@ class StaticMethods
 
 		array_walk($arguments, function (&$value): void
 		{
-			if (ctype_digit($value))
-			{
-				$floatVal = floatval($value);
+			if (!ctype_digit($value))
+				return;
 
-				if ($floatVal && intval($value) != $floatVal)
-					$value = $floatVal;
-				else
-					$value = intval($value);
-			}
+			$floatVal = floatval($value);
+
+			if ($floatVal && intval($value) != $floatVal)
+				$value = $floatVal;
+			else
+				$value = intval($value);
 		});
 
 		try
@@ -327,6 +327,22 @@ class StaticMethods
 		}
 
 		return false;
+	}
+
+	/**
+	 * @param string $constant
+	 * @param mixed  $object
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 1.2.0
+	 */
+	public static function isConstant(string $constant, $object): string
+	{
+		if ($object !== null)
+			$constant = get_class($object) . '::' . $constant;
+
+		return constant($constant);
 	}
 
 	/**

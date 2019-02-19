@@ -54,7 +54,7 @@ class Error extends Exception
 		}
 		else if (!$source instanceof Source)
 		{
-			@trigger_error(sprintf('Passing a string as a soruce to %s is deprecated since version 1.2.0; pass a %s instance instead.', __CLASS__, Source::class), E_USER_DEPRECATED);
+			@trigger_error(sprintf('Passing a string as a soruce to %s is deprecated since Cappuccino 1.2.0; pass a %s instance instead.', __CLASS__, Source::class), E_USER_DEPRECATED);
 			$name = $source;
 		}
 		else

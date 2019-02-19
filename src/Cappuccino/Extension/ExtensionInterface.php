@@ -13,9 +13,9 @@ declare(strict_types=1);
 namespace Cappuccino\Extension;
 
 use Cappuccino\NodeVisitorInterface;
-use Cappuccino\SimpleFilter;
-use Cappuccino\SimpleFunction;
-use Cappuccino\SimpleTest;
+use Cappuccino\CappuccinoFilter;
+use Cappuccino\CappuccinoFunction;
+use Cappuccino\CappuccinoTest;
 use Cappuccino\TokenParser\TokenParserInterface;
 
 /**
@@ -47,27 +47,27 @@ interface ExtensionInterface
 	public function getNodeVisitors(): array;
 
 	/**
-	 * Gets custom {@see SimpleFilter}s defined by the {@see ExtensionInterface}.
+	 * Gets custom {@see CappuccinoFilter}s defined by the {@see ExtensionInterface}.
 	 *
-	 * @return SimpleFilter[]
+	 * @return CappuccinoFilter[]
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
 	public function getFilters(): array;
 
 	/**
-	 * Gets custom {@see SimpleTest}s defined by the {@see ExtensionInterface}.
+	 * Gets custom {@see CappuccinoTest}s defined by the {@see ExtensionInterface}.
 	 *
-	 * @return SimpleTest[]
+	 * @return CappuccinoTest[]
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
 	public function getTests(): array;
 
 	/**
-	 * Gets custom {@see SimpleFunction}s defined by the {@see ExtensionInterface}.
+	 * Gets custom {@see CappuccinoFunction}s defined by the {@see ExtensionInterface}.
 	 *
-	 * @return SimpleFunction[]
+	 * @return CappuccinoFunction[]
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */

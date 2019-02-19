@@ -46,10 +46,10 @@ use LogicException;
 class Cappuccino
 {
 
-	public const VERSION = '1.1.0';
-	public const VERSION_ID = 10100;
+	public const VERSION = '1.2.0';
+	public const VERSION_ID = 10200;
 	public const MAJOR_VERSION = 1;
-	public const MINOR_VERSION = 1;
+	public const MINOR_VERSION = 2;
 	public const RELEASE_VERSION = 0;
 	public const EXTRA_VERSION = 'release';
 
@@ -123,7 +123,7 @@ class Cappuccino
 	/**
 	 * @var string
 	 */
-	private $templateClassPrefix = 'CappuccinoTemplate___';
+	private $templateClassPrefix = 'CappuccinoTemplate_';
 
 	/**
 	 * @var ExtensionSet
@@ -162,7 +162,6 @@ class Cappuccino
 		$options = array_merge([
 			'debug' => true,
 			'charset' => 'UTF-8',
-			'base_template_class' => Template::class,
 			'strict_variables' => false,
 			'autoescape' => 'html',
 			'cache' => new NullCache(),
@@ -172,7 +171,6 @@ class Cappuccino
 
 		$this->debug = (bool)$options['debug'];
 		$this->setCharset($options['charset']);
-		$this->baseTemplateClass = $options['base_template_class'];
 		$this->autoReload = null === $options['auto_reload'] ? $this->debug : (bool)$options['auto_reload'];
 		$this->strictVariables = (bool)$options['strict_variables'];
 		$this->setCache($options['cache']);
@@ -187,32 +185,6 @@ class Cappuccino
 		$this->addExtension(new DateExtension());
 		$this->addExtension(new IntlExtension());
 		$this->addExtension(new TextExtension());
-	}
-
-	/**
-	 * Gets the base template class for compiled templates.
-	 *
-	 * @return string
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public function getBaseTemplateClass(): string
-	{
-		return $this->baseTemplateClass;
-	}
-
-	/**
-	 * Sets the base template class for compiled templates.
-	 *
-	 * @param string $class
-	 *
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public function setBaseTemplateClass(string $class): void
-	{
-		$this->baseTemplateClass = $class;
-		$this->updateOptionsHash();
 	}
 
 	/**
@@ -364,7 +336,7 @@ class Cappuccino
 	{
 		$key = $this->getLoader()->getCacheKey($name) . $this->optionsHash;
 
-		return $this->templateClassPrefix . hash('sha1', $key) . (null === $index ? '' : '_' . $index);
+		return $this->templateClassPrefix . hash('sha1', $key) . ($index === null ? '' : '_' . $index);
 	}
 
 	/**
@@ -922,14 +894,14 @@ class Cappuccino
 	}
 
 	/**
-	 * Adds a {@see SimpleFilter}.
+	 * Adds a {@see CappuccinoFilter}.
 	 *
-	 * @param SimpleFilter $filter
+	 * @param CappuccinoFilter $filter
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addFilter(SimpleFilter $filter): void
+	public function addFilter(CappuccinoFilter $filter): void
 	{
 		$this->extensionSet->addFilter($filter);
 	}
@@ -939,11 +911,11 @@ class Cappuccino
 	 *
 	 * @param string $name
 	 *
-	 * @return SimpleFilter|null
+	 * @return CappuccinoFilter|null
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFilter(string $name): ?SimpleFilter
+	public function getFilter(string $name): ?CappuccinoFilter
 	{
 		return $this->extensionSet->getFilter($name);
 	}
@@ -951,7 +923,7 @@ class Cappuccino
 	/**
 	 * Gets the registered filters.
 	 *
-	 * @return SimpleFilter[]
+	 * @return CappuccinoFilter[]
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -978,11 +950,11 @@ class Cappuccino
 	 *
 	 * @param string $name
 	 *
-	 * @return SimpleTest|null
+	 * @return CappuccinoTest|null
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTest(string $name): ?SimpleTest
+	public function getTest(string $name): ?CappuccinoTest
 	{
 		return $this->extensionSet->getTest($name);
 	}
@@ -990,7 +962,7 @@ class Cappuccino
 	/**
 	 * Gets registered tests.
 	 *
-	 * @return SimpleTest[]
+	 * @return CappuccinoTest[]
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -1000,14 +972,14 @@ class Cappuccino
 	}
 
 	/**
-	 * Adds a {@see SimpleFunction}.
+	 * Adds a {@see CappuccinoFunction}.
 	 *
-	 * @param SimpleFunction $function
+	 * @param CappuccinoFunction $function
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addFunction(SimpleFunction $function): void
+	public function addFunction(CappuccinoFunction $function): void
 	{
 		$this->extensionSet->addFunction($function);
 	}
@@ -1017,11 +989,11 @@ class Cappuccino
 	 *
 	 * @param string $name
 	 *
-	 * @return SimpleFunction|null
+	 * @return CappuccinoFunction|null
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getFunction(string $name): ?SimpleFunction
+	public function getFunction(string $name): ?CappuccinoFunction
 	{
 		return $this->extensionSet->getFunction($name);
 	}
@@ -1042,7 +1014,7 @@ class Cappuccino
 	/**
 	 * Gets registered functions. Be warned that this method cannot return functions defined with {@see Cappuccino::registerUndefinedFunctionCallback()}.
 	 *
-	 * @return SimpleFunction[]
+	 * @return CappuccinoFunction[]
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
