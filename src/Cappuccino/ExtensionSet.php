@@ -133,10 +133,6 @@ final class ExtensionSet implements ExtensionInterface
 			return;
 
 		$this->runtimeInitialized = true;
-
-		foreach ($this->extensions as $extension)
-			if ($extension instanceof InitRuntimeInterface)
-				$extension->initRuntime($env);
 	}
 
 	/**

@@ -22,7 +22,7 @@ use Cappuccino\Source;
  * @package Cappuccino\Loader
  * @since 1.0.0
  */
-final class ChainLoader implements LoaderInterface, ExistsLoaderInterface, SourceContextLoaderInterface
+final class ChainLoader implements LoaderInterface, SourceContextLoaderInterface
 {
 
 	/**

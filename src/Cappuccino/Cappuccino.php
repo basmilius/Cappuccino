@@ -46,11 +46,11 @@ use LogicException;
 class Cappuccino
 {
 
-	public const VERSION = '1.2.0';
-	public const VERSION_ID = 10200;
+	public const VERSION = '1.2.1';
+	public const VERSION_ID = 10201;
 	public const MAJOR_VERSION = 1;
 	public const MINOR_VERSION = 2;
-	public const RELEASE_VERSION = 0;
+	public const RELEASE_VERSION = 1;
 	public const EXTRA_VERSION = 'release';
 
 	public const DEFAULT_EXTENSION = '.cappy';
@@ -94,11 +94,6 @@ class Cappuccino
 	 * @var Compiler
 	 */
 	private $compiler;
-
-	/**
-	 * @var string
-	 */
-	private $baseTemplateClass;
 
 	/**
 	 * @var array
@@ -1119,7 +1114,7 @@ class Cappuccino
 			PHP_MINOR_VERSION,
 			self::VERSION,
 			(int)$this->debug,
-			$this->baseTemplateClass,
+			Template::class,
 			(int)$this->strictVariables,
 		]);
 	}

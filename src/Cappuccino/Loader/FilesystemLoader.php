@@ -23,7 +23,7 @@ use Cappuccino\Source;
  * @package Cappuccino\Loader
  * @since 1.0.0
  */
-class FilesystemLoader implements LoaderInterface, ExistsLoaderInterface, SourceContextLoaderInterface
+class FilesystemLoader implements LoaderInterface, SourceContextLoaderInterface
 {
 
 	public const MAIN_NAMESPACE = 'CappuccinoMain';

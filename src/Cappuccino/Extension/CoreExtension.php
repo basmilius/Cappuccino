@@ -74,7 +74,6 @@ use Cappuccino\TokenParser\ImportTokenParser;
 use Cappuccino\TokenParser\IncludeTokenParser;
 use Cappuccino\TokenParser\MacroTokenParser;
 use Cappuccino\TokenParser\SetTokenParser;
-use Cappuccino\TokenParser\SpacelessTokenParser;
 use Cappuccino\TokenParser\UseTokenParser;
 use Cappuccino\TokenParser\WithTokenParser;
 use Cappuccino\Util\StaticMethods;
@@ -236,7 +235,6 @@ final class CoreExtension extends AbstractExtension
 			new ImportTokenParser(),
 			new FromTokenParser(),
 			new SetTokenParser(),
-			new SpacelessTokenParser(),
 			new FlushTokenParser(),
 			new DoTokenParser(),
 			new EmbedTokenParser(),
@@ -275,6 +273,7 @@ final class CoreExtension extends AbstractExtension
 			new CappuccinoFilter('striptags', 'strip_tags'),
 			new CappuccinoFilter('trim', [$this, 'onFilterStringTrim']),
 			new CappuccinoFilter('nl2br', 'nl2br', ['pre_escape' => 'html', 'is_safe' => ['html']]),
+			new CappuccinoFilter('spaceless', [$this, 'onFilterSpaceless'], ['is_safe' => ['html']]),
 
 			// array helpers
 			new CappuccinoFilter('join', [$this, 'onFilterArrayJoin']),
@@ -608,13 +607,33 @@ final class CoreExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onFunctionRandom(Cappuccino $cappuccino, $values = null)
+	public final function onFunctionRandom(Cappuccino $cappuccino, $values = null, $max = null)
 	{
 		if ($values === null)
-			return mt_rand();
+			return $max === null ? mt_rand() : mt_rand(0, $max);
 
 		if (is_int($values) || is_float($values))
-			return $values < 0 ? mt_rand($values, 0) : mt_rand(0, $values);
+		{
+			if ($max === null)
+			{
+				if ($values < 0)
+				{
+					$max = 0;
+					$min = $values;
+				}
+				else
+				{
+					$max = $values;
+					$min = 0;
+				}
+			}
+			else
+			{
+				$min = $values;
+			}
+
+			return mt_rand($min, $max);
+		}
 
 		if ($values instanceof Traversable)
 		{
@@ -1362,6 +1381,20 @@ final class CoreExtension extends AbstractExtension
 			default:
 				throw new RuntimeError('Trimming side must be "left", "right" or "both".');
 		}
+	}
+
+	/**
+	 * Invoked on the spaceless filter.
+	 *
+	 * @param string $content
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.2.1
+	 */
+	public final function onFilterSpaceless(string $content): string
+	{
+		return preg_replace('/>\s+</', '><', $content);
 	}
 
 	/**

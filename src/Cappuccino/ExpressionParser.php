@@ -259,8 +259,7 @@ class ExpressionParser
 
 		switch ($token->getType())
 		{
-			case /*Token::NAME_TYPE*/
-			5:
+			case Token::NAME_TYPE:
 				$this->parser->getStream()->next();
 				switch ($token->getValue())
 				{
@@ -289,21 +288,17 @@ class ExpressionParser
 				}
 				break;
 
-			case /*Token::NUMBER_TYPE*/
-			6:
+			case Token::NUMBER_TYPE:
 				$this->parser->getStream()->next();
 				$node = new ConstantExpression($token->getValue(), $token->getLine());
 				break;
 
-			case /*Token::STRING_TYPE*/
-			7:
-			case /*Token::INTERPOLATION_START_TYPE*/
-			10:
+			case Token::STRING_TYPE:
+			case Token::INTERPOLATION_START_TYPE:
 				$node = $this->parseStringExpression();
 				break;
 
-			case /*Token::OPERATOR_TYPE*/
-			8:
+			case Token::OPERATOR_TYPE:
 				if (preg_match(Lexer::REGEX_NAME, $token->getValue(), $matches) && $matches[0] == $token->getValue())
 				{
 					// in this context, string operators are variable names
@@ -337,14 +332,11 @@ class ExpressionParser
 				break;
 
 			default:
-				if ($token->test(/*Token::PUNCTUATION_TYPE*/
-					9, '['))
+				if ($token->test(Token::PUNCTUATION_TYPE, '['))
 					$node = $this->parseArrayExpression();
-				else if ($token->test(/*Token::PUNCTUATION_TYPE*/
-					9, '{'))
+				else if ($token->test(Token::PUNCTUATION_TYPE, '{'))
 					$node = $this->parseHashExpression();
-				else if ($token->test(/*Token::OPERATOR_TYPE*/
-						8, '=') && ($this->parser->getStream()->look(-1)->getValue() === '==' || $this->parser->getStream()->look(-1)->getValue() === '!='))
+				else if ($token->test(Token::OPERATOR_TYPE, '=') && ($this->parser->getStream()->look(-1)->getValue() === '==' || $this->parser->getStream()->look(-1)->getValue() === '!='))
 					throw new SyntaxError(sprintf('Unexpected operator of value "%s". Did you try to use "===" or "!==" for strict comparison? Use "is same as(value)" instead.', $token->getValue()), $token->getLine(), $this->parser->getStream()->getSourceContext());
 				else
 					throw new SyntaxError(sprintf('Unexpected token "%s" of value "%s".', Token::typeToEnglish($token->getType()), $token->getValue()), $token->getLine(), $this->parser->getStream()->getSourceContext());
