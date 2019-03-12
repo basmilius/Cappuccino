@@ -14,6 +14,7 @@ namespace Cappuccino\Node;
 
 use Cappuccino\Compiler;
 use Cappuccino\Extension\SandboxExtension;
+use Cappuccino\Node\Expression\ConstantExpression;
 use Cappuccino\Node\Expression\FilterExpression;
 
 /**
@@ -33,13 +34,25 @@ class SandboxedPrintNode extends PrintNode
 	 */
 	public function compile(Compiler $compiler): void
 	{
-		$classSandboxExtension = SandboxExtension::class;
-
 		$compiler
 			->addDebugInfo($this)
-			->write("echo \$this->extensions['" . $classSandboxExtension . "']->ensureToStringAllowed(")
-			->subcompile($this->getNode('expr'))
-			->raw(");\n");
+			->write('echo ');
+
+		$expression = $this->getNode('expr');
+
+		if ($expression instanceof ConstantExpression)
+		{
+			$compiler
+				->subcompile($expression)
+				->raw(';' . PHP_EOL);
+		}
+		else
+		{
+			$compiler
+				->write('$this->extensions[\'' . SandboxExtension::class . '\']->ensureToStringAllowed(')
+				->subcompile($expression)
+				->raw(');' . PHP_EOL);
+		}
 	}
 
 	/**

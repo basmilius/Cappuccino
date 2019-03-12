@@ -25,7 +25,6 @@ use Cappuccino\Node\Node;
 use Cappuccino\Node\NodeCaptureInterface;
 use Cappuccino\Node\NodeOutputInterface;
 use Cappuccino\Node\PrintNode;
-use Cappuccino\Node\SpacelessNode;
 use Cappuccino\Node\TextNode;
 use Cappuccino\TokenParser\AbstractTokenParser;
 use Cappuccino\TokenParser\TokenParserInterface;
@@ -610,7 +609,7 @@ class Parser
 	 */
 	private function filterBodyNodes(Node $node, bool $nested = false): ?Node
 	{
-		if (($node instanceof TextNode && !ctype_space($node->getAttribute('data'))) || (!$node instanceof TextNode && !$node instanceof BlockReferenceNode && $node instanceof NodeOutputInterface && !$node instanceof SpacelessNode))
+		if (($node instanceof TextNode && !ctype_space($node->getAttribute('data'))) || (!$node instanceof TextNode && !$node instanceof BlockReferenceNode && $node instanceof NodeOutputInterface))
 		{
 			if (strpos((string)$node, chr(0xEF) . chr(0xBB) . chr(0xBF)))
 			{
@@ -626,13 +625,10 @@ class Parser
 		if ($node instanceof NodeCaptureInterface)
 			return $node;
 
-		if (!$nested && $node instanceof SpacelessNode)
-			@trigger_error(sprintf('Using the spaceless tag at the root level of a child template in "%s" at line %d is deprecated since Cappuccino 1.2.0 and will become a syntax error in Cappuccino 2.0.', $this->stream->getSourceContext()->getName(), $node->getTemplateLine()), E_USER_DEPRECATED);
-
 		if ($nested && $node instanceof BlockReferenceNode)
 			throw new SyntaxError('A block definition cannot be nested under non-capturing nodes.', $node->getTemplateLine(), $this->stream->getSourceContext());
 
-		if ($node instanceof NodeOutputInterface && !$node instanceof SpacelessNode)
+		if ($node instanceof NodeOutputInterface)
 			return null;
 
 		$nested = $nested || get_class($node) !== Node::class;

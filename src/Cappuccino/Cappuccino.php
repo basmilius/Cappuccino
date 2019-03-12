@@ -46,11 +46,11 @@ use LogicException;
 class Cappuccino
 {
 
-	public const VERSION = '1.2.1';
-	public const VERSION_ID = 10201;
+	public const VERSION = '1.3.0';
+	public const VERSION_ID = 10300;
 	public const MAJOR_VERSION = 1;
-	public const MINOR_VERSION = 2;
-	public const RELEASE_VERSION = 1;
+	public const MINOR_VERSION = 3;
+	public const RELEASE_VERSION = 0;
 	public const EXTRA_VERSION = 'release';
 
 	public const DEFAULT_EXTENSION = '.cappy';
@@ -116,11 +116,6 @@ class Cappuccino
 	private $strictVariables;
 
 	/**
-	 * @var string
-	 */
-	private $templateClassPrefix = 'CappuccinoTemplate_';
-
-	/**
 	 * @var ExtensionSet
 	 */
 	private $extensionSet;
@@ -139,6 +134,11 @@ class Cappuccino
 	 * @var string
 	 */
 	private $optionsHash;
+
+	/**
+	 * @var array
+	 */
+	private $loading = [];
 
 	/**
 	 * Cappuccino constructor.
@@ -326,19 +326,20 @@ class Cappuccino
 	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
+	 * @internal
 	 */
 	public function getTemplateClass(string $name, ?int $index = null): string
 	{
 		$key = $this->getLoader()->getCacheKey($name) . $this->optionsHash;
 
-		return $this->templateClassPrefix . hash('sha1', $key) . ($index === null ? '' : '_' . $index);
+		return 'CT_' . hash('sha1', $key) . ($index === null ? '' : '_' . $index);
 	}
 
 	/**
 	 * Renders a template.
 	 *
-	 * @param string $name
-	 * @param array  $context
+	 * @param string|TemplateWrapper $template
+	 * @param array                  $context
 	 *
 	 * @return string
 	 * @throws LoaderError
@@ -347,16 +348,16 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function render(string $name, array $context = []): string
+	public function render($template, array $context = []): string
 	{
-		return $this->loadTemplate($name)->render($context);
+		return $this->load($template)->render($context);
 	}
 
 	/**
 	 * Displays a template.
 	 *
-	 * @param string $name
-	 * @param array  $context
+	 * @param string|TemplateWrapper $template
+	 * @param array                  $context
 	 *
 	 * @throws LoaderError
 	 * @throws RuntimeError
@@ -365,15 +366,15 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function display(string $name, array $context = []): void
+	public function display($template, array $context = []): void
 	{
-		$this->loadTemplate($name)->display($context);
+		$this->load($template)->display($context);
 	}
 
 	/**
 	 * Loads a template.
 	 *
-	 * @param string|Template|TemplateWrapper $name
+	 * @param string|TemplateWrapper $name
 	 *
 	 * @return TemplateWrapper
 	 * @throws LoaderError
@@ -388,7 +389,10 @@ class Cappuccino
 			return $name;
 
 		if ($name instanceof Template)
+		{
+			trigger_error(sprintf('Passing a %s instance to %s is deprecated since Cappuccin 1.3.0, use %s instead.', Template::class, __METHOD__, TemplateWrapper::class), E_USER_DEPRECATED);
 			return new TemplateWrapper($this, $name);
+		}
 
 		return new TemplateWrapper($this, $this->loadTemplate($name));
 	}
@@ -408,9 +412,6 @@ class Cappuccino
 	 */
 	public function loadTemplate(string $name, ?int $index = null): Template
 	{
-//		if (!strpos($name, '.'))
-//			$name .= Cappuccino::DEFAULT_EXTENSION;
-
 		$cls = $mainCls = $this->getTemplateClass($name);
 
 		if ($index !== null)
@@ -443,7 +444,19 @@ class Cappuccino
 
 		$this->extensionSet->initRuntime($this);
 
-		return $this->loadedTemplates[$cls] = new $cls($this);
+		if (isset($this->loading[$cls]))
+			throw new RuntimeError(sprintf('Circular reference detected for Cappuccin template "%s", path: %s', $name, implode(' -> ', array_merge($this->loading, [$name]))));
+
+		try
+		{
+			$this->loadedTemplates[$cls] = new $cls($this);
+		}
+		finally
+		{
+			unset($this->loading[$cls]);
+		}
+
+		return $this->loadedTemplates[$cls];
 	}
 
 	/**
@@ -472,14 +485,12 @@ class Cappuccino
 
 		try
 		{
-			$template = $this->loadTemplate($name);
+			return $this->loadTemplate($name);
 		}
 		finally
 		{
 			$this->setLoader($current);
 		}
-
-		return $template;
 	}
 
 	/**
@@ -500,12 +511,12 @@ class Cappuccino
 	}
 
 	/**
-	 * Tries to load a template consecutively from an array. Similar to {@see Cappuccino::loadTemplate()} but it also accepts
-	 * Template instances and an array of templates where each is tried to be loaded.
+	 * Tries to load a template consecutively from an array. Similar to {@see Cappuccino::load()} but it also accepts
+	 * Template and TemplateWrapper instances, and an array of templates where each is tried to be loaded.
 	 *
-	 * @param TemplateWrapper|Template|string|string[] $names
+	 * @param TemplateWrapper|string|string[] $names
 	 *
-	 * @return Template
+	 * @return TemplateWrapper
 	 * @throws Error
 	 * @throws LoaderError
 	 * @throws RuntimeError
@@ -513,27 +524,19 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.2
 	 */
-	public function resolveTemplate($names): Template
+	public function resolveTemplate($names): TemplateWrapper
 	{
 		if (!is_array($names))
-			$names = [$names];
+			return $this->load($names);
 
 		foreach ($names as $name)
 		{
-			if ($name instanceof TemplateWrapper)
-				return $name;
-
-			if ($name instanceof Template)
-				return $name;
-
 			try
 			{
-				return $this->loadTemplate($name);
+				return $this->load($name);
 			}
-			catch (LoaderError $e)
+			catch (LoaderError $_)
 			{
-				if (count($names) === 1)
-					throw $e;
 			}
 		}
 

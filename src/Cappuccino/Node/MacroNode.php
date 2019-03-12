@@ -35,7 +35,7 @@ class MacroNode extends Node
 	 * @param Node        $body
 	 * @param Node        $arguments
 	 * @param int         $lineno
-	 * @param null|string $tag
+	 * @param string|null $tag
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
@@ -45,7 +45,7 @@ class MacroNode extends Node
 	{
 		foreach ($arguments as $argumentName => $argument)
 			if (self::VARARGS_NAME === $argumentName)
-				throw new SyntaxError(sprintf('The argument "%s" in macro "%s" cannot be defined because the variable "%s" is reserved for arbitrary arguments.', self::VARARGS_NAME, $name, self::VARARGS_NAME), $argument->getTemplateLine());
+				throw new SyntaxError(sprintf('The argument "%s" in macro "%s" cannot be defined because the variable "%s" is reserved for arbitrary arguments.', self::VARARGS_NAME, $name, self::VARARGS_NAME), $argument->getTemplateLine(), null, null, false);
 
 		parent::__construct(['body' => $body, 'arguments' => $arguments], ['name' => $name], $lineno, $tag);
 	}

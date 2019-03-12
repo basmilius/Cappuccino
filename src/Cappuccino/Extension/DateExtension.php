@@ -14,6 +14,7 @@ namespace Cappuccino\Extension;
 
 use Cappuccino\Cappuccino;
 use Cappuccino\CappuccinoFilter;
+use Cappuccino\Error\RuntimeError;
 use DateTime;
 use DateTimeInterface;
 
@@ -56,7 +57,7 @@ final class DateExtension extends AbstractExtension
 	 * @param DateTime|DateTimeInterface|string $now
 	 *
 	 * @return string
-	 * @throws \Cappuccino\Error\RuntimeError
+	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.1
 	 */

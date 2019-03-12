@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\Extension;
 
 use Cappuccino\CappuccinoFilter;
+use Traversable;
 
 /**
  * Class ArrayExtension
@@ -47,7 +48,7 @@ final class ArrayExtension extends AbstractExtension
 	 */
 	public final function onFilterShuffle($array): array
 	{
-		if ($array instanceof \Traversable)
+		if ($array instanceof Traversable)
 			$array = iterator_to_array($array);
 
 		shuffle($array);

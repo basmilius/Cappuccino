@@ -83,10 +83,12 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
+use IntlDateFormatter;
 use Iterator;
 use IteratorAggregate;
 use LimitIterator;
 use OutOfBoundsException;
+use SimpleXMLElement;
 use Throwable;
 use Traversable;
 
@@ -410,7 +412,7 @@ final class CoreExtension extends AbstractExtension
 			$format = $date instanceof DateInterval ? $formats[1] : $formats[0];
 		}
 
-		$formatter = new \IntlDateFormatter('nl_NL', \IntlDateFormatter::FULL, \IntlDateFormatter::FULL);
+		$formatter = new IntlDateFormatter('nl_NL', IntlDateFormatter::FULL, IntlDateFormatter::FULL);
 		$formatter->setPattern($format);
 
 		if ($date instanceof DateInterval)
@@ -457,20 +459,19 @@ final class CoreExtension extends AbstractExtension
 	}
 
 	/**
-	 * Provides the ability to get constants from instances as well as class/global constants.
+	 * Cycles over a value.
 	 *
-	 * @param string $constant
-	 * @param mixed  $object
+	 * @param array|ArrayAccess $values
+	 * @param int               $position
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
-	 * @internal
 	 */
 	public final function onFunctionCycle($values, int $position): string
 	{
-//		if (!is_array($values) && !($values instanceof ArrayAccess))
-//			return $values;
+		if (!is_array($values) && !($values instanceof ArrayAccess))
+			return $values;
 
 		return $values[$position % count($values)];
 	}
@@ -482,8 +483,9 @@ final class CoreExtension extends AbstractExtension
 	 * @param DateTimeZone|string|null|false         $timezone
 	 *
 	 * @return DateTime|DateTimeImmutable
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws \Exception
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public final function onFunctionDateConverter($date = null, $timezone = null)
 	{
@@ -565,11 +567,9 @@ final class CoreExtension extends AbstractExtension
 				$sandbox->enableSandbox();
 		}
 
-		$result = null;
-
 		try
 		{
-			$result = $cappuccino->resolveTemplate($template)->render($variables);
+			return $cappuccino->resolveTemplate($template)->render($variables);
 		}
 		catch (LoaderError $e)
 		{
@@ -581,18 +581,13 @@ final class CoreExtension extends AbstractExtension
 				throw $e;
 			}
 		}
-		catch (Throwable $e)
+		finally
 		{
 			if ($isSandboxed && !$alreadySandboxed)
 				$sandbox->disableSandbox();
-
-			throw $e;
 		}
 
-		if ($isSandboxed && !$alreadySandboxed)
-			$sandbox->disableSandbox();
-
-		return $result;
+		return '';
 	}
 
 	/**
@@ -601,7 +596,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param Cappuccino $cappuccino
 	 * @param null       $values
 	 *
-	 * @return array|false|int|mixed|null|string|string[]
+	 * @return array|false|int|mixed|string|null|string[]
 	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
@@ -1173,7 +1168,7 @@ final class CoreExtension extends AbstractExtension
 		if (is_scalar($thing))
 			return mb_strlen($thing, $cappuccino->getCharset());
 
-		if ($thing instanceof \SimpleXMLElement)
+		if ($thing instanceof SimpleXMLElement)
 			return count($thing);
 
 		if (is_object($thing) && method_exists($thing, '__toString') && !($thing instanceof Countable))

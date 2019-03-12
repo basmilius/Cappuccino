@@ -35,7 +35,7 @@ class IncludeNode extends Node implements NodeOutputInterface
 	 * @param bool                    $only
 	 * @param bool                    $ignoreMissing
 	 * @param int                     $lineno
-	 * @param null|string             $tag
+	 * @param string|null             $tag
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0

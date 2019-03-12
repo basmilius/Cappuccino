@@ -30,7 +30,7 @@ class DoNode extends Node
 	 *
 	 * @param AbstractExpression $expr
 	 * @param int                $lineno
-	 * @param null|string        $tag
+	 * @param string|null        $tag
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0

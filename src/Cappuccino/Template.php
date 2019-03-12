@@ -243,7 +243,7 @@ abstract class Template
 		if ($template !== null && !$template instanceof self)
 			throw new LogicException('A block must be a method on a Template instance.');
 
-		if (null !== $template)
+		if ($template !== null)
 		{
 			try
 			{
@@ -255,11 +255,8 @@ abstract class Template
 				if (!$e->getSourceContext())
 					$e->setSourceContext($template->getSourceContext());
 
-				if ($e->getTemplateLine() === false)
-				{
-					$e->setTemplateLine(-1);
+				if ($e->getTemplateLine() === -1)
 					$e->guess();
-				}
 
 				throw $e;
 			}

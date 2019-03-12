@@ -15,7 +15,6 @@ namespace Cappuccino;
 use Cappuccino\Error\RuntimeError;
 use Cappuccino\Extension\ExtensionInterface;
 use Cappuccino\Extension\GlobalsInterface;
-use Cappuccino\Extension\InitRuntimeInterface;
 use Cappuccino\Extension\StagingExtension;
 use Cappuccino\TokenParser\TokenParserInterface;
 use InvalidArgumentException;

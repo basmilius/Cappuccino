@@ -63,7 +63,7 @@ final class TemplateWrapper
 	 */
 	public function render($context = []): string
 	{
-		return $this->template->render($context, func_get_args()[1] ?? []);
+		return $this->template->render($context);
 	}
 
 	/**

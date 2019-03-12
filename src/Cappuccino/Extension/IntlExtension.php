@@ -16,6 +16,8 @@ use Cappuccino\Cappuccino;
 use Cappuccino\Error\RuntimeError;
 use Cappuccino\Error\SyntaxError;
 use Cappuccino\CappuccinoFilter;
+use DateTime;
+use DateTimeInterface;
 use IntlDateFormatter;
 use Locale;
 use NumberFormatter;
@@ -61,8 +63,8 @@ final class IntlExtension extends AbstractExtension
 	 * Gets localized currency.
 	 *
 	 * @param float|int|string $number
-	 * @param null|string      $currency
-	 * @param null|string      $locale
+	 * @param string|null      $currency
+	 * @param string|null      $locale
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
@@ -76,17 +78,17 @@ final class IntlExtension extends AbstractExtension
 	/**
 	 * Gets a localized date.
 	 *
-	 * @param Cappuccino                               $cappuccino
-	 * @param \DateTime|\DateTimeInterface|string|null $date
-	 * @param string                                   $dateFormat
-	 * @param string                                   $timeFormat
-	 * @param null|string                              $locale
-	 * @param null                                     $timezone
-	 * @param null|string                              $format
-	 * @param string                                   $calendar
+	 * @param Cappuccino                             $cappuccino
+	 * @param DateTime|DateTimeInterface|string|null $date
+	 * @param string                                 $dateFormat
+	 * @param string                                 $timeFormat
+	 * @param string|null                            $locale
+	 * @param null                                   $timezone
+	 * @param string|null                            $format
+	 * @param string                                 $calendar
 	 *
 	 * @return string
-	 * @throws \Cappuccino\Error\RuntimeError
+	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.1
 	 */
@@ -123,7 +125,7 @@ final class IntlExtension extends AbstractExtension
 	 * @param float|int|string $number
 	 * @param string           $style
 	 * @param string           $type
-	 * @param null|string      $locale
+	 * @param string|null      $locale
 	 *
 	 * @return string
 	 * @throws SyntaxError
