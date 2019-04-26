@@ -27,14 +27,14 @@ class ParentExpression extends AbstractExpression
 	/**
 	 * ParentExpression constructor.
 	 *
-	 * @param string $name
-	 * @param int    $lineno
-	 * @param mixed  $tag
+	 * @param string      $name
+	 * @param int         $lineno
+	 * @param string|null $tag
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(string $name, int $lineno, $tag = null)
+	public function __construct(string $name, int $lineno, ?string $tag = null)
 	{
 		parent::__construct([], ['output' => false, 'name' => $name], $lineno, $tag);
 	}

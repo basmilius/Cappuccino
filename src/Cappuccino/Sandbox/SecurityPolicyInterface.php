@@ -29,11 +29,11 @@ interface SecurityPolicyInterface
 	 * @param array $filters
 	 * @param array $functions
 	 *
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
 	 * @throws SecurityNotAllowedFilterError
 	 * @throws SecurityNotAllowedFunctionError
 	 * @throws SecurityNotAllowedTagError
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
 	public function checkSecurity(array $tags, array $filters, array $functions): void;
 
@@ -43,9 +43,9 @@ interface SecurityPolicyInterface
 	 * @param mixed $obj
 	 * @param mixed $method
 	 *
+	 * @throws SecurityNotAllowedMethodError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
-	 * @throws SecurityNotAllowedMethodError
 	 */
 	public function checkMethodAllowed($obj, $method): void;
 
@@ -55,9 +55,9 @@ interface SecurityPolicyInterface
 	 * @param mixed $obj
 	 * @param mixed $method
 	 *
+	 * @throws SecurityNotAllowedPropertyError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
-	 * @throws SecurityNotAllowedPropertyError
 	 */
 	public function checkPropertyAllowed($obj, $method): void;
 

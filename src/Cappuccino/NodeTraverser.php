@@ -78,16 +78,13 @@ final class NodeTraverser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function traverse(Node $node)
+	public function traverse(Node $node): Node
 	{
 		ksort($this->visitors);
+
 		foreach ($this->visitors as $visitors)
-		{
 			foreach ($visitors as $visitor)
-			{
 				$node = $this->traverseForVisitor($visitor, $node);
-			}
-		}
 
 		return $node;
 	}
@@ -103,7 +100,7 @@ final class NodeTraverser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function traverseForVisitor(NodeVisitorInterface $visitor, Node $node)
+	private function traverseForVisitor(NodeVisitorInterface $visitor, Node $node): Node
 	{
 		$node = $visitor->enterNode($node, $this->cappuccino);
 

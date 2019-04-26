@@ -268,9 +268,9 @@ final class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function serialize(): string
+	public function serialize()
 	{
-		return serialize([$this->template, $this->name, $this->type, $this->starts, $this->ends, $this->profiles]);
+		return serialize($this->__serialize());
 	}
 
 	/**
@@ -278,9 +278,19 @@ final class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function unserialize($data): void
+	public function unserialize($data)
 	{
-		[$this->template, $this->name, $this->type, $this->starts, $this->ends, $this->profiles] = unserialize($data);
+		$this->__unserialize(unserialize($data));
+	}
+
+	public function __serialize()
+	{
+		return [$this->template, $this->name, $this->type, $this->starts, $this->ends, $this->profiles];
+	}
+
+	public function __unserialize(array $data)
+	{
+		[$this->template, $this->name, $this->type, $this->starts, $this->ends, $this->profiles] = $data;
 	}
 
 }

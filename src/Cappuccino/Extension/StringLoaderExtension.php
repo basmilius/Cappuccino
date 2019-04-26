@@ -45,8 +45,9 @@ final class StringLoaderExtension extends AbstractExtension
 	/**
 	 * template_from_string Simple Function.
 	 *
-	 * @param Cappuccino $env
-	 * @param string     $template
+	 * @param Cappuccino  $cappuccino
+	 * @param string      $template
+	 * @param string|null $name
 	 *
 	 * @return Template
 	 * @throws Error
@@ -57,9 +58,9 @@ final class StringLoaderExtension extends AbstractExtension
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onFunctionTemplateFromString(Cappuccino $env, string $template): Template
+	public final function onFunctionTemplateFromString(Cappuccino $cappuccino, string $template, ?string $name = null): Template
 	{
-		return $env->createTemplate((string)$template);
+		return $cappuccino->createTemplate((string)$template, $name);
 	}
 
 }

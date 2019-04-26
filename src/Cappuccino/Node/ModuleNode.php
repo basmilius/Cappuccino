@@ -63,12 +63,15 @@ final class ModuleNode extends Node
 			'class_end' => new Node(),
 		];
 
-		if (null !== $parent)
+		if ($parent !== null)
 			$nodes['parent'] = $parent;
 
-		parent::__construct($nodes, ['index' => null, 'embedded_templates' => $embeddedTemplates,], 1);
+		parent::__construct($nodes, [
+			'index' => null,
+			'embedded_templates' => $embeddedTemplates
+		], 1);
 
-		$this->setTemplateName($this->source->getName());
+		$this->setSourceContext($source);
 	}
 
 	/**
@@ -155,7 +158,7 @@ final class ModuleNode extends Node
 				->raw('$this->loadTemplate(')
 				->subcompile($parent)
 				->raw(', ')
-				->repr($this->source->getName())
+				->repr($this->getSourceContext()->getName())
 				->raw(', ')
 				->repr($parent->getTemplateLine())
 				->raw(')');
@@ -177,11 +180,11 @@ final class ModuleNode extends Node
 	 */
 	protected function compileClassHeader(Compiler $compiler): void
 	{
-		$templateClassName = $compiler->getCappuccino()->getTemplateClass($this->source->getName(), $this->getAttribute('index'));
+		$templateClassName = $compiler->getCappuccino()->getTemplateClass($this->getSourceContext()->getName(), $this->getAttribute('index'));
 
 		$compiler
 			->write("\n\n")
-			->write('/* ' . str_replace('*/', '* /', $this->source->getName()) . " */\n")
+			->write('/* ' . str_replace('*/', '* /', $this->getSourceContext()->getName()) . " */\n")
 			->write(sprintf('class %s extends %s', $templateClassName, Template::class))
 			->write("\n{\n\n")
 			->indent()
@@ -231,16 +234,14 @@ final class ModuleNode extends Node
 				$node = $trait->getNode('template');
 
 				$compiler
+					->addDebugInfo($node)
 					->write(sprintf('$_trait_%s = $this->loadTemplate(', $i))
 					->subcompile($node)
 					->raw(', ')
 					->repr($node->getTemplateName())
 					->raw(', ')
 					->repr($node->getTemplateLine())
-					->raw(");\n");
-
-				$compiler
-					->addDebugInfo($trait->getNode('template'))
+					->raw(");\n")
 					->write(sprintf("if (!\$_trait_%s->isTraitable()) {\n", $i))
 					->indent()
 					->write("throw new $classRuntimeError('Template \"'.")
@@ -253,6 +254,7 @@ final class ModuleNode extends Node
 					->write(sprintf("\$_trait_%s_blocks = \$_trait_%s->getBlocks();\n\n", $i, $i));
 
 				foreach ($trait->getNode('targets') as $key => $value)
+				{
 					$compiler
 						->write(sprintf('if (!isset($_trait_%s_blocks[', $i))
 						->string($key)
@@ -274,6 +276,7 @@ final class ModuleNode extends Node
 						->raw(sprintf(']; unset($_trait_%s_blocks[', $i))
 						->string($key)
 						->raw("]);\n\n");
+				}
 			}
 
 			if ($countTraits > 1)

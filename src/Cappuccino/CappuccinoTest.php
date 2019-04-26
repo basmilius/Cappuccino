@@ -40,6 +40,11 @@ final class CappuccinoTest
 	private $options;
 
 	/**
+	 * @var array
+	 */
+	private $arguments = [];
+
+	/**
 	 * CappuccinoTest constructor.
 	 *
 	 * @param string        $name
@@ -95,6 +100,31 @@ final class CappuccinoTest
 	public function getNodeClass(): string
 	{
 		return $this->options['node_class'];
+	}
+
+	/**
+	 * Gets the test arguments.
+	 *
+	 * @return array
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.2.0
+	 */
+	public function getArguments()
+	{
+		return $this->arguments;
+	}
+
+	/**
+	 * Sets the test arguments.
+	 *
+	 * @param array $arguments
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.2.0
+	 */
+	public function setArguments($arguments): void
+	{
+		$this->arguments = $arguments;
 	}
 
 	/**

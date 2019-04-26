@@ -29,15 +29,15 @@ class BlockReferenceExpression extends AbstractExpression
 	/**
 	 * BlockReferenceExpression constructor.
 	 *
-	 * @param Node      $name
-	 * @param Node|null $template
-	 * @param int       $lineno
-	 * @param mixed     $tag
+	 * @param Node        $name
+	 * @param Node|null   $template
+	 * @param int         $lineno
+	 * @param string|null $tag
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(Node $name, Node $template = null, int $lineno = -1, $tag = null)
+	public function __construct(Node $name, Node $template = null, int $lineno = -1, ?string $tag = null)
 	{
 		$nodes = ['name' => $name];
 
@@ -94,9 +94,8 @@ class BlockReferenceExpression extends AbstractExpression
 			$compiler->write('$this->loadTemplate(')->subcompile($this->getNode('template'))->raw(', ')->repr($this->getTemplateName())->raw(', ')->repr($this->getTemplateLine())->raw(')');
 
 		$compiler->raw(sprintf('->%s', $method));
-		$this->compileBlockArguments($compiler);
 
-		return $compiler;
+		return $this->compileBlockArguments($compiler);
 	}
 
 	/**

@@ -56,8 +56,8 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
 	 * @return Node
 	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
-	 * @see AbstractNodeVisitor::enterNode()
 	 * @since 1.0.0
+	 * @see AbstractNodeVisitor::enterNode()
 	 */
 	protected abstract function doEnterNode(Node $node, Cappuccino $cappuccino): Node;
 
@@ -70,8 +70,8 @@ abstract class AbstractNodeVisitor implements NodeVisitorInterface
 	 * @return Node
 	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
-	 * @see AbstractNodeVisitor::leaveNode()
 	 * @since 1.0.0
+	 * @see AbstractNodeVisitor::leaveNode()
 	 */
 	protected abstract function doLeaveNode(Node $node, Cappuccino $env): Node;
 

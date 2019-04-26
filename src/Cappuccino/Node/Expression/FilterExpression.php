@@ -32,12 +32,12 @@ class FilterExpression extends CallExpression
 	 * @param ConstantExpression $filterName
 	 * @param Node               $arguments
 	 * @param int                $lineno
-	 * @param mixed              $tag
+	 * @param string|null        $tag
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(Node $node, ConstantExpression $filterName, Node $arguments, int $lineno, $tag = null)
+	public function __construct(Node $node, ConstantExpression $filterName, Node $arguments, int $lineno, ?string $tag = null)
 	{
 		parent::__construct(['node' => $node, 'filter' => $filterName, 'arguments' => $arguments], [], $lineno, $tag);
 	}

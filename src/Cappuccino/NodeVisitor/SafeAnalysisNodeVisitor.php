@@ -209,7 +209,7 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function intersectSafe(array $a = null, array $b = null)
+	private function intersectSafe(array $a = null, array $b = null): array
 	{
 		if (null === $a || null === $b)
 			return [];

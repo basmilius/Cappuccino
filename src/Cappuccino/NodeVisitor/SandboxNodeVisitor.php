@@ -14,14 +14,17 @@ namespace Cappuccino\NodeVisitor;
 
 use Cappuccino\Cappuccino;
 use Cappuccino\Node\CheckSecurityNode;
-use Cappuccino\Node\Expression\AbstractExpression;
+use Cappuccino\Node\CheckToStringNode;
+use Cappuccino\Node\Expression\Binary\ConcatBinary;
 use Cappuccino\Node\Expression\Binary\RangeBinary;
 use Cappuccino\Node\Expression\FilterExpression;
 use Cappuccino\Node\Expression\FunctionExpression;
+use Cappuccino\Node\Expression\GetAttrExpression;
+use Cappuccino\Node\Expression\NameExpression;
 use Cappuccino\Node\ModuleNode;
 use Cappuccino\Node\Node;
 use Cappuccino\Node\PrintNode;
-use Cappuccino\Node\SandboxedPrintNode;
+use Cappuccino\Node\SetNode;
 
 final class SandboxNodeVisitor extends AbstractNodeVisitor
 {
@@ -30,6 +33,7 @@ final class SandboxNodeVisitor extends AbstractNodeVisitor
 	private $tags;
 	private $filters;
 	private $functions;
+	private $needsToStringWrap = false;
 
 	/**
 	 * {@inheritdoc}
@@ -63,10 +67,29 @@ final class SandboxNodeVisitor extends AbstractNodeVisitor
 
 			if ($node instanceof PrintNode)
 			{
-				/** @var AbstractExpression $expression */
-				$expression = $node->getNode('expr');
+				$this->needsToStringWrap = true;
+				$this->wrapNode($node, 'expr');
+			}
 
-				return new SandboxedPrintNode($expression, $node->getTemplateLine(), $node->getNodeTag());
+			if ($node instanceof SetNode && !$node->getAttribute('capture'))
+				$this->needsToStringWrap = true;
+
+			if ($this->needsToStringWrap)
+			{
+				if ($node instanceof ConcatBinary)
+				{
+					$this->wrapNode($node, 'left');
+					$this->wrapNode($node, 'right');
+				}
+
+				if ($node instanceof FilterExpression)
+				{
+					$this->wrapNode($node, 'node');
+					$this->wrapArrayNode($node, 'arguments');
+				}
+
+				if ($node instanceof FunctionExpression)
+					$this->wrapArrayNode($node, 'arguments');
 			}
 		}
 
@@ -78,13 +101,17 @@ final class SandboxNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doLeaveNode(Node $node, Cappuccino $env): Node
+	protected function doLeaveNode(Node $node, Cappuccino $cappuccino): Node
 	{
 		if ($node instanceof ModuleNode)
 		{
 			$this->inAModule = false;
-
-			$node->setNode('display_start', new Node([new CheckSecurityNode($this->filters, $this->tags, $this->functions), $node->getNode('display_start')]));
+			$node->setNode('constructor_end', new Node([new CheckSecurityNode($this->filters, $this->tags, $this->functions), $node->getNode('display_start')]));
+		}
+		else if ($this->inAModule)
+		{
+			if ($node instanceof PrintNode || $node instanceof SetNode)
+				$this->needsToStringWrap = false;
 		}
 
 		return $node;
@@ -98,6 +125,22 @@ final class SandboxNodeVisitor extends AbstractNodeVisitor
 	public function getPriority(): int
 	{
 		return 0;
+	}
+
+	private function wrapNode(Node $node, string $name)
+	{
+		$expr = $node->getNode($name);
+
+		if ($expr instanceof NameExpression || $expr instanceof GetAttrExpression)
+			$node->setNode($name, new CheckToStringNode($expr));
+	}
+
+	private function wrapArrayNode(Node $node, string $name)
+	{
+		$args = $node->getNode($name);
+
+		foreach ($args as $name => $_)
+			$this->wrapNode($args, $name);
 	}
 
 }

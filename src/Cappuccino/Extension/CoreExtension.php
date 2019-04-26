@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace Cappuccino\Extension;
 
+use function array_column;
+use function array_slice;
 use ArrayAccess;
 use Cappuccino\Cappuccino;
 use Cappuccino\Error\LoaderError;
@@ -77,14 +79,24 @@ use Cappuccino\TokenParser\SetTokenParser;
 use Cappuccino\TokenParser\UseTokenParser;
 use Cappuccino\TokenParser\WithTokenParser;
 use Cappuccino\Util\StaticMethods;
+use function count;
 use Countable;
 use DateInterval;
 use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
+use Exception;
+use function get_class;
+use function gettype;
 use IntlDateFormatter;
+use function is_array;
+use function is_float;
+use function is_int;
+use function is_object;
+use function is_string;
 use Iterator;
+use function iterator_to_array;
 use IteratorAggregate;
 use LimitIterator;
 use OutOfBoundsException;
@@ -281,8 +293,9 @@ final class CoreExtension extends AbstractExtension
 			new CappuccinoFilter('join', [$this, 'onFilterArrayJoin']),
 			new CappuccinoFilter('split', [$this, 'onFilterArraySplit'], ['needs_cappuccino' => true]),
 			new CappuccinoFilter('sort', [$this, 'onFilterArraySort']),
-			new CappuccinoFilter('merge', [$this, 'onFilterArrayMerge']),
+			new CappuccinoFilter('merge', [StaticMethods::class, 'arrayMerge']),
 			new CappuccinoFilter('batch', [$this, 'onFilterArrayBatch']),
+			new CappuccinoFilter('column', [$this, 'onFilterArrayColumn']),
 
 			// string/array filters
 			new CappuccinoFilter('reverse', [$this, 'onFilterReverse'], ['needs_cappuccino' => true]),
@@ -400,6 +413,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param DateTimeZone|string|null|false        $timezone
 	 *
 	 * @return string
+	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 * @internal
@@ -430,6 +444,7 @@ final class CoreExtension extends AbstractExtension
 	 * @param $modifier
 	 *
 	 * @return DateTime
+	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 * @internal
@@ -465,13 +480,13 @@ final class CoreExtension extends AbstractExtension
 	 * @param int               $position
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
 	public final function onFunctionCycle($values, int $position): string
 	{
 		if (!is_array($values) && !($values instanceof ArrayAccess))
-			return $values;
+			return (string)$values;
 
 		return $values[$position % count($values)];
 	}
@@ -483,22 +498,18 @@ final class CoreExtension extends AbstractExtension
 	 * @param DateTimeZone|string|null|false         $timezone
 	 *
 	 * @return DateTime|DateTimeImmutable
-	 * @throws \Exception
-	 * @since 1.0.0
+	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
 	public final function onFunctionDateConverter($date = null, $timezone = null)
 	{
 		if ($timezone)
 		{
 			if ($timezone === null)
-			{
 				$timezone = $this->getTimezone();
-			}
 			else if (!$timezone instanceof DateTimeZone)
-			{
 				$timezone = new DateTimeZone($timezone);
-			}
 		}
 
 		if ($date instanceof DateTimeImmutable)
@@ -514,18 +525,25 @@ final class CoreExtension extends AbstractExtension
 			return $date;
 		}
 
-		if ($date === null || $date === 'now')
-			return new DateTime($date, $timezone ? $timezone : $this->getTimezone());
+		try
+		{
+			if ($date === null || $date === 'now')
+				return new DateTime($date, $timezone ? $timezone : $this->getTimezone());
 
-		$asString = (string)$date;
+			$asString = (string)$date;
 
-		if (ctype_digit($asString) || (!empty($asString) && '-' === $asString[0] && ctype_digit(substr($asString, 1))))
-			$date = new DateTime('@' . $date);
-		else
-			$date = new DateTime($date, $this->getTimezone());
+			if (ctype_digit($asString) || (!empty($asString) && '-' === $asString[0] && ctype_digit(substr($asString, 1))))
+				$date = new DateTime('@' . $date);
+			else
+				$date = new DateTime($date, $this->getTimezone());
 
-		if ($timezone)
-			$date->setTimezone($timezone);
+			if ($timezone)
+				$date->setTimezone($timezone);
+		}
+		catch (Exception $err)
+		{
+			throw new RuntimeError($err->getMessage());
+		}
 
 		return $date;
 	}
@@ -551,16 +569,16 @@ final class CoreExtension extends AbstractExtension
 	 */
 	public final function onFunctionInclude(Cappuccino $cappuccino, array $context, $template, array $variables = [], bool $withContext = true, bool $ignoreMissing = false, bool $sandboxed = false): string
 	{
+		/** @var SandboxExtension|null $sandbox */
+		$sandbox = null;
 		$alreadySandboxed = false;
 		$isSandboxed = false;
-		$sandbox = null;
 
 		if ($withContext)
 			$variables = array_merge($context, $variables);
 
 		if ($isSandboxed = $sandboxed && $cappuccino->hasExtension(SandboxExtension::class))
 		{
-			/** @var SandboxExtension $sandbox */
 			$sandbox = $cappuccino->getExtension(SandboxExtension::class);
 
 			if (!$alreadySandboxed = $sandbox->isSandboxed())
@@ -569,32 +587,33 @@ final class CoreExtension extends AbstractExtension
 
 		try
 		{
-			return $cappuccino->resolveTemplate($template)->render($variables);
-		}
-		catch (LoaderError $e)
-		{
-			if (!$ignoreMissing)
-			{
-				if ($isSandboxed && !$alreadySandboxed)
-					$sandbox->disableSandbox();
+			$loaded = null;
 
-				throw $e;
+			try
+			{
+				$loaded = $cappuccino->resolveTemplate($template);
 			}
+			catch (LoaderError $e)
+			{
+				if (!$ignoreMissing)
+					throw $e;
+			}
+
+			return $loaded ? $loaded->render($variables) : '';
 		}
 		finally
 		{
 			if ($isSandboxed && !$alreadySandboxed)
 				$sandbox->disableSandbox();
 		}
-
-		return '';
 	}
 
 	/**
 	 * Returns a random value depending on the supplied parameter type.
 	 *
-	 * @param Cappuccino $cappuccino
-	 * @param null       $values
+	 * @param Cappuccino                         $cappuccino
+	 * @param Traversable|array|int|float|string $values
+	 * @param int|null                           $max
 	 *
 	 * @return array|false|int|mixed|string|null|string[]
 	 * @throws RuntimeError
@@ -630,11 +649,7 @@ final class CoreExtension extends AbstractExtension
 			return mt_rand($min, $max);
 		}
 
-		if ($values instanceof Traversable)
-		{
-			$values = iterator_to_array($values);
-		}
-		else if (is_string($values))
+		if (is_string($values))
 		{
 			if ($values === '')
 				return '';
@@ -651,8 +666,10 @@ final class CoreExtension extends AbstractExtension
 					$values[$i] = iconv('UTF-8', $charset, $value);
 		}
 
-		if (!is_array($values))
+		if (!StaticMethods::isIterable($values))
 			return $values;
+
+		$values = StaticMethods::toArray($values);
 
 		if (count($values) === 0)
 			throw new RuntimeError('The random function cannot pick from an empty array.');
@@ -695,30 +712,54 @@ final class CoreExtension extends AbstractExtension
 	 *
 	 * @param Traversable|array $items
 	 * @param int               $size
-	 * @param null              $fill
+	 * @param mixed             $fill
+	 * @param bool              $preserveKeys
 	 *
 	 * @return array
+	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onFilterArrayBatch($items, int $size, $fill = null): array
+	public final function onFilterArrayBatch($items, int $size, $fill = null, bool $preserveKeys = true): array
 	{
-		if ($items instanceof Traversable)
-			$items = iterator_to_array($items, false);
+		if (!StaticMethods::isIterable($items))
+			throw new RuntimeError(sprintf('The "batch" filter expects an array or "Traversable", got "%s".', is_object($items) ? get_class($items) : gettype($items)));
 
 		$size = ceil($size);
-		$result = array_chunk($items, $size, true);
+		$result = array_chunk(StaticMethods::toArray($items, $preserveKeys), $size, $preserveKeys);
 
-		if ($fill !== null && !empty($result))
+		if ($fill !== null && $result)
 		{
 			$last = count($result) - 1;
 
 			if ($fillCount = $size - count($result[$last]))
-				$result[$last] = array_merge($result[$last], array_fill(0, $fillCount, $fill));
+				for ($i = 0; $i < $fillCount; ++$i)
+					$result[$last][] = $fill;
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Returns an array column.
+	 *
+	 * @param Traversable|array $array
+	 * @param string            $column
+	 *
+	 * @return array
+	 * @throws RuntimeError
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 1.2.0
+	 */
+	public final function onFilterArrayColumn($array, string $column): array
+	{
+		if ($array instanceof Traversable)
+			$array = iterator_to_array($array);
+		else if (!is_array($array))
+			throw new RuntimeError(sprintf('The column filter only works with arrays or "Traversable", got "%s" as first argument.', gettype($array)));
+
+		return array_column($array, $column);
 	}
 
 	/**
@@ -743,20 +784,32 @@ final class CoreExtension extends AbstractExtension
 	 * Joins the values to a string. The separator between elements is an empty string per default, you
 	 * can define it with the optional parameter.
 	 *
-	 * @param array|Traversable $array
+	 * @param array|Traversable $value
 	 * @param string            $glue
+	 * @param string|null       $and
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public final function onFilterArrayJoin($array, $glue = ''): string
+	public final function onFilterArrayJoin($value, $glue = '', ?string $and = null): string
 	{
-		if ($array instanceof Traversable)
-			$array = iterator_to_array($array);
+		if (!StaticMethods::isIterable($value))
+			$value = (array)$value;
 
-		return implode($glue, $array);
+		$value = StaticMethods::toArray($value, false);
+
+		if (count($value) === 0)
+			return '';
+
+		if ($and === null || $and === $glue)
+			return implode($glue, $value);
+
+		if (count($value) === 1)
+			return $value[0];
+
+		return implode($glue, array_slice($value, 0, -1)) . $and . $value[count($value) - 1];
 	}
 
 	/**
@@ -821,35 +874,6 @@ final class CoreExtension extends AbstractExtension
 		$elements = $this->onFilterArraySlice($cappuccino, $item, -1, 1, false);
 
 		return is_string($elements) ? $elements : current($elements);
-	}
-
-	/**
-	 * Merges an array with another one.
-	 *
-	 * @param array|Traversable $array1
-	 * @param array|Traversable $array2
-	 *
-	 * @return array
-	 * @throws RuntimeError
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 * @internal
-	 */
-	public final function onFilterArrayMerge($array1, $array2): array
-	{
-		if ($array1 instanceof Traversable)
-			$array1 = iterator_to_array($array1);
-
-		if ($array2 instanceof Traversable)
-			$array2 = iterator_to_array($array2);
-
-		if (!is_array($array1))
-			throw new RuntimeError(sprintf('The merge filter only works with arrays or "Traversable", got "%s" as first argument.', gettype($array1)));
-
-		if (!is_array($array2))
-			throw new RuntimeError(sprintf('The merge filter only works with arrays or "Traversable", got "%s" as first argument.', gettype($array2)));
-
-		return array_merge($array1, $array2);
 	}
 
 	/**
@@ -1168,17 +1192,14 @@ final class CoreExtension extends AbstractExtension
 		if (is_scalar($thing))
 			return mb_strlen($thing, $cappuccino->getCharset());
 
-		if ($thing instanceof SimpleXMLElement)
+		if ($thing instanceof Countable || is_array($thing) || $thing instanceof SimpleXMLElement)
 			return count($thing);
 
-		if (is_object($thing) && method_exists($thing, '__toString') && !($thing instanceof Countable))
-			return mb_strlen((string)$thing, $cappuccino->getCharset());
-
-		if ($thing instanceof Countable || is_array($thing))
-			return count($thing);
-
-		if ($thing instanceof IteratorAggregate)
+		if ($thing instanceof Traversable)
 			return iterator_count($thing);
+
+		if (is_object($thing) && method_exists($thing, '__toString'))
+			return mb_strlen((string)$thing, $cappuccino->getCharset());
 
 		return 1;
 	}
@@ -1226,12 +1247,10 @@ final class CoreExtension extends AbstractExtension
 	 */
 	public final function onFilterReplace(string $str, $from): string
 	{
-		if ($from instanceof Traversable)
-			$from = iterator_to_array($from);
-		else if (!is_array($from))
+		if (!StaticMethods::isIterable($from))
 			throw new RuntimeError(sprintf('The "replace" filter expects an array or "Traversable" as replace values, got "%s".', is_object($from) ? get_class($from) : gettype($from)));
 
-		return strtr($str, $from);
+		return strtr($str, StaticMethods::toArray($from));
 	}
 
 	/**
@@ -1389,7 +1408,7 @@ final class CoreExtension extends AbstractExtension
 	 */
 	public final function onFilterSpaceless(string $content): string
 	{
-		return preg_replace('/>\s+</', '><', $content);
+		return trim(preg_replace('/>\s+</', '><', $content));
 	}
 
 	/**

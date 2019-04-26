@@ -442,7 +442,7 @@ class Cappuccino
 			}
 		}
 
-		$this->extensionSet->initRuntime($this);
+		$this->extensionSet->initRuntime();
 
 		if (isset($this->loading[$cls]))
 			throw new RuntimeError(sprintf('Circular reference detected for Cappuccin template "%s", path: %s', $name, implode(' -> ', array_merge($this->loading, [$name]))));
@@ -462,7 +462,8 @@ class Cappuccino
 	/**
 	 * Creates a template from source. This method should not be used as a generic way to load templates.
 	 *
-	 * @param string $template
+	 * @param string      $template
+	 * @param string|null $name
 	 *
 	 * @return Template
 	 * @throws Error
@@ -472,9 +473,14 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function createTemplate(string $template): Template
+	public function createTemplate(string $template, ?string $name = null): Template
 	{
-		$name = sprintf('__string_template__%s', hash('sha256', $template, false));
+		$hash = hash('sha256', $template, false);
+
+		if ($name !== null)
+			$name = sprintf('%s (string template %s)', $name, $hash);
+		else
+			$name = sprintf('__string_template__%s', $hash);
 
 		$loader = new ChainLoader([
 			new ArrayLoader([$name => $template]),
@@ -516,7 +522,7 @@ class Cappuccino
 	 *
 	 * @param TemplateWrapper|string|string[] $names
 	 *
-	 * @return TemplateWrapper
+	 * @return TemplateWrapper|Template
 	 * @throws Error
 	 * @throws LoaderError
 	 * @throws RuntimeError
@@ -524,19 +530,24 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.2
 	 */
-	public function resolveTemplate($names): TemplateWrapper
+	public function resolveTemplate($names)
 	{
 		if (!is_array($names))
-			return $this->load($names);
+			$names = [$names];
 
 		foreach ($names as $name)
 		{
+			if ($name instanceof Template || $name instanceof TemplateWrapper)
+				return $name;
+
 			try
 			{
-				return $this->load($name);
+				return $this->loadTemplate($name);
 			}
-			catch (LoaderError $_)
+			catch (LoaderError $err)
 			{
+				if (count($names) === 1)
+					throw $err;
 			}
 		}
 

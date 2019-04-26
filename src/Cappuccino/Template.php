@@ -210,10 +210,10 @@ abstract class Template
 	/**
 	 * Displays a block. This method is for internal use only and should never be called directly.
 	 *
-	 * @param string        $name
-	 * @param array         $context
+	 * @param string       $name
+	 * @param array        $context
 	 * @param Template[][] $blocks
-	 * @param bool          $useBlocks
+	 * @param bool         $useBlocks
 	 *
 	 * @throws Error
 	 * @throws Exception

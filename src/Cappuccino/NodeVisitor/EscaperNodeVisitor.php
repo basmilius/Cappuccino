@@ -18,13 +18,18 @@ use Cappuccino\Extension\EscaperExtension;
 use Cappuccino\Node\AutoEscapeNode;
 use Cappuccino\Node\BlockNode;
 use Cappuccino\Node\BlockReferenceNode;
+use Cappuccino\Node\DoNode;
+use Cappuccino\Node\Expression\AbstractExpression;
+use Cappuccino\Node\Expression\ConditionalExpression;
 use Cappuccino\Node\Expression\ConstantExpression;
 use Cappuccino\Node\Expression\FilterExpression;
+use Cappuccino\Node\Expression\InlinePrintExpression;
 use Cappuccino\Node\ImportNode;
 use Cappuccino\Node\ModuleNode;
 use Cappuccino\Node\Node;
 use Cappuccino\Node\PrintNode;
 use Cappuccino\NodeTraverser;
+use function get_class;
 
 /**
  * Class EscaperNodeVisitor
@@ -95,7 +100,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doLeaveNode(Node $node, Cappuccino $env): Node
+	protected function doLeaveNode(Node $node, Cappuccino $cappuccino): Node
 	{
 		if ($node instanceof ModuleNode)
 		{
@@ -105,11 +110,16 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 		}
 		else if ($node instanceof FilterExpression)
 		{
-			return $this->preEscapeFilterNode($node, $env);
+			return $this->preEscapeFilterNode($node, $cappuccino);
 		}
-		else if ($node instanceof PrintNode)
+		else if ($node instanceof PrintNode && false !== $type = $this->needEscaping())
 		{
-			return $this->escapePrintNode($node, $env, $this->needEscaping());
+			$expression = $node->getNode('expr');
+
+			if ($expression instanceof ConditionalExpression && $this->shouldUnwrapConditional($expression, $cappuccino, $type))
+				return new DoNode($this->unwrapConditional($expression, $cappuccino, $type), $expression->getTemplateLine());
+
+			return $this->escapePrintNode($node, $cappuccino, $type);
 		}
 
 		if ($node instanceof AutoEscapeNode || $node instanceof BlockNode)
@@ -124,7 +134,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * Escape Print Node.
 	 *
 	 * @param PrintNode   $node
-	 * @param Cappuccino  $env
+	 * @param Cappuccino  $cappuccino
 	 * @param string|bool $type
 	 *
 	 * @return Node
@@ -132,46 +142,43 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function escapePrintNode(PrintNode $node, Cappuccino $env, $type): Node
+	private function escapePrintNode(PrintNode $node, Cappuccino $cappuccino, $type): Node
 	{
 		if (!$type)
 			return $node;
 
 		$expression = $node->getNode('expr');
 
-		if ($this->isSafeFor($type, $expression, $env))
+		if ($this->isSafeFor($type, $expression, $cappuccino))
 			return $node;
 
 		$class = get_class($node);
 
-		return new $class(
-			$this->getEscaperFilter($type, $expression),
-			$node->getTemplateLine()
-		);
+		return new $class($this->getEscaperFilter($type, $expression), $node->getTemplateLine());
 	}
 
 	/**
 	 * Pre-escapes the filter node.
 	 *
 	 * @param FilterExpression $filter
-	 * @param Cappuccino       $env
+	 * @param Cappuccino       $cappuccino
 	 *
 	 * @return FilterExpression
 	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function preEscapeFilterNode(FilterExpression $filter, Cappuccino $env): FilterExpression
+	private function preEscapeFilterNode(FilterExpression $filter, Cappuccino $cappuccino): FilterExpression
 	{
 		$name = $filter->getNode('filter')->getAttribute('value');
-		$type = $env->getFilter($name)->getPreEscape();
+		$type = $cappuccino->getFilter($name)->getPreEscape();
 
 		if (null === $type)
 			return $filter;
 
 		$node = $filter->getNode('node');
 
-		if ($this->isSafeFor($type, $node, $env))
+		if ($this->isSafeFor($type, $node, $cappuccino))
 			return $filter;
 
 		$filter->setNode('node', $this->getEscaperFilter($type, $node));
@@ -184,21 +191,21 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 *
 	 * @param string     $type
 	 * @param Node       $expression
-	 * @param Cappuccino $env
+	 * @param Cappuccino $cappuccino
 	 *
 	 * @return bool
 	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function isSafeFor(string $type, Node $expression, Cappuccino $env): bool
+	private function isSafeFor(string $type, Node $expression, Cappuccino $cappuccino): bool
 	{
 		$safe = $this->safeAnalysis->getSafe($expression);
 
 		if ($safe === null)
 		{
 			if ($this->traverser === null)
-				$this->traverser = new NodeTraverser($env, [$this->safeAnalysis]);
+				$this->traverser = new NodeTraverser($cappuccino, [$this->safeAnalysis]);
 
 			$this->safeAnalysis->setSafeVars($this->safeVars);
 
@@ -234,7 +241,7 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function getEscaperFilter(string $type, Node $node)
+	private function getEscaperFilter(string $type, Node $node): FilterExpression
 	{
 		$line = $node->getTemplateLine();
 		$name = new ConstantExpression('escape', $line);
@@ -251,6 +258,45 @@ final class EscaperNodeVisitor extends AbstractNodeVisitor
 	public function getPriority(): int
 	{
 		return 0;
+	}
+
+	private function escapeInlinePrintNode(InlinePrintExpression $node, Cappuccino $cappuccino, $type)
+	{
+		$expression = $node->getNode('node');
+
+		if ($this->isSafeFor($type, $expression, $cappuccino))
+			return $node;
+
+		return new InlinePrintExpression($this->getEscaperFilter($type, $expression), $node->getTemplateLine());
+	}
+
+	private function shouldUnwrapConditional(ConditionalExpression $expression, Cappuccino $cappuccino, $type)
+	{
+		$expr2Safe = $this->isSafeFor($type, $expression->getNode('expr2'), $cappuccino);
+		$expr3Safe = $this->isSafeFor($type, $expression->getNode('expr3'), $cappuccino);
+
+		return $expr2Safe !== $expr3Safe;
+	}
+
+	private function unwrapConditional(ConditionalExpression $expression, Cappuccino $cappuccino, $type)
+	{
+		$expr2 = $expression->getNode('expr2');
+
+		if ($expr2 instanceof ConditionalExpression && $this->shouldUnwrapConditional($expr2, $cappuccino, $type))
+			$expr2 = $this->unwrapConditional($expr2, $cappuccino, $type);
+		else
+			$expr2 = $this->escapeInlinePrintNode(new InlinePrintExpression($expr2, $expr2->getTemplateLine()), $cappuccino, $type);
+
+		/** @var AbstractExpression|Node|null $expr1 */
+		$expr1 = $expression->getNode('expr1');
+		$expr3 = $expression->getNode('expr3');
+
+		if ($expr3 instanceof ConditionalExpression && $this->shouldUnwrapConditional($expr2, $cappuccino, $type))
+			$expr3 = $this->unwrapConditional($expr3, $cappuccino, $type);
+		else
+			$expr3 = $this->escapeInlinePrintNode(new InlinePrintExpression($expr3, $expr3->getTemplateLine()), $cappuccino, $type);
+
+		return new ConditionalExpression($expr1, $expr2, $expr3, $expression->getTemplateLine());
 	}
 
 }

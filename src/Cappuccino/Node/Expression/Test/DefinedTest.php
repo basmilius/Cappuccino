@@ -69,10 +69,20 @@ class DefinedTest extends TestExpression
 		}
 		else
 		{
-			throw new SyntaxError('The "defined" test only works with simple variables.', $this->getTemplateLine());
+			throw new SyntaxError('The "defined" test only works with simple variables.', $lineno);
 		}
 
 		parent::__construct($node, $name, $arguments, $lineno);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function compile(Compiler $compiler): void
+	{
+		$compiler->subcompile($this->getNode('node'));
 	}
 
 	private function changeIgnoreStrictCheck(GetAttrExpression $node)
@@ -85,16 +95,6 @@ class DefinedTest extends TestExpression
 		{
 			$this->changeIgnoreStrictCheck($expression);
 		}
-	}
-
-	/**
-	 * {@inheritdoc}
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public function compile(Compiler $compiler): void
-	{
-		$compiler->subcompile($this->getNode('node'));
 	}
 
 }

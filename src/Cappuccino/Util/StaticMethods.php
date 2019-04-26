@@ -36,6 +36,29 @@ class StaticMethods
 {
 
 	/**
+	 * Merges an array with another one.
+	 *
+	 * @param array|Traversable $array1
+	 * @param array|Traversable $array2
+	 *
+	 * @return array
+	 * @throws RuntimeError
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 * @internal
+	 */
+	public static function arrayMerge($array1, $array2): array
+	{
+		if (!StaticMethods::isIterable($array1))
+			throw new RuntimeError(sprintf('The merge filter only works with arrays or "Traversable", got "%s" as first argument.', gettype($array1)));
+
+		if (!StaticMethods::isIterable($array2))
+			throw new RuntimeError(sprintf('The merge filter only works with arrays or "Traversable", got "%s" as second argument.', gettype($array2)));
+
+		return array_merge(StaticMethods::toArray($array1), StaticMethods::toArray($array2));
+	}
+
+	/**
 	 * Ensures traversable.
 	 *
 	 * @param $seq
@@ -334,7 +357,7 @@ class StaticMethods
 	 * @param mixed  $object
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.2.0
 	 */
 	public static function isConstant(string $constant, $object): string
@@ -395,6 +418,28 @@ class StaticMethods
 	public static function isIterable($value): bool
 	{
 		return $value instanceof Traversable || is_array($value);
+	}
+
+	/**
+	 * Converts a sequence to an array.
+	 *
+	 * @param Traversable|array $sequence
+	 * @param bool              $preserveKeys
+	 *
+	 * @return array
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 1.2.0
+	 * @internal
+	 */
+	public static function toArray($sequence, bool $preserveKeys = true): array
+	{
+		if ($sequence instanceof Traversable)
+			return iterator_to_array($sequence, $preserveKeys);
+
+		if (!is_array($sequence))
+			return (array)$sequence;
+
+		return $preserveKeys ? $sequence : array_values($sequence);
 	}
 
 }

@@ -61,7 +61,7 @@ final class TemplateWrapper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function render($context = []): string
+	public function render(array $context = []): string
 	{
 		return $this->template->render($context);
 	}
@@ -175,6 +175,18 @@ final class TemplateWrapper
 	public function getSourceContext(): Source
 	{
 		return $this->template->getSourceContext();
+	}
+
+	/**
+	 * Gets the template name.
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.2.0
+	 */
+	public function getTemplateName(): string
+	{
+		return $this->template->getTemplateName();
 	}
 
 }

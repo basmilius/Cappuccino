@@ -27,15 +27,15 @@ class BlockNode extends Node
 	/**
 	 * BlockNode constructor.
 	 *
-	 * @param string $name
-	 * @param Node   $body
-	 * @param int    $lineno
-	 * @param null   $tag
+	 * @param string      $name
+	 * @param Node        $body
+	 * @param int         $lineno
+	 * @param string|null $tag
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(string $name, Node $body, $lineno, $tag = null)
+	public function __construct(string $name, Node $body, int $lineno, ?string $tag = null)
 	{
 		parent::__construct(['body' => $body], ['name' => $name], $lineno, $tag);
 	}

@@ -54,23 +54,25 @@ class WithNode extends Node
 	 */
 	public function compile(Compiler $compiler): void
 	{
+		$classRuntimeError = RuntimeError::class;
 		$compiler->addDebugInfo($this);
 
 		if ($this->hasNode('variables'))
 		{
 			$varsName = $compiler->getVarName();
 
-			$classRuntimeError = RuntimeError::class;
-
 			$compiler
 				->write(sprintf('$%s = ', $varsName))
 				->subcompile($this->getNode('variables'))
 				->raw(";\n")
+				->write(sprintf("if (\$%s instanceof \\Traversable) {\n", $varsName))
+				->indent()
+				->write(sprintf("\$%s = iterator_to_array(\$%s);\n", $varsName, $varsName))
+				->outdent()
+				->write("}\n")
 				->write(sprintf("if (!is_array(\$%s)) {\n", $varsName))
 				->indent()
-				->write("throw new " . $classRuntimeError . "('Variables passed to the \"with\" tag must be a hash.', ")
-				->repr($this->getTemplateLine())
-				->raw(", \$this->source);\n")
+				->write("throw new $classRuntimeError('Variables passed to the \"with\" tag must be a hash.');\n")
 				->outdent()
 				->write("}\n");
 
@@ -79,7 +81,7 @@ class WithNode extends Node
 			else
 				$compiler->write("\$context['_parent'] = \$context;\n");
 
-			$compiler->write(sprintf("\$context = array_merge(\$context, \$%s);\n", $varsName));
+			$compiler->write(sprintf("\$context = \$this->cappuccino->mergeGlobals(array_merge(\$context, \$%s));\n", $varsName));
 		}
 		else
 		{

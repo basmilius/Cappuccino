@@ -15,6 +15,7 @@ namespace Cappuccino\Extension;
 use Cappuccino\Cappuccino;
 use Cappuccino\CappuccinoFunction;
 use Cappuccino\Template;
+use Cappuccino\TemplateWrapper;
 
 /**
  * Class DebugExtension
@@ -36,7 +37,7 @@ final class DebugExtension extends AbstractExtension
 		$isDumpOutputHtmlSafe = extension_loaded('xdebug') && (false === ini_get('xdebug.overload_var_dump') || ini_get('xdebug.overload_var_dump')) && (false === ini_get('html_errors') || ini_get('html_errors')) || 'cli' === PHP_SAPI;
 
 		return [
-			new CappuccinoFunction ('dump', [$this, 'onFunctionDump'], ['is_safe' => $isDumpOutputHtmlSafe ? ['html'] : [], 'needs_context' => true, 'needs_cappuccino' => true]),
+			new CappuccinoFunction ('dump', [$this, 'onFunctionDump'], ['is_safe' => $isDumpOutputHtmlSafe ? ['html'] : [], 'needs_context' => true, 'needs_cappuccino' => true, 'is_variadic' => true]),
 		];
 	}
 
@@ -63,14 +64,15 @@ final class DebugExtension extends AbstractExtension
 			$vars = [];
 
 			foreach ($context as $key => $value)
-				if (!$value instanceof Template)
+				if (!$value instanceof Template && !$value instanceof TemplateWrapper)
 					$vars[$key] = $value;
 
 			var_dump($vars);
 		}
 		else
 		{
-			var_dump(...$vars);
+			foreach ($vars as $var)
+				var_dump($var);
 		}
 
 		return ob_get_clean();

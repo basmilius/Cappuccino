@@ -16,6 +16,7 @@ use Cappuccino\Compiler;
 use Cappuccino\Error\Error;
 use Cappuccino\Error\LoaderError;
 use Cappuccino\Node\Expression\AbstractExpression;
+use Cappuccino\Util\StaticMethods;
 
 /**
  * Class IncludeNode
@@ -57,23 +58,44 @@ class IncludeNode extends Node implements NodeOutputInterface
 	 */
 	public function compile(Compiler $compiler): void
 	{
+		$classLoaderError = LoaderError::class;
 		$compiler->addDebugInfo($this);
 
 		if ($this->getAttribute('ignore_missing'))
-			$compiler->write("try {\n")->indent();
+		{
+			$template = $compiler->getVarName();
 
-		$this->addGetTemplate($compiler);
+			$compiler
+				->write(sprintf("$%s = null;\n", $template))
+				->write("try {\n")
+				->indent()
+				->write(sprintf('$%s = ', $template));
 
-		$compiler->raw('->display(');
+			$this->addGetTemplate($compiler);
 
-		$this->addTemplateArguments($compiler);
+			$compiler
+				->raw(";\n")
+				->outdent()
+				->write("} catch ($classLoaderError \$e) {\n")
+				->write("}\n")
+				->write(sprintf("if ($%s) {\n", $template))
+				->indent()
+				->write(sprintf('$%s->display(', $template));
 
-		$compiler->raw(");\n");
+			$this->addTemplateArguments($compiler);
 
-		$classLoaderError = LoaderError::class;
-
-		if ($this->getAttribute('ignore_missing'))
-			$compiler->outdent()->write("} catch (" . $classLoaderError . " \$e) {\n")->indent()->write("// ignore missing template\n")->outdent()->write("}\n\n");
+			$compiler
+				->raw(");\n")
+				->outdent()
+				->write("}\n");
+		}
+		else
+		{
+			$this->addGetTemplate($compiler);
+			$compiler->raw('->display(');
+			$this->addTemplateArguments($compiler);
+			$compiler->raw(");\n");
+		}
 	}
 
 	/**
@@ -87,7 +109,14 @@ class IncludeNode extends Node implements NodeOutputInterface
 	 */
 	protected function addGetTemplate(Compiler $compiler): void
 	{
-		$compiler->write('$this->loadTemplate(')->subcompile($this->getNode('expr'))->raw(', ')->repr($this->getTemplateName())->raw(', ')->repr($this->getTemplateLine())->raw(')');
+		$compiler
+			->write('$this->loadTemplate(')
+			->subcompile($this->getNode('expr'))
+			->raw(', ')
+			->repr($this->getTemplateName())
+			->raw(', ')
+			->repr($this->getTemplateLine())
+			->raw(')');
 	}
 
 	/**
@@ -104,9 +133,12 @@ class IncludeNode extends Node implements NodeOutputInterface
 		if (!$this->hasNode('variables'))
 			$compiler->raw(false === $this->getAttribute('only') ? '$context' : '[]');
 		else if (false === $this->getAttribute('only'))
-			$compiler->raw('array_merge($context, ')->subcompile($this->getNode('variables'))->raw(')');
+			$compiler->raw(StaticMethods::class . '::arrayMerge($context, ')->subcompile($this->getNode('variables'))->raw(')');
 		else
-			$compiler->subcompile($this->getNode('variables'));
+			$compiler
+				->raw(StaticMethods::class . '::toArray(')
+				->subcompile($this->getNode('variables'))
+				->raw(')');
 	}
 
 }

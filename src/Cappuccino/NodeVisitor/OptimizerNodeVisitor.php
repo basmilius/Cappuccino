@@ -127,7 +127,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function optimizeRawFilter(Node $node)
+	private function optimizeRawFilter(Node $node): Node
 	{
 		if ($node instanceof FilterExpression && 'raw' == $node->getNode('filter')->getAttribute('value'))
 			return $node->getNode('node');

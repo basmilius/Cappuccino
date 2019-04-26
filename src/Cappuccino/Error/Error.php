@@ -44,7 +44,7 @@ class Error extends Exception
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(string $message, int $lineno = -1, $source = null, ?Exception $previous = null, bool $autoGuess = true)
+	public function __construct(string $message, int $lineno = -1, $source = null, ?Exception $previous = null)
 	{
 		parent::__construct('', 0, $previous);
 
@@ -66,10 +66,6 @@ class Error extends Exception
 
 		$this->lineno = $lineno;
 		$this->name = $name;
-
-		if ($autoGuess && ($lineno === -1 || $name === null || $this->sourcePath === null))
-			$this->guessTemplateInfo();
-
 		$this->rawMessage = $message;
 
 		$this->updateRepr();

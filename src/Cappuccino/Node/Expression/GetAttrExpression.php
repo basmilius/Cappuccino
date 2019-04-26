@@ -31,13 +31,13 @@ class GetAttrExpression extends AbstractExpression
 	 * @param AbstractExpression      $node
 	 * @param AbstractExpression      $attribute
 	 * @param AbstractExpression|null $arguments
-	 * @param mixed|null              $type
+	 * @param string|null             $type
 	 * @param int                     $lineno
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(AbstractExpression $node, AbstractExpression $attribute, ?AbstractExpression $arguments = null, $type = null, int $lineno = -1)
+	public function __construct(AbstractExpression $node, AbstractExpression $attribute, ?AbstractExpression $arguments = null, ?string $type = null, int $lineno = -1)
 	{
 		$nodes = ['node' => $node, 'attribute' => $attribute];
 

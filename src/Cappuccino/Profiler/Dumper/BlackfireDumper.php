@@ -59,25 +59,22 @@ EOF;
 	/**
 	 * Dump children.
 	 *
-	 * @param         $parent
+	 * @param string  $parent
 	 * @param Profile $profile
 	 * @param         $data
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function dumpChildren($parent, Profile $profile, &$data)
+	private function dumpChildren(string $parent, Profile $profile, &$data)
 	{
 		foreach ($profile as $p)
 		{
 			if ($p->isTemplate())
-			{
 				$name = $p->getTemplate();
-			}
 			else
-			{
 				$name = sprintf('%s::%s(%s)', $p->getTemplate(), $p->getType(), $p->getName());
-			}
+
 			$this->dumpProfile(sprintf('%s==>%s', $parent, $name), $p, $data);
 			$this->dumpChildren($name, $p, $data);
 		}
@@ -86,14 +83,14 @@ EOF;
 	/**
 	 * Dump profile.
 	 *
-	 * @param         $edge
+	 * @param string  $edge
 	 * @param Profile $profile
 	 * @param         $data
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function dumpProfile($edge, Profile $profile, &$data)
+	private function dumpProfile(string $edge, Profile $profile, &$data)
 	{
 		if (isset($data[$edge]))
 		{

@@ -15,6 +15,7 @@ namespace Cappuccino\Node;
 use ArrayIterator;
 use Cappuccino\Compiler;
 use Cappuccino\Error\Error;
+use Cappuccino\Source;
 use Countable;
 use InvalidArgumentException;
 use IteratorAggregate;
@@ -35,7 +36,10 @@ class Node implements Countable, IteratorAggregate
 	protected $lineno;
 	protected $tag;
 
-	private $name;
+	/**
+	 * @var Source|null
+	 */
+	private $sourceContext;
 
 	/**
 	 * Node constructor.
@@ -244,25 +248,37 @@ class Node implements Countable, IteratorAggregate
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getTemplateName(): string
+	public function getTemplateName(): ?string
 	{
-		return $this->name;
+		return $this->sourceContext ? $this->sourceContext->getName() : null;
 	}
 
 	/**
-	 * Sets the template name.
+	 * Gets the source context.
 	 *
-	 * @param string $name
-	 *
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
+	 * @return Source|null
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 1.2.0
 	 */
-	public function setTemplateName(string $name): void
+	public function getSourceContext(): ?Source
 	{
-		$this->name = $name;
+		return $this->sourceContext;
+	}
+
+	/**
+	 * Sets the source context.
+	 *
+	 * @param Source $source
+	 *
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 1.2.0
+	 */
+	public function setSourceContext(Source $source): void
+	{
+		$this->sourceContext = $source;
 
 		foreach ($this->nodes as $node)
-			$node->setTemplateName($name);
+			$node->setSourceContext($source);
 	}
 
 	/**

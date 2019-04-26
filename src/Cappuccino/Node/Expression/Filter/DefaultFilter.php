@@ -39,13 +39,13 @@ class DefaultFilter extends FilterExpression
 	 * @param ConstantExpression $filterName
 	 * @param Node               $arguments
 	 * @param int                $lineno
-	 * @param mixed              $tag
+	 * @param string|null        $tag
 	 *
 	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(Node $node, ConstantExpression $filterName, Node $arguments, $lineno, $tag = null)
+	public function __construct(Node $node, ConstantExpression $filterName, Node $arguments, int $lineno, ?string $tag = null)
 	{
 		$default = new FilterExpression($node, new ConstantExpression('default', $node->getTemplateLine()), $arguments, $node->getTemplateLine());
 
