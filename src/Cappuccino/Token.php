@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -37,9 +37,10 @@ final class Token
 	public const PUNCTUATION_TYPE = 9;
 	public const INTERPOLATION_START_TYPE = 10;
 	public const INTERPOLATION_END_TYPE = 11;
+	public const ARROW_TYPE = 12;
 
 	/**
-	 * @var string
+	 * @var mixed
 	 */
 	private $value;
 
@@ -51,23 +52,23 @@ final class Token
 	/**
 	 * @var int
 	 */
-	private $lineno;
+	private $lineNumber;
 
 	/**
 	 * Token constructor.
 	 *
-	 * @param int    $type
-	 * @param string $value
-	 * @param int    $lineno
+	 * @param int   $type
+	 * @param mixed $value
+	 * @param int   $lineNumber
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(int $type, string $value, int $lineno)
+	public function __construct(int $type, $value, int $lineNumber)
 	{
 		$this->type = $type;
 		$this->value = $value;
-		$this->lineno = $lineno;
+		$this->lineNumber = $lineNumber;
 	}
 
 	/**
@@ -88,7 +89,7 @@ final class Token
 			$type = self::NAME_TYPE;
 		}
 
-		return ($this->type === $type) && (null === $values || (is_array($values) && in_array($this->value, $values)) || $this->value == $values);
+		return ($this->type === $type) && ($values === null || (is_array($values) && in_array($this->value, $values)) || $this->value == $values);
 	}
 
 	/**
@@ -100,7 +101,7 @@ final class Token
 	 */
 	public function getLine(): int
 	{
-		return $this->lineno;
+		return $this->lineNumber;
 	}
 
 	/**
@@ -118,11 +119,11 @@ final class Token
 	/**
 	 * Gets the value.
 	 *
-	 * @return string
+	 * @return mixed
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getValue(): string
+	public function getValue()
 	{
 		return $this->value;
 	}
@@ -180,23 +181,26 @@ final class Token
 			case self::INTERPOLATION_END_TYPE:
 				$name = 'INTERPOLATION_END_TYPE';
 				break;
+			case self::ARROW_TYPE:
+				$name = 'ARROW_TYPE';
+				break;
 			default:
 				throw new LogicException(sprintf('Token of type "%s" does not exist.', $type));
 		}
 
-		return $short ? $name : Token::class . '::' . $name;
+		return $short ? $name : 'Cappuccino\Token::' . $name;
 	}
 
 	/**
 	 * Gets the English representation of a given type.
 	 *
-	 * @param string|int $type
+	 * @param int $type
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public static function typeToEnglish($type): string
+	public static function typeToEnglish(int $type): string
 	{
 		switch ($type)
 		{
@@ -226,6 +230,8 @@ final class Token
 				return 'begin of string interpolation';
 			case self::INTERPOLATION_END_TYPE:
 				return 'end of string interpolation';
+			case self::ARROW_TYPE:
+				return 'arrow function';
 			default:
 				throw new LogicException(sprintf('Token of type "%s" does not exist.', $type));
 		}
@@ -236,7 +242,7 @@ final class Token
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __toString(): string
+	public function __toString()
 	{
 		return sprintf('%s(%s)', self::typeToString($this->type, true), $this->value);
 	}

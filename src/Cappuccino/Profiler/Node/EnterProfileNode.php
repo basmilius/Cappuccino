@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -14,12 +14,11 @@ namespace Cappuccino\Profiler\Node;
 
 use Cappuccino\Compiler;
 use Cappuccino\Node\Node;
-use Cappuccino\Profiler\Profile;
 
 /**
  * Class EnterProfileNode
  *
- * @author Bas Milius <bas@mili.us>
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\Profiler\Node
  * @since 1.0.0
  */
@@ -34,7 +33,7 @@ class EnterProfileNode extends Node
 	 * @param string $name
 	 * @param string $varName
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
 	public function __construct(string $extensionName, string $type, string $name, string $varName)
@@ -49,13 +48,11 @@ class EnterProfileNode extends Node
 	 */
 	public function compile(Compiler $compiler): void
 	{
-		$classProfile = Profile::class;
-
 		$compiler
 			->write(sprintf('$%s = $this->extensions[', $this->getAttribute('var_name')))
 			->repr($this->getAttribute('extension_name'))
 			->raw("];\n")
-			->write(sprintf('$%s->enter($%s = new ' . $classProfile . '($this->getTemplateName(), ', $this->getAttribute('var_name'), $this->getAttribute('var_name') . '_prof'))
+			->write(sprintf('$%s->enter($%s = new \Cappuccino\Profiler\Profile($this->getTemplateName(), ', $this->getAttribute('var_name'), $this->getAttribute('var_name') . '_prof'))
 			->repr($this->getAttribute('type'))
 			->raw(', ')
 			->repr($this->getAttribute('name'))

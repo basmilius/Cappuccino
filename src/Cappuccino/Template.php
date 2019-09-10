@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -15,18 +15,10 @@ namespace Cappuccino;
 use Cappuccino\Error\Error;
 use Cappuccino\Error\LoaderError;
 use Cappuccino\Error\RuntimeError;
-use Cappuccino\Extension\ExtensionInterface;
-use Cappuccino\Node\BlockNode;
+use Cappuccino\Util\EasyPeasyLemonSqueezy;
 use Exception;
 use LogicException;
 
-/**
- * Class Template
- *
- * @author Bas Milius <bas@mili.us>
- * @package Cappuccino
- * @since 1.0.0
- */
 abstract class Template
 {
 
@@ -34,35 +26,13 @@ abstract class Template
 	public const ARRAY_CALL = 'array';
 	public const METHOD_CALL = 'method';
 
-	/**
-	 * @var Cappuccino
-	 */
-	protected $cappuccino;
-
-	/**
-	 * @var Template
-	 */
 	protected $parent;
-
-	/**
-	 * @var Template[]
-	 */
 	protected $parents = [];
-
-	/**
-	 * @var BlockNode[][]
-	 */
+	protected $cappuccino;
 	protected $blocks = [];
-
-	/**
-	 * @var Template[][]
-	 */
 	protected $traits = [];
-
-	/**
-	 * @var ExtensionInterface[]
-	 */
 	protected $extensions = [];
+	protected $sandbox;
 
 	/**
 	 * Template constructor.
@@ -75,7 +45,7 @@ abstract class Template
 	public function __construct(Cappuccino $cappuccino)
 	{
 		$this->cappuccino = $cappuccino;
-		$this->extensions = $this->cappuccino->getExtensions();
+		$this->extensions = $cappuccino->getExtensions();
 	}
 
 	/**
@@ -88,7 +58,7 @@ abstract class Template
 	public abstract function getTemplateName(): string;
 
 	/**
-	 * Gets debug information about this template.
+	 * Gets debug info for the template.
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
@@ -97,28 +67,22 @@ abstract class Template
 	public abstract function getDebugInfo(): array;
 
 	/**
-	 * Gets information about the original template source code.
+	 * Gets the source context for the template.
 	 *
-	 * @return Source
+	 * @return Source|null
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getSourceContext(): Source
-	{
-		return new Source('', $this->getTemplateName());
-	}
+	public abstract function getSourceContext(): ?Source;
 
 	/**
-	 * Gets the parent template. This method is for internal use only and should never be called directly.
+	 * Gets the parent template.
 	 *
 	 * @param array $context
 	 *
 	 * @return Template|TemplateWrapper|bool
-	 * @throws LoaderError
-	 * @throws Exception
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
-	 * @internal
 	 */
 	public function getParent(array $context)
 	{
@@ -129,7 +93,7 @@ abstract class Template
 		{
 			$parent = $this->doGetParent($context);
 
-			if (!$parent)
+			if ($parent === false)
 				return false;
 
 			if ($parent instanceof self || $parent instanceof TemplateWrapper)
@@ -149,24 +113,22 @@ abstract class Template
 		return $this->parents[$parent];
 	}
 
-	/** @noinspection PhpDocRedundantThrowsInspection */
 	/**
 	 * #oldcode: Do get parent.
 	 *
 	 * @param array $context
 	 *
-	 * @return Template|TemplateWrapper|bool
-	 * @throws LoaderError
+	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
 	protected function doGetParent(array $context)
 	{
-		return count($context) === -1;
+		return false;
 	}
 
 	/**
-	 * #oldcode: Gets if this template is traitable.
+	 * #oldcode: Gets if the template is traitable.
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
@@ -184,45 +146,32 @@ abstract class Template
 	 * @param array  $context
 	 * @param array  $blocks
 	 *
-	 * @throws Exception
-	 * @throws LoaderError
-	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public function displayParentBlock(string $name, array $context, array $blocks = [])
+	public function displayParentBlock($name, array $context, array $blocks = []): void
 	{
 		if (isset($this->traits[$name]))
-		{
 			$this->traits[$name][0]->displayBlock($name, $context, $blocks, false);
-		}
 		else if (false !== $parent = $this->getParent($context))
-		{
 			$parent->displayBlock($name, $context, $blocks, false);
-		}
 		else
-		{
 			throw new RuntimeError(sprintf('The template has no parent and no traits defining the "%s" block.', $name), -1, $this->getSourceContext());
-		}
 	}
 
 	/**
 	 * Displays a block. This method is for internal use only and should never be called directly.
 	 *
-	 * @param string        $name
-	 * @param array         $context
+	 * @param string       $name
+	 * @param array        $context
 	 * @param Template[][] $blocks
-	 * @param bool          $useBlocks
+	 * @param bool         $useBlocks
 	 *
-	 * @throws Error
-	 * @throws Exception
-	 * @throws LoaderError
-	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function displayBlock(string $name, array $context, array $blocks = [], bool $useBlocks = true, ?Template $templateContext = null)
+	public function displayBlock($name, array $context, array $blocks = [], $useBlocks = true, self $templateContext = null): void
 	{
 		if ($useBlocks && isset($blocks[$name]))
 		{
@@ -241,7 +190,7 @@ abstract class Template
 		}
 
 		if ($template !== null && !$template instanceof self)
-			throw new LogicException('A block must be a method on a Template instance.');
+			throw new LogicException('A block must be a method on a \Cappuccino\Template instance.');
 
 		if ($template !== null)
 		{
@@ -249,7 +198,6 @@ abstract class Template
 			{
 				$template->$block($context, $blocks);
 			}
-				/** @noinspection PhpRedundantCatchClauseInspection */
 			catch (Error $e)
 			{
 				if (!$e->getSourceContext())
@@ -262,10 +210,13 @@ abstract class Template
 			}
 			catch (Exception $e)
 			{
-				throw new RuntimeError(sprintf('An exception has been thrown during the rendering of a template ("%s").', $e->getMessage()), -1, $template->getSourceContext(), $e);
+				$e = new RuntimeError(sprintf('An exception has been thrown during the rendering of a template ("%s").', $e->getMessage()), -1, $template->getSourceContext(), $e);
+				$e->guess();
+
+				throw $e;
 			}
 		}
-		else if (($parent = $this->getParent($context)) === false)
+		else if (false !== $parent = $this->getParent($context))
 		{
 			$parent->displayBlock($name, $context, array_merge($this->blocks, $blocks), false, $templateContext ?? $this);
 		}
@@ -287,16 +238,17 @@ abstract class Template
 	 * @param array  $blocks
 	 *
 	 * @return string
-	 * @throws Exception
-	 * @throws LoaderError
-	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public function renderParentBlock(string $name, array $context, array $blocks = []): string
+	public function renderParentBlock($name, array $context, array $blocks = []): string
 	{
-		ob_start();
+		if ($this->cappuccino->isDebug())
+			ob_start();
+		else
+			ob_start([EasyPeasyLemonSqueezy::class, 'returnEmptyString']);
+
 		$this->displayParentBlock($name, $context, $blocks);
 
 		return ob_get_clean();
@@ -311,17 +263,17 @@ abstract class Template
 	 * @param bool   $useBlocks
 	 *
 	 * @return string
-	 * @throws Error
-	 * @throws Exception
-	 * @throws LoaderError
-	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 * @internal
 	 */
-	public function renderBlock(string $name, array $context, array $blocks = [], bool $useBlocks = true): string
+	public function renderBlock($name, array $context, array $blocks = [], $useBlocks = true): string
 	{
-		ob_start();
+		if ($this->cappuccino->isDebug())
+			ob_start();
+		else
+			ob_start([EasyPeasyLemonSqueezy::class, 'returnEmptyString']);
+
 		$this->displayBlock($name, $context, $blocks, $useBlocks);
 
 		return ob_get_clean();
@@ -336,12 +288,10 @@ abstract class Template
 	 * @param array  $blocks
 	 *
 	 * @return bool
-	 * @throws Exception
-	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function hasBlock(string $name, array $context, array $blocks = []): bool
+	public function hasBlock($name, array $context, array $blocks = []): bool
 	{
 		if (isset($blocks[$name]))
 			return $blocks[$name][0] instanceof self;
@@ -349,7 +299,7 @@ abstract class Template
 		if (isset($this->blocks[$name]))
 			return true;
 
-		if ($parent = $this->getParent($context))
+		if (($parent = $this->getParent($context)) !== false)
 			return $parent->hasBlock($name, $context);
 
 		return false;
@@ -363,19 +313,15 @@ abstract class Template
 	 * @param array $blocks
 	 *
 	 * @return array
-	 * @throws Exception
-	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getBlockNames(array $context, array $blocks = [])
+	public function getBlockNames(array $context, array $blocks = []): array
 	{
 		$names = array_merge(array_keys($blocks), array_keys($this->blocks));
 
-		if ($parent = $this->getParent($context))
-		{
+		if (($parent = $this->getParent($context)) !== false)
 			$names = array_merge($names, $parent->getBlockNames($context));
-		}
 
 		return array_unique($names);
 	}
@@ -388,8 +334,7 @@ abstract class Template
 	 * @param int|null        $line
 	 * @param int|null        $index
 	 *
-	 * @return Template
-	 * @throws Error
+	 * @return Template|TemplateWrapper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -403,14 +348,26 @@ abstract class Template
 			if ($template instanceof self || $template instanceof TemplateWrapper)
 				return $template;
 
-			return $this->cappuccino->loadTemplate($template, $index);
+			if ($template === $this->getTemplateName())
+			{
+				$class = get_class($this);
+
+				if (($pos = strrpos($class, '___', -1)) !== false)
+					$class = substr($class, 0, $pos);
+			}
+			else
+			{
+				$class = $this->cappuccino->getTemplateClass($template);
+			}
+
+			return $this->cappuccino->loadTemplate($class, $template, $index);
 		}
 		catch (Error $e)
 		{
 			if (!$e->getSourceContext())
-				$e->setSourceContext($templateName ? new Source('', $templateName) : $this->getSourceContext());
+				$e->setSourceContext($templateName !== null ? new Source('', $templateName) : $this->getSourceContext());
 
-			if ($e->getTemplateLine())
+			if ($e->getTemplateLine() > 0)
 				throw $e;
 
 			if (!$line)
@@ -420,6 +377,18 @@ abstract class Template
 
 			throw $e;
 		}
+	}
+
+	/**
+	 * Gets the template instance.
+	 *
+	 * @return Template
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
+	protected function unwrap(): Template
+	{
+		return $this;
 	}
 
 	/**
@@ -440,11 +409,10 @@ abstract class Template
 	 * @param array $context
 	 * @param array $blocks
 	 *
-	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function display(array $context, array $blocks = [])
+	public function display(array $context, array $blocks = []): void
 	{
 		$this->displayWithErrorHandling($this->cappuccino->mergeGlobals($context), array_merge($this->blocks, $blocks));
 	}
@@ -455,20 +423,23 @@ abstract class Template
 	 * @param array $context
 	 *
 	 * @return string
-	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function render(array $context)
+	public function render(array $context): string
 	{
 		$level = ob_get_level();
-		ob_start();
+
+		if ($this->cappuccino->isDebug())
+			ob_start();
+		else
+			ob_start([EasyPeasyLemonSqueezy::class, 'returnEmptyString']);
 
 		try
 		{
 			$this->display($context);
 		}
-		catch (RuntimeError $e)
+		catch (Error $e)
 		{
 			while (ob_get_level() > $level)
 				ob_end_clean();
@@ -485,7 +456,6 @@ abstract class Template
 	 * @param array $context
 	 * @param array $blocks
 	 *
-	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -495,22 +465,22 @@ abstract class Template
 		{
 			$this->doDisplay($context, $blocks);
 		}
-		catch (RuntimeError $e)
+		catch (Error $e)
 		{
 			if (!$e->getSourceContext())
 				$e->setSourceContext($this->getSourceContext());
 
-			if (false === $e->getTemplateLine())
-			{
-				$e->setTemplateLine(-1);
+			if ($e->getTemplateLine() === -1)
 				$e->guess();
-			}
 
 			throw $e;
 		}
 		catch (Exception $e)
 		{
-			throw new RuntimeError(sprintf('An exception has been thrown during the rendering of a template ("%s").', $e->getMessage()), -1, $this->getSourceContext(), $e);
+			$e = new RuntimeError(sprintf('An exception has been thrown during the rendering of a template ("%s").', $e->getMessage()), -1, $this->getSourceContext(), $e);
+			$e->guess();
+
+			throw $e;
 		}
 	}
 
@@ -520,20 +490,9 @@ abstract class Template
 	 * @param array $context
 	 * @param array $blocks
 	 *
-	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
 	protected abstract function doDisplay(array $context, array $blocks = []): void;
-
-	/**
-	 * {@inheritdoc}
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public function __toString()
-	{
-		return $this->getTemplateName();
-	}
 
 }

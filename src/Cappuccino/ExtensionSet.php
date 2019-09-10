@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -16,6 +16,8 @@ use Cappuccino\Error\RuntimeError;
 use Cappuccino\Extension\ExtensionInterface;
 use Cappuccino\Extension\GlobalsInterface;
 use Cappuccino\Extension\StagingExtension;
+use Cappuccino\Node\Expression\Binary\AbstractBinary;
+use Cappuccino\NodeVisitor\NodeVisitorInterface;
 use Cappuccino\TokenParser\TokenParserInterface;
 use InvalidArgumentException;
 use LogicException;
@@ -29,7 +31,7 @@ use UnexpectedValueException;
  * @package Cappuccino
  * @since 1.0.0
  */
-final class ExtensionSet implements ExtensionInterface
+final class ExtensionSet
 {
 
 	/**
@@ -78,12 +80,12 @@ final class ExtensionSet implements ExtensionInterface
 	private $functions;
 
 	/**
-	 * @var array
+	 * @var AbstractBinary[]
 	 */
 	private $unaryOperators;
 
 	/**
-	 * @var array
+	 * @var AbstractBinary[]
 	 */
 	private $binaryOperators;
 
@@ -93,12 +95,12 @@ final class ExtensionSet implements ExtensionInterface
 	private $globals;
 
 	/**
-	 * @var array
+	 * @var callable[]
 	 */
 	private $functionCallbacks = [];
 
 	/**
-	 * @var array
+	 * @var callable[]
 	 */
 	private $filterCallbacks = [];
 
@@ -119,18 +121,13 @@ final class ExtensionSet implements ExtensionInterface
 	}
 
 	/**
-	 * Initializes the runtime cappuccino.
-	 *
-	 * @param Cappuccino $env
+	 * Call when runtime is initialized.
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function initRuntime(Cappuccino $env)
+	public function initRuntime(): void
 	{
-		if ($this->runtimeInitialized)
-			return;
-
 		$this->runtimeInitialized = true;
 	}
 
@@ -145,22 +142,20 @@ final class ExtensionSet implements ExtensionInterface
 	 */
 	public function hasExtension(string $class): bool
 	{
-		$class = ltrim($class, '\\');
-
-		return isset($this->extensions[$class]);
+		return isset($this->extensions[ltrim($class, '\\')]);
 	}
 
 	/**
-	 * Gets an extension by class name.
+	 * Gets an extension.
 	 *
 	 * @param string $class
 	 *
-	 * @return ExtensionInterface|null
+	 * @return ExtensionInterface
 	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getExtension(string $class): ?ExtensionInterface
+	public function getExtension(string $class): ExtensionInterface
 	{
 		$class = ltrim($class, '\\');
 
@@ -171,9 +166,9 @@ final class ExtensionSet implements ExtensionInterface
 	}
 
 	/**
-	 * Adds extensions.
+	 * Sets extensions.
 	 *
-	 * @param array $extensions
+	 * @param ExtensionInterface[] $extensions
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
@@ -185,7 +180,7 @@ final class ExtensionSet implements ExtensionInterface
 	}
 
 	/**
-	 * Gets extensions.
+	 * Gets all extensions.
 	 *
 	 * @return ExtensionInterface[]
 	 * @author Bas Milius <bas@mili.us>
@@ -209,7 +204,7 @@ final class ExtensionSet implements ExtensionInterface
 	}
 
 	/**
-	 * Returns TRUE if we're initialized.
+	 * Returns TRUE if initialized.
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
@@ -221,7 +216,7 @@ final class ExtensionSet implements ExtensionInterface
 	}
 
 	/**
-	 * Gets the last modified integer.
+	 * Gets last modified by all extensions.
 	 *
 	 * @return int
 	 * @author Bas Milius <bas@mili.us>
@@ -236,7 +231,7 @@ final class ExtensionSet implements ExtensionInterface
 		{
 			$r = new ReflectionObject($extension);
 
-			if (is_file($r->getFileName()) && ($extensionTime = filemtime($r->getFileName())) > $this->lastModified)
+			if (file_exists($r->getFileName()) && ($extensionTime = filemtime($r->getFileName())) > $this->lastModified)
 				$this->lastModified = $extensionTime;
 		}
 
@@ -244,7 +239,7 @@ final class ExtensionSet implements ExtensionInterface
 	}
 
 	/**
-	 * Adds an {@see ExtensionInterface}.
+	 * Adds an extension.
 	 *
 	 * @param ExtensionInterface $extension
 	 *
@@ -265,7 +260,7 @@ final class ExtensionSet implements ExtensionInterface
 	}
 
 	/**
-	 * Adds a {@see CappuccinoFunction}.
+	 * Adds a function.
 	 *
 	 * @param CappuccinoFunction $function
 	 *
@@ -281,22 +276,22 @@ final class ExtensionSet implements ExtensionInterface
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Gets all defined functions.
+	 *
+	 * @return CappuccinoFunction[]
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
 	public function getFunctions(): array
 	{
 		if (!$this->initialized)
-		{
 			$this->initExtensions();
-		}
 
 		return $this->functions;
 	}
 
 	/**
-	 * Gets a {@see CappuccinoFunction}.
+	 * Gets a function.
 	 *
 	 * @param string $name
 	 *
@@ -326,8 +321,12 @@ final class ExtensionSet implements ExtensionInterface
 		}
 
 		foreach ($this->functionCallbacks as $callback)
-			if (false !== $function = $callback($name))
+		{
+			if (($function = $callback($name)) !== false)
+			{
 				return $function;
+			}
+		}
 
 		return null;
 	}
@@ -346,7 +345,7 @@ final class ExtensionSet implements ExtensionInterface
 	}
 
 	/**
-	 * Adds a {@see CappuccinoFilter}.
+	 * Adds a filter.
 	 *
 	 * @param CappuccinoFilter $filter
 	 *
@@ -362,7 +361,9 @@ final class ExtensionSet implements ExtensionInterface
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Gets all defined filters.
+	 *
+	 * @return CappuccinoFilter[]
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -405,7 +406,7 @@ final class ExtensionSet implements ExtensionInterface
 		}
 
 		foreach ($this->filterCallbacks as $callback)
-			if (false !== $filter = $callback($name))
+			if (($filter = $callback($name)) !== false)
 				return $filter;
 
 		return null;
@@ -425,7 +426,7 @@ final class ExtensionSet implements ExtensionInterface
 	}
 
 	/**
-	 * Adds a Node Visitor.
+	 * Adds a node visitor.
 	 *
 	 * @param NodeVisitorInterface $visitor
 	 *
@@ -441,7 +442,9 @@ final class ExtensionSet implements ExtensionInterface
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Gets all defined node visitors.
+	 *
+	 * @return NodeVisitorInterface[]
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -454,7 +457,7 @@ final class ExtensionSet implements ExtensionInterface
 	}
 
 	/**
-	 * Adds a Token Parser.
+	 * Adds a token parser.
 	 *
 	 * @param TokenParserInterface $parser
 	 *
@@ -470,7 +473,9 @@ final class ExtensionSet implements ExtensionInterface
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Gets all defined token parsers.
+	 *
+	 * @return TokenParserInterface[]
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -532,7 +537,22 @@ final class ExtensionSet implements ExtensionInterface
 	}
 
 	/**
-	 * Gets a test by name.
+	 * Gets all defined tests.
+	 *
+	 * @return CappuccinoTest[]
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getTests(): array
+	{
+		if (!$this->initialized)
+			$this->initExtensions();
+
+		return $this->tests;
+	}
+
+	/**
+	 * Gets a test.
 	 *
 	 * @param string $name
 	 *
@@ -548,26 +568,26 @@ final class ExtensionSet implements ExtensionInterface
 		if (isset($this->tests[$name]))
 			return $this->tests[$name];
 
+		foreach ($this->tests as $pattern => $test)
+		{
+			$pattern = str_replace('\\*', '(.*?)', preg_quote($pattern, '#'), $count);
+
+			if ($count && preg_match('#^' . $pattern . '$#', $name, $matches))
+			{
+				array_shift($matches);
+				$test->setArguments($matches);
+
+				return $test;
+			}
+		}
+
 		return null;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public function getTests(): array
-	{
-		if (!$this->initialized)
-			$this->initExtensions();
-
-		return $this->tests;
 	}
 
 	/**
 	 * Gets the registered unary operators.
 	 *
-	 * @return array
+	 * @return AbstractBinary[]
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -582,7 +602,7 @@ final class ExtensionSet implements ExtensionInterface
 	/**
 	 * Gets the registered binary operators.
 	 *
-	 * @return array
+	 * @return AbstractBinary[]
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -614,11 +634,12 @@ final class ExtensionSet implements ExtensionInterface
 			$this->initExtension($extension);
 
 		$this->initExtension($this->staging);
+
 		$this->initialized = true;
 	}
 
 	/**
-	 * Initializes a extension.
+	 * Initializes an extension.
 	 *
 	 * @param ExtensionInterface $extension
 	 *
@@ -639,7 +660,7 @@ final class ExtensionSet implements ExtensionInterface
 		foreach ($extension->getTokenParsers() as $parser)
 		{
 			if (!$parser instanceof TokenParserInterface)
-				throw new LogicException('getTokenParsers() must return an array of TokenParserInterface.');
+				throw new LogicException('getTokenParsers() must return an array of \Cappuccino\TokenParser\TokenParserInterface.');
 
 			$this->parsers[] = $parser;
 		}
@@ -658,16 +679,6 @@ final class ExtensionSet implements ExtensionInterface
 			$this->unaryOperators = array_merge($this->unaryOperators, $operators[0]);
 			$this->binaryOperators = array_merge($this->binaryOperators, $operators[1]);
 		}
-	}
-
-	/**
-	 * {@inheritdoc}
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public function getOperators(): array
-	{
-		return [];
 	}
 
 }

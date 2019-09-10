@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -17,7 +17,7 @@ use Cappuccino\Compiler;
 /**
  * Class ForLoopNode
  *
- * @author Bas Milius <bas@mili.us>
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\Node
  * @since 1.0.0
  */
@@ -27,15 +27,15 @@ class ForLoopNode extends Node
 	/**
 	 * ForLoopNode constructor.
 	 *
-	 * @param int         $lineno
+	 * @param int         $lineNumber
 	 * @param string|null $tag
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public function __construct(int $lineno, ?string $tag = null)
+	public function __construct(int $lineNumber, ?string $tag = null)
 	{
-		parent::__construct([], ['with_loop' => false, 'ifexpr' => false, 'else' => false], $lineno, $tag);
+		parent::__construct([], ['with_loop' => false, 'ifexpr' => false, 'else' => false], $lineNumber, $tag);
 	}
 
 	/**
@@ -53,17 +53,14 @@ class ForLoopNode extends Node
 			$compiler
 				->write("++\$context['loop']['index0'];\n")
 				->write("++\$context['loop']['index'];\n")
-				->write("\$context['loop']['first'] = false;\n");
-
-			if (!$this->getAttribute('ifexpr'))
-				$compiler
-					->write("if (isset(\$context['loop']['length'])) {\n")
-					->indent()
-					->write("--\$context['loop']['revindex0'];\n")
-					->write("--\$context['loop']['revindex'];\n")
-					->write("\$context['loop']['last'] = 0 === \$context['loop']['revindex0'];\n")
-					->outdent()
-					->write("}\n");
+				->write("\$context['loop']['first'] = false;\n")
+				->write("if (isset(\$context['loop']['length'])) {\n")
+				->indent()
+				->write("--\$context['loop']['revindex0'];\n")
+				->write("--\$context['loop']['revindex'];\n")
+				->write("\$context['loop']['last'] = 0 === \$context['loop']['revindex0'];\n")
+				->outdent()
+				->write("}\n");
 		}
 	}
 

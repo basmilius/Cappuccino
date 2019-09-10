@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -19,7 +19,7 @@ namespace Cappuccino\Error;
  * @package Cappuccino\Error
  * @since 1.0.0
  */
-final class SyntaxError extends Error
+class SyntaxError extends Error
 {
 
 	/**
@@ -31,7 +31,7 @@ final class SyntaxError extends Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addSuggestions(string $name, array $items)
+	public function addSuggestions(string $name, array $items): void
 	{
 		$alternatives = [];
 
@@ -39,7 +39,7 @@ final class SyntaxError extends Error
 		{
 			$lev = levenshtein($name, $item);
 
-			if ($lev <= strlen($name) / 3 || false !== strpos($item, $name))
+			if ($lev <= strlen($name) / 3 || strpos($item, $name) !== false)
 				$alternatives[$item] = $lev;
 		}
 
@@ -50,4 +50,5 @@ final class SyntaxError extends Error
 
 		$this->appendMessage(sprintf(' Did you mean "%s"?', implode('", "', array_keys($alternatives))));
 	}
+
 }

@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -22,18 +22,18 @@ use Cappuccino\Source;
  * @package Cappuccino\Loader
  * @since 1.0.0
  */
-final class ArrayLoader implements LoaderInterface, SourceContextLoaderInterface
+final class ArrayLoader implements LoaderInterface
 {
 
 	/**
-	 * @var string[]
+	 * @var array
 	 */
 	private $templates = [];
 
 	/**
 	 * ArrayLoader constructor.
 	 *
-	 * @param string[] $templates
+	 * @param array $templates
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
@@ -44,7 +44,7 @@ final class ArrayLoader implements LoaderInterface, SourceContextLoaderInterface
 	}
 
 	/**
-	 * Sets a template.
+	 * Adds a template.
 	 *
 	 * @param string $name
 	 * @param string $template
@@ -64,8 +64,6 @@ final class ArrayLoader implements LoaderInterface, SourceContextLoaderInterface
 	 */
 	public function getSourceContext(string $name): Source
 	{
-		$name = (string)$name;
-
 		if (!isset($this->templates[$name]))
 			throw new LoaderError(sprintf('Template "%s" is not defined.', $name));
 

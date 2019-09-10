@@ -1,19 +1,17 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
-declare(strict_types=1);
+declare(strict_types=0); // TODO(Bas): Figure out if we can enable this again.
 
 namespace Cappuccino;
 
-use Cappuccino\Error\Error;
-use Cappuccino\Error\RuntimeError;
 use Cappuccino\Error\SyntaxError;
 use Cappuccino\Node\BlockNode;
 use Cappuccino\Node\BlockReferenceNode;
@@ -26,6 +24,7 @@ use Cappuccino\Node\NodeCaptureInterface;
 use Cappuccino\Node\NodeOutputInterface;
 use Cappuccino\Node\PrintNode;
 use Cappuccino\Node\TextNode;
+use Cappuccino\NodeVisitor\NodeVisitorInterface;
 use Cappuccino\TokenParser\AbstractTokenParser;
 use Cappuccino\TokenParser\TokenParserInterface;
 
@@ -40,14 +39,19 @@ class Parser
 {
 
 	/**
+	 * @var Node[]
+	 */
+	private $stack = [];
+
+	/**
 	 * @var TokenStream
 	 */
 	private $stream;
 
 	/**
-	 * @var ExpressionParser
+	 * @var Node|null
 	 */
-	private $expressionParser;
+	private $parent;
 
 	/**
 	 * @var AbstractTokenParser[]
@@ -55,19 +59,14 @@ class Parser
 	private $handlers;
 
 	/**
-	 * @var Node[]
-	 */
-	private $stack = [];
-
-	/**
-	 * @var AbstractExpression
-	 */
-	private $parent;
-
-	/**
 	 * @var NodeVisitorInterface[]
 	 */
 	private $visitors;
+
+	/**
+	 * @var ExpressionParser
+	 */
+	private $expressionParser;
 
 	/**
 	 * @var BlockNode[]
@@ -107,7 +106,7 @@ class Parser
 	/**
 	 * @var int
 	 */
-	private $varNameSalt;
+	private $varNameSalt = 0;
 
 	/**
 	 * Parser constructor.
@@ -120,11 +119,10 @@ class Parser
 	public function __construct(Cappuccino $cappuccino)
 	{
 		$this->cappuccino = $cappuccino;
-		$this->varNameSalt = 0;
 	}
 
 	/**
-	 * Gets the var name.
+	 * Gets the variable name.
 	 *
 	 * @return string
 	 * @author Bas Milius <bas@mili.us>
@@ -143,16 +141,13 @@ class Parser
 	 * @param bool          $dropNeedle
 	 *
 	 * @return ModuleNode
-	 * @throws Error
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse(TokenStream $stream, ?callable $test = null, bool $dropNeedle = false): ModuleNode
+	public function parse(TokenStream $stream, $test = null, bool $dropNeedle = false): ModuleNode
 	{
 		$vars = get_object_vars($this);
-		unset($vars['stack'], $vars['env'], $vars['handlers'], $vars['visitors'], $vars['expressionParser'], $vars['reservedMacroNames']);
+		unset($vars['stack'], $vars['cappuccino'], $vars['handlers'], $vars['visitors'], $vars['expressionParser'], $vars['reservedMacroNames']);
 		$this->stack[] = $vars;
 
 		if ($this->handlers === null)
@@ -162,7 +157,6 @@ class Parser
 			foreach ($this->cappuccino->getTokenParsers() as $handler)
 			{
 				$handler->setParser($this);
-
 				$this->handlers[$handler->getTag()] = $handler;
 			}
 		}
@@ -201,7 +195,10 @@ class Parser
 			throw $e;
 		}
 
-		$node = new ModuleNode(new BodyNode([$body]), $this->parent, new Node($this->blocks), new Node($this->macros), new Node($this->traits), $this->embeddedTemplates, $stream->getSourceContext());
+		/** @var AbstractExpression|null $parent */
+		$parent = $this->parent;
+
+		$node = new ModuleNode(new BodyNode([$body]), $parent, new Node($this->blocks), new Node($this->macros), new Node($this->traits), $this->embeddedTemplates, $stream->getSourceContext());
 		$traverser = new NodeTraverser($this->cappuccino, $this->visitors);
 
 		/** @var ModuleNode $node */
@@ -220,42 +217,35 @@ class Parser
 	 * @param bool          $dropNeedle
 	 *
 	 * @return Node
-	 * @throws Error
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function subparse(?callable $test, bool $dropNeedle = false): Node
+	public function subparse($test, bool $dropNeedle = false): Node
 	{
-		$lineno = $this->getCurrentToken()->getLine();
+		$lineNumber = $this->getCurrentToken()->getLine();
 		$rv = [];
 
 		while (!$this->stream->isEOF())
 		{
 			switch ($this->getCurrentToken()->getType())
 			{
-				case /*Token::TEXT_TYPE*/
-				0:
+				case Token::TEXT_TYPE:
 					$token = $this->stream->next();
 					$rv[] = new TextNode($token->getValue(), $token->getLine());
 					break;
 
-				case /*Token::VAR_START_TYPE*/
-				2:
+				case Token::VAR_START_TYPE:
 					$token = $this->stream->next();
 					$expr = $this->expressionParser->parseExpression();
 					$this->stream->expect(Token::VAR_END_TYPE);
 					$rv[] = new PrintNode($expr, $token->getLine());
 					break;
 
-				case /*Token::BLOCK_START_TYPE*/
-				1:
+				case Token::BLOCK_START_TYPE:
 					$this->stream->next();
 					$token = $this->getCurrentToken();
 
-					if ($token->getType() !== /*Token::NAME_TYPE*/
-						5)
+					if ($token->getType() !== Token::NAME_TYPE)
 						throw new SyntaxError('A block must start with a tag name.', $token->getLine(), $this->stream->getSourceContext());
 
 					if ($test !== null && $test($token))
@@ -266,7 +256,7 @@ class Parser
 						if (count($rv) === 1)
 							return $rv[0];
 
-						return new Node($rv, [], $lineno);
+						return new Node($rv, [], $lineNumber);
 					}
 
 					if (!isset($this->handlers[$token->getValue()]))
@@ -276,7 +266,7 @@ class Parser
 							$e = new SyntaxError(sprintf('Unexpected "%s" tag', $token->getValue()), $token->getLine(), $this->stream->getSourceContext());
 
 							if (is_array($test) && isset($test[0]) && $test[0] instanceof TokenParserInterface)
-								$e->appendMessage(sprintf(' (expecting closing tag for the "%s" tag defined near line %s).', $test[0]->getTag(), $lineno));
+								$e->appendMessage(sprintf(' (expecting closing tag for the "%s" tag defined near line %s).', $test[0]->getTag(), $lineNumber));
 						}
 						else
 						{
@@ -305,7 +295,7 @@ class Parser
 		if (count($rv) === 1)
 			return $rv[0];
 
-		return new Node($rv, [], $lineno);
+		return new Node($rv, [], $lineNumber);
 	}
 
 	/**
@@ -323,13 +313,13 @@ class Parser
 	/**
 	 * Peeks the block stack.
 	 *
-	 * @return string
+	 * @return string|null
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function peekBlockStack()
+	public function peekBlockStack(): ?string
 	{
-		return $this->blockStack[count($this->blockStack) - 1];
+		return isset($this->blockStack[count($this->blockStack) - 1]) ? $this->blockStack[count($this->blockStack) - 1] : null;
 	}
 
 	/**
@@ -351,7 +341,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function pushBlockStack(string $name): void
+	public function pushBlockStack($name): void
 	{
 		$this->blockStack[] = $name;
 	}
@@ -379,7 +369,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getBlock(string $name): ?BlockNode
+	public function getBlock(string $name): Node
 	{
 		return $this->blocks[$name];
 	}
@@ -459,7 +449,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function embedTemplate(ModuleNode $template): void
+	public function embedTemplate(ModuleNode $template)
 	{
 		$template->setIndex(mt_rand());
 
@@ -477,7 +467,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addImportedSymbol(string $type, string $alias, ?string $name = null, ?AbstractExpression $node = null): void
+	public function addImportedSymbol(string $type, string $alias, string $name = null, ?AbstractExpression $node = null): void
 	{
 		$this->importedSymbols[0][$type][$alias] = ['name' => $name, 'node' => $node];
 	}
@@ -494,11 +484,7 @@ class Parser
 	 */
 	public function getImportedSymbol(string $type, string $alias): ?array
 	{
-		foreach ($this->importedSymbols as $functions)
-			if (isset($functions[$type][$alias]))
-				return $functions[$type][$alias];
-
-		return null;
+		return $this->importedSymbols[0][$type][$alias] ?? ($this->importedSymbols[count($this->importedSymbols) - 1][$type][$alias] ?? null);
 	}
 
 	/**
@@ -554,7 +540,7 @@ class Parser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getParent(): ?AbstractExpression
+	public function getParent(): ?Node
 	{
 		return $this->parent;
 	}
@@ -562,12 +548,12 @@ class Parser
 	/**
 	 * Sets the parent {@see AbstractExpression}.
 	 *
-	 * @param AbstractExpression $parent
+	 * @param Node|null $parent
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setParent(AbstractExpression $parent)
+	public function setParent(?Node $parent): void
 	{
 		$this->parent = $parent;
 	}
@@ -603,7 +589,6 @@ class Parser
 	 * @param bool $nested
 	 *
 	 * @return Node|null
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -611,7 +596,7 @@ class Parser
 	{
 		if (($node instanceof TextNode && !ctype_space($node->getAttribute('data'))) || (!$node instanceof TextNode && !$node instanceof BlockReferenceNode && $node instanceof NodeOutputInterface))
 		{
-			if (strpos((string)$node, chr(0xEF) . chr(0xBB) . chr(0xBF)))
+			if (strpos((string)$node, chr(0xEF) . chr(0xBB) . chr(0xBF)) !== false)
 			{
 				$t = substr($node->getAttribute('data'), 3);
 
@@ -619,7 +604,7 @@ class Parser
 					return null;
 			}
 
-			throw new SyntaxError('A template that extends another one cannot include contents outside Cappuccino blocks. Did you forget to put the contents inside a {% block %} tag?', $node->getTemplateLine(), $this->stream->getSourceContext());
+			throw new SyntaxError('A template that extends another one cannot include content outside Cappuccino blocks. Did you forget to put the content inside a {% block %} tag?', $node->getTemplateLine(), $this->stream->getSourceContext());
 		}
 
 		if ($node instanceof NodeCaptureInterface)
@@ -635,7 +620,7 @@ class Parser
 
 		foreach ($node as $k => $n)
 			if ($n !== null && $this->filterBodyNodes($n, $nested) === null)
-				$node->removeNode((string)$k);
+				$node->removeNode($k);
 
 		return $node;
 	}

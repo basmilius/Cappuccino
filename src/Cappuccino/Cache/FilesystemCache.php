@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -26,7 +26,14 @@ class FilesystemCache implements CacheInterface
 
 	public const FORCE_BYTECODE_INVALIDATION = 1;
 
+	/**
+	 * @var string
+	 */
 	private $directory;
+
+	/**
+	 * @var int
+	 */
 	private $options;
 
 	/**
@@ -51,7 +58,7 @@ class FilesystemCache implements CacheInterface
 	 */
 	public function generateKey(string $name, string $className): string
 	{
-		$hash = hash('sha256', $className);
+		$hash = substr($className, 3);
 
 		return $this->directory . $hash[0] . $hash[1] . '/' . $hash . '.php';
 	}
@@ -64,8 +71,7 @@ class FilesystemCache implements CacheInterface
 	public function load(string $key): void
 	{
 		if (is_file($key))
-			/** @noinspection PhpIncludeInspection */
-			@require_once $key;
+			/** @noinspection PhpIncludeInspection */ @include $key;
 	}
 
 	/**
@@ -100,7 +106,7 @@ class FilesystemCache implements CacheInterface
 
 			if (self::FORCE_BYTECODE_INVALIDATION == ($this->options & self::FORCE_BYTECODE_INVALIDATION))
 			{
-				if (function_exists('opcache_invalidate'))
+				if (function_exists('opcache_invalidate') && filter_var(ini_get('opcache.enable'), FILTER_VALIDATE_BOOLEAN))
 					opcache_invalidate($key, true);
 				else if (function_exists('apc_compile_file'))
 					apc_compile_file($key);
@@ -119,10 +125,7 @@ class FilesystemCache implements CacheInterface
 	 */
 	public function getTimestamp(string $key): int
 	{
-		if (!is_file($key))
-			return 0;
-
-		return (int)@filemtime($key);
+		return is_file($key) ? filemtime($key) ?: 0 : 0;
 	}
 
 }

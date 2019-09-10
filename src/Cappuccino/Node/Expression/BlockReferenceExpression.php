@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Cappuccino\Node\Expression;
 
 use Cappuccino\Compiler;
-use Cappuccino\Error\Error;
 use Cappuccino\Node\Node;
 
 /**
@@ -29,24 +28,22 @@ class BlockReferenceExpression extends AbstractExpression
 	/**
 	 * BlockReferenceExpression constructor.
 	 *
-	 * @param Node      $name
-	 * @param Node|null $template
-	 * @param int       $lineno
-	 * @param mixed     $tag
+	 * @param Node        $name
+	 * @param Node|null   $template
+	 * @param int         $lineNumber
+	 * @param string|null $tag
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public function __construct(Node $name, Node $template = null, int $lineno = -1, $tag = null)
+	public function __construct(Node $name, Node $template = null, int $lineNumber = 0, ?string $tag = null)
 	{
 		$nodes = ['name' => $name];
 
 		if ($template !== null)
-		{
 			$nodes['template'] = $template;
-		}
 
-		parent::__construct($nodes, ['is_defined_test' => false, 'output' => false], $lineno, $tag);
+		parent::__construct($nodes, ['is_defined_test' => false, 'output' => false], $lineNumber, $tag);
 	}
 
 	/**
@@ -66,7 +63,9 @@ class BlockReferenceExpression extends AbstractExpression
 			{
 				$compiler->addDebugInfo($this);
 
-				$this->compileTemplateCall($compiler, 'displayBlock')->raw(";\n");
+				$this
+					->compileTemplateCall($compiler, 'displayBlock')
+					->raw(";\n");
 			}
 			else
 			{
@@ -79,24 +78,33 @@ class BlockReferenceExpression extends AbstractExpression
 	 * Compiles a template call.
 	 *
 	 * @param Compiler $compiler
-	 * @param          $method
+	 * @param string   $method
 	 *
 	 * @return Compiler
-	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function compileTemplateCall(Compiler $compiler, $method): Compiler
+	private function compileTemplateCall(Compiler $compiler, string $method): Compiler
 	{
 		if (!$this->hasNode('template'))
+		{
 			$compiler->write('$this');
+		}
 		else
-			$compiler->write('$this->loadTemplate(')->subcompile($this->getNode('template'))->raw(', ')->repr($this->getTemplateName())->raw(', ')->repr($this->getTemplateLine())->raw(')');
+		{
+			$compiler
+				->write('$this->loadTemplate(')
+				->subcompile($this->getNode('template'))
+				->raw(', ')
+				->repr($this->getTemplateName())
+				->raw(', ')
+				->repr($this->getTemplateLine())
+				->raw(')');
+		}
 
 		$compiler->raw(sprintf('->%s', $method));
-		$this->compileBlockArguments($compiler);
 
-		return $compiler;
+		return $this->compileBlockArguments($compiler);
 	}
 
 	/**
@@ -105,13 +113,15 @@ class BlockReferenceExpression extends AbstractExpression
 	 * @param Compiler $compiler
 	 *
 	 * @return Compiler
-	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
 	private function compileBlockArguments(Compiler $compiler): Compiler
 	{
-		$compiler->raw('(')->subcompile($this->getNode('name'))->raw(', $context');
+		$compiler
+			->raw('(')
+			->subcompile($this->getNode('name'))
+			->raw(', $context');
 
 		if (!$this->hasNode('template'))
 			$compiler->raw(', $blocks');

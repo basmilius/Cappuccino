@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -31,7 +31,12 @@ class MatchesBinary extends AbstractBinary
 	 */
 	public function compile(Compiler $compiler): void
 	{
-		$compiler->raw('preg_match(')->subcompile($this->getNode('right'))->raw(', ')->subcompile($this->getNode('left'))->raw(')');
+		$compiler
+			->raw('preg_match(')
+			->subcompile($this->getNode('right'))
+			->raw(', ')
+			->subcompile($this->getNode('left'))
+			->raw(')');
 	}
 
 	/**

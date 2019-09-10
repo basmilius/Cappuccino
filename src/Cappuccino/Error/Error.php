@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -27,35 +27,49 @@ use ReflectionObject;
 class Error extends Exception
 {
 
-	private $lineno;
+	/**
+	 * @var int
+	 */
+	private $lineNumber;
+
+	/**
+	 * @var string|null
+	 */
 	private $name;
+
+	/**
+	 * @var string
+	 */
 	private $rawMessage;
+
+	/**
+	 * @var string
+	 */
 	private $sourcePath;
+
+	/**
+	 * @var string
+	 */
 	private $sourceCode;
 
 	/**
 	 * Error constructor.
 	 *
-	 * @param string             $message
-	 * @param int                $lineno
-	 * @param Source|string|null $source
-	 * @param Exception|null     $previous
+	 * @param string         $message
+	 * @param int            $lineNumber
+	 * @param Source|null    $source
+	 * @param Exception|null $previous
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(string $message, int $lineno = -1, $source = null, ?Exception $previous = null, bool $autoGuess = true)
+	public function __construct(string $message, int $lineNumber = -1, ?Source $source = null, ?Exception $previous = null)
 	{
 		parent::__construct('', 0, $previous);
 
 		if ($source === null)
 		{
 			$name = null;
-		}
-		else if (!$source instanceof Source)
-		{
-			@trigger_error(sprintf('Passing a string as a soruce to %s is deprecated since Cappuccino 1.2.0; pass a %s instance instead.', __CLASS__, Source::class), E_USER_DEPRECATED);
-			$name = $source;
 		}
 		else
 		{
@@ -64,67 +78,73 @@ class Error extends Exception
 			$this->sourcePath = $source->getPath();
 		}
 
-		$this->lineno = $lineno;
+		$this->lineNumber = $lineNumber;
 		$this->name = $name;
-
-		if ($autoGuess && ($lineno === -1 || $name === null || $this->sourcePath === null))
-			$this->guessTemplateInfo();
-
 		$this->rawMessage = $message;
-
 		$this->updateRepr();
 	}
 
 	/**
-	 * Gets the raw message.
+	 * Gets the raw error message.
 	 *
-	 * @return string The raw message
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
-	public function getRawMessage()
+	public function getRawMessage(): string
 	{
 		return $this->rawMessage;
 	}
 
 	/**
-	 * Gets the template line where the error occurred.
+	 * Gets the line number in the cappy-file.
 	 *
-	 * @return int The template line
+	 * @return int
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
-	public function getTemplateLine()
+	public function getTemplateLine(): int
 	{
-		return $this->lineno;
+		return $this->lineNumber;
 	}
 
 	/**
-	 * Sets the template line where the error occurred.
+	 * Sets the line number in the cappy-file where the error occurred.
 	 *
-	 * @param int $lineno The template line
+	 * @param int $lineNumber
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
-	public function setTemplateLine($lineno)
+	public function setTemplateLine(int $lineNumber): void
 	{
-		$this->lineno = $lineno;
-
+		$this->lineNumber = $lineNumber;
 		$this->updateRepr();
 	}
 
 	/**
-	 * Gets the source context of the Cappuccino template where the error occurred.
+	 * Gets the source context of the cappy-file where the error occurred.
 	 *
 	 * @return Source|null
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
-	public function getSourceContext()
+	public function getSourceContext(): ?Source
 	{
 		return $this->name ? new Source($this->sourceCode, $this->name, $this->sourcePath) : null;
 	}
 
 	/**
-	 * Sets the source context of the Cappuccino template where the error occurred.
+	 * Sets the source context of the cappy-file where the error occurred.
 	 *
 	 * @param Source|null $source
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
 	 */
-	public function setSourceContext(Source $source = null)
+	public function setSourceContext(Source $source = null): void
 	{
-		if (null === $source)
+		if ($source === null)
 		{
 			$this->sourceCode = $this->name = $this->sourcePath = null;
 		}
@@ -138,39 +158,60 @@ class Error extends Exception
 		$this->updateRepr();
 	}
 
-	public function guess()
+	/**
+	 * Guess the template info.
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function guess(): void
 	{
 		$this->guessTemplateInfo();
 		$this->updateRepr();
 	}
 
-	public function appendMessage($rawMessage)
+	/**
+	 * Append a message to the raw message.
+	 *
+	 * @param string $rawMessage
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function appendMessage(string $rawMessage): void
 	{
 		$this->rawMessage .= $rawMessage;
 		$this->updateRepr();
 	}
 
-	private function updateRepr()
+	/**
+	 * Updates the error representation.
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	private function updateRepr(): void
 	{
 		$this->message = $this->rawMessage;
 
-		if ($this->sourcePath && $this->lineno > 0)
+		if ($this->sourcePath && $this->lineNumber > 0)
 		{
 			$this->file = $this->sourcePath;
-			$this->line = $this->lineno;
+			$this->line = $this->lineNumber;
 
 			return;
 		}
 
 		$dot = false;
-		if ('.' === substr($this->message, -1))
+		$questionMark = false;
+
+		if (substr($this->message, -1) === '.')
 		{
 			$this->message = substr($this->message, 0, -1);
 			$dot = true;
 		}
 
-		$questionMark = false;
-		if ('?' === substr($this->message, -1))
+		if (substr($this->message, -1) === '?')
 		{
 			$this->message = substr($this->message, 0, -1);
 			$questionMark = true;
@@ -179,33 +220,30 @@ class Error extends Exception
 		if ($this->name)
 		{
 			if (is_string($this->name) || (is_object($this->name) && method_exists($this->name, '__toString')))
-			{
 				$name = sprintf('"%s"', $this->name);
-			}
 			else
-			{
 				$name = json_encode($this->name);
-			}
+
 			$this->message .= sprintf(' in %s', $name);
 		}
 
-		if ($this->lineno && $this->lineno >= 0)
-		{
-			$this->message .= sprintf(' at line %d', $this->lineno);
-		}
+		if ($this->lineNumber && $this->lineNumber >= 0)
+			$this->message .= sprintf(' at line %d', $this->lineNumber);
 
 		if ($dot)
-		{
 			$this->message .= '.';
-		}
 
 		if ($questionMark)
-		{
 			$this->message .= '?';
-		}
 	}
 
-	private function guessTemplateInfo()
+	/**
+	 * Guesses template info.
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	private function guessTemplateInfo(): void
 	{
 		$template = null;
 		$templateClass = null;
@@ -214,14 +252,14 @@ class Error extends Exception
 		foreach ($backtrace as $trace)
 		{
 			/** @var Template $traceObject */
-			$traceObject = $trace['object'] ?? [];
+			$traceObject = $trace['object'];
 
-			if (isset($traceObject) && $traceObject instanceof Template && get_class($traceObject) !== Template::class)
+			if (isset($traceObject) && $traceObject instanceof Template)
 			{
 				$currentClass = get_class($traceObject);
-				$isEmbedContainer = 0 === strpos($templateClass ?? '', $currentClass);
+				$isEmbedContainer = 0 === strpos($templateClass, $currentClass);
 
-				if ($this->name === null || ($this->name == $traceObject->getTemplateName() && !$isEmbedContainer))
+				if ($this->name === null || ($this->name === $traceObject->getTemplateName() && !$isEmbedContainer))
 				{
 					$template = $traceObject;
 					$templateClass = get_class($traceObject);
@@ -239,7 +277,7 @@ class Error extends Exception
 			$this->sourcePath = $src->getPath();
 		}
 
-		if ($template === null || $this->lineno > -1)
+		if ($template === null || $this->lineNumber > -1)
 			return;
 
 		$r = new ReflectionObject($template);
@@ -261,12 +299,11 @@ class Error extends Exception
 
 				foreach ($template->getDebugInfo() as $codeLine => $templateLine)
 				{
-					if ($codeLine <= $trace['line'])
-					{
-						$this->lineno = $templateLine;
+					if ($codeLine > $trace['line'])
+						continue;
 
-						return;
-					}
+					$this->lineNumber = $templateLine;
+					return;
 				}
 			}
 		}

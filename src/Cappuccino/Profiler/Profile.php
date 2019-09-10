@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -19,17 +19,17 @@ use Serializable;
 /**
  * Class Profile
  *
- * @author Bas Milius <bas@mili.us>
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\Profiler
  * @since 1.0.0
  */
 final class Profile implements IteratorAggregate, Serializable
 {
 
-	public const ROOT = 'ROOT';
-	public const BLOCK = 'block';
-	public const TEMPLATE = 'template';
-	public const MACRO = 'macro';
+	const ROOT = 'ROOT';
+	const BLOCK = 'block';
+	const TEMPLATE = 'template';
+	const MACRO = 'macro';
 
 	private $template;
 	private $name;
@@ -45,14 +45,14 @@ final class Profile implements IteratorAggregate, Serializable
 	 * @param string $type
 	 * @param string $name
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
 	public function __construct(string $template = 'main', string $type = self::ROOT, string $name = 'main')
 	{
 		$this->template = $template;
 		$this->type = $type;
-		$this->name = 0 === strpos($name, '__internal_') ? 'INTERNAL' : $name;
+		$this->name = strpos($name, '__internal_') === 0 ? 'INTERNAL' : $name;
 		$this->enter();
 	}
 
@@ -101,7 +101,7 @@ final class Profile implements IteratorAggregate, Serializable
 	 */
 	public function isRoot(): bool
 	{
-		return self::ROOT === $this->type;
+		return $this->type === self::ROOT;
 	}
 
 	/**
@@ -113,7 +113,7 @@ final class Profile implements IteratorAggregate, Serializable
 	 */
 	public function isTemplate(): bool
 	{
-		return self::TEMPLATE === $this->type;
+		return $this->type === self::TEMPLATE;
 	}
 
 	/**
@@ -125,7 +125,7 @@ final class Profile implements IteratorAggregate, Serializable
 	 */
 	public function isBlock(): bool
 	{
-		return self::BLOCK === $this->type;
+		return $this->type === self::BLOCK;
 	}
 
 	/**
@@ -137,7 +137,7 @@ final class Profile implements IteratorAggregate, Serializable
 	 */
 	public function isMacro(): bool
 	{
-		return self::MACRO === $this->type;
+		return $this->type === self::MACRO;
 	}
 
 	/**
@@ -160,7 +160,7 @@ final class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addProfile(Profile $profile): void
+	public function addProfile(self $profile): void
 	{
 		$this->profiles[] = $profile;
 	}
@@ -168,11 +168,11 @@ final class Profile implements IteratorAggregate, Serializable
 	/**
 	 * Gets the duration in microseconds.
 	 *
-	 * @return int
+	 * @return float
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getDuration(): int
+	public function getDuration(): float
 	{
 		if ($this->isRoot() && $this->profiles)
 		{
@@ -203,7 +203,7 @@ final class Profile implements IteratorAggregate, Serializable
 	 * Gets the peak memory usage in bytes.
 	 *
 	 * @return int
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
 	public function getPeakMemoryUsage(): int
@@ -212,12 +212,12 @@ final class Profile implements IteratorAggregate, Serializable
 	}
 
 	/**
-	 * Starts the profiling.
+	 * Starts profiling.
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public function enter()
+	public function enter(): void
 	{
 		$this->starts = [
 			'wt' => microtime(true),
@@ -227,9 +227,9 @@ final class Profile implements IteratorAggregate, Serializable
 	}
 
 	/**
-	 * Stops the profiling.
+	 * Stops profiling.
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
 	public function leave(): void
@@ -242,9 +242,9 @@ final class Profile implements IteratorAggregate, Serializable
 	}
 
 	/**
-	 * Resets the profiling.
+	 * Resets profiling.
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
 	public function reset(): void
@@ -258,7 +258,7 @@ final class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getIterator(): ArrayIterator
+	public function getIterator()
 	{
 		return new ArrayIterator($this->profiles);
 	}
@@ -268,9 +268,9 @@ final class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function serialize(): string
+	public function serialize()
 	{
-		return serialize([$this->template, $this->name, $this->type, $this->starts, $this->ends, $this->profiles]);
+		return serialize($this->__serialize());
 	}
 
 	/**
@@ -278,9 +278,29 @@ final class Profile implements IteratorAggregate, Serializable
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function unserialize($data): void
+	public function unserialize($data)
 	{
-		[$this->template, $this->name, $this->type, $this->starts, $this->ends, $this->profiles] = unserialize($data);
+		$this->__unserialize(unserialize($data));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function __serialize()
+	{
+		return [$this->template, $this->name, $this->type, $this->starts, $this->ends, $this->profiles];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function __unserialize(array $data)
+	{
+		[$this->template, $this->name, $this->type, $this->starts, $this->ends, $this->profiles] = $data;
 	}
 
 }

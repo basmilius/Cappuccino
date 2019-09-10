@@ -1,20 +1,19 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
 
 namespace Cappuccino;
 
-use Cappuccino\Error\LoaderError;
-use Cappuccino\Error\RuntimeError;
-use Exception;
+use Cappuccino\Error\Error;
+use Cappuccino\Util\EasyPeasyLemonSqueezy;
 
 /**
  * Class TemplateWrapper
@@ -57,13 +56,13 @@ final class TemplateWrapper
 	 * @param array $context
 	 *
 	 * @return string
-	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function render($context = []): string
+	public function render(array $context = []): string
 	{
-		return $this->template->render($context);
+		/** @noinspection PhpMethodParametersCountMismatchInspection */
+		return $this->template->render($context, func_get_args()[1] ?? []);
 	}
 
 	/**
@@ -71,24 +70,21 @@ final class TemplateWrapper
 	 *
 	 * @param array $context
 	 *
-	 * @throws Exception
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function display(array $context = []): void
+	public function display(array $context = [])
 	{
 		$this->template->display($context, func_get_args()[1] ?? []);
 	}
 
 	/**
-	 * Checks if a block is defined.
+	 * Returns TRUE if a block is defined.
 	 *
 	 * @param string $name
 	 * @param array  $context
 	 *
 	 * @return bool
-	 * @throws LoaderError
-	 * @throws Exception
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -103,8 +99,6 @@ final class TemplateWrapper
 	 * @param array $context
 	 *
 	 * @return string[]
-	 * @throws LoaderError
-	 * @throws Exception
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -120,8 +114,6 @@ final class TemplateWrapper
 	 * @param array  $context
 	 *
 	 * @return string
-	 * @throws LoaderError
-	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -129,18 +121,20 @@ final class TemplateWrapper
 	{
 		$context = $this->cappuccino->mergeGlobals($context);
 		$level = ob_get_level();
-		ob_start();
+
+		if ($this->cappuccino->isDebug())
+			ob_start();
+		else
+			ob_start([EasyPeasyLemonSqueezy::class, 'returnEmptyString']);
 
 		try
 		{
 			$this->template->displayBlock($name, $context);
 		}
-		catch (LoaderError | RuntimeError | Exception $e)
+		catch (Error $e)
 		{
 			while (ob_get_level() > $level)
-			{
 				ob_end_clean();
-			}
 
 			throw $e;
 		}
@@ -154,13 +148,10 @@ final class TemplateWrapper
 	 * @param string $name
 	 * @param array  $context
 	 *
-	 * @throws Exception
-	 * @throws LoaderError
-	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function displayBlock(string $name, array $context = []): void
+	public function displayBlock(string $name, array $context = [])
 	{
 		$this->template->displayBlock($name, $this->cappuccino->mergeGlobals($context));
 	}
@@ -175,6 +166,30 @@ final class TemplateWrapper
 	public function getSourceContext(): Source
 	{
 		return $this->template->getSourceContext();
+	}
+
+	/**
+	 * Gets the template name.
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getTemplateName(): string
+	{
+		return $this->template->getTemplateName();
+	}
+
+	/**
+	 * Gets the template.
+	 *
+	 * @return Template
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
+	public function unwrap(): Template
+	{
+		return $this->template;
 	}
 
 }

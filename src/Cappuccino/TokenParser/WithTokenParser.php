@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -19,7 +19,12 @@ use Cappuccino\Token;
 /**
  * Class WithTokenParser
  *
- * @author Bas Milius <bas@mili.us>
+ * {% with %}
+ *     {% set foo = 13 %}
+ *     {# foo is only available within this scope #}
+ * {% endwith %}
+ *
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\TokenParser
  * @since 1.0.0
  */
@@ -38,32 +43,26 @@ final class WithTokenParser extends AbstractTokenParser
 		$variables = null;
 		$only = false;
 
-		if (!$stream->test(/*Token::BLOCK_END_TYPE*/
-			3))
+		if (!$stream->test(Token::BLOCK_END_TYPE))
 		{
 			$variables = $this->parser->getExpressionParser()->parseExpression();
-			$only = $stream->nextIf(/*Token::NAME_TYPE*/
-				5, 'only');
+			$only = (bool)$stream->nextIf(Token::NAME_TYPE, 'only');
 		}
 
-		$stream->expect(/*Token::BLOCK_END_TYPE*/
-			3);
-
+		$stream->expect(Token::BLOCK_END_TYPE);
 		$body = $this->parser->subparse([$this, 'decideWithEnd'], true);
-
-		$stream->expect(/*Token::BLOCK_END_TYPE*/
-			3);
+		$stream->expect(Token::BLOCK_END_TYPE);
 
 		return new WithNode($body, $variables, $only, $token->getLine(), $this->getTag());
 	}
 
 	/**
-	 * Decide if the with should end.
+	 * Returns TRUE if the block should end.
 	 *
 	 * @param Token $token
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
 	public function decideWithEnd(Token $token): bool

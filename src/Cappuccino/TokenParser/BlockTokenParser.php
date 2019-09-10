@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -22,7 +22,11 @@ use Cappuccino\Token;
 /**
  * Class BlockTokenParser
  *
- * @author Bas Milius <bas@mili.us>
+ * {% block toolbar %}
+ *     This section of the template is reusable.
+ * {% endblock %}
+ *
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\TokenParser
  * @since 1.0.0
  */
@@ -34,11 +38,11 @@ final class BlockTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function parse(Token $token): Node
+	public function parse(Token $token): Node
 	{
 		$lineno = $token->getLine();
 		$stream = $this->parser->getStream();
-		$name = $stream->expect(5)->getValue(); // Token::NAME_TYPE
+		$name = $stream->expect(Token::NAME_TYPE)->getValue();
 
 		if ($this->parser->hasBlock($name))
 			throw new SyntaxError(sprintf("The block '%s' has already been defined line %d.", $name, $this->parser->getBlock($name)->getTemplateLine()), $stream->getCurrent()->getLine(), $stream->getSourceContext());
@@ -47,11 +51,11 @@ final class BlockTokenParser extends AbstractTokenParser
 		$this->parser->pushLocalScope();
 		$this->parser->pushBlockStack($name);
 
-		if ($stream->nextIf(3)) // Token::BLOCK_END_TYPE
+		if ($stream->nextIf(Token::BLOCK_END_TYPE))
 		{
 			$body = $this->parser->subparse([$this, 'decideBlockEnd'], true);
 
-			if ($token = $stream->nextIf(5)) // Token::NAME_TYPE
+			if ($token = $stream->nextIf(Token::NAME_TYPE))
 			{
 				$value = $token->getValue();
 
@@ -65,7 +69,8 @@ final class BlockTokenParser extends AbstractTokenParser
 				new PrintNode($this->parser->getExpressionParser()->parseExpression(), $lineno),
 			]);
 		}
-		$stream->expect(3); // Token::BLOCK_END_TYPE
+
+		$stream->expect(Token::BLOCK_END_TYPE);
 
 		$block->setNode('body', $body);
 		$this->parser->popBlockStack();
@@ -75,15 +80,15 @@ final class BlockTokenParser extends AbstractTokenParser
 	}
 
 	/**
-	 * Decide if the block should end.
+	 * Returns TRUE if the block should end.
 	 *
 	 * @param Token $token
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.30.
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 1.0.0
 	 */
-	public final function decideBlockEnd(Token $token): bool
+	public function decideBlockEnd(Token $token): bool
 	{
 		return $token->test('endblock');
 	}
@@ -93,7 +98,7 @@ final class BlockTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function getTag(): string
+	public function getTag(): string
 	{
 		return 'block';
 	}

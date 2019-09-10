@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -19,7 +19,9 @@ use Cappuccino\Token;
 /**
  * Class FlushTokenParser
  *
- * @author Bas Milius <bas@mili.us>
+ * {% flush %}
+ *
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\TokenParser
  * @since 1.0.0
  */
@@ -33,8 +35,7 @@ final class FlushTokenParser extends AbstractTokenParser
 	 */
 	public function parse(Token $token): Node
 	{
-		$this->parser->getStream()->expect(/*Token::BLOCK_END_TYPE*/
-			3);
+		$this->parser->getStream()->expect(Token::BLOCK_END_TYPE);
 
 		return new FlushNode($token->getLine(), $this->getTag());
 	}

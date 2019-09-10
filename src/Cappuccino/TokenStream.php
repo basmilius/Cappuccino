@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -48,20 +48,10 @@ final class TokenStream
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(array $tokens, ?Source $source = null)
+	public function __construct(array $tokens, Source $source = null)
 	{
 		$this->tokens = $tokens;
 		$this->source = $source ?: new Source('', '');
-	}
-
-	/**
-	 * {@inheritdoc}
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 2.30.
-	 */
-	public function __toString()
-	{
-		return implode("\n", $this->tokens);
 	}
 
 	/**
@@ -81,7 +71,6 @@ final class TokenStream
 	 * Sets the pointer to the next token and returns the old one.
 	 *
 	 * @return Token
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -94,13 +83,12 @@ final class TokenStream
 	}
 
 	/**
-	 * Tests a token, sets the pointer to the next one and returns it or throws a SyntaxError.
+	 * Tests a token, sets the pointer to the next one and returns it or throws a {@see SyntaxError}.
 	 *
 	 * @param int|int[]       $primary
 	 * @param string|string[] $secondary
 	 *
 	 * @return Token|null
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -113,33 +101,26 @@ final class TokenStream
 	}
 
 	/**
-	 * Tests a token and returns it or throws a SyntaxError.
+	 * Tests a token and returns it or throws a {@see SyntaxError}.
 	 *
 	 * @param string|int  $type
 	 * @param string|null $value
 	 * @param string|null $message
 	 *
 	 * @return Token
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function expect($type, ?string $value = null, ?string $message = null): Token
+	public function expect($type, $value = null, string $message = null): Token
 	{
 		$token = $this->tokens[$this->current];
 
 		if (!$token->test($type, $value))
 		{
 			$line = $token->getLine();
-
-			throw new SyntaxError(sprintf('%sUnexpected token "%s" of value "%s" ("%s" expected%s).',
-				$message ? $message . '. ' : '',
-				Token::typeToEnglish($token->getType()), $token->getValue(),
-				Token::typeToEnglish($type), $value ? sprintf(' with value "%s"', $value) : ''),
-				$line,
-				$this->source
-			);
+			throw new SyntaxError(sprintf('%sUnexpected token "%s"%s ("%s" expected%s).', $message ? $message . '. ' : '', Token::typeToEnglish($token->getType()), $token->getValue() ? sprintf(' of value "%s"', $token->getValue()) : '', Token::typeToEnglish($type), $value ? sprintf(' with value "%s"', $value) : ''), $line, $this->source);
 		}
+
 		$this->next();
 
 		return $token;
@@ -151,7 +132,6 @@ final class TokenStream
 	 * @param int $number
 	 *
 	 * @return Token
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -179,7 +159,7 @@ final class TokenStream
 	}
 
 	/**
-	 * Checks if end of stream was reached.
+	 * Returns TRUE if the end of stream was reached.
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
@@ -187,12 +167,13 @@ final class TokenStream
 	 */
 	public function isEOF(): bool
 	{
-		return $this->tokens[$this->current]->getType() === /*Token::EOF_TYPE*/
-			-1;
+		return $this->tokens[$this->current]->getType() === Token::EOF_TYPE;
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Gets the current token.
+	 *
+	 * @return Token
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -202,7 +183,7 @@ final class TokenStream
 	}
 
 	/**
-	 * Gets the source associated with this stream.
+	 * Gets the source context associated with this stream.
 	 *
 	 * @return Source
 	 * @author Bas Milius <bas@mili.us>
@@ -211,6 +192,16 @@ final class TokenStream
 	public function getSourceContext(): Source
 	{
 		return $this->source;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function __toString()
+	{
+		return implode("\n", $this->tokens);
 	}
 
 }

@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -13,14 +13,13 @@ declare(strict_types=1);
 namespace Cappuccino\Node;
 
 use Cappuccino\Compiler;
-use Cappuccino\Error\Error;
-use Cappuccino\Error\LoaderError;
 use Cappuccino\Node\Expression\AbstractExpression;
+use Cappuccino\Template;
 
 /**
  * Class IncludeNode
  *
- * @author Bas Milius <bas@mili.us>
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\Node
  * @since 1.0.0
  */
@@ -34,20 +33,20 @@ class IncludeNode extends Node implements NodeOutputInterface
 	 * @param AbstractExpression|null $variables
 	 * @param bool                    $only
 	 * @param bool                    $ignoreMissing
-	 * @param int                     $lineno
+	 * @param int                     $lineNumber
 	 * @param string|null             $tag
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public function __construct(AbstractExpression $expr, AbstractExpression $variables = null, bool $only = false, bool $ignoreMissing = false, int $lineno = 0, ?string $tag = null)
+	public function __construct(AbstractExpression $expr, AbstractExpression $variables = null, bool $only = false, bool $ignoreMissing = false, int $lineNumber = 0, ?string $tag = null)
 	{
 		$nodes = ['expr' => $expr];
 
 		if ($variables !== null)
 			$nodes['variables'] = $variables;
 
-		parent::__construct($nodes, ['only' => (bool)$only, 'ignore_missing' => (bool)$ignoreMissing], $lineno, $tag);
+		parent::__construct($nodes, ['only' => (bool)$only, 'ignore_missing' => (bool)$ignoreMissing], $lineNumber, $tag);
 	}
 
 	/**
@@ -60,53 +59,90 @@ class IncludeNode extends Node implements NodeOutputInterface
 		$compiler->addDebugInfo($this);
 
 		if ($this->getAttribute('ignore_missing'))
-			$compiler->write("try {\n")->indent();
+		{
+			$template = $compiler->getVarName();
 
-		$this->addGetTemplate($compiler);
+			$compiler
+				->write(sprintf("$%s = null;\n", $template))
+				->write("try {\n")
+				->indent()
+				->write(sprintf('$%s = ', $template));
 
-		$compiler->raw('->display(');
+			$this->addGetTemplate($compiler);
 
-		$this->addTemplateArguments($compiler);
-
-		$compiler->raw(");\n");
-
-		$classLoaderError = LoaderError::class;
-
-		if ($this->getAttribute('ignore_missing'))
-			$compiler->outdent()->write("} catch (" . $classLoaderError . " \$e) {\n")->indent()->write("// ignore missing template\n")->outdent()->write("}\n\n");
+			$compiler
+				->raw(";\n")
+				->outdent()
+				->write("} catch (LoaderError \$e) {\n")
+				->indent()
+				->write("// ignore missing template\n")
+				->outdent()
+				->write("}\n")
+				->write(sprintf("if ($%s) {\n", $template))
+				->indent()
+				->write(sprintf('$%s->display(', $template));
+			$this->addTemplateArguments($compiler);
+			$compiler
+				->raw(");\n")
+				->outdent()
+				->write("}\n");
+		}
+		else
+		{
+			$this->addGetTemplate($compiler);
+			$compiler->raw('->display(');
+			$this->addTemplateArguments($compiler);
+			$compiler->raw(");\n");
+		}
 	}
 
 	/**
-	 * Adds a get template?
+	 * Adds the {@see Template::loadTemplate()} call.
 	 *
 	 * @param Compiler $compiler
 	 *
-	 * @throws Error
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
 	protected function addGetTemplate(Compiler $compiler): void
 	{
-		$compiler->write('$this->loadTemplate(')->subcompile($this->getNode('expr'))->raw(', ')->repr($this->getTemplateName())->raw(', ')->repr($this->getTemplateLine())->raw(')');
+		$compiler
+			->write('$this->loadTemplate(')
+			->subcompile($this->getNode('expr'))
+			->raw(', ')
+			->repr($this->getTemplateName())
+			->raw(', ')
+			->repr($this->getTemplateLine())
+			->raw(')');
 	}
 
 	/**
-	 * Adds template arguments.
+	 * Adds template arguments to the {@see Template::loadTemplate()} call.
 	 *
 	 * @param Compiler $compiler
 	 *
-	 * @throws Error
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
 	protected function addTemplateArguments(Compiler $compiler): void
 	{
 		if (!$this->hasNode('variables'))
+		{
 			$compiler->raw(false === $this->getAttribute('only') ? '$context' : '[]');
+		}
 		else if (false === $this->getAttribute('only'))
-			$compiler->raw('array_merge($context, ')->subcompile($this->getNode('variables'))->raw(')');
+		{
+			$compiler
+				->raw('StaticMethods::arrayMerge($context, ')
+				->subcompile($this->getNode('variables'))
+				->raw(')');
+		}
 		else
+		{
+			$compiler->raw('StaticMethods::toArray(');
 			$compiler->subcompile($this->getNode('variables'));
+			$compiler->raw(')');
+		}
 	}
 
 }

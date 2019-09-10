@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\Node\Expression\Test;
 
 use Cappuccino\Compiler;
+use Cappuccino\Node\Expression\TestExpression;
 
 /**
  * Class DivisiblebyTest
@@ -31,7 +32,12 @@ class DivisiblebyTest extends TestExpression
 	 */
 	public function compile(Compiler $compiler): void
 	{
-		$compiler->raw('(0 == ')->subcompile($this->getNode('node'))->raw(' % ')->subcompile($this->getNode('arguments')->getNode(0))->raw(')');
+		$compiler
+			->raw('(0 == ')
+			->subcompile($this->getNode('node'))
+			->raw(' % ')
+			->subcompile($this->getNode('arguments')->getNode(0))
+			->raw(')');
 	}
 
 }

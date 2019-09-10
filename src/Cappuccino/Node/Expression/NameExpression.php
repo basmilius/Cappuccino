@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -13,8 +13,14 @@ declare(strict_types=1);
 namespace Cappuccino\Node\Expression;
 
 use Cappuccino\Compiler;
-use Cappuccino\Error\RuntimeError;
 
+/**
+ * Class NameExpression
+ *
+ * @author Bas Milius <bas@mili.us>
+ * @package Cappuccino\Node\Expression
+ * @since 1.0.0
+ */
 class NameExpression extends AbstractExpression
 {
 
@@ -24,15 +30,6 @@ class NameExpression extends AbstractExpression
 		'_charset' => '$this->cappuccino->getCharset()',
 	];
 
-	/**
-	 * NameExpression constructor.
-	 *
-	 * @param string $name
-	 * @param int    $lineno
-	 *
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
 	public function __construct(string $name, int $lineno)
 	{
 		parent::__construct([], ['name' => $name, 'is_defined_test' => false, 'ignore_strict_check' => false, 'always_defined' => false], $lineno);
@@ -47,28 +44,34 @@ class NameExpression extends AbstractExpression
 	{
 		$name = $this->getAttribute('name');
 
-		$compiler
-			->addDebugInfo($this);
+		$compiler->addDebugInfo($this);
 
 		if ($this->getAttribute('is_defined_test'))
 		{
 			if ($this->isSpecial())
 			{
+				$compiler->repr(true);
+			}
+			else if (PHP_VERSION_ID >= 700400)
+			{
 				$compiler
-					->repr(true);
+					->raw('array_key_exists(')
+					->string($name)
+					->raw(', $context)');
 			}
 			else
 			{
 				$compiler
-					->raw('isset($context[')
-					->repr($name)
-					->raw('])');
+					->raw('(isset($context[')
+					->string($name)
+					->raw(']) || array_key_exists(')
+					->string($name)
+					->raw(', $context))');
 			}
 		}
 		else if ($this->isSpecial())
 		{
-			$compiler
-				->raw($this->specialVars[$name]);
+			$compiler->raw($this->specialVars[$name]);
 		}
 		else if ($this->getAttribute('always_defined'))
 		{
@@ -88,18 +91,17 @@ class NameExpression extends AbstractExpression
 			}
 			else
 			{
-				$classRuntimeError = RuntimeError::class;
 				$compiler
 					->raw('(isset($context[')
 					->string($name)
-					->raw(']) || isset($context[')
+					->raw(']) || array_key_exists(')
 					->string($name)
-					->raw(']) ? $context[')
+					->raw(', $context) ? $context[')
 					->string($name)
-					->raw('] : (function () { throw new ' . $classRuntimeError . '(\'Variable ')
+					->raw('] : (function () { throw new RuntimeError(\'Variable ')
 					->string($name)
 					->raw(' does not exist.\', ')
-					->repr($this->lineno)
+					->repr($this->lineNumber)
 					->raw(', $this->source); })()')
 					->raw(')');
 			}
@@ -107,7 +109,7 @@ class NameExpression extends AbstractExpression
 	}
 
 	/**
-	 * Checks if the name expression is special.
+	 * Returns TRUE if this expression is special.
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
@@ -119,7 +121,7 @@ class NameExpression extends AbstractExpression
 	}
 
 	/**
-	 * Checks if the name expression is simple.
+	 * Returns TRUE if this expression is simple.
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>

@@ -1,18 +1,18 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
 
 namespace Cappuccino;
 
-use Cappuccino\Node\Expression\Test\TestExpression;
+use Cappuccino\Node\Expression\TestExpression;
 
 /**
  * Class CappuccinoTest
@@ -30,7 +30,7 @@ final class CappuccinoTest
 	private $name;
 
 	/**
-	 * @var callable|null
+	 * @var callable
 	 */
 	private $callable;
 
@@ -38,6 +38,11 @@ final class CappuccinoTest
 	 * @var array
 	 */
 	private $options;
+
+	/**
+	 * @var array
+	 */
+	private $arguments = [];
 
 	/**
 	 * CappuccinoTest constructor.
@@ -98,6 +103,31 @@ final class CappuccinoTest
 	}
 
 	/**
+	 * Sets the test arguments.
+	 *
+	 * @param array $arguments
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.2.0
+	 */
+	public function setArguments(array $arguments): void
+	{
+		$this->arguments = $arguments;
+	}
+
+	/**
+	 * Gets the test arguments.
+	 *
+	 * @return array
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.2.0
+	 */
+	public function getArguments(): array
+	{
+		return $this->arguments;
+	}
+
+	/**
 	 * Returns TRUE if this test is variadic.
 	 *
 	 * @return bool
@@ -118,7 +148,7 @@ final class CappuccinoTest
 	 */
 	public function isDeprecated(): bool
 	{
-		return (bool)$this->options['deprecated'];
+		return $this->options['deprecated'];
 	}
 
 	/**
@@ -130,7 +160,7 @@ final class CappuccinoTest
 	 */
 	public function getDeprecatedVersion(): string
 	{
-		return $this->options['deprecated'];
+		return is_bool($this->options['deprecated']) ? '' : $this->options['deprecated'];
 	}
 
 	/**
@@ -142,7 +172,7 @@ final class CappuccinoTest
 	 */
 	public function getAlternative(): ?string
 	{
-		return $this->options['alternative'] ?? null;
+		return $this->options['alternative'];
 	}
 
 }

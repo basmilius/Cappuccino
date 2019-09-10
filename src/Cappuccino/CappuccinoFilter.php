@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -15,13 +15,6 @@ namespace Cappuccino;
 use Cappuccino\Node\Expression\FilterExpression;
 use Cappuccino\Node\Node;
 
-/**
- * Class CappuccinoFilter
- *
- * @author Bas Milius <bas@mili.us>
- * @package Cappuccino
- * @since 1.0.0
- */
 final class CappuccinoFilter
 {
 
@@ -110,18 +103,6 @@ final class CappuccinoFilter
 	}
 
 	/**
-	 * Gets the filter instance.
-	 *
-	 * @return array
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public function getArguments(): array
-	{
-		return $this->arguments;
-	}
-
-	/**
 	 * Sets the filter arguments.
 	 *
 	 * @param array $arguments
@@ -132,6 +113,18 @@ final class CappuccinoFilter
 	public function setArguments(array $arguments): void
 	{
 		$this->arguments = $arguments;
+	}
+
+	/**
+	 * Gets the filter instance.
+	 *
+	 * @return array
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getArguments(): array
+	{
+		return $this->arguments;
 	}
 
 	/**
@@ -163,11 +156,11 @@ final class CappuccinoFilter
 	 *
 	 * @param Node $filterArgs
 	 *
-	 * @return bool|mixed
+	 * @return array|null
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getSafe(Node $filterArgs)
+	public function getSafe(Node $filterArgs): ?array
 	{
 		if ($this->options['is_safe'] !== null)
 			return $this->options['is_safe'];
@@ -175,17 +168,17 @@ final class CappuccinoFilter
 		if ($this->options['is_safe_callback'] !== null)
 			return $this->options['is_safe_callback']($filterArgs);
 
-		return false;
+		return null;
 	}
 
 	/**
 	 * Gets preserves safety.
 	 *
-	 * @return bool|null
+	 * @return array|null
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getPreservesSafety(): ?bool
+	public function getPreservesSafety(): ?array
 	{
 		return $this->options['preserves_safety'];
 	}
@@ -193,11 +186,11 @@ final class CappuccinoFilter
 	/**
 	 * Gets PRE escape.
 	 *
-	 * @return string|bool|null
+	 * @return string|null
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getPreEscape()
+	public function getPreEscape(): ?string
 	{
 		return $this->options['pre_escape'];
 	}
@@ -223,7 +216,7 @@ final class CappuccinoFilter
 	 */
 	public function isDeprecated(): bool
 	{
-		return (bool)$this->options['deprecated'];
+		return $this->options['deprecated'];
 	}
 
 	/**
@@ -235,7 +228,7 @@ final class CappuccinoFilter
 	 */
 	public function getDeprecatedVersion(): string
 	{
-		return $this->options['deprecated'];
+		return is_bool($this->options['deprecated']) ? '' : $this->options['deprecated'];
 	}
 
 	/**
@@ -245,7 +238,7 @@ final class CappuccinoFilter
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getAlternative(): string
+	public function getAlternative(): ?string
 	{
 		return $this->options['alternative'];
 	}

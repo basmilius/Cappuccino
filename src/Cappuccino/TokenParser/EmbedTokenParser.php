@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -21,7 +21,19 @@ use Cappuccino\Token;
 /**
  * Class EmbedTokenParser
  *
- * @author Bas Milius <bas@mili.us>
+ * {% embed "skeleton.cappy" %}
+ *     {# These blocks are defined in skeleton.cappy and can be overwritten inside the embed block #}
+ *
+ *     {% block header %}
+ *         My header content
+ *     {% endblock %}
+ *
+ *     {% block footer %}
+ *         My footer content
+ *     {% endblock %}
+ * {% endembed %}
+ *
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\TokenParser
  * @since 1.0.0
  */
@@ -37,27 +49,19 @@ final class EmbedTokenParser extends IncludeTokenParser
 	{
 		$stream = $this->parser->getStream();
 		$parent = $this->parser->getExpressionParser()->parseExpression();
-
 		[$variables, $only, $ignoreMissing] = $this->parseArguments();
-
-		$parentToken = $fakeParentToken = new Token(/*Token::STRING_TYPE*/
-			7, '__parent__', $token->getLine());
+		$parentToken = $fakeParentToken = new Token(Token::STRING_TYPE, '__parent__', $token->getLine());
 
 		if ($parent instanceof ConstantExpression)
-			$parentToken = new Token(/*Token::STRING_TYPE*/
-				7, $parent->getAttribute('value'), $token->getLine());
+			$parentToken = new Token(Token::STRING_TYPE, $parent->getAttribute('value'), $token->getLine());
 		else if ($parent instanceof NameExpression)
-			$parentToken = new Token(/*Token::NAME_TYPE*/
-				5, $parent->getAttribute('name'), $token->getLine());
+			$parentToken = new Token(Token::NAME_TYPE, $parent->getAttribute('name'), $token->getLine());
 
 		$stream->injectTokens([
-			new Token(/*Token::BLOCK_START_TYPE*/
-				1, '', $token->getLine()),
-			new Token(/*Token::NAME_TYPE*/
-				5, 'extends', $token->getLine()),
+			new Token(Token::BLOCK_START_TYPE, '', $token->getLine()),
+			new Token(Token::NAME_TYPE, 'extends', $token->getLine()),
 			$parentToken,
-			new Token(/*Token::BLOCK_END_TYPE*/
-				3, '', $token->getLine()),
+			new Token(Token::BLOCK_END_TYPE, '', $token->getLine()),
 		]);
 
 		$module = $this->parser->parse($stream, [$this, 'decideBlockEnd'], true);
@@ -66,15 +70,18 @@ final class EmbedTokenParser extends IncludeTokenParser
 			$module->setNode('parent', $parent);
 
 		$this->parser->embedTemplate($module);
-		$stream->expect(/*Token::BLOCK_END_TYPE*/
-			3);
+		$stream->expect(Token::BLOCK_END_TYPE);
 
 		return new EmbedNode($module->getTemplateName(), $module->getAttribute('index'), $variables, $only, $ignoreMissing, $token->getLine(), $this->getTag());
 	}
 
 	/**
-	 * {@inheritdoc}
-	 * @author Bas Milius <bas@mili.us>
+	 * Returns TRUE if the block should end.
+	 *
+	 * @param Token $token
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
 	public function decideBlockEnd(Token $token): bool

@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -13,12 +13,11 @@ declare(strict_types=1);
 namespace Cappuccino\Node;
 
 use Cappuccino\Compiler;
-use Cappuccino\Extension\SandboxExtension;
 
 /**
  * Class SandboxNode
  *
- * @author Bas Milius <bas@mili.us>
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\Node
  * @since 1.0.0
  */
@@ -29,15 +28,15 @@ class SandboxNode extends Node
 	 * SandboxNode constructor.
 	 *
 	 * @param Node        $body
-	 * @param int         $lineno
+	 * @param int         $lineNumber
 	 * @param string|null $tag
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public function __construct(Node $body, int $lineno, ?string $tag = null)
+	public function __construct(Node $body, int $lineNumber, ?string $tag = null)
 	{
-		parent::__construct(['body' => $body], [], $lineno, $tag);
+		parent::__construct(['body' => $body], [], $lineNumber, $tag);
 	}
 
 	/**
@@ -47,20 +46,17 @@ class SandboxNode extends Node
 	 */
 	public function compile(Compiler $compiler): void
 	{
-		$classSandboxExtension = SandboxExtension::class;
-
 		$compiler
 			->addDebugInfo($this)
-			->write("\$sandbox = \$this->extensions['" . $classSandboxExtension . "'];\n")
-			->write("if (!\$alreadySandboxed = \$sandbox->isSandboxed()) {\n")
+			->write("if (!\$alreadySandboxed = \$this->sandbox->isSandboxed()) {\n")
 			->indent()
-			->write("\$sandbox->enableSandbox();\n")
+			->write("\$this->sandbox->enableSandbox();\n")
 			->outdent()
 			->write("}\n")
 			->subcompile($this->getNode('body'))
 			->write("if (!\$alreadySandboxed) {\n")
 			->indent()
-			->write("\$sandbox->disableSandbox();\n")
+			->write("\$this->sandbox->disableSandbox();\n")
 			->outdent()
 			->write("}\n");
 	}

@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Cappuccino\Util;
 
 use Cappuccino\Cappuccino;
-use Cappuccino\Error\Error;
 use Cappuccino\Error\SyntaxError;
 use Cappuccino\Source;
 use RecursiveDirectoryIterator;
@@ -50,19 +49,18 @@ final class DeprecationCollector
 	}
 
 	/**
-	 * Returns deprecations for templates container in a directory.
+	 * Returns deprecations for templates contained in the given directory.
 	 *
-	 * @param string $directory
-	 * @param string $extension
+	 * @param string $dir
+	 * @param string $ext
 	 *
 	 * @return array
-	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function collectDir(string $directory, string $extension = Cappuccino::DEFAULT_EXTENSION): array
+	public function collectDir(string $dir, string $ext = '.cappy'): array
 	{
-		$iterator = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory), RecursiveIteratorIterator::LEAVES_ONLY), '{' . preg_quote($extension) . '$}');
+		$iterator = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::LEAVES_ONLY), '{' . preg_quote($ext) . '$}');
 
 		return $this->collect(new TemplateDirIterator($iterator));
 	}
@@ -73,16 +71,15 @@ final class DeprecationCollector
 	 * @param Traversable $iterator
 	 *
 	 * @return array
-	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function collect(Traversable $iterator)
+	public function collect(Traversable $iterator): array
 	{
 		$deprecations = [];
 		set_error_handler(function ($type, $msg) use (&$deprecations)
 		{
-			if (E_USER_DEPRECATED === $type)
+			if ($type === E_USER_DEPRECATED)
 				$deprecations[] = $msg;
 		});
 

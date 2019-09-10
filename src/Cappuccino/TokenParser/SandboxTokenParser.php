@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -22,7 +22,11 @@ use Cappuccino\Token;
 /**
  * Class SandboxTokenParser
  *
- * @author Bas Milius <bas@mili.us>
+ * {% sandbox %}
+ *     Load something that you don't trust.
+ * {% endsandbox %}
+ *
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\TokenParser
  * @since 1.0.0
  */
@@ -37,13 +41,12 @@ final class SandboxTokenParser extends AbstractTokenParser
 	public function parse(Token $token): Node
 	{
 		$stream = $this->parser->getStream();
-		$stream->expect(/*Token::BLOCK_END_TYPE*/
-			3);
+		$stream->expect(Token::BLOCK_END_TYPE);
 		$body = $this->parser->subparse([$this, 'decideBlockEnd'], true);
-		$stream->expect(/*Token::BLOCK_END_TYPE*/
-			3);
+		$stream->expect(Token::BLOCK_END_TYPE);
 
 		if (!$body instanceof IncludeNode)
+		{
 			foreach ($body as $node)
 			{
 				if ($node instanceof TextNode && ctype_space($node->getAttribute('data')))
@@ -52,17 +55,18 @@ final class SandboxTokenParser extends AbstractTokenParser
 				if (!$node instanceof IncludeNode)
 					throw new SyntaxError('Only "include" tags are allowed within a "sandbox" section.', $node->getTemplateLine(), $stream->getSourceContext());
 			}
+		}
 
 		return new SandboxNode($body, $token->getLine(), $this->getTag());
 	}
 
 	/**
-	 * Decide if the block should end.
+	 * Returns TRUE if the block should end.
 	 *
 	 * @param Token $token
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
 	public function decideBlockEnd(Token $token): bool

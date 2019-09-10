@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -22,11 +22,11 @@ use Cappuccino\Source;
  * @package Cappuccino\Loader
  * @since 1.0.0
  */
-final class ChainLoader implements LoaderInterface, SourceContextLoaderInterface
+final class ChainLoader implements LoaderInterface
 {
 
 	/**
-	 * @var array
+	 * @var bool[]
 	 */
 	private $hasSourceCache = [];
 
@@ -38,7 +38,7 @@ final class ChainLoader implements LoaderInterface, SourceContextLoaderInterface
 	/**
 	 * ChainLoader constructor.
 	 *
-	 * @param LoaderInterface[] $loaders
+	 * @param array $loaders
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
@@ -50,7 +50,7 @@ final class ChainLoader implements LoaderInterface, SourceContextLoaderInterface
 	}
 
 	/**
-	 * Adds a loader.
+	 * Adds a new loader.
 	 *
 	 * @param LoaderInterface $loader
 	 *
@@ -61,6 +61,18 @@ final class ChainLoader implements LoaderInterface, SourceContextLoaderInterface
 	{
 		$this->loaders[] = $loader;
 		$this->hasSourceCache = [];
+	}
+
+	/**
+	 * Gets all loaders attached to this chain.
+	 *
+	 * @return LoaderInterface[]
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getLoaders(): array
+	{
+		return $this->loaders;
 	}
 
 	/**

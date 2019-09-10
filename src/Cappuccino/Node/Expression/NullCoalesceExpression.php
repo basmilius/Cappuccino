@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -13,13 +13,19 @@ declare(strict_types=1);
 namespace Cappuccino\Node\Expression;
 
 use Cappuccino\Compiler;
-use Cappuccino\Error\Error;
 use Cappuccino\Node\Expression\Binary\AndBinary;
 use Cappuccino\Node\Expression\Test\DefinedTest;
 use Cappuccino\Node\Expression\Test\NullTest;
 use Cappuccino\Node\Expression\Unary\NotUnary;
 use Cappuccino\Node\Node;
 
+/**
+ * Class NullCoalesceExpression
+ *
+ * @author Bas Milius <bas@mili.us>
+ * @package Cappuccino\Node\Expression
+ * @since 1.0.0
+ */
 class NullCoalesceExpression extends ConditionalExpression
 {
 
@@ -28,21 +34,16 @@ class NullCoalesceExpression extends ConditionalExpression
 	 *
 	 * @param AbstractExpression $left
 	 * @param AbstractExpression $right
-	 * @param int                $lineno
+	 * @param int                $lineNumber
 	 *
-	 * @throws Error
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public function __construct(AbstractExpression $left, AbstractExpression $right, int $lineno)
+	public function __construct(AbstractExpression $left, AbstractExpression $right, int $lineNumber)
 	{
-		$test = new AndBinary(
-			new DefinedTest(clone $left, 'defined', new Node(), $left->getTemplateLine()),
-			new NotUnary(new NullTest($left, 'null', new Node(), $left->getTemplateLine()), $left->getTemplateLine()),
-			$left->getTemplateLine()
-		);
+		$test = new AndBinary(new DefinedTest(clone $left, 'defined', new Node(), $left->getTemplateLine()), new NotUnary(new NullTest($left, 'null', new Node(), $left->getTemplateLine()), $left->getTemplateLine()), $left->getTemplateLine());
 
-		parent::__construct($test, $left, $right, $lineno);
+		parent::__construct($test, $left, $right, $lineNumber);
 	}
 
 	/**
@@ -55,7 +56,12 @@ class NullCoalesceExpression extends ConditionalExpression
 		if ($this->getNode('expr2') instanceof NameExpression)
 		{
 			$this->getNode('expr2')->setAttribute('always_defined', true);
-			$compiler->raw('((')->subcompile($this->getNode('expr2'))->raw(') ?? (')->subcompile($this->getNode('expr3'))->raw('))');
+			$compiler
+				->raw('((')
+				->subcompile($this->getNode('expr2'))
+				->raw(') ?? (')
+				->subcompile($this->getNode('expr3'))
+				->raw('))');
 		}
 		else
 		{

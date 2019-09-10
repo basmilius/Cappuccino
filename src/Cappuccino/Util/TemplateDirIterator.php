@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -29,7 +29,7 @@ class TemplateDirIterator extends IteratorIterator
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function current(): string
+	public function current()
 	{
 		return file_get_contents(parent::current());
 	}
@@ -39,7 +39,7 @@ class TemplateDirIterator extends IteratorIterator
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function key(): string
+	public function key()
 	{
 		return (string)parent::key();
 	}

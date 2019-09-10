@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -46,18 +46,8 @@ class Markup implements Countable, JsonSerializable
 	 */
 	public function __construct(string $content, string $charset)
 	{
-		$this->content = (string)$content;
+		$this->content = $content;
 		$this->charset = $charset;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public function __toString(): string
-	{
-		return $this->content;
 	}
 
 	/**
@@ -76,6 +66,16 @@ class Markup implements Countable, JsonSerializable
 	 * @since 1.0.0
 	 */
 	public function jsonSerialize(): string
+	{
+		return $this->content;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function __toString(): string
 	{
 		return $this->content;
 	}
