@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -21,7 +21,19 @@ use Cappuccino\Token;
 /**
  * Class AutoEscapeTokenParser
  *
- * @author Bas Milius <bas@mili.us>
+ * {% autoescape %}
+ *     Everything will be automatically escaped in this block using the HTML strategy.
+ * {% endautoescape %}
+ *
+ * {% autoescape "js" %}
+ *     Everything will be automatically escaped in this block using the JS strategy.
+ * {% endautoescape %}
+ *
+ * {% autoescape false %}
+ *     Everything will be outputted as is in this block.
+ * {% endautoescape %}
+ *
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\TokenParser
  * @since 1.0.0
  */
@@ -33,38 +45,42 @@ final class AutoEscapeTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function parse(Token $token): Node
+	public function parse(Token $token): Node
 	{
 		$lineno = $token->getLine();
 		$stream = $this->parser->getStream();
 
-		if ($stream->test(3)) // Token::BLOCK_END_TYPE
+		if ($stream->test(/* Token::BLOCK_END_TYPE */ 3))
 		{
 			$value = 'html';
 		}
 		else
 		{
 			$expr = $this->parser->getExpressionParser()->parseExpression();
-
 			if (!$expr instanceof ConstantExpression)
+			{
 				throw new SyntaxError('An escaping strategy must be a string or false.', $stream->getCurrent()->getLine(), $stream->getSourceContext());
-
+			}
 			$value = $expr->getAttribute('value');
 		}
 
-		$stream->expect(3); // Token::BLOCK_END_TYPE
+		$stream->expect(/* Token::BLOCK_END_TYPE */ 3);
 		$body = $this->parser->subparse([$this, 'decideBlockEnd'], true);
-		$stream->expect(3); // Token::BLOCK_END_TYPE
+		$stream->expect(/* Token::BLOCK_END_TYPE */ 3);
 
 		return new AutoEscapeNode($value, $body, $lineno, $this->getTag());
 	}
 
 	/**
-	 * {@inheritdoc}
-	 * @author Bas Milius <bas@mili.us>
+	 * Returns TRUE if the block should end.
+	 *
+	 * @param Token $token
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function decideBlockEnd(Token $token): bool
+	public function decideBlockEnd(Token $token): bool
 	{
 		return $token->test('endautoescape');
 	}
@@ -74,7 +90,7 @@ final class AutoEscapeTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function getTag(): string
+	public function getTag(): string
 	{
 		return 'autoescape';
 	}

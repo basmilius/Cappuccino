@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -26,13 +26,39 @@ use Cappuccino\Node\Node;
 use Cappuccino\Node\PrintNode;
 use Cappuccino\Node\SetNode;
 
-final class SandboxNodeVisitor extends AbstractNodeVisitor
+/**
+ * Class SandboxNodeVisitor
+ *
+ * @author Bas Milius <bas@ideemedia.nl>
+ * @package Cappuccino\NodeVisitor
+ * @since 1.0.0
+ */
+final class SandboxNodeVisitor implements NodeVisitorInterface
 {
 
+	/**
+	 * @var bool
+	 */
 	private $inAModule = false;
+
+	/**
+	 * @var array
+	 */
 	private $tags;
+
+	/**
+	 * @var array
+	 */
 	private $filters;
+
+	/**
+	 * @var array
+	 */
 	private $functions;
+
+	/**
+	 * @var bool
+	 */
 	private $needsToStringWrap = false;
 
 	/**
@@ -40,7 +66,7 @@ final class SandboxNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doEnterNode(Node $node, Cappuccino $cappuccino): Node
+	public function enterNode(Node $node, Cappuccino $env): Node
 	{
 		if ($node instanceof ModuleNode)
 		{
@@ -101,12 +127,13 @@ final class SandboxNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doLeaveNode(Node $node, Cappuccino $cappuccino): Node
+	public function leaveNode(Node $node, Cappuccino $env): ?Node
 	{
 		if ($node instanceof ModuleNode)
 		{
 			$this->inAModule = false;
-			$node->setNode('constructor_end', new Node([new CheckSecurityNode($this->filters, $this->tags, $this->functions), $node->getNode('display_start')]));
+
+			$node->getNode('constructor_end')->setNode('_security_check', new Node([new CheckSecurityNode($this->filters, $this->tags, $this->functions), $node->getNode('display_start')]));
 		}
 		else if ($this->inAModule)
 		{
@@ -118,16 +145,15 @@ final class SandboxNodeVisitor extends AbstractNodeVisitor
 	}
 
 	/**
-	 * {@inheritdoc}
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
+	 * Wraps a node.
+	 *
+	 * @param Node   $node
+	 * @param string $name
+	 *
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 2.0.0
 	 */
-	public function getPriority(): int
-	{
-		return 0;
-	}
-
-	private function wrapNode(Node $node, string $name)
+	private function wrapNode(Node $node, string $name): void
 	{
 		$expr = $node->getNode($name);
 
@@ -135,12 +161,31 @@ final class SandboxNodeVisitor extends AbstractNodeVisitor
 			$node->setNode($name, new CheckToStringNode($expr));
 	}
 
-	private function wrapArrayNode(Node $node, string $name)
+	/**
+	 * Wraps an array node.
+	 *
+	 * @param Node   $node
+	 * @param string $name
+	 *
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 2.0.0
+	 */
+	private function wrapArrayNode(Node $node, string $name): void
 	{
 		$args = $node->getNode($name);
 
 		foreach ($args as $name => $_)
 			$this->wrapNode($args, $name);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getPriority(): int
+	{
+		return 0;
 	}
 
 }

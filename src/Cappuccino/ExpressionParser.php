@@ -1,21 +1,21 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
 
 namespace Cappuccino;
 
-use Cappuccino\Error\RuntimeError;
 use Cappuccino\Error\SyntaxError;
 use Cappuccino\Node\Expression\AbstractExpression;
 use Cappuccino\Node\Expression\ArrayExpression;
+use Cappuccino\Node\Expression\ArrowFunctionExpression;
 use Cappuccino\Node\Expression\AssignNameExpression;
 use Cappuccino\Node\Expression\Binary\AbstractBinary;
 use Cappuccino\Node\Expression\Binary\ConcatBinary;
@@ -26,13 +26,11 @@ use Cappuccino\Node\Expression\GetAttrExpression;
 use Cappuccino\Node\Expression\MethodCallExpression;
 use Cappuccino\Node\Expression\NameExpression;
 use Cappuccino\Node\Expression\ParentExpression;
-use Cappuccino\Node\Expression\Unary\AbstractUnary;
+use Cappuccino\Node\Expression\TestExpression;
 use Cappuccino\Node\Expression\Unary\NegUnary;
 use Cappuccino\Node\Expression\Unary\NotUnary;
 use Cappuccino\Node\Expression\Unary\PosUnary;
 use Cappuccino\Node\Node;
-use ReflectionClass;
-use ReflectionException;
 
 /**
  * Class ExpressionParser
@@ -58,7 +56,7 @@ class ExpressionParser
 	private $cappuccino;
 
 	/**
-	 * @var AbstractUnary[]
+	 * @var AbstractBinary[]
 	 */
 	private $unaryOperators;
 
@@ -87,16 +85,18 @@ class ExpressionParser
 	/**
 	 * Parses the expression.
 	 *
-	 * @param int $precedence
+	 * @param int  $precedence
+	 * @param bool $allowArrow
 	 *
 	 * @return AbstractExpression
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parseExpression(int $precedence = 0): AbstractExpression
+	public function parseExpression(int $precedence = 0, bool $allowArrow = false)
 	{
+		if ($allowArrow && $arrow = $this->parseArrow())
+			return $arrow;
+
 		$expr = $this->getPrimary();
 		$token = $this->parser->getCurrentToken();
 
@@ -105,11 +105,11 @@ class ExpressionParser
 			$op = $this->binaryOperators[$token->getValue()];
 			$this->parser->getStream()->next();
 
-			if ('is not' === $token->getValue())
+			if ($token->getValue() === 'is not')
 			{
 				$expr = $this->parseNotTestExpression($expr);
 			}
-			else if ('is' === $token->getValue())
+			else if ($token->getValue() === 'is')
 			{
 				$expr = $this->parseTestExpression($expr);
 			}
@@ -128,19 +128,79 @@ class ExpressionParser
 		}
 
 		if ($precedence === 0)
-		{
 			return $this->parseConditionalExpression($expr);
-		}
 
 		return $expr;
+	}
+
+	/**
+	 * Parses an arrow function.
+	 *
+	 * @return ArrowFunctionExpression|null
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
+	private function parseArrow(): ?ArrowFunctionExpression
+	{
+		$stream = $this->parser->getStream();
+
+		if ($stream->look(1)->test(Token::ARROW_TYPE))
+		{
+			$line = $stream->getCurrent()->getLine();
+			$token = $stream->expect(Token::NAME_TYPE);
+			$names = [new AssignNameExpression($token->getValue(), $token->getLine())];
+			$stream->expect(Token::ARROW_TYPE);
+
+			return new ArrowFunctionExpression($this->parseExpression(0), new Node($names), $line);
+		}
+
+		$i = 0;
+
+		if (!$stream->look($i)->test(Token::PUNCTUATION_TYPE, '('))
+			return null;
+
+		++$i;
+		while (true)
+		{
+			++$i;
+
+			if (!$stream->look($i)->test(Token::PUNCTUATION_TYPE, ','))
+				break;
+
+			++$i;
+		}
+
+		if (!$stream->look($i)->test(Token::PUNCTUATION_TYPE, ')'))
+			return null;
+
+		++$i;
+
+		if (!$stream->look($i)->test(Token::ARROW_TYPE))
+			return null;
+
+		$token = $stream->expect(Token::PUNCTUATION_TYPE, '(');
+		$line = $token->getLine();
+		$names = [];
+
+		while (true)
+		{
+			$token = $stream->expect(Token::NAME_TYPE);
+			$names[] = new AssignNameExpression($token->getValue(), $token->getLine());
+
+			if (!$stream->nextIf(Token::PUNCTUATION_TYPE, ','))
+				break;
+		}
+
+		$stream->expect(Token::PUNCTUATION_TYPE, ')');
+		$stream->expect(Token::ARROW_TYPE);
+
+		return new ArrowFunctionExpression($this->parseExpression(0), new Node($names), $line);
 	}
 
 	/**
 	 * Gets the primary expression.
 	 *
 	 * @return AbstractExpression
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -175,8 +235,6 @@ class ExpressionParser
 	 * @param AbstractExpression $expr
 	 *
 	 * @return AbstractExpression
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -237,20 +295,18 @@ class ExpressionParser
 	 * Parses the Primary Expression.
 	 *
 	 * @return AbstractExpression
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
 	public function parsePrimaryExpression(): AbstractExpression
 	{
-		$node = null;
 		$token = $this->parser->getCurrentToken();
 
 		switch ($token->getType())
 		{
 			case Token::NAME_TYPE:
 				$this->parser->getStream()->next();
+
 				switch ($token->getValue())
 				{
 					case 'true':
@@ -271,7 +327,7 @@ class ExpressionParser
 						break;
 
 					default:
-						if ('(' === $this->parser->getCurrentToken()->getValue())
+						if ($this->parser->getCurrentToken()->getValue() === '(')
 							$node = $this->getFunctionNode($token->getValue(), $token->getLine());
 						else
 							$node = new NameExpression($token->getValue(), $token->getLine());
@@ -288,45 +344,33 @@ class ExpressionParser
 				$node = $this->parseStringExpression();
 				break;
 
+			/** @noinspection PhpMissingBreakStatementInspection */
 			case Token::OPERATOR_TYPE:
-				if (preg_match(Lexer::REGEX_NAME, $token->getValue(), $matches) && $matches[0] == $token->getValue())
+				if (preg_match(Lexer::REGEX_NAME, $token->getValue(), $matches) && $matches[0] === $token->getValue())
 				{
-					// in this context, string operators are variable names
 					$this->parser->getStream()->next();
 					$node = new NameExpression($token->getValue(), $token->getLine());
+					break;
 				}
 				else if (isset($this->unaryOperators[$token->getValue()]))
 				{
 					$class = $this->unaryOperators[$token->getValue()]['class'];
 
-					try
-					{
-						$ref = new ReflectionClass($class);
+					if (!in_array($class, [NegUnary::class, PosUnary::class]))
+						throw new SyntaxError(sprintf('Unexpected unary operator "%s".', $token->getValue()), $token->getLine(), $this->parser->getStream()->getSourceContext());
 
-						$negClass = NegUnary::class;
-						$posClass = PosUnary::class;
-
-						if (!(in_array($ref->getName(), [$negClass, $posClass]) || $ref->isSubclassOf($negClass) || $ref->isSubclassOf($posClass)))
-							throw new SyntaxError(sprintf('Unexpected unary operator "%s".', $token->getValue()), $token->getLine(), $this->parser->getStream()->getSourceContext());
-
-						$this->parser->getStream()->next();
-
-						$expr = $this->parsePrimaryExpression();
-						$node = new $class($expr, $token->getLine());
-					}
-					catch (ReflectionException $err)
-					{
-						throw new RuntimeError(sprintf('Could not create reflection instance of "%s".', $class), -1, null, $err);
-					}
+					$this->parser->getStream()->next();
+					$expr = $this->parsePrimaryExpression();
+					$node = new $class($expr, $token->getLine());
+					break;
 				}
-				break;
 
 			default:
 				if ($token->test(Token::PUNCTUATION_TYPE, '['))
 					$node = $this->parseArrayExpression();
 				else if ($token->test(Token::PUNCTUATION_TYPE, '{'))
 					$node = $this->parseHashExpression();
-				else if ($token->test(Token::OPERATOR_TYPE, '=') && ($this->parser->getStream()->look(-1)->getValue() === '==' || $this->parser->getStream()->look(-1)->getValue() === '!='))
+				else if ($token->test(Token::OPERATOR_TYPE, '=') && ('==' === $this->parser->getStream()->look(-1)->getValue() || '!=' === $this->parser->getStream()->look(-1)->getValue()))
 					throw new SyntaxError(sprintf('Unexpected operator of value "%s". Did you try to use "===" or "!==" for strict comparison? Use "is same as(value)" instead.', $token->getValue()), $token->getLine(), $this->parser->getStream()->getSourceContext());
 				else
 					throw new SyntaxError(sprintf('Unexpected token "%s" of value "%s".', Token::typeToEnglish($token->getType()), $token->getValue()), $token->getLine(), $this->parser->getStream()->getSourceContext());
@@ -339,8 +383,6 @@ class ExpressionParser
 	 * Parses a String Expression.
 	 *
 	 * @return AbstractExpression
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -382,8 +424,6 @@ class ExpressionParser
 	 * Parses an Array Expression.
 	 *
 	 * @return AbstractExpression
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -408,7 +448,6 @@ class ExpressionParser
 			$first = false;
 			$node->addElement($this->parseExpression());
 		}
-
 		$stream->expect(Token::PUNCTUATION_TYPE, ']', 'An opened array is not properly closed');
 
 		return $node;
@@ -418,8 +457,6 @@ class ExpressionParser
 	 * Parses a Hash Expression.
 	 *
 	 * @return AbstractExpression
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -475,8 +512,6 @@ class ExpressionParser
 	 * @param AbstractExpression $node
 	 *
 	 * @return AbstractExpression
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -486,7 +521,7 @@ class ExpressionParser
 		{
 			$token = $this->parser->getCurrentToken();
 
-			if ($token->getType() == Token::PUNCTUATION_TYPE)
+			if ($token->getType() === Token::PUNCTUATION_TYPE)
 			{
 				if ($token->getValue() == '.' || $token->getValue() == '[')
 					$node = $this->parseSubscriptExpression($node);
@@ -511,8 +546,6 @@ class ExpressionParser
 	 * @param int    $line
 	 *
 	 * @return AbstractExpression
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -530,6 +563,7 @@ class ExpressionParser
 					throw new SyntaxError('Calling "parent" on a template that does not extend nor "use" another template is forbidden.', $line, $this->parser->getStream()->getSourceContext());
 
 				return new ParentExpression($this->parser->peekBlockStack(), $line);
+
 			case 'block':
 				$args = $this->parseArguments();
 
@@ -537,24 +571,26 @@ class ExpressionParser
 					throw new SyntaxError('The "block" function takes one argument (the block name).', $line, $this->parser->getStream()->getSourceContext());
 
 				return new BlockReferenceExpression($args->getNode(0), count($args) > 1 ? $args->getNode(1) : null, $line);
+
 			case 'attribute':
 				$args = $this->parseArguments();
 
 				if (count($args) < 2)
 					throw new SyntaxError('The "attribute" function takes at least two arguments (the variable and the attributes).', $line, $this->parser->getStream()->getSourceContext());
 
-				/** @var AbstractExpression $node0 */
-				$node0 = $args->getNode(0);
+				/** @var AbstractExpression $first */
+				$first = $args->getNode(0);
 
-				/** @var AbstractExpression $node1 */
-				$node1 = $args->getNode(0);
+				/** @var AbstractExpression $second */
+				$second = $args->getNode(1);
 
-				/** @var AbstractExpression|Node|null $usedArgs */
-				$usedArgs = count($args) > 2 ? $args->getNode(2) : null;
+				/** @var AbstractExpression $third */
+				$third = count($args) > 2 ? $args->getNode(2) : null;
 
-				return new GetAttrExpression($node0, $node1, $usedArgs, Template::ANY_CALL, $line);
+				return new GetAttrExpression($first, $second, $third, Template::ANY_CALL, $line);
+
 			default:
-				if (($alias = $this->parser->getImportedSymbol('function', $name)) !== null)
+				if (null !== $alias = $this->parser->getImportedSymbol('function', $name))
 				{
 					$arguments = new ArrayExpression([], $line);
 
@@ -580,8 +616,6 @@ class ExpressionParser
 	 * @param AbstractExpression $node
 	 *
 	 * @return AbstractExpression
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -596,7 +630,7 @@ class ExpressionParser
 		if ($token->getValue() === '.')
 		{
 			$token = $stream->next();
-			if ($token->getType() == Token::NAME_TYPE || $token->getType() == Token::NUMBER_TYPE || ($token->getType() == Token::OPERATOR_TYPE && preg_match(Lexer::REGEX_NAME, $token->getValue())))
+			if ($token->getType() === Token::NAME_TYPE || $token->getType() === Token::NUMBER_TYPE || ($token->getType() === Token::OPERATOR_TYPE && preg_match(Lexer::REGEX_NAME, $token->getValue())))
 			{
 				$arg = new ConstantExpression($token->getValue(), $lineno);
 
@@ -629,7 +663,6 @@ class ExpressionParser
 		else
 		{
 			$type = Template::ARRAY_CALL;
-
 			$slice = false;
 
 			if ($stream->test(Token::PUNCTUATION_TYPE, ':'))
@@ -673,8 +706,6 @@ class ExpressionParser
 	 * @param AbstractExpression $node
 	 *
 	 * @return AbstractExpression
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -692,12 +723,10 @@ class ExpressionParser
 	 * @param string|null        $tag
 	 *
 	 * @return AbstractExpression
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parseFilterExpressionRaw(AbstractExpression $node, ?string $tag = null): AbstractExpression
+	public function parseFilterExpressionRaw(AbstractExpression $node, ?string $tag = null)
 	{
 		while (true)
 		{
@@ -707,7 +736,7 @@ class ExpressionParser
 			if (!$this->parser->getStream()->test(Token::PUNCTUATION_TYPE, '('))
 				$arguments = new Node();
 			else
-				$arguments = $this->parseArguments(true);
+				$arguments = $this->parseArguments(true, false, true);
 
 			$class = $this->getFilterNodeClass($name->getAttribute('value'), $token->getLine());
 			$node = new $class($node, $name, $arguments, $token->getLine(), $tag);
@@ -726,14 +755,13 @@ class ExpressionParser
 	 *
 	 * @param bool $namedArguments
 	 * @param bool $definition
+	 * @param bool $allowArrow
 	 *
 	 * @return Node
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parseArguments(bool $namedArguments = false, bool $definition = false): Node
+	public function parseArguments(bool $namedArguments = false, bool $definition = false, bool $allowArrow = false): Node
 	{
 		$args = [];
 		$stream = $this->parser->getStream();
@@ -751,7 +779,7 @@ class ExpressionParser
 			}
 			else
 			{
-				$value = $this->parseExpression();
+				$value = $this->parseExpression(0, $allowArrow);
 			}
 
 			$name = null;
@@ -772,13 +800,13 @@ class ExpressionParser
 				}
 				else
 				{
-					$value = $this->parseExpression();
+					$value = $this->parseExpression(0, $allowArrow);
 				}
 			}
 
 			if ($definition)
 			{
-				if (null === $name)
+				if ($name === null)
 				{
 					$name = $value->getAttribute('name');
 					$value = new ConstantExpression(null, $this->parser->getCurrentToken()->getLine());
@@ -788,7 +816,7 @@ class ExpressionParser
 			}
 			else
 			{
-				if ($name === null)
+				if (null === $name)
 					$args[] = $value;
 				else
 					$args[$name] = $value;
@@ -804,7 +832,6 @@ class ExpressionParser
 	 * Parses an Assignment Expression.
 	 *
 	 * @return Node
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -815,7 +842,13 @@ class ExpressionParser
 
 		while (true)
 		{
-			$token = $stream->expect(Token::NAME_TYPE, null, 'Only variables can be assigned to');
+			$token = $this->parser->getCurrentToken();
+
+			if ($stream->test(Token::OPERATOR_TYPE) && preg_match(Lexer::REGEX_NAME, $token->getValue()))
+				$this->parser->getStream()->next();
+			else
+				$stream->expect(Token::NAME_TYPE, null, 'Only variables can be assigned to');
+
 			$value = $token->getValue();
 
 			if (in_array(strtolower($value), ['true', 'false', 'none', 'null']))
@@ -834,8 +867,6 @@ class ExpressionParser
 	 * Parses multi target expression.
 	 *
 	 * @return Node
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -860,8 +891,6 @@ class ExpressionParser
 	 * @param Node $node
 	 *
 	 * @return NotUnary
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -875,13 +904,11 @@ class ExpressionParser
 	 *
 	 * @param Node $node
 	 *
-	 * @return AbstractExpression
-	 * @throws RuntimeError
-	 * @throws SyntaxError
+	 * @return TestExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function parseTestExpression(Node $node): AbstractExpression
+	private function parseTestExpression(Node $node): TestExpression
 	{
 		$stream = $this->parser->getStream();
 		[$name, $test] = $this->getTest($node->getTemplateLine());
@@ -890,7 +917,13 @@ class ExpressionParser
 		$arguments = null;
 
 		if ($stream->test(Token::PUNCTUATION_TYPE, '('))
-			$arguments = $this->parser->getExpressionParser()->parseArguments(true);
+			$arguments = $this->parseArguments(true);
+
+		if ($name === 'defined' && $node instanceof NameExpression && null !== $alias = $this->parser->getImportedSymbol('function', $node->getAttribute('name')))
+		{
+			$node = new MethodCallExpression($alias['node'], $alias['name'], new ArrayExpression([], $node->getTemplateLine()), $node->getTemplateLine());
+			$node->setAttribute('safe', true);
+		}
 
 		return new $class($node, $name, $arguments, $this->parser->getCurrentToken()->getLine());
 	}
@@ -901,7 +934,6 @@ class ExpressionParser
 	 * @param int $line
 	 *
 	 * @return array
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -947,8 +979,8 @@ class ExpressionParser
 			$stream = $this->parser->getStream();
 			$message = sprintf('Cappuccino Test "%s" is deprecated', $test->getName());
 
-			if (!is_bool($test->getDeprecatedVersion()))
-				$message .= sprintf(' since Cappuccino %s', $test->getDeprecatedVersion());
+			if ($test->getDeprecatedVersion())
+				$message .= sprintf(' since version %s', $test->getDeprecatedVersion());
 
 			if ($test->getAlternative())
 				$message .= sprintf('. Use "%s" instead', $test->getAlternative());
@@ -969,13 +1001,12 @@ class ExpressionParser
 	 * @param int    $line
 	 *
 	 * @return string
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
 	private function getFunctionNodeClass(string $name, int $line): string
 	{
-		if (($function = $this->cappuccino->getFunction($name)) === false || $function === null)
+		if (!$function = $this->cappuccino->getFunction($name))
 		{
 			$e = new SyntaxError(sprintf('Unknown "%s" function.', $name), $line, $this->parser->getStream()->getSourceContext());
 			$e->addSuggestions($name, array_keys($this->cappuccino->getFunctions()));
@@ -987,8 +1018,8 @@ class ExpressionParser
 		{
 			$message = sprintf('Cappuccino Function "%s" is deprecated', $function->getName());
 
-			if (!is_bool($function->getDeprecatedVersion()))
-				$message .= sprintf(' since Cappuccino %s', $function->getDeprecatedVersion());
+			if ($function->getDeprecatedVersion())
+				$message .= sprintf(' since version %s', $function->getDeprecatedVersion());
 
 			if ($function->getAlternative())
 				$message .= sprintf('. Use "%s" instead', $function->getAlternative());
@@ -1009,13 +1040,12 @@ class ExpressionParser
 	 * @param int    $line
 	 *
 	 * @return string
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
 	private function getFilterNodeClass(string $name, int $line): string
 	{
-		if (false === ($filter = $this->cappuccino->getFilter($name)))
+		if (!$filter = $this->cappuccino->getFilter($name))
 		{
 			$e = new SyntaxError(sprintf('Unknown "%s" filter.', $name), $line, $this->parser->getStream()->getSourceContext());
 			$e->addSuggestions($name, array_keys($this->cappuccino->getFilters()));
@@ -1023,20 +1053,16 @@ class ExpressionParser
 			throw $e;
 		}
 
-		if ($filter === null)
-			throw new SyntaxError('NULL filter!', $line, $this->parser->getStream()->getSourceContext());
-
 		if ($filter->isDeprecated())
 		{
 			$message = sprintf('Cappuccino Filter "%s" is deprecated', $filter->getName());
-			if (!is_bool($filter->getDeprecatedVersion()))
-			{
-				$message .= sprintf(' since Cappuccino %s', $filter->getDeprecatedVersion());
-			}
+
+			if ($filter->getDeprecatedVersion())
+				$message .= sprintf(' since version %s', $filter->getDeprecatedVersion());
+
 			if ($filter->getAlternative())
-			{
 				$message .= sprintf('. Use "%s" instead', $filter->getAlternative());
-			}
+
 			$src = $this->parser->getStream()->getSourceContext();
 			$message .= sprintf(' in %s at line %d.', $src->getPath() ?: $src->getName(), $line);
 

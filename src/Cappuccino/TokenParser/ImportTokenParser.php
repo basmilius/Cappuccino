@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -20,7 +20,10 @@ use Cappuccino\Token;
 /**
  * Class ImportTokenParser
  *
- * @author Bas Milius <bas@mili.us>
+ * {% import "forms.cappy" as forms %}
+ * {% import "forms.cappy" import input as input_field, textarea %}
+ *
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\TokenParser
  * @since 1.0.0
  */
@@ -35,15 +38,14 @@ final class ImportTokenParser extends AbstractTokenParser
 	public function parse(Token $token): Node
 	{
 		$macro = $this->parser->getExpressionParser()->parseExpression();
-		$this->parser->getStream()->expect('as');
-		$var = new AssignNameExpression($this->parser->getStream()->expect(/*Token::NAME_TYPE*/
-			5)->getValue(), $token->getLine());
-		$this->parser->getStream()->expect(/*Token::BLOCK_END_TYPE*/
-			3);
+		$this->parser->getStream()->expect(Token::NAME_TYPE, 'as');
 
+		$var = new AssignNameExpression($this->parser->getStream()->expect(Token::NAME_TYPE)->getValue(), $token->getLine());
+
+		$this->parser->getStream()->expect(Token::BLOCK_END_TYPE);
 		$this->parser->addImportedSymbol('template', $var->getAttribute('name'));
 
-		return new ImportNode($macro, $var, $token->getLine(), $this->getTag());
+		return new ImportNode($macro, $var, $token->getLine(), $this->getTag(), $this->parser->isMainScope());
 	}
 
 	/**
@@ -55,4 +57,5 @@ final class ImportTokenParser extends AbstractTokenParser
 	{
 		return 'import';
 	}
+
 }

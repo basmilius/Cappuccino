@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -19,7 +19,9 @@ use Cappuccino\Token;
 /**
  * Class DoTokenParser
  *
- * @author Bas Milius <bas@mili.us>
+ * {% do 1 + 2 %} // Return value will be discarted.
+ *
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\TokenParser
  * @since 1.0.0
  */
@@ -31,11 +33,11 @@ final class DoTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function parse(Token $token): Node
+	public function parse(Token $token): Node
 	{
 		$expr = $this->parser->getExpressionParser()->parseExpression();
 
-		$this->parser->getStream()->expect(3); // Token::BLOCK_END_TYPE
+		$this->parser->getStream()->expect(Token::BLOCK_END_TYPE);
 
 		return new DoNode($expr, $token->getLine(), $this->getTag());
 	}
@@ -45,7 +47,7 @@ final class DoTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function getTag(): string
+	public function getTag(): string
 	{
 		return 'do';
 	}

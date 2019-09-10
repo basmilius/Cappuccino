@@ -1,27 +1,25 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
 
 namespace Cappuccino\Sandbox;
 
-use Exception;
-
 /**
  * Class SecurityNotAllowedMethodError
  *
- * @author Bas Milius <bas@mili.us>
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\Sandbox
  * @since 1.0.0
  */
-class SecurityNotAllowedMethodError extends SecurityError
+final class SecurityNotAllowedMethodError extends SecurityError
 {
 
 	/**
@@ -37,19 +35,16 @@ class SecurityNotAllowedMethodError extends SecurityError
 	/**
 	 * SecurityNotAllowedMethodError constructor.
 	 *
-	 * @param string         $message
-	 * @param string         $className
-	 * @param string         $methodName
-	 * @param int            $lineno
-	 * @param string|null    $filename
-	 * @param Exception|null $previous
+	 * @param string $message
+	 * @param string $className
+	 * @param string $methodName
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public function __construct(string $message, string $className, string $methodName, int $lineno = -1, ?string $filename = null, Exception $previous = null)
+	public function __construct(string $message, string $className, string $methodName)
 	{
-		parent::__construct($message, $lineno, $filename, $previous);
+		parent::__construct($message);
 
 		$this->className = $className;
 		$this->methodName = $methodName;
@@ -59,8 +54,8 @@ class SecurityNotAllowedMethodError extends SecurityError
 	 * Gets the class name.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@mili.us>
-	 * @since string
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 1.0.0
 	 */
 	public function getClassName(): string
 	{
@@ -71,10 +66,10 @@ class SecurityNotAllowedMethodError extends SecurityError
 	 * Gets the method name.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@mili.us>
-	 * @since string
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 1.0.0
 	 */
-	public function getMethodName(): string
+	public function getMethodName()
 	{
 		return $this->methodName;
 	}

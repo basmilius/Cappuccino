@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -27,14 +27,21 @@ use Cappuccino\Node\Node;
 /**
  * Class SafeAnalysisNodeVisitor
  *
- * @author Bas Milius <bas@mili.us>
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\NodeVisitor
  * @since 1.0.0
  */
-final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
+final class SafeAnalysisNodeVisitor implements NodeVisitorInterface
 {
 
+	/**
+	 * @var array
+	 */
 	private $data = [];
+
+	/**
+	 * @var array
+	 */
 	private $safeVars = [];
 
 	/**
@@ -45,7 +52,7 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setSafeVars(array $safeVars)
+	public function setSafeVars(array $safeVars): void
 	{
 		$this->safeVars = $safeVars;
 	}
@@ -71,9 +78,6 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 			if ($bucket['key'] !== $node)
 				continue;
 
-			if (!is_array($bucket['value']))
-				$bucket['value'] = [$bucket['value']];
-
 			if (in_array('html_attr', $bucket['value']))
 				$bucket['value'][] = 'html';
 
@@ -92,18 +96,22 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function setSafe(Node $node, $safe)
+	private function setSafe(Node $node, array $safe): void
 	{
 		$hash = spl_object_hash($node);
 
 		if (isset($this->data[$hash]))
+		{
 			foreach ($this->data[$hash] as &$bucket)
+			{
 				if ($bucket['key'] === $node)
 				{
 					$bucket['value'] = $safe;
 
 					return;
 				}
+			}
+		}
 
 		$this->data[$hash][] = [
 			'key' => $node,
@@ -116,7 +124,7 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doEnterNode(Node $node, Cappuccino $cappuccino): Node
+	public function enterNode(Node $node, Cappuccino $env): Node
 	{
 		return $node;
 	}
@@ -126,7 +134,7 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doLeaveNode(Node $node, Cappuccino $env): Node
+	public function leaveNode(Node $node, Cappuccino $env): ?Node
 	{
 		if ($node instanceof ConstantExpression)
 		{
@@ -150,7 +158,7 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 			$name = $node->getNode('filter')->getAttribute('value');
 			$args = $node->getNode('arguments');
 
-			if (false !== $filter = $env->getFilter($name))
+			if ($filter = $env->getFilter($name))
 			{
 				$safe = $filter->getSafe($args);
 
@@ -168,9 +176,8 @@ final class SafeAnalysisNodeVisitor extends AbstractNodeVisitor
 		{
 			$name = $node->getAttribute('name');
 			$args = $node->getNode('arguments');
-			$function = $env->getFunction($name);
 
-			if ($function !== false)
+			if ($function = $env->getFunction($name))
 				$this->setSafe($node, $function->getSafe($args));
 			else
 				$this->setSafe($node, []);

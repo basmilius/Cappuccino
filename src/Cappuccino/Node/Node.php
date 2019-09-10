@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -14,71 +14,80 @@ namespace Cappuccino\Node;
 
 use ArrayIterator;
 use Cappuccino\Compiler;
-use Cappuccino\Error\Error;
 use Cappuccino\Source;
 use Countable;
 use InvalidArgumentException;
 use IteratorAggregate;
 use LogicException;
+use Traversable;
 
 /**
  * Class Node
  *
- * @author Bas Milius <bas@mili.us>
- * @package Cappuccino
+ * @author Bas Milius <bas@ideemedia.nl>
+ * @package Cappuccino\Node
  * @since 1.0.0
  */
 class Node implements Countable, IteratorAggregate
 {
 
+	/**
+	 * @var Node[]
+	 */
 	protected $nodes;
+
+	/**
+	 * @var array
+	 */
 	protected $attributes;
-	protected $lineno;
+
+	/**
+	 * @var int
+	 */
+	protected $lineNumber;
+
+	/**
+	 * @var string|null
+	 */
 	protected $tag;
 
 	/**
-	 * @var Source|null
+	 * @var Source
 	 */
 	private $sourceContext;
 
 	/**
 	 * Node constructor.
 	 *
-	 * @param Node[]      $nodes
+	 * @param array       $nodes
 	 * @param array       $attributes
-	 * @param int         $lineno
+	 * @param int         $lineNumber
 	 * @param string|null $tag
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public function __construct(array $nodes = [], array $attributes = [], int $lineno = 0, ?string $tag = null)
+	public function __construct(array $nodes = [], array $attributes = [], int $lineNumber = 0, ?string $tag = null)
 	{
 		foreach ($nodes as $name => $node)
 			if (!$node instanceof self)
-				throw new InvalidArgumentException(sprintf('Using "%s" for the value of node "%s" of "%s" is not supported. You must pass a Node instance.', is_object($node) ? get_class($node) : null === $node ? 'null' : gettype($node), $name, get_class($this)));
+				throw new InvalidArgumentException(sprintf('Using "%s" for the value of node "%s" of "%s" is not supported. You must pass a \Cappuccino\Node\Node instance.', is_object($node) ? get_class($node) : (null === $node ? 'null' : gettype($node)), $name, get_class($this)));
 
 		$this->nodes = $nodes;
 		$this->attributes = $attributes;
-		$this->lineno = $lineno;
+		$this->lineNumber = $lineNumber;
 		$this->tag = $tag;
 	}
 
 	/**
-	 * Compiles the node.
-	 *
-	 * @param Compiler $compiler
-	 *
-	 * @throws Error
+	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
 	public function compile(Compiler $compiler): void
 	{
 		foreach ($this->nodes as $node)
-		{
 			$node->compile($compiler);
-		}
 	}
 
 	/**
@@ -90,23 +99,23 @@ class Node implements Countable, IteratorAggregate
 	 */
 	public function getTemplateLine(): int
 	{
-		return $this->lineno;
+		return $this->lineNumber;
 	}
 
 	/**
 	 * Gets a node tag.
 	 *
-	 * @return mixed
+	 * @return string|null
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getNodeTag()
+	public function getNodeTag(): ?string
 	{
 		return $this->tag;
 	}
 
 	/**
-	 * Checks if an attribute is present.
+	 * Checks if an attribute exists.
 	 *
 	 * @param string $name
 	 *
@@ -114,9 +123,9 @@ class Node implements Countable, IteratorAggregate
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function hasAttribute(string $name)
+	public function hasAttribute(string $name): bool
 	{
-		return isset($this->attributes[$name]) || is_null($this->attributes[$name]);
+		return array_key_exists($name, $this->attributes);
 	}
 
 	/**
@@ -130,7 +139,7 @@ class Node implements Countable, IteratorAggregate
 	 */
 	public function getAttribute(string $name)
 	{
-		if (!$this->hasAttribute($name))
+		if (!array_key_exists($name, $this->attributes))
 			throw new LogicException(sprintf('Attribute "%s" does not exist for Node "%s".', $name, get_class($this)));
 
 		return $this->attributes[$name];
@@ -158,35 +167,35 @@ class Node implements Countable, IteratorAggregate
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function removeAttribute($name): void
+	public function removeAttribute(string $name): void
 	{
 		unset($this->attributes[$name]);
 	}
 
 	/**
-	 * Checks if a node is present.
+	 * Checks if a node exists.
 	 *
-	 * @param string|int $name
+	 * @param string $name
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public function hasNode($name): bool
+	public function hasNode($name): bool // NOTE(Bas) $name was string
 	{
 		return isset($this->nodes[$name]);
 	}
 
 	/**
-	 * Gets a node.
+	 * Gets a node by name.
 	 *
 	 * @param string $name
 	 *
-	 * @return Node|Node[]
+	 * @return self
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getNode($name)
+	public function getNode($name): self
 	{
 		if (!isset($this->nodes[$name]))
 			throw new LogicException(sprintf('Node "%s" does not exist for Node "%s".', $name, get_class($this)));
@@ -195,15 +204,15 @@ class Node implements Countable, IteratorAggregate
 	}
 
 	/**
-	 * Sets a node.
+	 * Sets a node by name.
 	 *
-	 * @param string|int $name
-	 * @param Node       $node
+	 * @param string $name
+	 * @param Node   $node
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setNode($name, Node $node): void
+	public function setNode(string $name, self $node): void
 	{
 		$this->nodes[$name] = $node;
 	}
@@ -236,7 +245,7 @@ class Node implements Countable, IteratorAggregate
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getIterator(): ArrayIterator
+	public function getIterator(): Traversable
 	{
 		return new ArrayIterator($this->nodes);
 	}
@@ -244,8 +253,8 @@ class Node implements Countable, IteratorAggregate
 	/**
 	 * Gets the template name.
 	 *
-	 * @return string
-	 * @author Bas Milius <bas@mili.us>
+	 * @return string|null
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
 	public function getTemplateName(): ?string
@@ -254,24 +263,12 @@ class Node implements Countable, IteratorAggregate
 	}
 
 	/**
-	 * Gets the source context.
-	 *
-	 * @return Source|null
-	 * @author Bas Milius <bas@ideemedia.nl>
-	 * @since 1.2.0
-	 */
-	public function getSourceContext(): ?Source
-	{
-		return $this->sourceContext;
-	}
-
-	/**
-	 * Sets the source context.
+	 * Sets the {@see Source}.
 	 *
 	 * @param Source $source
 	 *
 	 * @author Bas Milius <bas@ideemedia.nl>
-	 * @since 1.2.0
+	 * @since 1.0.0
 	 */
 	public function setSourceContext(Source $source): void
 	{
@@ -282,9 +279,19 @@ class Node implements Countable, IteratorAggregate
 	}
 
 	/**
-	 * toString magic method.
+	 * Gets the {@see Source}.
 	 *
-	 * @return string
+	 * @return Source|null
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 1.0.0
+	 */
+	public function getSourceContext(): ?Source
+	{
+		return $this->sourceContext;
+	}
+
+	/**
+	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */

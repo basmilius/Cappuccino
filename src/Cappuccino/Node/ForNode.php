@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -15,12 +15,11 @@ namespace Cappuccino\Node;
 use Cappuccino\Compiler;
 use Cappuccino\Node\Expression\AbstractExpression;
 use Cappuccino\Node\Expression\AssignNameExpression;
-use Cappuccino\Util\StaticMethods;
 
 /**
  * Class ForNode
  *
- * @author Bas Milius <bas@mili.us>
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\Node
  * @since 1.0.0
  */
@@ -35,31 +34,26 @@ class ForNode extends Node
 	/**
 	 * ForNode constructor.
 	 *
-	 * @param AssignNameExpression    $keyTarget
-	 * @param AssignNameExpression    $valueTarget
-	 * @param AbstractExpression      $seq
-	 * @param AbstractExpression|null $ifexpr
-	 * @param Node                    $body
-	 * @param Node|null               $else
-	 * @param int                     $lineno
-	 * @param string|null             $tag
+	 * @param AssignNameExpression $keyTarget
+	 * @param AssignNameExpression $valueTarget
+	 * @param AbstractExpression   $seq
+	 * @param Node|null            $body
+	 * @param Node|null            $else
+	 * @param int                  $lineNumber
+	 * @param string|null          $tag
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public function __construct(AssignNameExpression $keyTarget, AssignNameExpression $valueTarget, AbstractExpression $seq, ?AbstractExpression $ifexpr, Node $body, Node $else = null, int $lineno = -1, ?string $tag = null)
+	public function __construct(AssignNameExpression $keyTarget, AssignNameExpression $valueTarget, AbstractExpression $seq, ?Node $body = null, ?Node $else = null, int $lineNumber = 0, ?string $tag = null)
 	{
-		$body = new Node([$body, $this->loop = new ForLoopNode($lineno, $tag)]);
-
-		if ($ifexpr !== null)
-			$body = new IfNode(new Node([$ifexpr, $body]), null, $lineno, $tag);
-
+		$body = new Node([$body, $this->loop = new ForLoopNode($lineNumber, $tag)]);
 		$nodes = ['key_target' => $keyTarget, 'value_target' => $valueTarget, 'seq' => $seq, 'body' => $body];
 
 		if ($else !== null)
 			$nodes['else'] = $else;
 
-		parent::__construct($nodes, ['with_loop' => true, 'ifexpr' => null !== $ifexpr], $lineno, $tag);
+		parent::__construct($nodes, ['with_loop' => true], $lineNumber, $tag);
 	}
 
 	/**
@@ -69,12 +63,10 @@ class ForNode extends Node
 	 */
 	public function compile(Compiler $compiler): void
 	{
-		$classStaticMethods = StaticMethods::class;
-
 		$compiler
 			->addDebugInfo($this)
 			->write("\$context['_parent'] = \$context;\n")
-			->write("\$context['_seq'] = $classStaticMethods::ensureTraversable(")
+			->write("\$context['_seq'] = StaticMethods::ensureTraversable(")
 			->subcompile($this->getNode('seq'))
 			->raw(");\n");
 
@@ -89,24 +81,20 @@ class ForNode extends Node
 				->write("  'index0' => 0,\n")
 				->write("  'index'  => 1,\n")
 				->write("  'first'  => true,\n")
-				->write("];\n");
-
-			if (!$this->getAttribute('ifexpr'))
-				$compiler
-					->write("if (is_array(\$context['_seq']) || (is_object(\$context['_seq']) && \$context['_seq'] instanceof Countable)) {\n")
-					->indent()
-					->write("\$length = count(\$context['_seq']);\n")
-					->write("\$context['loop']['revindex0'] = \$length - 1;\n")
-					->write("\$context['loop']['revindex'] = \$length;\n")
-					->write("\$context['loop']['length'] = \$length;\n")
-					->write("\$context['loop']['last'] = 1 === \$length;\n")
-					->outdent()
-					->write("}\n");
+				->write("];\n")
+				->write("if (is_array(\$context['_seq']) || (is_object(\$context['_seq']) && \$context['_seq'] instanceof \Countable)) {\n")
+				->indent()
+				->write("\$length = count(\$context['_seq']);\n")
+				->write("\$context['loop']['revindex0'] = \$length - 1;\n")
+				->write("\$context['loop']['revindex'] = \$length;\n")
+				->write("\$context['loop']['length'] = \$length;\n")
+				->write("\$context['loop']['last'] = 1 === \$length;\n")
+				->outdent()
+				->write("}\n");
 		}
 
 		$this->loop->setAttribute('else', $this->hasNode('else'));
 		$this->loop->setAttribute('with_loop', $this->getAttribute('with_loop'));
-		$this->loop->setAttribute('ifexpr', $this->getAttribute('ifexpr'));
 
 		$compiler
 			->write("foreach (\$context['_seq'] as ")
@@ -120,12 +108,14 @@ class ForNode extends Node
 			->write("}\n");
 
 		if ($this->hasNode('else'))
+		{
 			$compiler
 				->write("if (!\$context['_iterated']) {\n")
 				->indent()
 				->subcompile($this->getNode('else'))
 				->outdent()
 				->write("}\n");
+		}
 
 		$compiler->write("\$_parent = \$context['_parent'];\n");
 		$compiler->write('unset($context[\'_seq\'], $context[\'_iterated\'], $context[\'' . $this->getNode('key_target')->getAttribute('name') . '\'], $context[\'' . $this->getNode('value_target')->getAttribute('name') . '\'], $context[\'_parent\'], $context[\'loop\']);' . "\n");

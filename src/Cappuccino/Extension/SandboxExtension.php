@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -13,20 +13,16 @@ declare(strict_types=1);
 namespace Cappuccino\Extension;
 
 use Cappuccino\NodeVisitor\SandboxNodeVisitor;
-use Cappuccino\Sandbox\SecurityNotAllowedFilterError;
-use Cappuccino\Sandbox\SecurityNotAllowedFunctionError;
 use Cappuccino\Sandbox\SecurityNotAllowedMethodError;
 use Cappuccino\Sandbox\SecurityNotAllowedPropertyError;
-use Cappuccino\Sandbox\SecurityNotAllowedTagError;
 use Cappuccino\Sandbox\SecurityPolicyInterface;
-use Cappuccino\CappuccinoFilter;
-use Cappuccino\CappuccinoFunction;
+use Cappuccino\Source;
 use Cappuccino\TokenParser\SandboxTokenParser;
 
 /**
  * Class SandboxExtension
  *
- * @author Bas Milius <bas@mili.us>
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\Extension
  * @since 1.0.0
  */
@@ -36,12 +32,12 @@ final class SandboxExtension extends AbstractExtension
 	/**
 	 * @var bool
 	 */
-	private $sandboxed;
+	private $sandboxedGlobally;
 
 	/**
-	 * @var bool
+	 * @var
 	 */
-	private $sandboxedGlobally;
+	private $sandboxed;
 
 	/**
 	 * @var SecurityPolicyInterface
@@ -54,7 +50,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @param SecurityPolicyInterface $policy
 	 * @param bool                    $sandboxed
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
 	public function __construct(SecurityPolicyInterface $policy, bool $sandboxed = false)
@@ -68,7 +64,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function getTokenParsers(): array
+	public function getTokenParsers(): array
 	{
 		return [new SandboxTokenParser()];
 	}
@@ -78,7 +74,7 @@ final class SandboxExtension extends AbstractExtension
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function getNodeVisitors(): array
+	public function getNodeVisitors(): array
 	{
 		return [new SandboxNodeVisitor()];
 	}
@@ -86,10 +82,10 @@ final class SandboxExtension extends AbstractExtension
 	/**
 	 * Enables the sandbox.
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function enableSandbox(): void
+	public function enableSandbox(): void
 	{
 		$this->sandboxed = true;
 	}
@@ -97,127 +93,166 @@ final class SandboxExtension extends AbstractExtension
 	/**
 	 * Disables the sandbox.
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function disableSandbox(): void
+	public function disableSandbox(): void
 	{
 		$this->sandboxed = false;
 	}
 
 	/**
-	 * Gets if we're sandboxed.
+	 * Returns TRUE if sandbox is enabled.
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function isSandboxed(): bool
+	public function isSandboxed(): bool
 	{
 		return $this->sandboxedGlobally || $this->sandboxed;
 	}
 
 	/**
-	 * Gets if we're sandboxed globally.
+	 * Returns TRUE if sandbox is enabled for the global scope.
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function isSandboxedGlobally(): bool
+	public function isSandboxedGlobally(): bool
 	{
 		return $this->sandboxedGlobally;
 	}
 
 	/**
-	 * Gets the security policy.
-	 *
-	 * @return SecurityPolicyInterface
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public final function getSecurityPolicy(): SecurityPolicyInterface
-	{
-		return $this->policy;
-	}
-
-	/**
-	 * Sets the security policy.
+	 * Sets the {@see SecurityPolicyInterface}.
 	 *
 	 * @param SecurityPolicyInterface $policy
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function setSecurityPolicy(SecurityPolicyInterface $policy): void
+	public function setSecurityPolicy(SecurityPolicyInterface $policy): void
 	{
 		$this->policy = $policy;
 	}
 
 	/**
-	 * @param array                $tags
-	 * @param CappuccinoFilter[]   $filters
-	 * @param CappuccinoFunction[] $functions
+	 * Gets the {@see SecurityPolicyInterface}.
 	 *
-	 * @throws SecurityNotAllowedFilterError
-	 * @throws SecurityNotAllowedFunctionError
-	 * @throws SecurityNotAllowedTagError
-	 * @author Bas Milius <bas@mili.us>
+	 * @return SecurityPolicyInterface
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function checkSecurity(array $tags, array $filters, array $functions): void
+	public function getSecurityPolicy(): SecurityPolicyInterface
+	{
+		return $this->policy;
+	}
+
+	/**
+	 * Checks security of the given tags, filters and functions.
+	 *
+	 * @param array $tags
+	 * @param array $filters
+	 * @param array $functions
+	 *
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 1.0.0
+	 */
+	public function checkSecurity(array $tags, array $filters, array $functions): void
 	{
 		if ($this->isSandboxed())
 			$this->policy->checkSecurity($tags, $filters, $functions);
 	}
 
 	/**
-	 * Checks if a * is allowed.
+	 * Checks if a method is allowed.
 	 *
-	 * @param mixed  $obj
-	 * @param string $method
+	 * @param mixed       $obj
+	 * @param string      $method
+	 * @param int         $lineNumber
+	 * @param Source|null $source
 	 *
-	 * @throws SecurityNotAllowedMethodError
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function checkMethodAllowed($obj, string $method): void
+	public function checkMethodAllowed($obj, string $method, int $lineNumber = -1, ?Source $source = null): void
 	{
-		if ($this->isSandboxed())
+		if (!$this->isSandboxed())
+			return;
+
+		try
+		{
 			$this->policy->checkMethodAllowed($obj, $method);
+		}
+		catch (SecurityNotAllowedMethodError $e)
+		{
+			$e->setSourceContext($source);
+			$e->setTemplateLine($lineNumber);
+
+			throw $e;
+		}
 	}
 
 	/**
-	 * Checks if a * is allowed.
+	 * Checks if a property is allowed.
 	 *
-	 * @param mixed  $obj
-	 * @param string $property
+	 * @param mixed       $obj
+	 * @param string      $property
+	 * @param int         $lineNumber
+	 * @param Source|null $source
 	 *
-	 * @throws SecurityNotAllowedPropertyError
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function checkPropertyAllowed($obj, string $property): void
+	public function checkPropertyAllowed($obj, string $property, int $lineNumber = -1, ?Source $source = null): void
 	{
-		if ($this->isSandboxed())
+		if (!$this->isSandboxed())
+			return;
+
+		try
+		{
 			$this->policy->checkPropertyAllowed($obj, $property);
+		}
+		catch (SecurityNotAllowedPropertyError $e)
+		{
+			$e->setSourceContext($source);
+			$e->setTemplateLine($lineNumber);
+
+			throw $e;
+		}
 	}
 
 	/**
 	 * Ensures that __toString is always allowed.
 	 *
-	 * @param mixed $obj
+	 * @param mixed       $obj
+	 * @param int         $lineNumber
+	 * @param Source|null $source
 	 *
 	 * @return mixed
-	 * @throws SecurityNotAllowedMethodError
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function ensureToStringAllowed($obj)
+	public function ensureToStringAllowed($obj, int $lineNumber = -1, ?Source $source = null)
 	{
-		if ($this->isSandboxed() && is_object($obj))
-			$this->policy->checkMethodAllowed($obj, '__toString');
+		if ($this->isSandboxed() && is_object($obj) && method_exists($obj, '__toString'))
+		{
+			try
+			{
+				$this->policy->checkMethodAllowed($obj, '__toString');
+			}
+			catch (SecurityNotAllowedMethodError $e)
+			{
+				$e->setSourceContext($source);
+				$e->setTemplateLine($lineNumber);
+
+				throw $e;
+			}
+		}
 
 		return $obj;
 	}
+
 }

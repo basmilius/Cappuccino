@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -16,6 +16,8 @@ use Cappuccino\Error\RuntimeError;
 use Cappuccino\Extension\ExtensionInterface;
 use Cappuccino\Extension\GlobalsInterface;
 use Cappuccino\Extension\StagingExtension;
+use Cappuccino\Node\Expression\Binary\AbstractBinary;
+use Cappuccino\NodeVisitor\NodeVisitorInterface;
 use Cappuccino\TokenParser\TokenParserInterface;
 use InvalidArgumentException;
 use LogicException;
@@ -28,8 +30,6 @@ use UnexpectedValueException;
  * @author Bas Milius <bas@mili.us>
  * @package Cappuccino
  * @since 1.0.0
- *
- * @internal
  */
 final class ExtensionSet
 {
@@ -80,12 +80,12 @@ final class ExtensionSet
 	private $functions;
 
 	/**
-	 * @var array
+	 * @var AbstractBinary[]
 	 */
 	private $unaryOperators;
 
 	/**
-	 * @var array
+	 * @var AbstractBinary[]
 	 */
 	private $binaryOperators;
 
@@ -95,12 +95,12 @@ final class ExtensionSet
 	private $globals;
 
 	/**
-	 * @var array
+	 * @var callable[]
 	 */
 	private $functionCallbacks = [];
 
 	/**
-	 * @var array
+	 * @var callable[]
 	 */
 	private $filterCallbacks = [];
 
@@ -166,18 +166,6 @@ final class ExtensionSet
 	}
 
 	/**
-	 * Gets all extensions.
-	 *
-	 * @return ExtensionInterface[]
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public function getExtensions(): array
-	{
-		return $this->extensions;
-	}
-
-	/**
 	 * Sets extensions.
 	 *
 	 * @param ExtensionInterface[] $extensions
@@ -189,6 +177,18 @@ final class ExtensionSet
 	{
 		foreach ($extensions as $extension)
 			$this->addExtension($extension);
+	}
+
+	/**
+	 * Gets all extensions.
+	 *
+	 * @return ExtensionInterface[]
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getExtensions(): array
+	{
+		return $this->extensions;
 	}
 
 	/**
@@ -231,7 +231,7 @@ final class ExtensionSet
 		{
 			$r = new ReflectionObject($extension);
 
-			if (is_file($r->getFileName()) && ($extensionTime = filemtime($r->getFileName())) > $this->lastModified)
+			if (file_exists($r->getFileName()) && ($extensionTime = filemtime($r->getFileName())) > $this->lastModified)
 				$this->lastModified = $extensionTime;
 		}
 
@@ -307,10 +307,6 @@ final class ExtensionSet
 		if (isset($this->functions[$name]))
 			return $this->functions[$name];
 
-		/**
-		 * @var string             $pattern
-		 * @var CappuccinoFunction $function
-		 */
 		foreach ($this->functions as $pattern => $function)
 		{
 			$pattern = str_replace('\\*', '(.*?)', preg_quote($pattern, '#'), $count);
@@ -325,10 +321,27 @@ final class ExtensionSet
 		}
 
 		foreach ($this->functionCallbacks as $callback)
+		{
 			if (($function = $callback($name)) !== false)
+			{
 				return $function;
+			}
+		}
 
 		return null;
+	}
+
+	/**
+	 * Registers an undefined function callback.
+	 *
+	 * @param callable $callable
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function registerUndefinedFunctionCallback(callable $callable): void
+	{
+		$this->functionCallbacks[] = $callable;
 	}
 
 	/**
@@ -379,10 +392,6 @@ final class ExtensionSet
 		if (isset($this->filters[$name]))
 			return $this->filters[$name];
 
-		/**
-		 * @var string           $pattern
-		 * @var CappuccinoFilter $filter
-		 */
 		foreach ($this->filters as $pattern => $filter)
 		{
 			$pattern = str_replace('\\*', '(.*?)', preg_quote($pattern, '#'), $count);
@@ -401,6 +410,19 @@ final class ExtensionSet
 				return $filter;
 
 		return null;
+	}
+
+	/**
+	 * Registers an undefined filter callback.
+	 *
+	 * @param callable $callable
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function registerUndefinedFilterCallback(callable $callable): void
+	{
+		$this->filterCallbacks[] = $callable;
 	}
 
 	/**
@@ -546,10 +568,6 @@ final class ExtensionSet
 		if (isset($this->tests[$name]))
 			return $this->tests[$name];
 
-		/**
-		 * @var string         $pattern
-		 * @var CappuccinoTest $test
-		 */
 		foreach ($this->tests as $pattern => $test)
 		{
 			$pattern = str_replace('\\*', '(.*?)', preg_quote($pattern, '#'), $count);
@@ -569,7 +587,7 @@ final class ExtensionSet
 	/**
 	 * Gets the registered unary operators.
 	 *
-	 * @return array
+	 * @return AbstractBinary[]
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -584,7 +602,7 @@ final class ExtensionSet
 	/**
 	 * Gets the registered binary operators.
 	 *
-	 * @return array
+	 * @return AbstractBinary[]
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -616,6 +634,7 @@ final class ExtensionSet
 			$this->initExtension($extension);
 
 		$this->initExtension($this->staging);
+
 		$this->initialized = true;
 	}
 
@@ -641,7 +660,7 @@ final class ExtensionSet
 		foreach ($extension->getTokenParsers() as $parser)
 		{
 			if (!$parser instanceof TokenParserInterface)
-				throw new LogicException('getTokenParsers() must return an array of \Twig\TokenParser\TokenParserInterface.');
+				throw new LogicException('getTokenParsers() must return an array of \Cappuccino\TokenParser\TokenParserInterface.');
 
 			$this->parsers[] = $parser;
 		}
@@ -653,38 +672,13 @@ final class ExtensionSet
 		{
 			if (!is_array($operators))
 				throw new InvalidArgumentException(sprintf('"%s::getOperators()" must return an array with operators, got "%s".', get_class($extension), is_object($operators) ? get_class($operators) : gettype($operators) . (is_resource($operators) ? '' : '#' . $operators)));
+
 			if (count($operators) !== 2)
 				throw new InvalidArgumentException(sprintf('"%s::getOperators()" must return an array of 2 elements, got %d.', get_class($extension), count($operators)));
 
 			$this->unaryOperators = array_merge($this->unaryOperators, $operators[0]);
 			$this->binaryOperators = array_merge($this->binaryOperators, $operators[1]);
 		}
-	}
-
-	/**
-	 * Registers an undefined filter callback.
-	 *
-	 * @param callable $callable
-	 *
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public function registerUndefinedFilterCallback(callable $callable): void
-	{
-		$this->filterCallbacks[] = $callable;
-	}
-
-	/**
-	 * Registers an undefined function callback.
-	 *
-	 * @param callable $callable
-	 *
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public function registerUndefinedFunctionCallback(callable $callable): void
-	{
-		$this->functionCallbacks[] = $callable;
 	}
 
 }

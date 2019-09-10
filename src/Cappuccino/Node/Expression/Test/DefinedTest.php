@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -19,7 +19,9 @@ use Cappuccino\Node\Expression\BlockReferenceExpression;
 use Cappuccino\Node\Expression\ConstantExpression;
 use Cappuccino\Node\Expression\FunctionExpression;
 use Cappuccino\Node\Expression\GetAttrExpression;
+use Cappuccino\Node\Expression\MethodCallExpression;
 use Cappuccino\Node\Expression\NameExpression;
+use Cappuccino\Node\Expression\TestExpression;
 use Cappuccino\Node\Node;
 
 /**
@@ -38,13 +40,12 @@ class DefinedTest extends TestExpression
 	 * @param Node      $node
 	 * @param string    $name
 	 * @param Node|null $arguments
-	 * @param int       $lineno
+	 * @param int       $lineNumber
 	 *
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(Node $node, string $name, Node $arguments = null, int $lineno = -1)
+	public function __construct(Node $node, string $name, Node $arguments = null, int $lineNumber = 0)
 	{
 		if ($node instanceof NameExpression)
 		{
@@ -59,7 +60,7 @@ class DefinedTest extends TestExpression
 		{
 			$node->setAttribute('is_defined_test', true);
 		}
-		else if ($node instanceof FunctionExpression && 'constant' === $node->getAttribute('name'))
+		else if ($node instanceof FunctionExpression && $node->getAttribute('name') === 'constant')
 		{
 			$node->setAttribute('is_defined_test', true);
 		}
@@ -67,12 +68,33 @@ class DefinedTest extends TestExpression
 		{
 			$node = new ConstantExpression(true, $node->getTemplateLine());
 		}
+		else if ($node instanceof MethodCallExpression)
+		{
+			$node->setAttribute('is_defined_test', true);
+		}
 		else
 		{
-			throw new SyntaxError('The "defined" test only works with simple variables.', $lineno);
+			throw new SyntaxError('The "defined" test only works with simple variables.', $lineNumber);
 		}
 
-		parent::__construct($node, $name, $arguments, $lineno);
+		parent::__construct($node, $name, $arguments, $lineNumber);
+	}
+
+	/**
+	 * Changes the strict check.
+	 *
+	 * @param GetAttrExpression $node
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	private function changeIgnoreStrictCheck(GetAttrExpression $node)
+	{
+		$node->setAttribute('optimizable', false);
+		$node->setAttribute('ignore_strict_check', true);
+
+		if ($node->getNode('node') instanceof GetAttrExpression)
+			$this->changeIgnoreStrictCheck($node->getNode('node'));
 	}
 
 	/**
@@ -83,18 +105,6 @@ class DefinedTest extends TestExpression
 	public function compile(Compiler $compiler): void
 	{
 		$compiler->subcompile($this->getNode('node'));
-	}
-
-	private function changeIgnoreStrictCheck(GetAttrExpression $node)
-	{
-		$node->setAttribute('ignore_strict_check', true);
-
-		$expression = $node->getNode('node');
-
-		if ($expression instanceof GetAttrExpression)
-		{
-			$this->changeIgnoreStrictCheck($expression);
-		}
 	}
 
 }

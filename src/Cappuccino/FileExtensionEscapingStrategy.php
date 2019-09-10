@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -34,10 +34,14 @@ class FileExtensionEscapingStrategy
 	public static function guess(string $name)
 	{
 		if (in_array(substr($name, -1), ['/', '\\']))
-			return 'html';
+		{
+			return 'html'; // return html for directories
+		}
 
-		if (substr($name, -strlen(Cappuccino::DEFAULT_EXTENSION)) === Cappuccino::DEFAULT_EXTENSION)
-			$name = substr($name, 0, -5);
+		if ('.cappy' === substr($name, -6))
+		{
+			$name = substr($name, 0, -6);
+		}
 
 		$extension = pathinfo($name, PATHINFO_EXTENSION);
 

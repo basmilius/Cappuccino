@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Cappuccino\Node\Expression\Filter;
 
 use Cappuccino\Compiler;
-use Cappuccino\Error\SyntaxError;
 use Cappuccino\Node\Expression\ConditionalExpression;
 use Cappuccino\Node\Expression\ConstantExpression;
 use Cappuccino\Node\Expression\FilterExpression;
@@ -38,22 +37,20 @@ class DefaultFilter extends FilterExpression
 	 * @param Node               $node
 	 * @param ConstantExpression $filterName
 	 * @param Node               $arguments
-	 * @param int                $lineno
+	 * @param int                $lineNumber
 	 * @param string|null        $tag
 	 *
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(Node $node, ConstantExpression $filterName, Node $arguments, int $lineno, ?string $tag = null)
+	public function __construct(Node $node, ConstantExpression $filterName, Node $arguments, int $lineNumber, ?string $tag = null)
 	{
 		$default = new FilterExpression($node, new ConstantExpression('default', $node->getTemplateLine()), $arguments, $node->getTemplateLine());
 
-		if ('default' === $filterName->getAttribute('value') && ($node instanceof NameExpression || $node instanceof GetAttrExpression))
+		if ($filterName->getAttribute('value') === 'default' && ($node instanceof NameExpression || $node instanceof GetAttrExpression))
 		{
 			$test = new DefinedTest(clone $node, 'defined', new Node(), $node->getTemplateLine());
 			$false = count($arguments) ? $arguments->getNode(0) : new ConstantExpression('', $node->getTemplateLine());
-
 			$node = new ConditionalExpression($test, $default, $false, $node->getTemplateLine());
 		}
 		else
@@ -61,7 +58,7 @@ class DefaultFilter extends FilterExpression
 			$node = $default;
 		}
 
-		parent::__construct($node, $filterName, $arguments, $lineno, $tag);
+		parent::__construct($node, $filterName, $arguments, $lineNumber, $tag);
 	}
 
 	/**

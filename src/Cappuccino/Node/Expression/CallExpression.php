@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -13,18 +13,16 @@ declare(strict_types=1);
 namespace Cappuccino\Node\Expression;
 
 use Cappuccino\Compiler;
-use Cappuccino\Error\Error;
-use Cappuccino\Error\RuntimeError;
 use Cappuccino\Error\SyntaxError;
 use Cappuccino\Extension\ExtensionInterface;
 use Cappuccino\Node\Node;
+use Cappuccino\Util\StaticMethods;
 use Closure;
-use function count;
 use LogicException;
+use ReflectionException;
 use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionObject;
-use ReflectionParameter;
 
 /**
  * Class CallExpression
@@ -36,14 +34,17 @@ use ReflectionParameter;
 abstract class CallExpression extends AbstractExpression
 {
 
+	/**
+	 * @var array|null
+	 */
 	private $reflector;
 
 	/**
-	 * Compiles a callable.
+	 * Compiles the callable.
 	 *
 	 * @param Compiler $compiler
 	 *
-	 * @throws Error
+	 * @throws ReflectionException
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -65,7 +66,7 @@ abstract class CallExpression extends AbstractExpression
 			if ($r instanceof ReflectionMethod && is_string($callable[0]))
 			{
 				if ($r->isStatic())
-					$compiler->raw(sprintf('%s::%s', $callable[0], $callable[1]));
+					$compiler->raw(sprintf('%s::%s', $callable[0] === StaticMethods::class ? 'StaticMethods' : $callable[0], $callable[1]));
 				else
 					$compiler->raw(sprintf('$this->cappuccino->getRuntime(\'%s\')->%s', $callable[0], $callable[1]));
 			}
@@ -74,9 +75,11 @@ abstract class CallExpression extends AbstractExpression
 				$class = get_class($callable[0]);
 
 				if (!$compiler->getCappuccino()->hasExtension($class))
-					throw new RuntimeError(sprintf('The "%s" extension is not enabled.', $class));
+					$compiler->raw(sprintf('$this->cappuccino->getExtension(\'%s\')', $class));
+				else
+					$compiler->raw(sprintf('$this->extensions[\'%s\']', ltrim($class, '\\')));
 
-				$compiler->raw(sprintf("\$this->extensions[%s::class]->%s", $class, $callable[1]));
+				$compiler->raw(sprintf('->%s', $callable[1]));
 			}
 			else
 			{
@@ -93,17 +96,16 @@ abstract class CallExpression extends AbstractExpression
 	}
 
 	/**
-	 * Compiles arguments.
+	 * Compiles the arguments.
 	 *
 	 * @param Compiler $compiler
 	 * @param bool     $isArray
 	 *
-	 * @throws Error
-	 * @throws SyntaxError
+	 * @throws ReflectionException
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function compileArguments(Compiler $compiler, bool $isArray): void
+	protected function compileArguments(Compiler $compiler, $isArray = false): void
 	{
 		$compiler->raw($isArray ? '[' : '(');
 
@@ -118,9 +120,8 @@ abstract class CallExpression extends AbstractExpression
 		if ($this->hasAttribute('needs_context') && $this->getAttribute('needs_context'))
 		{
 			if (!$first)
-			{
 				$compiler->raw(', ');
-			}
+
 			$compiler->raw('$context');
 			$first = false;
 		}
@@ -167,15 +168,15 @@ abstract class CallExpression extends AbstractExpression
 	/**
 	 * Gets arguments.
 	 *
-	 * @param callable|null $callable
-	 * @param mixed         $arguments
+	 * @param callable|object $callable
+	 * @param array           $arguments
 	 *
 	 * @return array
-	 * @throws SyntaxError
+	 * @throws ReflectionException
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function getArguments(?callable $callable = null, $arguments = []): array
+	protected function getArguments($callable, $arguments = []): array
 	{
 		$callType = $this->getAttribute('type');
 		$callName = $this->getAttribute('name');
@@ -213,7 +214,6 @@ abstract class CallExpression extends AbstractExpression
 			throw new LogicException($message);
 		}
 
-		/** @var ReflectionParameter[] $callableParameters */
 		[$callableParameters, $isPhpVariadic] = $this->getCallableParameters($callable, $isVariadic);
 		$arguments = [];
 		$names = [];
@@ -238,7 +238,7 @@ abstract class CallExpression extends AbstractExpression
 				unset($parameters[$name]);
 				$optionalArguments = [];
 			}
-			else if (isset($parameters[$pos]))
+			else if (array_key_exists($pos, $parameters))
 			{
 				$arguments = array_merge($arguments, $optionalArguments);
 				$arguments[] = $parameters[$pos];
@@ -297,21 +297,14 @@ abstract class CallExpression extends AbstractExpression
 				}
 			}
 
-			throw new SyntaxError(
-				sprintf(
-					'Unknown argument%s "%s" for %s "%s(%s)".',
-					count($parameters) > 1 ? 's' : '', implode('", "', array_keys($parameters)), $callType, $callName, implode(', ', $names)
-				),
-				$unknownParameter ? $unknownParameter->getTemplateLine() : $this->getTemplateLine(),
-				$unknownParameter ? $unknownParameter->getSourceContext() : $this->getSourceContext()
-			);
+			throw new SyntaxError(sprintf('Unknown argument%s "%s" for %s "%s(%s)".', count($parameters) > 1 ? 's' : '', implode('", "', array_keys($parameters)), $callType, $callName, implode(', ', $names)), $unknownParameter ? $unknownParameter->getTemplateLine() : $this->getTemplateLine(), $unknownParameter ? $unknownParameter->getSourceContext() : $this->getSourceContext());
 		}
 
 		return $arguments;
 	}
 
 	/**
-	 * Normalizes the name.
+	 * Normalizes the given name.
 	 *
 	 * @param string $name
 	 *
@@ -325,16 +318,17 @@ abstract class CallExpression extends AbstractExpression
 	}
 
 	/**
-	 * Gets callable parameters.
+	 * Gets parameters of a callable.
 	 *
-	 * @param callable|null $callable
-	 * @param bool          $isVariadic
+	 * @param callable|object $callable
+	 * @param bool            $isVariadic
 	 *
 	 * @return array
+	 * @throws ReflectionException
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function getCallableParameters(?callable $callable, bool $isVariadic): array
+	private function getCallableParameters($callable, bool $isVariadic): array
 	{
 		[$r] = $this->reflectCallable($callable);
 
@@ -387,15 +381,16 @@ abstract class CallExpression extends AbstractExpression
 	}
 
 	/**
-	 * Reflect callable.
+	 * Gets the reflector.
 	 *
-	 * @param callable|mixed $callable
+	 * @param callable|object $callable
 	 *
 	 * @return array
+	 * @throws ReflectionException
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function reflectCallable(callable $callable): array
+	private function reflectCallable($callable): array
 	{
 		if ($this->reflector !== null)
 			return $this->reflector;
@@ -413,7 +408,7 @@ abstract class CallExpression extends AbstractExpression
 			$r = $r->getMethod('__invoke');
 			$callable = [$callable, '__invoke'];
 		}
-		else if (is_string($callable) && false !== $pos = strpos($callable, '::'))
+		else if (is_string($callable) && ($pos = strpos($callable, '::')) !== false)
 		{
 			$class = substr($callable, 0, $pos);
 			$method = substr($callable, $pos + 2);

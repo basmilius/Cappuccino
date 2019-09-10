@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -18,7 +18,7 @@ use Cappuccino\Node\BodyNode;
 use Cappuccino\Node\MacroNode;
 use Cappuccino\Node\ModuleNode;
 use Cappuccino\Node\Node;
-use Cappuccino\NodeVisitor\AbstractNodeVisitor;
+use Cappuccino\NodeVisitor\NodeVisitorInterface;
 use Cappuccino\Profiler\Node\EnterProfileNode;
 use Cappuccino\Profiler\Node\LeaveProfileNode;
 use Cappuccino\Profiler\Profile;
@@ -26,11 +26,11 @@ use Cappuccino\Profiler\Profile;
 /**
  * Class ProfilerNodeVisitor
  *
- * @author Bas Milius <bas@mili.us>
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\Profiler\NodeVisitor
  * @since 1.0.0
  */
-final class ProfilerNodeVisitor extends AbstractNodeVisitor
+final class ProfilerNodeVisitor implements NodeVisitorInterface
 {
 
 	/**
@@ -43,7 +43,7 @@ final class ProfilerNodeVisitor extends AbstractNodeVisitor
 	 *
 	 * @param string $extensionName
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
 	public function __construct(string $extensionName)
@@ -56,7 +56,7 @@ final class ProfilerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doEnterNode(Node $node, Cappuccino $cappuccino): Node
+	public function enterNode(Node $node, Cappuccino $env): Node
 	{
 		return $node;
 	}
@@ -66,7 +66,7 @@ final class ProfilerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doLeaveNode(Node $node, Cappuccino $env): Node
+	public function leaveNode(Node $node, Cappuccino $env): ?Node
 	{
 		if ($node instanceof ModuleNode)
 		{
@@ -97,10 +97,10 @@ final class ProfilerNodeVisitor extends AbstractNodeVisitor
 	}
 
 	/**
-	 * Gets the var name.
+	 * Gets the variable name.
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
 	private function getVarName(): string

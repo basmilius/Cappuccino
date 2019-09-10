@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -108,18 +108,6 @@ final class CappuccinoFunction
 	}
 
 	/**
-	 * Gets the arguments.
-	 *
-	 * @return array
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public function getArguments(): array
-	{
-		return $this->arguments;
-	}
-
-	/**
 	 * Sets the arguments.
 	 *
 	 * @param array $arguments
@@ -130,6 +118,18 @@ final class CappuccinoFunction
 	public function setArguments(array $arguments): void
 	{
 		$this->arguments = $arguments;
+	}
+
+	/**
+	 * Gets the arguments.
+	 *
+	 * @return array
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getArguments(): array
+	{
+		return $this->arguments;
 	}
 
 	/**
@@ -165,7 +165,7 @@ final class CappuccinoFunction
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getSafe(Node $functionArgs)
+	public function getSafe(Node $functionArgs): ?array
 	{
 		if ($this->options['is_safe'] !== null)
 			return $this->options['is_safe'];
@@ -197,7 +197,7 @@ final class CappuccinoFunction
 	 */
 	public function isDeprecated(): bool
 	{
-		return (bool)$this->options['deprecated'];
+		return $this->options['deprecated'];
 	}
 
 	/**
@@ -209,7 +209,7 @@ final class CappuccinoFunction
 	 */
 	public function getDeprecatedVersion(): string
 	{
-		return $this->options['deprecated'];
+		return is_bool($this->options['deprecated']) ? '' : $this->options['deprecated'];
 	}
 
 	/**
@@ -219,7 +219,7 @@ final class CappuccinoFunction
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getAlternative(): string
+	public function getAlternative(): ?string
 	{
 		return $this->options['alternative'];
 	}

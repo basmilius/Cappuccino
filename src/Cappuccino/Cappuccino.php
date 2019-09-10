@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -13,52 +13,37 @@ declare(strict_types=1);
 namespace Cappuccino;
 
 use Cappuccino\Cache\CacheInterface;
+use Cappuccino\Cache\FilesystemCache;
 use Cappuccino\Cache\NullCache;
 use Cappuccino\Error\Error;
 use Cappuccino\Error\LoaderError;
 use Cappuccino\Error\RuntimeError;
 use Cappuccino\Error\SyntaxError;
-use Cappuccino\Extension\ArrayExtension;
 use Cappuccino\Extension\CoreExtension;
-use Cappuccino\Extension\DateExtension;
 use Cappuccino\Extension\EscaperExtension;
 use Cappuccino\Extension\ExtensionInterface;
-use Cappuccino\Extension\IntlExtension;
 use Cappuccino\Extension\OptimizerExtension;
-use Cappuccino\Extension\TextExtension;
 use Cappuccino\Loader\ArrayLoader;
 use Cappuccino\Loader\ChainLoader;
 use Cappuccino\Loader\LoaderInterface;
+use Cappuccino\Node\Expression\Binary\AbstractBinary;
 use Cappuccino\Node\ModuleNode;
 use Cappuccino\Node\Node;
+use Cappuccino\NodeVisitor\NodeVisitorInterface;
 use Cappuccino\RuntimeLoader\RuntimeLoaderInterface;
 use Cappuccino\TokenParser\TokenParserInterface;
 use Exception;
 use LogicException;
 
-/**
- * Class Cappuccino
- *
- * @author Bas Milius <bas@mili.us>
- * @package Cappuccino
- * @since 1.0.0
- */
 class Cappuccino
 {
 
-	public const VERSION = '1.3.0';
-	public const VERSION_ID = 10300;
-	public const MAJOR_VERSION = 1;
-	public const MINOR_VERSION = 3;
-	public const RELEASE_VERSION = 0;
-	public const EXTRA_VERSION = 'release';
-
-	public const DEFAULT_EXTENSION = '.cappy';
-
-	/**
-	 * @var CacheInterface
-	 */
-	private $cache;
+	const VERSION = '2.0.0-dev';
+	const VERSION_CODE = 2000000;
+	const MAJOR_VERSION = 2;
+	const MINOR_VERSION = 0;
+	const RELEASE_VERSION = 0;
+	const EXTRA_VERSION = 'dev';
 
 	/**
 	 * @var string
@@ -79,6 +64,11 @@ class Cappuccino
 	 * @var bool
 	 */
 	private $autoReload;
+
+	/**
+	 * @var CacheInterface
+	 */
+	private $cache;
 
 	/**
 	 * @var Lexer
@@ -116,6 +106,16 @@ class Cappuccino
 	private $strictVariables;
 
 	/**
+	 * @var string
+	 */
+	private $templateClassPrefix = 'CT_';
+
+	/**
+	 * @var mixed
+	 */
+	private $originalCache;
+
+	/**
 	 * @var ExtensionSet
 	 */
 	private $extensionSet;
@@ -136,50 +136,38 @@ class Cappuccino
 	private $optionsHash;
 
 	/**
-	 * @var array
-	 */
-	private $loading = [];
-
-	/**
 	 * Cappuccino constructor.
 	 *
 	 * @param LoaderInterface $loader
 	 * @param array           $options
 	 *
-	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(LoaderInterface $loader, array $options = [])
+	public function __construct(LoaderInterface $loader, $options = [])
 	{
 		$this->setLoader($loader);
 
 		$options = array_merge([
-			'debug' => true,
+			'debug' => false,
 			'charset' => 'UTF-8',
 			'strict_variables' => false,
 			'autoescape' => 'html',
-			'cache' => new NullCache(),
+			'cache' => null,
 			'auto_reload' => null,
 			'optimizations' => -1,
 		], $options);
 
-		$this->debug = (bool)$options['debug'];
-		$this->setCharset($options['charset']);
-		$this->autoReload = null === $options['auto_reload'] ? $this->debug : (bool)$options['auto_reload'];
-		$this->strictVariables = (bool)$options['strict_variables'];
+		$this->debug = $options['debug'];
+		$this->setCharset($options['charset'] ?? 'UTF-8');
+		$this->autoReload = $options['auto_reload'] === null ? $this->debug : $options['auto_reload'];
+		$this->strictVariables = $options['strict_variables'];
 		$this->setCache($options['cache']);
 		$this->extensionSet = new ExtensionSet();
 
 		$this->addExtension(new CoreExtension());
 		$this->addExtension(new EscaperExtension($options['autoescape']));
 		$this->addExtension(new OptimizerExtension($options['optimizations']));
-
-		// Added 15-10-2017
-		$this->addExtension(new ArrayExtension());
-		$this->addExtension(new DateExtension());
-		$this->addExtension(new IntlExtension());
-		$this->addExtension(new TextExtension());
 	}
 
 	/**
@@ -207,7 +195,7 @@ class Cappuccino
 	}
 
 	/**
-	 * Checks if debugging mode is enabled.
+	 * Returns TRUE if debugging is enabled.
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
@@ -241,7 +229,7 @@ class Cappuccino
 	}
 
 	/**
-	 * Checks if the auto_reload option is enabled.
+	 * Returns TRUE if the auto_reload option is enabled.
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
@@ -277,7 +265,7 @@ class Cappuccino
 	}
 
 	/**
-	 * Checks if the strict_variables option is enabled.
+	 * Returns TRUE if the strict_variables option is enabled.
 	 *
 	 * @return bool
 	 * @author Bas Milius <bas@mili.us>
@@ -291,131 +279,127 @@ class Cappuccino
 	/**
 	 * Gets the current cache implementation.
 	 *
+	 * @param bool $original
+	 *
 	 * @return CacheInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function getCache(): CacheInterface
+	public function getCache(bool $original = true): CacheInterface
 	{
-		return $this->cache;
+		return $original ? $this->originalCache : $this->cache;
 	}
 
 	/**
 	 * Sets the current cache implementation.
 	 *
-	 * @param CacheInterface $cache
+	 * @param CacheInterface|null $cache
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setCache(CacheInterface $cache): void
+	public function setCache(?CacheInterface $cache)
 	{
-		if ($cache instanceof CacheInterface)
-			$this->cache = $cache;
+		if (is_string($cache))
+		{
+			$this->originalCache = $cache;
+			$this->cache = new FilesystemCache($cache);
+		}
+		else if ($cache === null)
+		{
+			$this->originalCache = $cache;
+			$this->cache = new NullCache();
+		}
+		else if ($cache instanceof CacheInterface)
+		{
+			$this->originalCache = $this->cache = $cache;
+		}
 		else
-			throw new LogicException('Cache can only be a CacheImplementation.');
+		{
+			throw new LogicException(sprintf('Cache can only be a string, false, or a \Cappuccino\Cache\CacheInterface implementation.'));
+		}
 	}
 
 	/**
-	 * Gets the template class assiciated with the given string.
+	 * Gets the generated template class name for a template name.
 	 *
 	 * @param string   $name
 	 * @param int|null $index
 	 *
 	 * @return string
-	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
-	 * @internal
 	 */
-	public function getTemplateClass(string $name, ?int $index = null): string
+	public function getTemplateClass(string $name, int $index = null): string
 	{
 		$key = $this->getLoader()->getCacheKey($name) . $this->optionsHash;
 
-		return 'CT_' . hash('sha1', $key) . ($index === null ? '' : '_' . $index);
+		return $this->templateClassPrefix . hash('sha256', $key) . (null === $index ? '' : '___' . $index);
 	}
 
 	/**
 	 * Renders a template.
 	 *
-	 * @param string|TemplateWrapper $template
+	 * @param string|TemplateWrapper $name
 	 * @param array                  $context
 	 *
 	 * @return string
-	 * @throws LoaderError
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function render($template, array $context = []): string
+	public function render($name, array $context = []): string
 	{
-		return $this->load($template)->render($context);
+		return $this->load($name)->render($context);
 	}
 
 	/**
 	 * Displays a template.
 	 *
-	 * @param string|TemplateWrapper $template
+	 * @param string|TemplateWrapper $name
 	 * @param array                  $context
 	 *
-	 * @throws LoaderError
-	 * @throws RuntimeError
-	 * @throws SyntaxError
-	 * @throws Exception
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function display($template, array $context = []): void
+	public function display($name, array $context = []): void
 	{
-		$this->load($template)->display($context);
+		$this->load($name)->display($context);
 	}
 
 	/**
-	 * Loads a template.
+	 * Loads a template. This method also accepts a {@see TemplateWrapper}.
 	 *
 	 * @param string|TemplateWrapper $name
 	 *
 	 * @return TemplateWrapper
-	 * @throws LoaderError
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public final function load($name): TemplateWrapper
+	public function load($name): TemplateWrapper
 	{
 		if ($name instanceof TemplateWrapper)
 			return $name;
 
-		if ($name instanceof Template)
-		{
-			trigger_error(sprintf('Passing a %s instance to %s is deprecated since Cappuccin 1.3.0, use %s instead.', Template::class, __METHOD__, TemplateWrapper::class), E_USER_DEPRECATED);
-			return new TemplateWrapper($this, $name);
-		}
-
-		return new TemplateWrapper($this, $this->loadTemplate($name));
+		return new TemplateWrapper($this, $this->loadTemplate($this->getTemplateClass($name), $name));
 	}
 
 	/**
 	 * Loads a template.
 	 *
+	 * @param string   $cls
 	 * @param string   $name
 	 * @param int|null $index
 	 *
 	 * @return Template
-	 * @throws LoaderError
-	 * @throws SyntaxError
-	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function loadTemplate(string $name, ?int $index = null): Template
+	public function loadTemplate(string $cls, string $name, int $index = null): Template
 	{
-		$cls = $mainCls = $this->getTemplateClass($name);
+		$mainCls = $cls;
 
 		if ($index !== null)
-			$cls .= '_' . $index;
+			$cls .= '___' . $index;
 
 		if (isset($this->loadedTemplates[$cls]))
 			return $this->loadedTemplates[$cls];
@@ -423,6 +407,7 @@ class Cappuccino
 		if (!class_exists($cls, false))
 		{
 			$key = $this->cache->generateKey($name, $mainCls);
+			$source = null;
 
 			if (!$this->isAutoReload() || $this->isTemplateFresh($name, $this->cache->getTimestamp($key)))
 				$this->cache->load($key);
@@ -438,42 +423,26 @@ class Cappuccino
 					eval('?>' . $content);
 
 				if (!class_exists($cls, false))
-					throw new RuntimeError(sprintf('Failed to load Cappuccino template "%s", index "%s": cache is corrupted.', $name, $index), -1, $source);
+					throw new RuntimeError(sprintf('Failed to load Cappuccino template "%s", index "%s": cache might be corrupted.', $name, $index), -1, $source);
 			}
 		}
 
 		$this->extensionSet->initRuntime();
 
-		if (isset($this->loading[$cls]))
-			throw new RuntimeError(sprintf('Circular reference detected for Cappuccin template "%s", path: %s', $name, implode(' -> ', array_merge($this->loading, [$name]))));
-
-		try
-		{
-			$this->loadedTemplates[$cls] = new $cls($this);
-		}
-		finally
-		{
-			unset($this->loading[$cls]);
-		}
-
-		return $this->loadedTemplates[$cls];
+		return $this->loadedTemplates[$cls] = new $cls($this);
 	}
 
 	/**
-	 * Creates a template from source. This method should not be used as a generic way to load templates.
+	 * Creates a template from string. This method should not be used as a generic way to load templates.
 	 *
 	 * @param string      $template
 	 * @param string|null $name
 	 *
-	 * @return Template
-	 * @throws Error
-	 * @throws LoaderError
-	 * @throws RuntimeError
-	 * @throws SyntaxError
+	 * @return TemplateWrapper
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function createTemplate(string $template, ?string $name = null): Template
+	public function createTemplate(string $template, string $name = null): TemplateWrapper
 	{
 		$hash = hash('sha256', $template, false);
 
@@ -484,14 +453,14 @@ class Cappuccino
 
 		$loader = new ChainLoader([
 			new ArrayLoader([$name => $template]),
-			$current = $this->getLoader(),
+			$current = $this->getLoader()
 		]);
 
 		$this->setLoader($loader);
 
 		try
 		{
-			return $this->loadTemplate($name);
+			return new TemplateWrapper($this, $this->loadTemplate($this->getTemplateClass($name), $name));
 		}
 		finally
 		{
@@ -500,14 +469,13 @@ class Cappuccino
 	}
 
 	/**
-	 * Returns TRUE if the template is still fresh. Besides checking the loaer for freshness information,
-	 * this method also checks if the enabled extensions have not changed.
+	 * Returns THE If the template is still fresh. Besides checking the loader for freshness information,
+	 * this method also checks if the enabled extensions have changed.
 	 *
 	 * @param string $name
 	 * @param int    $time
 	 *
 	 * @return bool
-	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -517,37 +485,28 @@ class Cappuccino
 	}
 
 	/**
-	 * Tries to load a template consecutively from an array. Similar to {@see Cappuccino::load()} but it also accepts
-	 * Template and TemplateWrapper instances, and an array of templates where each is tried to be loaded.
+	 * Tries resolve a template.
 	 *
-	 * @param TemplateWrapper|string|string[] $names
+	 * @param $names
 	 *
-	 * @return TemplateWrapper|Template
-	 * @throws Error
-	 * @throws LoaderError
-	 * @throws RuntimeError
-	 * @throws SyntaxError
+	 * @return TemplateWrapper
+	 * @see Cappuccino::load()
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.2
+	 * @since 1.0.0
 	 */
-	public function resolveTemplate($names)
+	public function resolveTemplate($names): TemplateWrapper
 	{
 		if (!is_array($names))
-			$names = [$names];
+			return $this->load($names);
 
 		foreach ($names as $name)
 		{
-			if ($name instanceof Template || $name instanceof TemplateWrapper)
-				return $name;
-
 			try
 			{
-				return $this->loadTemplate($name);
+				return $this->load($name);
 			}
-			catch (LoaderError $err)
+			catch (LoaderError $e)
 			{
-				if (count($names) === 1)
-					throw $err;
 			}
 		}
 
@@ -568,12 +527,11 @@ class Cappuccino
 	}
 
 	/**
-	 * Tokenizes a source code.
+	 * Tokenizes source.
 	 *
 	 * @param Source $source
 	 *
 	 * @return TokenStream
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -604,9 +562,6 @@ class Cappuccino
 	 * @param TokenStream $stream
 	 *
 	 * @return ModuleNode
-	 * @throws Error
-	 * @throws RuntimeError
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -632,12 +587,11 @@ class Cappuccino
 	}
 
 	/**
-	 * Compiles a node and returns the PHP Code.
+	 * Compiles a node and returns the PHP code.
 	 *
 	 * @param Node $node
 	 *
 	 * @return string
-	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -650,12 +604,11 @@ class Cappuccino
 	}
 
 	/**
-	 * Compiles a template source code.
+	 * Compiles template source.
 	 *
 	 * @param Source $source
 	 *
 	 * @return string
-	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -665,10 +618,9 @@ class Cappuccino
 		{
 			return $this->compile($this->parse($this->tokenize($source)));
 		}
-		catch (SyntaxError $e)
+		catch (Error $e)
 		{
 			$e->setSourceContext($source);
-
 			throw $e;
 		}
 		catch (Exception $e)
@@ -710,7 +662,7 @@ class Cappuccino
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function setCharset(string $charset): void
+	public function setCharset(string $charset)
 	{
 		if (($charset = strtoupper($charset)) === 'UTF8')
 			$charset = 'UTF-8';
@@ -731,7 +683,7 @@ class Cappuccino
 	}
 
 	/**
-	 * Returns TRUE if the given extension is registred.
+	 * Returns TRUE if the given extension is registered.
 	 *
 	 * @param string $class
 	 *
@@ -758,12 +710,11 @@ class Cappuccino
 	}
 
 	/**
-	 * Gets an extension by class name.
+	 * Gets a extension by class name.
 	 *
 	 * @param string $class
 	 *
 	 * @return ExtensionInterface
-	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -778,10 +729,8 @@ class Cappuccino
 	 * @param string $class
 	 *
 	 * @return mixed
-	 * @throws RuntimeError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
-	 * @todo Validate return type.
 	 */
 	public function getRuntime(string $class)
 	{
@@ -789,14 +738,14 @@ class Cappuccino
 			return $this->runtimes[$class];
 
 		foreach ($this->runtimeLoaders as $loader)
-			if (($runtime = $loader->load($class)) !== null)
+			if (null !== $runtime = $loader->load($class))
 				return $this->runtimes[$class] = $runtime;
 
 		throw new RuntimeError(sprintf('Unable to load the "%s" runtime.', $class));
 	}
 
 	/**
-	 * Adds an extension.
+	 * Adds an {@see ExtensionInterface}.
 	 *
 	 * @param ExtensionInterface $extension
 	 *
@@ -810,9 +759,9 @@ class Cappuccino
 	}
 
 	/**
-	 * Registers an array of extensions.
+	 * Sets the registered extensions.
 	 *
-	 * @param array $extensions
+	 * @param ExtensionInterface[] $extensions
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
@@ -824,7 +773,7 @@ class Cappuccino
 	}
 
 	/**
-	 * Returns all registred extensions.
+	 * Gets all registered extensions.
 	 *
 	 * @return ExtensionInterface[]
 	 * @author Bas Milius <bas@mili.us>
@@ -849,7 +798,7 @@ class Cappuccino
 	}
 
 	/**
-	 * Gets the registered Token Parsers.
+	 * Gets the registered token parsers.
 	 *
 	 * @return TokenParserInterface[]
 	 * @author Bas Milius <bas@mili.us>
@@ -878,7 +827,7 @@ class Cappuccino
 	}
 
 	/**
-	 * Adds a {@see NodeVisitorInterface}
+	 * Adds a {@see NodeVisitorInterface}.
 	 *
 	 * @param NodeVisitorInterface $visitor
 	 *
@@ -891,7 +840,7 @@ class Cappuccino
 	}
 
 	/**
-	 * Gets the registered Node Visitors.
+	 * Gets the registered node visitors.
 	 *
 	 * @return NodeVisitorInterface[]
 	 * @author Bas Milius <bas@mili.us>
@@ -930,7 +879,20 @@ class Cappuccino
 	}
 
 	/**
-	 * Gets the registered filters.
+	 * Registers an undefined filter callback.
+	 *
+	 * @param callable $callable
+	 *
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function registerUndefinedFilterCallback(callable $callable): void
+	{
+		$this->extensionSet->registerUndefinedFilterCallback($callable);
+	}
+
+	/**
+	 * Gets registered filters. Be warned that this method cannot return filters defined with {@see Cappuccino::registerUndefinedFilterCallback()}.
 	 *
 	 * @return CappuccinoFilter[]
 	 * @author Bas Milius <bas@mili.us>
@@ -942,16 +904,28 @@ class Cappuccino
 	}
 
 	/**
-	 * Registers an undefined filter callback.
+	 * Adds a {@see CappuccinoTest}.
 	 *
-	 * @param callable $callable
+	 * @param CappuccinoTest $test
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function registerUndefinedFilterCallback(callable $callable): void
+	public function addTest(CappuccinoTest $test): void
 	{
-		$this->extensionSet->registerUndefinedFilterCallback($callable);
+		$this->extensionSet->addTest($test);
+	}
+
+	/**
+	 * Gets registered tests.
+	 *
+	 * @return CappuccinoTest[]
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getTests(): array
+	{
+		return $this->extensionSet->getTests();
 	}
 
 	/**
@@ -966,18 +940,6 @@ class Cappuccino
 	public function getTest(string $name): ?CappuccinoTest
 	{
 		return $this->extensionSet->getTest($name);
-	}
-
-	/**
-	 * Gets registered tests.
-	 *
-	 * @return CappuccinoTest[]
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public function getTests(): array
-	{
-		return $this->extensionSet->getTests();
 	}
 
 	/**
@@ -1033,7 +995,7 @@ class Cappuccino
 	}
 
 	/**
-	 * Registers a global. New globals can be added before compiling or rendering a template; but after, you can only update existing globals.
+	 * Registers a global. New globals can be added before compiling or rendering a template; but after, you can only update existing ones.
 	 *
 	 * @param string $name
 	 * @param mixed  $value
@@ -1053,7 +1015,7 @@ class Cappuccino
 	}
 
 	/**
-	 * Gets the registered globals.
+	 * Gets registered globals.
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
@@ -1073,7 +1035,7 @@ class Cappuccino
 	}
 
 	/**
-	 * Merges a context with the defined globals.
+	 * Merges a context with the registered globals.
 	 *
 	 * @param array $context
 	 *
@@ -1084,7 +1046,7 @@ class Cappuccino
 	public function mergeGlobals(array $context): array
 	{
 		foreach ($this->getGlobals() as $key => $value)
-			if (!isset($context[$key]))
+			if (!isset($contextp[$key]))
 				$context[$key] = $value;
 
 		return $context;
@@ -1093,7 +1055,7 @@ class Cappuccino
 	/**
 	 * Gets the registered unary operators.
 	 *
-	 * @return array
+	 * @return AbstractBinary[]
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -1103,9 +1065,9 @@ class Cappuccino
 	}
 
 	/**
-	 * Gets registered binary operators.
+	 * Gets the registered binary operators.
 	 *
-	 * @return array
+	 * @return AbstractBinary[]
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -1122,15 +1084,7 @@ class Cappuccino
 	 */
 	private function updateOptionsHash(): void
 	{
-		$this->optionsHash = implode(':', [
-			$this->extensionSet->getSignature(),
-			PHP_MAJOR_VERSION,
-			PHP_MINOR_VERSION,
-			self::VERSION,
-			(int)$this->debug,
-			Template::class,
-			(int)$this->strictVariables,
-		]);
+		$this->optionsHash = implode(':', [$this->extensionSet->getSignature(), PHP_MAJOR_VERSION, PHP_MINOR_VERSION, self::VERSION, (int)$this->debug, (int)$this->strictVariables]);
 	}
 
 }

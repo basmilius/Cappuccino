@@ -1,19 +1,20 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
-declare(strict_types=1);
+declare(strict_types=0); // TODO(Bas): Figure out if we can enable this again.
 
 namespace Cappuccino;
 
 use Cappuccino\Error\Error;
 use Cappuccino\Node\Node;
+use Cappuccino\NodeVisitor\NodeVisitorInterface;
 
 /**
  * Class NodeTraverser
@@ -42,7 +43,7 @@ final class NodeTraverser
 	 * @param NodeVisitorInterface[] $visitors
 	 *
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
+	 * @since
 	 */
 	public function __construct(Cappuccino $cappuccino, array $visitors = [])
 	{
@@ -53,18 +54,15 @@ final class NodeTraverser
 	}
 
 	/**
-	 * Adds a visitor.
+	 * Adds a {@see NodeVisitorInterface}.
 	 *
 	 * @param NodeVisitorInterface $visitor
 	 *
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addVisitor(NodeVisitorInterface $visitor)
+	public function addVisitor(NodeVisitorInterface $visitor): void
 	{
-		if (!isset($this->visitors[$visitor->getPriority()]))
-			$this->visitors[$visitor->getPriority()] = [];
-
 		$this->visitors[$visitor->getPriority()][] = $visitor;
 	}
 
@@ -96,20 +94,27 @@ final class NodeTraverser
 	 * @param Node                 $node
 	 *
 	 * @return Node
-	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function traverseForVisitor(NodeVisitorInterface $visitor, Node $node): Node
+	private function traverseForVisitor(NodeVisitorInterface $visitor, Node $node): ?Node
 	{
 		$node = $visitor->enterNode($node, $this->cappuccino);
 
 		foreach ($node as $k => $n)
-			if (false !== $n = $this->traverseForVisitor($visitor, $n))
-				$node->setNode($k, $n);
+		{
+			if (($m = $this->traverseForVisitor($visitor, $n)) !== null)
+			{
+				if ($m !== $n)
+					$node->setNode($k, $m);
+			}
 			else
+			{
 				$node->removeNode($k);
+			}
+		}
 
 		return $visitor->leaveNode($node, $this->cappuccino);
 	}
+
 }

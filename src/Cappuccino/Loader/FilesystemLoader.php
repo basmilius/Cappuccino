@@ -1,18 +1,17 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
 
 namespace Cappuccino\Loader;
 
-use Cappuccino\Cappuccino;
 use Cappuccino\Error\LoaderError;
 use Cappuccino\Source;
 
@@ -23,7 +22,7 @@ use Cappuccino\Source;
  * @package Cappuccino\Loader
  * @since 1.0.0
  */
-class FilesystemLoader implements LoaderInterface, SourceContextLoaderInterface
+class FilesystemLoader implements LoaderInterface
 {
 
 	public const MAIN_NAMESPACE = 'CappuccinoMain';
@@ -40,11 +39,10 @@ class FilesystemLoader implements LoaderInterface, SourceContextLoaderInterface
 	 * @param array       $paths
 	 * @param string|null $rootPath
 	 *
-	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function __construct(array $paths = [], ?string $rootPath = null)
+	public function __construct(array $paths = [], string $rootPath = null)
 	{
 		$this->rootPath = ($rootPath === null ? getcwd() : $rootPath) . DIRECTORY_SEPARATOR;
 
@@ -56,7 +54,7 @@ class FilesystemLoader implements LoaderInterface, SourceContextLoaderInterface
 	}
 
 	/**
-	 * Gets the paths.
+	 * Gets the registered paths for a namespace.
 	 *
 	 * @param string $namespace
 	 *
@@ -66,11 +64,11 @@ class FilesystemLoader implements LoaderInterface, SourceContextLoaderInterface
 	 */
 	public function getPaths(string $namespace = self::MAIN_NAMESPACE): array
 	{
-		return isset($this->paths[$namespace]) ? $this->paths[$namespace] : [];
+		return $this->paths[$namespace] ?? [];
 	}
 
 	/**
-	 * Gets a list with namespaces.
+	 * Gets all registered namespaces.
 	 *
 	 * @return string[]
 	 * @author Bas Milius <bas@mili.us>
@@ -82,20 +80,16 @@ class FilesystemLoader implements LoaderInterface, SourceContextLoaderInterface
 	}
 
 	/**
-	 * Sets paths.
+	 * Sets the paths for a namespace.
 	 *
-	 * @param array  $paths
-	 * @param string $namespace
+	 * @param string[] $paths
+	 * @param string   $namespace
 	 *
-	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
 	public function setPaths(array $paths, string $namespace = self::MAIN_NAMESPACE): void
 	{
-		if (!is_array($paths))
-			$paths = [$paths];
-
 		$this->paths[$namespace] = [];
 
 		foreach ($paths as $path)
@@ -103,19 +97,17 @@ class FilesystemLoader implements LoaderInterface, SourceContextLoaderInterface
 	}
 
 	/**
-	 * Adds a path.
+	 * Adds a path to a namespace.
 	 *
 	 * @param string $path
 	 * @param string $namespace
 	 *
-	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
 	public function addPath(string $path, string $namespace = self::MAIN_NAMESPACE): void
 	{
 		$this->cache = $this->errorCache = [];
-
 		$checkPath = $this->isAbsolutePath($path) ? $path : $this->rootPath . $path;
 
 		if (!is_dir($checkPath))
@@ -125,19 +117,17 @@ class FilesystemLoader implements LoaderInterface, SourceContextLoaderInterface
 	}
 
 	/**
-	 * Prepend a path.
+	 * Prepends a path to a namespace.
 	 *
 	 * @param string $path
 	 * @param string $namespace
 	 *
-	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function prependPath(string $path, string $namespace = self::MAIN_NAMESPACE)
+	public function prependPath(string $path, string $namespace = self::MAIN_NAMESPACE): void
 	{
 		$this->cache = $this->errorCache = [];
-
 		$checkPath = $this->isAbsolutePath($path) ? $path : $this->rootPath . $path;
 
 		if (!is_dir($checkPath))
@@ -158,9 +148,10 @@ class FilesystemLoader implements LoaderInterface, SourceContextLoaderInterface
 	 */
 	public function getSourceContext(string $name): Source
 	{
-		$path = $this->findTemplate($name);
+		if (($path = $this->findTemplate($name)) !== null)
+			return new Source(file_get_contents($path), $name, $path);
 
-		return new Source(file_get_contents($path), $name, $path);
+		return new Source('', $name, '');
 	}
 
 	/**
@@ -170,8 +161,11 @@ class FilesystemLoader implements LoaderInterface, SourceContextLoaderInterface
 	 */
 	public function getCacheKey(string $name): string
 	{
-		$path = $this->findTemplate($name);
 		$len = strlen($this->rootPath);
+		$path = $this->findTemplate($name);
+
+		if ($path === null)
+			return '';
 
 		if (strncmp($this->rootPath, $path, $len) === 0)
 			return substr($path, $len);
@@ -191,7 +185,7 @@ class FilesystemLoader implements LoaderInterface, SourceContextLoaderInterface
 		if (isset($this->cache[$name]))
 			return true;
 
-		return $this->findTemplate($name, false);
+		return $this->findTemplate($name, false) !== null;
 	}
 
 	/**
@@ -201,21 +195,25 @@ class FilesystemLoader implements LoaderInterface, SourceContextLoaderInterface
 	 */
 	public function isFresh(string $name, int $time): bool
 	{
-		return filemtime($this->findTemplate($name)) < $time;
+		$path = $this->findTemplate($name);
+
+		if ($path === null)
+			return false;
+
+		return filemtime($path) < $time;
 	}
 
 	/**
-	 * Tries to find a template.
+	 * Makes an attempt to find a template.
 	 *
 	 * @param string $name
 	 * @param bool   $throw
 	 *
-	 * @return string|bool|mixed
-	 * @throws LoaderError
+	 * @return string|null
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function findTemplate(string $name, bool $throw = true)
+	protected function findTemplate(string $name, bool $throw = true): ?string
 	{
 		$name = $this->normalizeName($name);
 
@@ -225,21 +223,31 @@ class FilesystemLoader implements LoaderInterface, SourceContextLoaderInterface
 		if (isset($this->errorCache[$name]))
 		{
 			if (!$throw)
-				return false;
+				return null;
 
 			throw new LoaderError($this->errorCache[$name]);
 		}
 
-		$this->validateName($name);
+		try
+		{
+			$this->validateName($name);
 
-		[$namespace, $shortname] = $this->parseName($name);
+			[$namespace, $shortname] = $this->parseName($name);
+		}
+		catch (LoaderError $e)
+		{
+			if (!$throw)
+				return null;
+
+			throw $e;
+		}
 
 		if (!isset($this->paths[$namespace]))
 		{
 			$this->errorCache[$name] = sprintf('There are no registered paths for namespace "%s".', $namespace);
 
 			if (!$throw)
-				return false;
+				return null;
 
 			throw new LoaderError($this->errorCache[$name]);
 		}
@@ -249,27 +257,31 @@ class FilesystemLoader implements LoaderInterface, SourceContextLoaderInterface
 			if (!$this->isAbsolutePath($path))
 				$path = $this->rootPath . $path;
 
-			if (is_file($path . '/' . $shortname))
+			$fileName = $path . '/' . $shortname;
+
+			if (is_file($fileName))
 			{
-				if ($realpath = realpath($path . '/' . $shortname))
+				if (($realpath = realpath($fileName)) !== false)
 					return $this->cache[$name] = $realpath;
 
-				return $this->cache[$name] = $path . '/' . $shortname;
+				return $this->cache[$name] = $fileName;
 			}
 
-			if (is_file($path . '/' . $shortname . Cappuccino::DEFAULT_EXTENSION))
+			$fileName .= '.cappy';
+
+			if (is_file($fileName))
 			{
-				if ($realpath = realpath($path . '/' . $shortname . Cappuccino::DEFAULT_EXTENSION))
+				if (($realpath = realpath($fileName)) !== false)
 					return $this->cache[$name] = $realpath;
 
-				return $this->cache[$name] = $path . '/' . $shortname . Cappuccino::DEFAULT_EXTENSION;
+				return $this->cache[$name] = $fileName;
 			}
 		}
 
 		$this->errorCache[$name] = sprintf('Unable to find template "%s" (looked into: %s).', $name, implode(', ', $this->paths[$namespace]));
 
 		if (!$throw)
-			return false;
+			return null;
 
 		throw new LoaderError($this->errorCache[$name]);
 	}
@@ -289,21 +301,20 @@ class FilesystemLoader implements LoaderInterface, SourceContextLoaderInterface
 	}
 
 	/**
-	 * Parses a name.
+	 * Parses the name to [namespace, template].
 	 *
 	 * @param string $name
 	 * @param string $default
 	 *
-	 * @return array
-	 * @throws LoaderError
+	 * @return string[]
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
 	private function parseName(string $name, string $default = self::MAIN_NAMESPACE): array
 	{
-		if (isset($name[0]) && '@' === $name[0])
+		if (isset($name[0]) && $name[0] === '@')
 		{
-			if (!($pos = strpos($name, '/')))
+			if (($pos = strpos($name, '/')) === false)
 				throw new LoaderError(sprintf('Malformed namespaced template name "%s" (expecting "@namespace/template_name").', $name));
 
 			$namespace = substr($name, 1, $pos - 1);
@@ -316,17 +327,16 @@ class FilesystemLoader implements LoaderInterface, SourceContextLoaderInterface
 	}
 
 	/**
-	 * Validates a filename.
+	 * Checks if the given name is valid.
 	 *
 	 * @param string $name
 	 *
-	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
 	private function validateName(string $name): void
 	{
-		if (strpos($name, "\0"))
+		if (strpos($name, "\0") !== false)
 			throw new LoaderError('A template name cannot contain NUL bytes.');
 
 		$name = ltrim($name, '/');
@@ -346,7 +356,7 @@ class FilesystemLoader implements LoaderInterface, SourceContextLoaderInterface
 	}
 
 	/**
-	 * Returns TRUE if the {@see $file} is an absolute path.
+	 * Returns TRUE if the given file is an absolute path.
 	 *
 	 * @param string $file
 	 *
@@ -356,7 +366,7 @@ class FilesystemLoader implements LoaderInterface, SourceContextLoaderInterface
 	 */
 	private function isAbsolutePath(string $file): bool
 	{
-		return strspn($file, '/\\', 0, 1) || (strlen($file) > 3 && ctype_alpha($file[0]) && ':' === $file[1] && strspn($file, '/\\', 2, 1)) || null !== parse_url($file, PHP_URL_SCHEME);
+		return strspn($file, '/\\', 0, 1) || (strlen($file) > 3 && ctype_alpha($file[0]) && $file[1] === ':' && strspn($file, '/\\', 2, 1)) || parse_url($file, PHP_URL_SCHEME) !== null;
 	}
 
 }

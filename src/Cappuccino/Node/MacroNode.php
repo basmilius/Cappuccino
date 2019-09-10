@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -14,12 +14,11 @@ namespace Cappuccino\Node;
 
 use Cappuccino\Compiler;
 use Cappuccino\Error\SyntaxError;
-use Cappuccino\Markup;
 
 /**
  * Class MacroNode
  *
- * @author Bas Milius <bas@mili.us>
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\Node
  * @since 1.0.0
  */
@@ -34,20 +33,19 @@ class MacroNode extends Node
 	 * @param string      $name
 	 * @param Node        $body
 	 * @param Node        $arguments
-	 * @param int         $lineno
+	 * @param int         $lineNumber
 	 * @param string|null $tag
 	 *
-	 * @throws SyntaxError
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public function __construct(string $name, Node $body, Node $arguments, int $lineno, ?string $tag = null)
+	public function __construct(string $name, Node $body, Node $arguments, int $lineNumber, ?string $tag = null)
 	{
 		foreach ($arguments as $argumentName => $argument)
-			if (self::VARARGS_NAME === $argumentName)
+			if ($argumentName === self::VARARGS_NAME)
 				throw new SyntaxError(sprintf('The argument "%s" in macro "%s" cannot be defined because the variable "%s" is reserved for arbitrary arguments.', self::VARARGS_NAME, $name, self::VARARGS_NAME), $argument->getTemplateLine(), $argument->getSourceContext());
 
-		parent::__construct(['body' => $body, 'arguments' => $arguments], ['name' => $name], $lineno, $tag);
+		parent::__construct(['body' => $body, 'arguments' => $arguments], ['name' => $name], $lineNumber, $tag);
 	}
 
 	/**
@@ -57,8 +55,6 @@ class MacroNode extends Node
 	 */
 	public function compile(Compiler $compiler): void
 	{
-		$markupClass = Markup::class;
-
 		$compiler
 			->addDebugInfo($this)
 			->write(sprintf('public function macro_%s(', $this->getAttribute('name')));
@@ -83,18 +79,19 @@ class MacroNode extends Node
 			->raw('...$__varargs__')
 			->raw(")\n")
 			->write("{\n")
-			->indent();
-
-		$compiler
+			->indent()
+			->write("\$macros = \$this->macros;\n")
 			->write("\$context = \$this->cappuccino->mergeGlobals([\n")
 			->indent();
 
 		foreach ($this->getNode('arguments') as $name => $default)
+		{
 			$compiler
 				->write('')
 				->string($name)
 				->raw(' => $__' . $name . '__')
 				->raw(",\n");
+		}
 
 		$compiler
 			->write('')
@@ -105,13 +102,19 @@ class MacroNode extends Node
 			->raw("\$__varargs__,\n")
 			->outdent()
 			->write("]);\n\n")
-			->write("\$blocks = [];\n\n")
-			->write("ob_start();\n")
+			->write("\$blocks = [];\n\n");
+
+		if ($compiler->getCappuccino()->isDebug())
+			$compiler->write("ob_start();\n");
+		else
+			$compiler->write("ob_start(function () { return ''; });\n");
+
+		$compiler
 			->write("try {\n")
 			->indent()
 			->subcompile($this->getNode('body'))
 			->raw("\n")
-			->write("return ('' === \$tmp = ob_get_contents()) ? '' : new {$markupClass}(\$tmp, \$this->cappuccino->getCharset());\n")
+			->write("return ('' === \$tmp = ob_get_contents()) ? '' : new Markup(\$tmp, \$this->cappuccino->getCharset());\n")
 			->outdent()
 			->write("} finally {\n")
 			->indent()

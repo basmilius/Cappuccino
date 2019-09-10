@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -28,14 +28,14 @@ class TempNameExpression extends AbstractExpression
 	 * TempNameExpression constructor.
 	 *
 	 * @param string $name
-	 * @param int    $lineno
+	 * @param int    $lineNumber
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public function __construct(string $name, int $lineno)
+	public function __construct(string $name, int $lineNumber)
 	{
-		parent::__construct([], ['name' => $name], $lineno);
+		parent::__construct([], ['name' => $name], $lineNumber);
 	}
 
 	/**
@@ -45,7 +45,10 @@ class TempNameExpression extends AbstractExpression
 	 */
 	public function compile(Compiler $compiler): void
 	{
-		$compiler->raw('$_')->raw($this->getAttribute('name'))->raw('_');
+		$compiler
+			->raw('$_')
+			->raw($this->getAttribute('name'))
+			->raw('_');
 	}
 
 }

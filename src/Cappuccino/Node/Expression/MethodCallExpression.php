@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -30,14 +30,14 @@ class MethodCallExpression extends AbstractExpression
 	 * @param AbstractExpression $node
 	 * @param string             $method
 	 * @param ArrayExpression    $arguments
-	 * @param int                $lineno
+	 * @param int                $lineNumber
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public function __construct(AbstractExpression $node, string $method, ArrayExpression $arguments, int $lineno)
+	public function __construct(AbstractExpression $node, string $method, ArrayExpression $arguments, int $lineNumber)
 	{
-		parent::__construct(['node' => $node, 'arguments' => $arguments], ['method' => $method, 'safe' => false], $lineno);
+		parent::__construct(['node' => $node, 'arguments' => $arguments], ['method' => $method, 'safe' => false, 'is_defined_test' => false], $lineNumber);
 
 		if ($node instanceof NameExpression)
 			$node->setAttribute('always_defined', true);
@@ -50,23 +50,43 @@ class MethodCallExpression extends AbstractExpression
 	 */
 	public function compile(Compiler $compiler): void
 	{
-		$compiler->subcompile($this->getNode('node'))->raw('->')->raw($this->getAttribute('method'))->raw('(');
+		if ($this->getAttribute('is_defined_test'))
+		{
+			$compiler
+				->raw('method_exists($macros[')
+				->repr($this->getNode('node')->getAttribute('name'))
+				->raw('], ')
+				->repr($this->getAttribute('method'))
+				->raw(')');
+
+			return;
+		}
+
+		$compiler
+			->raw('StaticMethods::callMacro($macros[')
+			->repr($this->getNode('node')->getAttribute('name'))
+			->raw('], ')
+			->repr($this->getAttribute('method'))
+			->raw(', [');
+
 		$first = true;
+		/** @var ArrayExpression $nodes */
+		$nodes = $this->getNode('arguments');
 
-		/** @var ArrayExpression $arguments */
-		$arguments = $this->getNode('arguments');
-
-		foreach ($arguments->getKeyValuePairs() as $pair)
+		foreach ($nodes->getKeyValuePairs() as $pair)
 		{
 			if (!$first)
-			{
 				$compiler->raw(', ');
-			}
+
 			$first = false;
 
 			$compiler->subcompile($pair['value']);
 		}
-		$compiler->raw(')');
+
+		$compiler
+			->raw('], ')
+			->repr($this->getTemplateLine())
+			->raw(', $context, $this->getSourceContext())');
 	}
 
 }

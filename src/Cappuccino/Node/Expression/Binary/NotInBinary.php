@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -13,7 +13,6 @@ declare(strict_types=1);
 namespace Cappuccino\Node\Expression\Binary;
 
 use Cappuccino\Compiler;
-use Cappuccino\Util\StaticMethods;
 
 /**
  * Class NotInBinary
@@ -32,7 +31,12 @@ class NotInBinary extends AbstractBinary
 	 */
 	public function compile(Compiler $compiler): void
 	{
-		$compiler->raw('!' . StaticMethods::class . '::inFilter(')->subcompile($this->getNode('left'))->raw(', ')->subcompile($this->getNode('right'))->raw(')');
+		$compiler
+			->raw('!StaticMethods::inFilter(')
+			->subcompile($this->getNode('left'))
+			->raw(', ')
+			->subcompile($this->getNode('right'))
+			->raw(')');
 	}
 
 	/**

@@ -1,4 +1,13 @@
 <?php
+/**
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
+ *
+ * This file is part of the Cappuccino package.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Cappuccino\Profiler\Dumper;
@@ -8,25 +17,28 @@ use Cappuccino\Profiler\Profile;
 /**
  * Class BaseDumper
  *
- * @author Bas Milius <bas@mili.us>
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\Profiler\Dumper
- * @since 1.2.0
+ * @since 2.0.0
  */
 abstract class BaseDumper
 {
 
+	/**
+	 * @var float
+	 */
 	private $root;
 
 	/**
-	 * Dumps the profile.
+	 * Dump the given {@see Profile}.
 	 *
 	 * @param Profile $profile
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.2.0
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 2.0.0
 	 */
-	public function dump(Profile $profile)
+	public function dump(Profile $profile): string
 	{
 		return $this->dumpProfile($profile);
 	}
@@ -38,22 +50,22 @@ abstract class BaseDumper
 	 * @param string  $prefix
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.2.0
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 2.0.0
 	 */
-	protected abstract function formatTemplate(Profile $profile, $prefix);
+	protected abstract function formatTemplate(Profile $profile, string $prefix): string;
 
 	/**
-	 * Formats a non template.
+	 * Formats anything else.
 	 *
 	 * @param Profile $profile
 	 * @param string  $prefix
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.2.0
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 2.0.0
 	 */
-	protected abstract function formatNonTemplate(Profile $profile, $prefix);
+	protected abstract function formatNonTemplate(Profile $profile, string $prefix): string;
 
 	/**
 	 * Formats time.
@@ -62,21 +74,21 @@ abstract class BaseDumper
 	 * @param float   $percent
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.2.0
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 2.0.0
 	 */
-	protected abstract function formatTime(Profile $profile, $percent);
+	protected abstract function formatTime(Profile $profile, float $percent): string;
 
 	/**
-	 * Dumps a profile.
+	 * Dumps the profile.
 	 *
 	 * @param Profile $profile
 	 * @param string  $prefix
 	 * @param bool    $sibling
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.2.0
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 2.0.0
 	 */
 	private function dumpProfile(Profile $profile, string $prefix = '', bool $sibling = false): string
 	{
@@ -106,6 +118,7 @@ abstract class BaseDumper
 
 		foreach ($profile as $i => $p)
 			$str .= $this->dumpProfile($p, $prefix, $i + 1 !== $nCount);
+
 
 		return $str;
 	}

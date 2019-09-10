@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -30,21 +30,31 @@ use InvalidArgumentException;
 /**
  * Class OptimizerNodeVisitor
  *
- * @author Bas Milius <bas@mili.us>
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\NodeVisitor
  * @since 1.0.0
  */
-final class OptimizerNodeVisitor extends AbstractNodeVisitor
+final class OptimizerNodeVisitor implements NodeVisitorInterface
 {
 
 	public const OPTIMIZE_ALL = -1;
 	public const OPTIMIZE_NONE = 0;
 	public const OPTIMIZE_FOR = 2;
 	public const OPTIMIZE_RAW_FILTER = 4;
-	public const OPTIMIZE_VAR_ACCESS = 8;
 
+	/**
+	 * @var array
+	 */
 	private $loops = [];
+
+	/**
+	 * @var array
+	 */
 	private $loopsTargets = [];
+
+	/**
+	 * @var int
+	 */
 	private $optimizers;
 
 	/**
@@ -52,12 +62,12 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 *
 	 * @param int $optimizers
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
 	public function __construct(int $optimizers = -1)
 	{
-		if (!is_int($optimizers) || $optimizers > (self::OPTIMIZE_FOR | self::OPTIMIZE_RAW_FILTER | self::OPTIMIZE_VAR_ACCESS))
+		if (!is_int($optimizers) || $optimizers > (self::OPTIMIZE_FOR | self::OPTIMIZE_RAW_FILTER))
 			throw new InvalidArgumentException(sprintf('Optimizer mode "%s" is not valid.', $optimizers));
 
 		$this->optimizers = $optimizers;
@@ -68,10 +78,10 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doEnterNode(Node $node, Cappuccino $cappuccino): Node
+	public function enterNode(Node $node, Cappuccino $cappuccino): Node
 	{
 		if (self::OPTIMIZE_FOR === (self::OPTIMIZE_FOR & $this->optimizers))
-			$this->enterOptimizeFor($node);
+			$this->enterOptimizeFor($node, $cappuccino);
 
 		return $node;
 	}
@@ -81,27 +91,30 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	protected function doLeaveNode(Node $node, Cappuccino $cappuccino): Node
+	public function leaveNode(Node $node, Cappuccino $cappuccino): ?Node
 	{
 		if (self::OPTIMIZE_FOR === (self::OPTIMIZE_FOR & $this->optimizers))
-			$this->leaveOptimizeFor($node);
+			$this->leaveOptimizeFor($node, $cappuccino);
 
 		if (self::OPTIMIZE_RAW_FILTER === (self::OPTIMIZE_RAW_FILTER & $this->optimizers))
-			$node = $this->optimizeRawFilter($node);
+			$node = $this->optimizeRawFilter($node, $cappuccino);
 
-		return $this->optimizePrintNode($node);
+		$node = $this->optimizePrintNode($node, $cappuccino);
+
+		return $node;
 	}
 
 	/**
 	 * Optimizes print nodes.
 	 *
-	 * @param Node $node
+	 * @param Node       $node
+	 * @param Cappuccino $cappuccino
 	 *
 	 * @return Node
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	private function optimizePrintNode(Node $node): Node
+	private function optimizePrintNode(Node $node, Cappuccino $cappuccino): Node
 	{
 		if (!$node instanceof PrintNode)
 			return $node;
@@ -121,13 +134,14 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * Removes "raw" filters.
 	 *
-	 * @param Node $node
+	 * @param Node       $node
+	 * @param Cappuccino $cappuccino
 	 *
 	 * @return Node
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	private function optimizeRawFilter(Node $node): Node
+	private function optimizeRawFilter(Node $node, Cappuccino $cappuccino): Node
 	{
 		if ($node instanceof FilterExpression && 'raw' == $node->getNode('filter')->getAttribute('value'))
 			return $node->getNode('node');
@@ -138,16 +152,18 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * Optimizes "for" tag by removing the "loop" variable creation whenever possible.
 	 *
-	 * @param Node $node
+	 * @param Node       $node
+	 * @param Cappuccino $cappuccino
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	private function enterOptimizeFor(Node $node)
+	private function enterOptimizeFor(Node $node, Cappuccino $cappuccino): void
 	{
 		if ($node instanceof ForNode)
 		{
 			$node->setAttribute('with_loop', false);
+
 			array_unshift($this->loops, $node);
 			array_unshift($this->loopsTargets, $node->getNode('value_target')->getAttribute('name'));
 			array_unshift($this->loopsTargets, $node->getNode('key_target')->getAttribute('name'));
@@ -186,12 +202,13 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	/**
 	 * Optimizes "for" tag by removing the "loop" variable creation whenever possible.
 	 *
-	 * @param Node $node
+	 * @param Node       $node
+	 * @param Cappuccino $cappuccino
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	private function leaveOptimizeFor(Node $node)
+	private function leaveOptimizeFor(Node $node, Cappuccino $cappuccino): void
 	{
 		if ($node instanceof ForNode)
 		{
@@ -207,7 +224,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function addLoopToCurrent()
+	private function addLoopToCurrent(): void
 	{
 		$this->loops[0]->setAttribute('with_loop', true);
 	}
@@ -218,7 +235,7 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	private function addLoopToAll()
+	private function addLoopToAll(): void
 	{
 		foreach ($this->loops as $loop)
 			$loop->setAttribute('with_loop', true);
@@ -233,5 +250,4 @@ final class OptimizerNodeVisitor extends AbstractNodeVisitor
 	{
 		return 255;
 	}
-
 }

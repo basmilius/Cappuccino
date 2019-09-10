@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -17,14 +17,14 @@ use Cappuccino\Profiler\Profile;
 /**
  * Class HtmlDumper
  *
- * @author Bas Milius <bas@mili.us>
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\Profiler\Dumper
  * @since 1.0.0
  */
 final class HtmlDumper extends BaseDumper
 {
 
-	private const COLORS = [
+	public const COLORS = [
 		'block' => '#dfd',
 		'macro' => '#ddf',
 		'template' => '#ffd',
@@ -34,9 +34,9 @@ final class HtmlDumper extends BaseDumper
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.2.0
+	 * @since 1.0.0
 	 */
-	public function dump(Profile $profile)
+	public function dump(Profile $profile): string
 	{
 		return '<pre>' . parent::dump($profile) . '</pre>';
 	}
@@ -44,9 +44,9 @@ final class HtmlDumper extends BaseDumper
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.2.0
+	 * @since 1.0.0
 	 */
-	protected function formatTemplate(Profile $profile, $prefix)
+	protected function formatTemplate(Profile $profile, $prefix): string
 	{
 		return sprintf('%s└ <span style="background-color: %s">%s</span>', $prefix, self::COLORS['template'], $profile->getTemplate());
 	}
@@ -54,9 +54,9 @@ final class HtmlDumper extends BaseDumper
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.2.0
+	 * @since 1.0.0
 	 */
-	protected function formatNonTemplate(Profile $profile, $prefix)
+	protected function formatNonTemplate(Profile $profile, $prefix): string
 	{
 		return sprintf('%s└ %s::%s(<span style="background-color: %s">%s</span>)', $prefix, $profile->getTemplate(), $profile->getType(), isset(self::COLORS[$profile->getType()]) ? self::COLORS[$profile->getType()] : 'auto', $profile->getName());
 	}
@@ -64,9 +64,9 @@ final class HtmlDumper extends BaseDumper
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.2.0
+	 * @since 1.0.0
 	 */
-	protected function formatTime(Profile $profile, $percent)
+	protected function formatTime(Profile $profile, $percent): string
 	{
 		return sprintf('<span style="color: %s">%.2fms/%.0f%%</span>', $percent > 20 ? self::COLORS['big'] : 'auto', $profile->getDuration() * 1000, $percent);
 	}

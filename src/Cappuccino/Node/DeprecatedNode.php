@@ -1,4 +1,13 @@
 <?php
+/**
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
+ *
+ * This file is part of the Cappuccino package.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
+ */
+
 declare(strict_types=1);
 
 namespace Cappuccino\Node;
@@ -10,54 +19,51 @@ use Cappuccino\Node\Expression\ConstantExpression;
 /**
  * Class DeprecatedNode
  *
- * @author Bas Milius <bas@mili.us>
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\Node
- * @since 1.2.0
+ * @since 1.0.0
  */
-final class DeprecatedNode extends Node
+class DeprecatedNode extends Node
 {
 
 	/**
 	 * DeprecatedNode constructor.
 	 *
-	 * @param AbstractExpression $expression
+	 * @param AbstractExpression $expr
 	 * @param int                $lineNumber
 	 * @param string|null        $tag
 	 *
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.2.0
+	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @since 1.0.0
 	 */
-	public function __construct(AbstractExpression $expression, int $lineNumber, ?string $tag = null)
+	public function __construct(AbstractExpression $expr, int $lineNumber, ?string $tag = null)
 	{
-		parent::__construct(['expr' => $expression], [], $lineNumber, $tag);
+		parent::__construct(['expr' => $expr], [], $lineNumber, $tag);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.2.0
+	 * @since 1.0.0
 	 */
-	public final function compile(Compiler $compiler): void
+	public function compile(Compiler $compiler): void
 	{
 		$compiler->addDebugInfo($this);
 
-		$expression = $this->getNode('expr');
+		$expr = $this->getNode('expr');
 
-		if ($expression instanceof ConstantExpression)
+		if ($expr instanceof ConstantExpression)
 		{
-			$compiler
-				->write('@trigger_error(')
-				->subcompile($expression);
+			$compiler->write('@trigger_error(')
+				->subcompile($expr);
 		}
 		else
 		{
-			$variableName = $compiler->getVarName();
-
-			$compiler
-				->write(sprintf('$%s = ', $variableName))
-				->subcompile($expression)
+			$varName = $compiler->getVarName();
+			$compiler->write(sprintf('$%s = ', $varName))
+				->subcompile($expr)
 				->raw(";\n")
-				->write(sprintf('@trigger_error($%s', $variableName));
+				->write(sprintf('@trigger_error($%s', $varName));
 		}
 
 		$compiler

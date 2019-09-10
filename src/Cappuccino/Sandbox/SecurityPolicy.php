@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -18,7 +18,7 @@ use Cappuccino\Template;
 /**
  * Class SecurityPolicy
  *
- * @author Bas Milius <bas@mili.us>
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\Sandbox
  * @since 1.0.0
  */
@@ -36,7 +36,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 	private $allowedFilters;
 
 	/**
-	 * @var
+	 * @var array
 	 */
 	private $allowedMethods;
 
@@ -59,16 +59,16 @@ final class SecurityPolicy implements SecurityPolicyInterface
 	 * @param array $allowedProperties
 	 * @param array $allowedFunctions
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
 	public function __construct(array $allowedTags = [], array $allowedFilters = [], array $allowedMethods = [], array $allowedProperties = [], array $allowedFunctions = [])
 	{
-		$this->allowedTags = $allowedTags;
-		$this->allowedFilters = $allowedFilters;
+		$this->setAllowedTags($allowedTags);
+		$this->setAllowedFilters($allowedFilters);
 		$this->setAllowedMethods($allowedMethods);
-		$this->allowedProperties = $allowedProperties;
-		$this->allowedFunctions = $allowedFunctions;
+		$this->setAllowedProperties($allowedProperties);
+		$this->setAllowedFunctions($allowedFunctions);
 	}
 
 	/**
@@ -108,10 +108,9 @@ final class SecurityPolicy implements SecurityPolicyInterface
 	public function setAllowedMethods(array $methods): void
 	{
 		$this->allowedMethods = [];
+
 		foreach ($methods as $class => $m)
-		{
 			$this->allowedMethods[$class] = array_map('strtolower', is_array($m) ? $m : [$m]);
-		}
 	}
 
 	/**
@@ -145,7 +144,7 @@ final class SecurityPolicy implements SecurityPolicyInterface
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function checkSecurity(array $tags, array $filters, array $functions): void
+	public function checkSecurity($tags, $filters, $functions): void
 	{
 		foreach ($tags as $tag)
 			if (!in_array($tag, $this->allowedTags))
@@ -174,17 +173,18 @@ final class SecurityPolicy implements SecurityPolicyInterface
 		$method = strtolower($method);
 
 		foreach ($this->allowedMethods as $class => $methods)
+		{
 			if ($obj instanceof $class)
 			{
 				$allowed = in_array($method, $methods);
 
 				break;
 			}
+		}
 
 		if (!$allowed)
 		{
 			$class = get_class($obj);
-
 			throw new SecurityNotAllowedMethodError(sprintf('Calling "%s" method on a "%s" object is not allowed.', $method, $class), $class, $method);
 		}
 	}

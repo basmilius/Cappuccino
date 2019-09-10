@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -33,24 +33,27 @@ class ArrayExpression extends AbstractExpression
 	 * ArrayExpression constructor.
 	 *
 	 * @param array $elements
-	 * @param int   $lineno
+	 * @param int   $lineNumber
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public function __construct(array $elements, int $lineno)
+	public function __construct(array $elements, int $lineNumber)
 	{
-		parent::__construct($elements, [], $lineno);
+		parent::__construct($elements, [], $lineNumber);
 
 		$this->index = -1;
-
 		foreach ($this->getKeyValuePairs() as $pair)
+		{
 			if ($pair['key'] instanceof ConstantExpression && ctype_digit((string)$pair['key']->getAttribute('value')) && $pair['key']->getAttribute('value') > $this->index)
+			{
 				$this->index = $pair['key']->getAttribute('value');
+			}
+		}
 	}
 
 	/**
-	 * Gets key-value pairs.
+	 * Gets key value pairs from the array.
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@mili.us>
@@ -61,18 +64,13 @@ class ArrayExpression extends AbstractExpression
 		$pairs = [];
 
 		foreach (array_chunk($this->nodes, 2) as $pair)
-		{
-			$pairs[] = [
-				'key' => $pair[0],
-				'value' => $pair[1],
-			];
-		}
+			$pairs[] = ['key' => $pair[0], 'value' => $pair[1]];
 
 		return $pairs;
 	}
 
 	/**
-	 * Checks if we have an element.
+	 * Returns TRUE when an element is found.
 	 *
 	 * @param AbstractExpression $key
 	 *
@@ -90,7 +88,7 @@ class ArrayExpression extends AbstractExpression
 	}
 
 	/**
-	 * Adds an element.
+	 * Adds an element to the array.
 	 *
 	 * @param AbstractExpression      $value
 	 * @param AbstractExpression|null $key
@@ -98,7 +96,7 @@ class ArrayExpression extends AbstractExpression
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function addElement(AbstractExpression $value, ?AbstractExpression $key = null)
+	public function addElement(AbstractExpression $value, AbstractExpression $key = null): void
 	{
 		if ($key === null)
 			$key = new ConstantExpression(++$this->index, $value->getTemplateLine());
@@ -115,17 +113,19 @@ class ArrayExpression extends AbstractExpression
 	{
 		$compiler->raw('[');
 		$first = true;
-
 		foreach ($this->getKeyValuePairs() as $pair)
 		{
 			if (!$first)
+			{
 				$compiler->raw(', ');
-
+			}
 			$first = false;
 
-			$compiler->subcompile($pair['key'])->raw(' => ')->subcompile($pair['value']);
+			$compiler
+				->subcompile($pair['key'])
+				->raw(' => ')
+				->subcompile($pair['value']);
 		}
-
 		$compiler->raw(']');
 	}
 

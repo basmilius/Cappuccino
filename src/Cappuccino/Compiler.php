@@ -1,18 +1,17 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
 
 namespace Cappuccino;
 
-use Cappuccino\Error\Error;
 use Cappuccino\Node\Node;
 use LogicException;
 
@@ -25,11 +24,6 @@ use LogicException;
  */
 class Compiler
 {
-
-	/**
-	 * @var Cappuccino
-	 */
-	private $cappuccino;
 
 	/**
 	 * @var int
@@ -45,6 +39,11 @@ class Compiler
 	 * @var int
 	 */
 	private $indentation;
+
+	/**
+	 * @var Cappuccino
+	 */
+	private $cappuccino;
 
 	/**
 	 * @var array
@@ -64,7 +63,7 @@ class Compiler
 	/**
 	 * @var int
 	 */
-	private $varNameSalt;
+	private $varNameSalt = 0;
 
 	/**
 	 * Compiler constructor.
@@ -77,7 +76,6 @@ class Compiler
 	public function __construct(Cappuccino $cappuccino)
 	{
 		$this->cappuccino = $cappuccino;
-		$this->varNameSalt = 0;
 	}
 
 	/**
@@ -111,7 +109,6 @@ class Compiler
 	 * @param int  $indentation
 	 *
 	 * @return Compiler
-	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -124,6 +121,7 @@ class Compiler
 
 		$this->sourceLine = 1;
 		$this->indentation = $indentation;
+		$this->varNameSalt = 0;
 
 		$node->compile($this);
 
@@ -137,13 +135,12 @@ class Compiler
 	 * @param bool $raw
 	 *
 	 * @return Compiler
-	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
 	public function subcompile(Node $node, bool $raw = true): Compiler
 	{
-		if (!$raw)
+		if ($raw === false)
 			$this->source .= str_repeat(' ', $this->indentation * 4);
 
 		$node->compile($this);
@@ -195,7 +192,7 @@ class Compiler
 	 */
 	public function string(string $value): Compiler
 	{
-		$this->source .= '"' . addcslashes($value, "\0\t\"\$\\") . '"';
+		$this->source .= sprintf('"%s"', addcslashes($value, "\0\t\"\$\\"));
 
 		return $this;
 	}
@@ -213,15 +210,15 @@ class Compiler
 	{
 		if (is_int($value) || is_float($value))
 		{
-			if ($locale = setlocale(LC_NUMERIC, '0'))
+			if (($locale = setlocale(LC_NUMERIC, '0')) !== false)
 				setlocale(LC_NUMERIC, 'C');
 
 			$this->raw(var_export($value, true));
 
-			if ($locale)
+			if ($locale !== false)
 				setlocale(LC_NUMERIC, $locale);
 		}
-		else if ($value === null)
+		else if (null === $value)
 		{
 			$this->raw('null');
 		}
@@ -231,8 +228,9 @@ class Compiler
 		}
 		else if (is_array($value))
 		{
-			$this->raw('[');
+			$this->raw('['); // NOTE(Bas): This was old array syntax.
 			$first = true;
+
 			foreach ($value as $key => $v)
 			{
 				if (!$first)
@@ -243,6 +241,7 @@ class Compiler
 				$this->raw(' => ');
 				$this->repr($v);
 			}
+
 			$this->raw(']');
 		}
 		else
@@ -279,20 +278,6 @@ class Compiler
 	}
 
 	/**
-	 * Gets debugging information.
-	 *
-	 * @return array
-	 * @author Bas Milius <bas@mili.us>
-	 * @since 1.0.0
-	 */
-	public function getDebugInfo(): array
-	{
-		ksort($this->debugInfo);
-
-		return $this->debugInfo;
-	}
-
-	/**
 	 * Indents the generated code.
 	 *
 	 * @param int $step
@@ -325,6 +310,20 @@ class Compiler
 		$this->indentation -= $step;
 
 		return $this;
+	}
+
+	/**
+	 * Gets debugging information.
+	 *
+	 * @return array
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 1.0.0
+	 */
+	public function getDebugInfo(): array
+	{
+		ksort($this->debugInfo);
+
+		return $this->debugInfo;
 	}
 
 	/**

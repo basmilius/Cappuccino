@@ -1,30 +1,31 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
 
 namespace Cappuccino\Extension;
 
-use Cappuccino\NodeVisitorInterface;
 use Cappuccino\CappuccinoFilter;
 use Cappuccino\CappuccinoFunction;
 use Cappuccino\CappuccinoTest;
+use Cappuccino\NodeVisitor\NodeVisitorInterface;
 use Cappuccino\TokenParser\TokenParserInterface;
 use LogicException;
 
 /**
  * Class StagingExtension
  *
- * @author Bas Milius <bas@mili.us>
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\Extension
  * @since 1.0.0
+ * @internal
  */
 final class StagingExtension extends AbstractExtension
 {
@@ -59,25 +60,25 @@ final class StagingExtension extends AbstractExtension
 	 *
 	 * @param CappuccinoFunction $function
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function addFunction(CappuccinoFunction $function)
+	public function addFunction(CappuccinoFunction $function): void
 	{
 		if (isset($this->functions[$function->getName()]))
-		{
 			throw new LogicException(sprintf('Function "%s" is already registered.', $function->getName()));
-		}
 
 		$this->functions[$function->getName()] = $function;
 	}
 
 	/**
-	 * {@inheritdoc}
-	 * @author Bas Milius <bas@mili.us>
+	 * Gets all registered {@see CappuccinoFunction}s.
+	 *
+	 * @return CappuccinoFunction[]
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function getFunctions(): array
+	public function getFunctions(): array
 	{
 		return $this->functions;
 	}
@@ -87,25 +88,25 @@ final class StagingExtension extends AbstractExtension
 	 *
 	 * @param CappuccinoFilter $filter
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function addFilter(CappuccinoFilter $filter)
+	public function addFilter(CappuccinoFilter $filter): void
 	{
 		if (isset($this->filters[$filter->getName()]))
-		{
 			throw new LogicException(sprintf('Filter "%s" is already registered.', $filter->getName()));
-		}
 
 		$this->filters[$filter->getName()] = $filter;
 	}
 
 	/**
-	 * {@inheritdoc}
-	 * @author Bas Milius <bas@mili.us>
+	 * Gets all registered {@see CappuccinoFilter}s.
+	 *
+	 * @return CappuccinoFilter[]
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function getFilters(): array
+	public function getFilters(): array
 	{
 		return $this->filters;
 	}
@@ -115,20 +116,22 @@ final class StagingExtension extends AbstractExtension
 	 *
 	 * @param NodeVisitorInterface $visitor
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function addNodeVisitor(NodeVisitorInterface $visitor)
+	public function addNodeVisitor(NodeVisitorInterface $visitor): void
 	{
 		$this->visitors[] = $visitor;
 	}
 
 	/**
-	 * {@inheritdoc}
-	 * @author Bas Milius <bas@mili.us>
+	 * Gets all registered {@see NodeVisitorInterface}s.
+	 *
+	 * @return NodeVisitorInterface[]
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function getNodeVisitors(): array
+	public function getNodeVisitors(): array
 	{
 		return $this->visitors;
 	}
@@ -138,25 +141,25 @@ final class StagingExtension extends AbstractExtension
 	 *
 	 * @param TokenParserInterface $parser
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function addTokenParser(TokenParserInterface $parser)
+	public function addTokenParser(TokenParserInterface $parser): void
 	{
 		if (isset($this->tokenParsers[$parser->getTag()]))
-		{
 			throw new LogicException(sprintf('Tag "%s" is already registered.', $parser->getTag()));
-		}
 
 		$this->tokenParsers[$parser->getTag()] = $parser;
 	}
 
 	/**
-	 * {@inheritdoc}
-	 * @author Bas Milius <bas@mili.us>
+	 * Gets all registered {@see TokenParserInterface}s.
+	 *
+	 * @return TokenParserInterface[]
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function getTokenParsers(): array
+	public function getTokenParsers(): array
 	{
 		return $this->tokenParsers;
 	}
@@ -166,10 +169,10 @@ final class StagingExtension extends AbstractExtension
 	 *
 	 * @param CappuccinoTest $test
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function addTest(CappuccinoTest $test)
+	public function addTest(CappuccinoTest $test): void
 	{
 		if (isset($this->tests[$test->getName()]))
 			throw new LogicException(sprintf('Test "%s" is already registered.', $test->getName()));
@@ -178,12 +181,15 @@ final class StagingExtension extends AbstractExtension
 	}
 
 	/**
-	 * {@inheritdoc}
-	 * @author Bas Milius <bas@mili.us>
+	 * Gets all registered {@see CappuccinoTest}s.
+	 *
+	 * @return CappuccinoTest[]
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public final function getTests(): array
+	public function getTests(): array
 	{
 		return $this->tests;
 	}
+
 }

@@ -1,11 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
  *
  * This file is part of the Cappuccino package.
  *
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -21,7 +21,11 @@ use Cappuccino\Token;
 /**
  * Class MacroTokenParser
  *
- * @author Bas Milius <bas@mili.us>
+ * {% macro input(name, value, type, size) %}
+ *     <input type="{{ type|default('text') }}" name="{{ name }}" value="{{ value|e }}" size="{{ size|default(20) }}" />
+ * {% endmacro %}
+ *
+ * @author Bas Milius <bas@ideemedia.nl>
  * @package Cappuccino\TokenParser
  * @since 1.0.0
  */
@@ -33,22 +37,19 @@ final class MacroTokenParser extends AbstractTokenParser
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
-	public function parse(Token $token): ?Node
+	public function parse(Token $token): Node
 	{
 		$lineno = $token->getLine();
 		$stream = $this->parser->getStream();
-		$name = $stream->expect(/*Token::NAME_TYPE*/
-			5)->getValue();
+		$name = $stream->expect(Token::NAME_TYPE)->getValue();
 
 		$arguments = $this->parser->getExpressionParser()->parseArguments(true, true);
 
-		$stream->expect(/*Token::BLOCK_END_TYPE*/
-			3);
+		$stream->expect(Token::BLOCK_END_TYPE);
 		$this->parser->pushLocalScope();
 		$body = $this->parser->subparse([$this, 'decideBlockEnd'], true);
 
-		if ($token = $stream->nextIf(/*Token::NAME_TYPE*/
-			5))
+		if ($token = $stream->nextIf(Token::NAME_TYPE))
 		{
 			$value = $token->getValue();
 
@@ -57,24 +58,23 @@ final class MacroTokenParser extends AbstractTokenParser
 		}
 
 		$this->parser->popLocalScope();
-		$stream->expect(/*Token::BLOCK_END_TYPE*/
-			3);
+		$stream->expect(Token::BLOCK_END_TYPE);
 
 		$this->parser->setMacro($name, new MacroNode($name, new BodyNode([$body]), $arguments, $lineno, $this->getTag()));
 
-		return null;
+		return new Node();
 	}
 
 	/**
-	 * Decide if the block should end.
+	 * Returns TRUE if the block should end.
 	 *
 	 * @param Token $token
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public function decideBlockEnd(Token $token)
+	public function decideBlockEnd(Token $token): bool
 	{
 		return $token->test('endmacro');
 	}

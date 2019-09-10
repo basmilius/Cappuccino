@@ -1,9 +1,11 @@
 <?php
 /**
- * Copyright (c) 2018 - Bas Milius <bas@mili.us>.
+ * Copyright (c) 2017 - 2019 - Bas Milius <bas@mili.us>
+ *
  * This file is part of the Cappuccino package.
- * For the full copyright and license information, please view the LICENSE
- * file that was distributed with this source code.
+ *
+ * For the full copyright and license information, please view the
+ * LICENSE file that was distributed with this source code.
  */
 
 declare(strict_types=1);
@@ -13,7 +15,6 @@ namespace Cappuccino\Node\Expression;
 use Cappuccino\Compiler;
 use Cappuccino\Extension\SandboxExtension;
 use Cappuccino\Template;
-use Cappuccino\Util\StaticMethods;
 
 /**
  * Class GetAttrExpression
@@ -31,20 +32,20 @@ class GetAttrExpression extends AbstractExpression
 	 * @param AbstractExpression      $node
 	 * @param AbstractExpression      $attribute
 	 * @param AbstractExpression|null $arguments
-	 * @param string|null             $type
-	 * @param int                     $lineno
+	 * @param string                  $type
+	 * @param int                     $lineNumber
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
 	 */
-	public function __construct(AbstractExpression $node, AbstractExpression $attribute, ?AbstractExpression $arguments = null, ?string $type = null, int $lineno = -1)
+	public function __construct(AbstractExpression $node, AbstractExpression $attribute, AbstractExpression $arguments = null, string $type = '', int $lineNumber = 0)
 	{
 		$nodes = ['node' => $node, 'attribute' => $attribute];
 
 		if ($arguments !== null)
 			$nodes['arguments'] = $arguments;
 
-		parent::__construct($nodes, ['type' => $type, 'is_defined_test' => false, 'ignore_strict_check' => false, 'optimizable' => true], $lineno);
+		parent::__construct($nodes, ['type' => $type, 'is_defined_test' => false, 'ignore_strict_check' => false, 'optimizable' => true], $lineNumber);
 	}
 
 	/**
@@ -55,12 +56,10 @@ class GetAttrExpression extends AbstractExpression
 	public function compile(Compiler $compiler): void
 	{
 		$cappuccino = $compiler->getCappuccino();
-		$hasSandbox = $cappuccino->hasExtension(SandboxExtension::class);
 
 		if ($this->getAttribute('optimizable') && (!$cappuccino->isStrictVariables() || $this->getAttribute('ignore_strict_check')) && !$this->getAttribute('is_defined_test') && Template::ARRAY_CALL === $this->getAttribute('type'))
 		{
 			$var = '$' . $compiler->getVarName();
-
 			$compiler
 				->raw('((' . $var . ' = ')
 				->subcompile($this->getNode('node'))
@@ -68,7 +67,7 @@ class GetAttrExpression extends AbstractExpression
 				->raw($var)
 				->raw(') || ')
 				->raw($var)
-				->raw(' instanceof \ArrayAccess ? (')
+				->raw(' instanceof ArrayAccess ? (')
 				->raw($var)
 				->raw('[')
 				->subcompile($this->getNode('attribute'))
@@ -77,41 +76,28 @@ class GetAttrExpression extends AbstractExpression
 			return;
 		}
 
-		$compiler->raw(StaticMethods::class . '::getAttribute($this->cappuccino, $this->source, ');
+		$compiler->raw('StaticMethods::getAttribute($this->cappuccino, $this->source, ');
 
 		if ($this->getAttribute('ignore_strict_check'))
 			$this->getNode('node')->setAttribute('ignore_strict_check', true);
 
-		$compiler->subcompile($this->getNode('node'));
-		$compiler->raw(', ')->subcompile($this->getNode('attribute'));
+		$compiler
+			->subcompile($this->getNode('node'))
+			->raw(', ')
+			->subcompile($this->getNode('attribute'));
 
-		$needFifth = $hasSandbox;
-		$needFourth = $needFifth || $this->getAttribute('ignore_strict_check');
-		$needThird = $needFourth || $this->getAttribute('is_defined_test');
-		$needSecond = $needThird || Template::ANY_CALL !== $this->getAttribute('type');
-		$needFirst = $needSecond || $this->hasNode('arguments');
+		if ($this->hasNode('arguments'))
+			$compiler->raw(', ')->subcompile($this->getNode('arguments'));
+		else
+			$compiler->raw(', []');
 
-		if ($needFirst)
-		{
-			if ($this->hasNode('arguments'))
-				$compiler->raw(', ')->subcompile($this->getNode('arguments'));
-			else
-				$compiler->raw(', []');
-		}
-
-		if ($needSecond)
-			$compiler->raw(', ')->repr($this->getAttribute('type'));
-
-		if ($needThird)
-			$compiler->raw(', ')->repr($this->getAttribute('is_defined_test'));
-
-		if ($needFourth)
-			$compiler->raw(', ')->repr($this->getAttribute('ignore_strict_check'));
-
-		if ($needFifth)
-			$compiler->raw(', ')->repr($hasSandbox);
-
-		$compiler->raw(')');
+		$compiler->raw(', ')
+			->repr($this->getAttribute('type'))
+			->raw(', ')->repr($this->getAttribute('is_defined_test'))
+			->raw(', ')->repr($this->getAttribute('ignore_strict_check'))
+			->raw(', ')->repr($cappuccino->hasExtension(SandboxExtension::class))
+			->raw(', ')->repr($this->getNode('node')->getTemplateLine())
+			->raw(')');
 	}
 
 }
