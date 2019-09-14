@@ -18,8 +18,8 @@ use Cappuccino\Error\RuntimeError;
 use Cappuccino\FileExtensionEscapingStrategy;
 use Cappuccino\Markup;
 use Cappuccino\Node\Expression\ConstantExpression;
+use Cappuccino\Node\Node;
 use Cappuccino\NodeVisitor\EscaperNodeVisitor;
-use Cappuccino\NodeVisitor\NodeVisitorInterface;
 use Cappuccino\TokenParser\AutoEscapeTokenParser;
 use Cappuccino\Util\StaticMethods;
 
@@ -416,13 +416,14 @@ final class EscaperExtension extends AbstractExtension
 	/**
 	 * Marks a filter as safe.
 	 *
-	 * @param NodeVisitorInterface $filterArgs
+	 * @param Node $filterArgs
 	 *
 	 * @return array
 	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since 1.0.0
+	 * @internal
 	 */
-	public final function onFilterIsSafe(NodeVisitorInterface $filterArgs): array
+	public final function onFilterIsSafe(Node $filterArgs): array
 	{
 		foreach ($filterArgs as $arg)
 		{
