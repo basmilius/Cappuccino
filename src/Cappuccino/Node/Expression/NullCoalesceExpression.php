@@ -41,7 +41,10 @@ class NullCoalesceExpression extends ConditionalExpression
 	 */
 	public function __construct(AbstractExpression $left, AbstractExpression $right, int $lineNumber)
 	{
-		$test = new AndBinary(new DefinedTest(clone $left, 'defined', new Node(), $left->getTemplateLine()), new NotUnary(new NullTest($left, 'null', new Node(), $left->getTemplateLine()), $left->getTemplateLine()), $left->getTemplateLine());
+		$test = new DefinedTest(clone $left, 'defined', new Node(), $left->getTemplateLine());
+
+		if (!$left instanceof BlockReferenceExpression)
+			$test = new AndBinary($test, new NotUnary(new NullTest($left, 'null', new Node(), $left->getTemplateLine()), $left->getTemplateLine()), $left->getTemplateLine());
 
 		parent::__construct($test, $left, $right, $lineNumber);
 	}
