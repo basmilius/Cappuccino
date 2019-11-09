@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Cappuccino\Loader;
 
+use Cappuccino\Error\LoaderError;
 use Cappuccino\Source;
 
 /**
@@ -30,6 +31,7 @@ interface LoaderInterface
 	 * @param string $name
 	 *
 	 * @return Source
+	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -41,6 +43,7 @@ interface LoaderInterface
 	 * @param string $name
 	 *
 	 * @return string
+	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -53,6 +56,7 @@ interface LoaderInterface
 	 * @param int    $time
 	 *
 	 * @return bool
+	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -64,6 +68,7 @@ interface LoaderInterface
 	 * @param string $name
 	 *
 	 * @return bool
+	 * @throws LoaderError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since
 	 */

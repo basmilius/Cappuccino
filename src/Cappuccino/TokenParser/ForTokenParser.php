@@ -16,6 +16,7 @@ use Cappuccino\Node\Expression\AssignNameExpression;
 use Cappuccino\Node\ForNode;
 use Cappuccino\Node\Node;
 use Cappuccino\Token;
+use function count;
 
 /**
  * Class ForTokenParser

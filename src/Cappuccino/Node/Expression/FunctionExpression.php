@@ -15,6 +15,7 @@ namespace Cappuccino\Node\Expression;
 use Cappuccino\Compiler;
 use Cappuccino\Node\Node;
 use Cappuccino\Util\StaticMethods;
+use ReflectionException;
 
 /**
  * Class FunctionExpression
@@ -43,8 +44,9 @@ class FunctionExpression extends CallExpression
 
 	/**
 	 * {@inheritdoc}
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws ReflectionException
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function compile(Compiler $compiler): void
 	{

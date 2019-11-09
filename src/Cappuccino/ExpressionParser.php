@@ -31,6 +31,12 @@ use Cappuccino\Node\Expression\Unary\NegUnary;
 use Cappuccino\Node\Expression\Unary\NotUnary;
 use Cappuccino\Node\Expression\Unary\PosUnary;
 use Cappuccino\Node\Node;
+use function array_keys;
+use function array_shift;
+use function count;
+use function get_class;
+use function sprintf;
+use function trigger_error;
 
 /**
  * Class ExpressionParser
@@ -89,8 +95,9 @@ class ExpressionParser
 	 * @param bool $allowArrow
 	 *
 	 * @return AbstractExpression
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function parseExpression(int $precedence = 0, bool $allowArrow = false)
 	{
@@ -137,8 +144,9 @@ class ExpressionParser
 	 * Parses an arrow function.
 	 *
 	 * @return ArrowFunctionExpression|null
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 2.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	private function parseArrow(): ?ArrowFunctionExpression
 	{
@@ -201,8 +209,9 @@ class ExpressionParser
 	 * Gets the primary expression.
 	 *
 	 * @return AbstractExpression
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	private function getPrimary(): AbstractExpression
 	{
@@ -235,8 +244,9 @@ class ExpressionParser
 	 * @param AbstractExpression $expr
 	 *
 	 * @return AbstractExpression
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	private function parseConditionalExpression(AbstractExpression $expr): AbstractExpression
 	{
@@ -295,8 +305,9 @@ class ExpressionParser
 	 * Parses the Primary Expression.
 	 *
 	 * @return AbstractExpression
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function parsePrimaryExpression(): AbstractExpression
 	{
@@ -383,8 +394,9 @@ class ExpressionParser
 	 * Parses a String Expression.
 	 *
 	 * @return AbstractExpression
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function parseStringExpression(): AbstractExpression
 	{
@@ -424,8 +436,9 @@ class ExpressionParser
 	 * Parses an Array Expression.
 	 *
 	 * @return AbstractExpression
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function parseArrayExpression(): AbstractExpression
 	{
@@ -457,8 +470,9 @@ class ExpressionParser
 	 * Parses a Hash Expression.
 	 *
 	 * @return AbstractExpression
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function parseHashExpression(): AbstractExpression
 	{
@@ -512,8 +526,9 @@ class ExpressionParser
 	 * @param AbstractExpression $node
 	 *
 	 * @return AbstractExpression
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function parsePostfixExpression(AbstractExpression $node): AbstractExpression
 	{
@@ -546,8 +561,9 @@ class ExpressionParser
 	 * @param int    $line
 	 *
 	 * @return AbstractExpression
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function getFunctionNode(string $name, int $line): AbstractExpression
 	{
@@ -616,8 +632,9 @@ class ExpressionParser
 	 * @param AbstractExpression $node
 	 *
 	 * @return AbstractExpression
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function parseSubscriptExpression(AbstractExpression $node): AbstractExpression
 	{
@@ -630,6 +647,7 @@ class ExpressionParser
 		if ($token->getValue() === '.')
 		{
 			$token = $stream->next();
+
 			if ($token->getType() === Token::NAME_TYPE || $token->getType() === Token::NUMBER_TYPE || ($token->getType() === Token::OPERATOR_TYPE && preg_match(Lexer::REGEX_NAME, $token->getValue())))
 			{
 				$arg = new ConstantExpression($token->getValue(), $lineno);
@@ -706,8 +724,9 @@ class ExpressionParser
 	 * @param AbstractExpression $node
 	 *
 	 * @return AbstractExpression
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function parseFilterExpression(AbstractExpression $node): AbstractExpression
 	{
@@ -723,8 +742,9 @@ class ExpressionParser
 	 * @param string|null        $tag
 	 *
 	 * @return AbstractExpression
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function parseFilterExpressionRaw(AbstractExpression $node, ?string $tag = null)
 	{
@@ -758,8 +778,9 @@ class ExpressionParser
 	 * @param bool $allowArrow
 	 *
 	 * @return Node
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function parseArguments(bool $namedArguments = false, bool $definition = false, bool $allowArrow = false): Node
 	{
@@ -832,8 +853,9 @@ class ExpressionParser
 	 * Parses an Assignment Expression.
 	 *
 	 * @return Node
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function parseAssignmentExpression(): Node
 	{
@@ -867,8 +889,9 @@ class ExpressionParser
 	 * Parses multi target expression.
 	 *
 	 * @return Node
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function parseMultitargetExpression(): Node
 	{
@@ -891,8 +914,9 @@ class ExpressionParser
 	 * @param Node $node
 	 *
 	 * @return NotUnary
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	private function parseNotTestExpression(Node $node): NotUnary
 	{
@@ -905,8 +929,9 @@ class ExpressionParser
 	 * @param Node $node
 	 *
 	 * @return TestExpression
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	private function parseTestExpression(Node $node): TestExpression
 	{
@@ -934,8 +959,9 @@ class ExpressionParser
 	 * @param int $line
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	private function getTest(int $line): array
 	{
@@ -1001,8 +1027,9 @@ class ExpressionParser
 	 * @param int    $line
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	private function getFunctionNodeClass(string $name, int $line): string
 	{
@@ -1040,8 +1067,9 @@ class ExpressionParser
 	 * @param int    $line
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	private function getFilterNodeClass(string $name, int $line): string
 	{

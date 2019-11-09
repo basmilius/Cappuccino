@@ -18,6 +18,7 @@ use Cappuccino\CappuccinoTest;
 use Cappuccino\NodeVisitor\NodeVisitorInterface;
 use Cappuccino\TokenParser\TokenParserInterface;
 use LogicException;
+use function sprintf;
 
 /**
  * Class StagingExtension

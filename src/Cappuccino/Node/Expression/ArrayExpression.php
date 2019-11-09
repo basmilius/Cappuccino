@@ -13,6 +13,9 @@ declare(strict_types=1);
 namespace Cappuccino\Node\Expression;
 
 use Cappuccino\Compiler;
+use function array_chunk;
+use function array_push;
+use function ctype_digit;
 
 /**
  * Class ArrayExpression
@@ -43,6 +46,7 @@ class ArrayExpression extends AbstractExpression
 		parent::__construct($elements, [], $lineNumber);
 
 		$this->index = -1;
+
 		foreach ($this->getKeyValuePairs() as $pair)
 		{
 			if ($pair['key'] instanceof ConstantExpression && ctype_digit((string)$pair['key']->getAttribute('value')) && $pair['key']->getAttribute('value') > $this->index)
@@ -113,6 +117,7 @@ class ArrayExpression extends AbstractExpression
 	{
 		$compiler->raw('[');
 		$first = true;
+
 		foreach ($this->getKeyValuePairs() as $pair)
 		{
 			if (!$first)
@@ -126,6 +131,7 @@ class ArrayExpression extends AbstractExpression
 				->raw(' => ')
 				->subcompile($pair['value']);
 		}
+
 		$compiler->raw(']');
 	}
 

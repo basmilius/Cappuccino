@@ -23,6 +23,23 @@ use InvalidArgumentException;
 use LogicException;
 use ReflectionObject;
 use UnexpectedValueException;
+use function array_keys;
+use function array_merge;
+use function array_shift;
+use function count;
+use function file_exists;
+use function filemtime;
+use function get_class;
+use function gettype;
+use function is_array;
+use function is_object;
+use function is_resource;
+use function json_encode;
+use function ltrim;
+use function preg_match;
+use function preg_quote;
+use function sprintf;
+use function str_replace;
 
 /**
  * Class ExtensionSet
@@ -321,12 +338,8 @@ final class ExtensionSet
 		}
 
 		foreach ($this->functionCallbacks as $callback)
-		{
 			if (($function = $callback($name)) !== false)
-			{
 				return $function;
-			}
-		}
 
 		return null;
 	}

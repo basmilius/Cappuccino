@@ -12,9 +12,9 @@ declare(strict_types=0); // TODO(Bas): Figure out if we can enable this again.
 
 namespace Cappuccino;
 
-use Cappuccino\Error\Error;
 use Cappuccino\Node\Node;
 use Cappuccino\NodeVisitor\NodeVisitorInterface;
+use function ksort;
 
 /**
  * Class NodeTraverser
@@ -72,7 +72,6 @@ final class NodeTraverser
 	 * @param Node $node
 	 *
 	 * @return Node
-	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */

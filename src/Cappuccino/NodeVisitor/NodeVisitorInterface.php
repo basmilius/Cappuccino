@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\NodeVisitor;
 
 use Cappuccino\Cappuccino;
+use Cappuccino\Error\Error;
 use Cappuccino\Node\Node;
 
 /**
@@ -32,6 +33,7 @@ interface NodeVisitorInterface
 	 * @param Cappuccino $cappuccino
 	 *
 	 * @return Node
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */

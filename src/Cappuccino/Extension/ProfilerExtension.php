@@ -14,6 +14,9 @@ namespace Cappuccino\Extension;
 
 use Cappuccino\Profiler\NodeVisitor\ProfilerNodeVisitor;
 use Cappuccino\Profiler\Profile;
+use function array_shift;
+use function array_unshift;
+use function get_class;
 
 /**
  * Class ProfilerExtension

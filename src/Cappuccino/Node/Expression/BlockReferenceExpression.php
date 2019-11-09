@@ -14,6 +14,7 @@ namespace Cappuccino\Node\Expression;
 
 use Cappuccino\Compiler;
 use Cappuccino\Node\Node;
+use function sprintf;
 
 /**
  * Class BlockReferenceExpression

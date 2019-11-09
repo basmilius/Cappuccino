@@ -16,6 +16,20 @@ use Cappuccino\Source;
 use Cappuccino\Template;
 use Exception;
 use ReflectionObject;
+use const DEBUG_BACKTRACE_IGNORE_ARGS;
+use const DEBUG_BACKTRACE_PROVIDE_OBJECT;
+use function array_pop;
+use function array_shift;
+use function array_unshift;
+use function debug_backtrace;
+use function get_class;
+use function is_object;
+use function is_string;
+use function json_encode;
+use function method_exists;
+use function sprintf;
+use function strpos;
+use function substr;
 
 /**
  * Class Error
@@ -257,7 +271,7 @@ class Error extends Exception
 			if (isset($traceObject) && $traceObject instanceof Template)
 			{
 				$currentClass = get_class($traceObject);
-				$isEmbedContainer = 0 === strpos($templateClass, $currentClass);
+				$isEmbedContainer = strpos($templateClass, $currentClass) === 0;
 
 				if ($this->name === null || ($this->name === $traceObject->getTemplateName() && !$isEmbedContainer))
 				{

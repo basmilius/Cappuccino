@@ -13,6 +13,10 @@ declare(strict_types=1);
 namespace Cappuccino;
 
 use Cappuccino\Error\SyntaxError;
+use function array_merge;
+use function array_slice;
+use function implode;
+use function sprintf;
 
 /**
  * Class TokenStream
@@ -71,8 +75,9 @@ final class TokenStream
 	 * Sets the pointer to the next token and returns the old one.
 	 *
 	 * @return Token
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function next(): Token
 	{
@@ -89,8 +94,9 @@ final class TokenStream
 	 * @param string|string[] $secondary
 	 *
 	 * @return Token|null
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function nextIf($primary, $secondary = null): ?Token
 	{
@@ -108,8 +114,9 @@ final class TokenStream
 	 * @param string|null $message
 	 *
 	 * @return Token
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function expect($type, $value = null, string $message = null): Token
 	{
@@ -132,8 +139,9 @@ final class TokenStream
 	 * @param int $number
 	 *
 	 * @return Token
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function look(int $number = 1): Token
 	{

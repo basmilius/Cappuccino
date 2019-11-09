@@ -17,6 +17,7 @@ use Cappuccino\Node\BodyNode;
 use Cappuccino\Node\MacroNode;
 use Cappuccino\Node\Node;
 use Cappuccino\Token;
+use function sprintf;
 
 /**
  * Class MacroTokenParser

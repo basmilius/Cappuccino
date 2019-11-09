@@ -14,6 +14,7 @@ namespace Cappuccino\Extension;
 
 use Cappuccino\Cappuccino;
 use Cappuccino\CappuccinoFilter;
+use Cappuccino\Error\Error;
 use Cappuccino\Error\RuntimeError;
 use Cappuccino\FileExtensionEscapingStrategy;
 use Cappuccino\Markup;
@@ -22,6 +23,33 @@ use Cappuccino\Node\Node;
 use Cappuccino\NodeVisitor\EscaperNodeVisitor;
 use Cappuccino\TokenParser\AutoEscapeTokenParser;
 use Cappuccino\Util\StaticMethods;
+use const ENT_QUOTES;
+use const ENT_SUBSTITUTE;
+use function array_keys;
+use function array_merge;
+use function array_unique;
+use function bin2hex;
+use function call_user_func;
+use function class_implements;
+use function class_parents;
+use function get_class;
+use function htmlspecialchars;
+use function iconv;
+use function implode;
+use function in_array;
+use function is_object;
+use function is_string;
+use function ltrim;
+use function mb_ord;
+use function method_exists;
+use function ord;
+use function preg_match;
+use function preg_replace_callback;
+use function rawurlencode;
+use function sprintf;
+use function strlen;
+use function strtoupper;
+use function substr;
 
 final class EscaperExtension extends AbstractExtension
 {
@@ -192,6 +220,8 @@ final class EscaperExtension extends AbstractExtension
 	}
 
 	/**
+	 * Invoked on the escape filter.
+	 *
 	 * @param Cappuccino    $cappuccino
 	 * @param string|Markup $string
 	 * @param string|false  $strategy
@@ -199,6 +229,7 @@ final class EscaperExtension extends AbstractExtension
 	 * @param bool          $autoescape
 	 *
 	 * @return false|string|string[]|null
+	 * @throws Error
 	 * @author Bas Milius <bas@ideemedia.nl>
 	 * @since
 	 */
@@ -334,7 +365,7 @@ final class EscaperExtension extends AbstractExtension
 				{
 					$char = $matches[0];
 
-					return sprintf('\\%X ', 1 === strlen($char) ? ord($char) : mb_ord($char, 'UTF-8'));
+					return sprintf('\\%X ', strlen($char) === 1 ? ord($char) : mb_ord($char, 'UTF-8'));
 				}, $string);
 
 				if ($charset !== 'UTF-8')

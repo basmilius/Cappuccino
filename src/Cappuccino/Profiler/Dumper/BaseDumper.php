@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Cappuccino\Profiler\Dumper;
 
 use Cappuccino\Profiler\Profile;
+use function count;
+use function sprintf;
 
 /**
  * Class BaseDumper

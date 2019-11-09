@@ -14,6 +14,7 @@ namespace Cappuccino;
 
 use Countable;
 use JsonSerializable;
+use function mb_strlen;
 
 /**
  * Class Markup

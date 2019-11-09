@@ -14,6 +14,9 @@ namespace Cappuccino\Loader;
 
 use Cappuccino\Error\LoaderError;
 use Cappuccino\Source;
+use function get_class;
+use function implode;
+use function sprintf;
 
 /**
  * Class ChainLoader

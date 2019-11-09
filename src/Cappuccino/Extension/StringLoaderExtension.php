@@ -14,6 +14,7 @@ namespace Cappuccino\Extension;
 
 use Cappuccino\Cappuccino;
 use Cappuccino\CappuccinoFunction;
+use Cappuccino\Error\Error;
 use Cappuccino\TemplateWrapper;
 
 /**
@@ -46,9 +47,10 @@ final class StringLoaderExtension extends AbstractExtension
 	 * @param string|null $name
 	 *
 	 * @return TemplateWrapper
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @throws Error
 	 * @since 1.0.0
 	 * @internal
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 */
 	public final function onFunctionTemplateFromString(Cappuccino $cappuccino, string $template, ?string $name = null): TemplateWrapper
 	{

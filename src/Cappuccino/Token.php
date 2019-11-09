@@ -13,6 +13,10 @@ declare(strict_types=1);
 namespace Cappuccino;
 
 use LogicException;
+use function in_array;
+use function is_array;
+use function is_int;
+use function sprintf;
 
 /**
  * Class Token

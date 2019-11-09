@@ -13,6 +13,8 @@ declare(strict_types=1);
 namespace Cappuccino;
 
 use Cappuccino\Node\Expression\TestExpression;
+use function array_merge;
+use function is_bool;
 
 /**
  * Class CappuccinoTest

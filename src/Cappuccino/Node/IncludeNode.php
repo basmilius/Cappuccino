@@ -15,6 +15,7 @@ namespace Cappuccino\Node;
 use Cappuccino\Compiler;
 use Cappuccino\Node\Expression\AbstractExpression;
 use Cappuccino\Template;
+use function sprintf;
 
 /**
  * Class IncludeNode
@@ -130,7 +131,7 @@ class IncludeNode extends Node implements NodeOutputInterface
 		{
 			$compiler->raw(false === $this->getAttribute('only') ? '$context' : '[]');
 		}
-		else if (false === $this->getAttribute('only'))
+		else if ($this->getAttribute('only') === false)
 		{
 			$compiler
 				->raw('StaticMethods::arrayMerge($context, ')

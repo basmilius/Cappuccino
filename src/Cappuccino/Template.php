@@ -18,6 +18,18 @@ use Cappuccino\Error\RuntimeError;
 use Cappuccino\Util\EasyPeasyLemonSqueezy;
 use Exception;
 use LogicException;
+use function array_keys;
+use function array_merge;
+use function array_unique;
+use function get_class;
+use function is_array;
+use function ob_end_clean;
+use function ob_get_clean;
+use function ob_get_level;
+use function ob_start;
+use function sprintf;
+use function strrpos;
+use function substr;
 
 abstract class Template
 {
@@ -81,6 +93,7 @@ abstract class Template
 	 * @param array $context
 	 *
 	 * @return Template|TemplateWrapper|bool
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -146,6 +159,7 @@ abstract class Template
 	 * @param array  $context
 	 * @param array  $blocks
 	 *
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 * @internal
@@ -163,11 +177,14 @@ abstract class Template
 	/**
 	 * Displays a block. This method is for internal use only and should never be called directly.
 	 *
-	 * @param string       $name
-	 * @param array        $context
-	 * @param Template[][] $blocks
-	 * @param bool         $useBlocks
+	 * @param string        $name
+	 * @param array         $context
+	 * @param Template[][]  $blocks
+	 * @param bool          $useBlocks
 	 *
+	 * @param Template|null $templateContext
+	 *
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -216,7 +233,7 @@ abstract class Template
 				throw $e;
 			}
 		}
-		else if (false !== $parent = $this->getParent($context))
+		else if (($parent = $this->getParent($context)) !== false)
 		{
 			$parent->displayBlock($name, $context, array_merge($this->blocks, $blocks), false, $templateContext ?? $this);
 		}
@@ -238,9 +255,10 @@ abstract class Template
 	 * @param array  $blocks
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
 	 * @internal
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function renderParentBlock($name, array $context, array $blocks = []): string
 	{
@@ -263,9 +281,10 @@ abstract class Template
 	 * @param bool   $useBlocks
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
 	 * @internal
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function renderBlock($name, array $context, array $blocks = [], $useBlocks = true): string
 	{
@@ -288,8 +307,9 @@ abstract class Template
 	 * @param array  $blocks
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function hasBlock($name, array $context, array $blocks = []): bool
 	{
@@ -313,8 +333,9 @@ abstract class Template
 	 * @param array $blocks
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function getBlockNames(array $context, array $blocks = []): array
 	{
@@ -335,8 +356,9 @@ abstract class Template
 	 * @param int|null        $index
 	 *
 	 * @return Template|TemplateWrapper
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	protected function loadTemplate($template, ?string $templateName = null, ?int $line = null, ?int $index = null)
 	{
@@ -409,6 +431,7 @@ abstract class Template
 	 * @param array $context
 	 * @param array $blocks
 	 *
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -423,8 +446,9 @@ abstract class Template
 	 * @param array $context
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function render(array $context): string
 	{
@@ -456,6 +480,7 @@ abstract class Template
 	 * @param array $context
 	 * @param array $blocks
 	 *
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */

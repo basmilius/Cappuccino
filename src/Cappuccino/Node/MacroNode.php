@@ -14,6 +14,7 @@ namespace Cappuccino\Node;
 
 use Cappuccino\Compiler;
 use Cappuccino\Error\SyntaxError;
+use function sprintf;
 
 /**
  * Class MacroNode
@@ -36,8 +37,9 @@ class MacroNode extends Node
 	 * @param int         $lineNumber
 	 * @param string|null $tag
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 */
 	public function __construct(string $name, Node $body, Node $arguments, int $lineNumber, ?string $tag = null)
 	{

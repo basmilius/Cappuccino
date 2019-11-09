@@ -42,8 +42,9 @@ class DefinedTest extends TestExpression
 	 * @param Node|null $arguments
 	 * @param int       $lineNumber
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function __construct(Node $node, string $name, Node $arguments = null, int $lineNumber = 0)
 	{

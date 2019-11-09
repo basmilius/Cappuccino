@@ -26,6 +26,11 @@ use Cappuccino\Node\IncludeNode;
 use Cappuccino\Node\Node;
 use Cappuccino\Node\PrintNode;
 use InvalidArgumentException;
+use function array_shift;
+use function array_unshift;
+use function in_array;
+use function is_int;
+use function sprintf;
 
 /**
  * Class OptimizerNodeVisitor

@@ -14,6 +14,7 @@ namespace Cappuccino\Node;
 
 use Cappuccino\Compiler;
 use Cappuccino\Node\Expression\ConstantExpression;
+use function count;
 
 /**
  * Class SetNode
@@ -75,6 +76,7 @@ class SetNode extends Node implements NodeCaptureInterface
 
 				$compiler->subcompile($node);
 			}
+
 			$compiler->raw(')');
 		}
 		else

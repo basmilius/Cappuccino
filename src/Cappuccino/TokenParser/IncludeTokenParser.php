@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace Cappuccino\TokenParser;
 
+use Cappuccino\Error\SyntaxError;
 use Cappuccino\Node\IncludeNode;
 use Cappuccino\Node\Node;
 use Cappuccino\Token;
@@ -46,8 +47,9 @@ class IncludeTokenParser extends AbstractTokenParser
 	 * Parses arguments.
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 */
 	protected function parseArguments(): array
 	{

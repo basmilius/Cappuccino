@@ -13,6 +13,9 @@ declare(strict_types=1);
 namespace Cappuccino\Node;
 
 use Cappuccino\Compiler;
+use function array_filter;
+use function array_keys;
+use function implode;
 
 /**
  * Class CheckSecurityNode

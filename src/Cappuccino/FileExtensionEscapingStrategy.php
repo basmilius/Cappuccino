@@ -12,6 +12,11 @@ declare(strict_types=1);
 
 namespace Cappuccino;
 
+use const PATHINFO_EXTENSION;
+use function in_array;
+use function pathinfo;
+use function substr;
+
 /**
  * Class FileExtensionEscapingStrategy
  *
@@ -34,14 +39,10 @@ class FileExtensionEscapingStrategy
 	public static function guess(string $name)
 	{
 		if (in_array(substr($name, -1), ['/', '\\']))
-		{
-			return 'html'; // return html for directories
-		}
+			return 'html';
 
-		if ('.cappy' === substr($name, -6))
-		{
+		if (substr($name, -6) === '.cappy')
 			$name = substr($name, 0, -6);
-		}
 
 		$extension = pathinfo($name, PATHINFO_EXTENSION);
 

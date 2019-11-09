@@ -16,6 +16,7 @@ use Cappuccino\Error\SyntaxError;
 use Cappuccino\Node\IfNode;
 use Cappuccino\Node\Node;
 use Cappuccino\Token;
+use function sprintf;
 
 /**
  * Class IfTokenParser

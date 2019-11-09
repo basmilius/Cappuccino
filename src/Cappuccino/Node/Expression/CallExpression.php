@@ -23,6 +23,25 @@ use ReflectionException;
 use ReflectionFunction;
 use ReflectionMethod;
 use ReflectionObject;
+use function array_key_exists;
+use function array_keys;
+use function array_merge;
+use function array_pop;
+use function array_shift;
+use function count;
+use function end;
+use function get_class;
+use function implode;
+use function is_array;
+use function is_int;
+use function is_string;
+use function ltrim;
+use function method_exists;
+use function preg_replace;
+use function sprintf;
+use function strpos;
+use function substr;
+use function ucfirst;
 
 /**
  * Class CallExpression
@@ -45,6 +64,7 @@ abstract class CallExpression extends AbstractExpression
 	 * @param Compiler $compiler
 	 *
 	 * @throws ReflectionException
+	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -102,6 +122,7 @@ abstract class CallExpression extends AbstractExpression
 	 * @param bool     $isArray
 	 *
 	 * @throws ReflectionException
+	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -173,6 +194,7 @@ abstract class CallExpression extends AbstractExpression
 	 *
 	 * @return array
 	 * @throws ReflectionException
+	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */

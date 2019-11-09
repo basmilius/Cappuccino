@@ -4,7 +4,7 @@
 /**
  * Copyright (c) 2019 - Bas Milius <bas@mili.us>
  *
- * This file is part of the Latte Framework package.
+ * This file is part of the Cappuccino package.
  *
  * For the full copyright and license information, please view the
  * LICENSE file that was distributed with this source code.
@@ -19,6 +19,7 @@ use ArrayObject;
 use BadMethodCallException;
 use CallbackFilterIterator;
 use Cappuccino\Cappuccino;
+use Cappuccino\Error\Error;
 use Cappuccino\Error\LoaderError;
 use Cappuccino\Error\RuntimeError;
 use Cappuccino\Extension\CoreExtension;
@@ -32,6 +33,7 @@ use DateTime;
 use DateTimeImmutable;
 use DateTimeInterface;
 use DateTimeZone;
+use Exception;
 use Iterator;
 use IteratorAggregate;
 use IteratorIterator;
@@ -39,6 +41,75 @@ use LimitIterator;
 use OutOfBoundsException;
 use SimpleXMLElement;
 use Traversable;
+use const ARRAY_FILTER_USE_BOTH;
+use const MB_CASE_TITLE;
+use const PHP_QUERY_RFC3986;
+use function array_chunk;
+use function array_column;
+use function array_filter;
+use function array_key_exists;
+use function array_keys;
+use function array_map;
+use function array_merge;
+use function array_rand;
+use function array_reduce;
+use function array_reverse;
+use function array_slice;
+use function array_values;
+use function asort;
+use function ceil;
+use function constant;
+use function count;
+use function ctype_digit;
+use function current;
+use function defined;
+use function explode;
+use function get_class;
+use function get_class_methods;
+use function gettype;
+use function http_build_query;
+use function iconv;
+use function implode;
+use function in_array;
+use function is_array;
+use function is_bool;
+use function is_float;
+use function is_int;
+use function is_iterable;
+use function is_nan;
+use function is_numeric;
+use function is_object;
+use function is_resource;
+use function is_scalar;
+use function is_string;
+use function iterator_count;
+use function iterator_to_array;
+use function ltrim;
+use function mb_convert_case;
+use function mb_strlen;
+use function mb_strtolower;
+use function mb_strtoupper;
+use function mb_substr;
+use function method_exists;
+use function mt_rand;
+use function number_format;
+use function pow;
+use function preg_match_all;
+use function preg_replace;
+use function preg_split;
+use function rawurlencode;
+use function round;
+use function rtrim;
+use function sort;
+use function sprintf;
+use function strlen;
+use function strpos;
+use function strtolower;
+use function strtr;
+use function substr;
+use function trim;
+use function uasort;
+use function ucwords;
 
 /**
  * Class StaticMethods
@@ -51,6 +122,19 @@ use Traversable;
 final class StaticMethods
 {
 
+	/**
+	 * {@see array_chunk()}.
+	 *
+	 * @param iterable $items
+	 * @param int      $size
+	 * @param null     $fill
+	 * @param bool     $preserveKeys
+	 *
+	 * @return iterable
+	 * @throws RuntimeError
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function arrayBatch(iterable $items, int $size, $fill = null, bool $preserveKeys = true): iterable
 	{
 		if (!self::testIterable($items))
@@ -59,7 +143,7 @@ final class StaticMethods
 		$size = ceil($size);
 		$result = array_chunk(self::toArray($items, $preserveKeys), $size, $preserveKeys);
 
-		if (null !== $fill && $result)
+		if ($fill !== null && $result)
 		{
 			$last = count($result) - 1;
 
@@ -71,6 +155,18 @@ final class StaticMethods
 		return $result;
 	}
 
+	/**
+	 * {@see array_column()}.
+	 *
+	 * @param iterable $array
+	 * @param          $name
+	 * @param null     $index
+	 *
+	 * @return iterable
+	 * @throws RuntimeError
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function arrayColumn(iterable $array, $name, $index = null): iterable
 	{
 		if ($array instanceof Traversable)
@@ -81,16 +177,35 @@ final class StaticMethods
 		return array_column($array, $name, $index);
 	}
 
+	/**
+	 * {@see array_filter()}.
+	 *
+	 * @param iterable $array
+	 * @param callable $arrowFunction
+	 *
+	 * @return iterable
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function arrayFilter(iterable $array, callable $arrowFunction): iterable
 	{
 		if (is_array($array))
 			return array_filter($array, $arrowFunction, ARRAY_FILTER_USE_BOTH);
 
 		/** @var Traversable $array */
-
 		return new CallbackFilterIterator(new IteratorIterator($array), $arrowFunction);
 	}
 
+	/**
+	 * {@see array_map()}, but a faster implementation of it.
+	 *
+	 * @param iterable $array
+	 * @param callable $arrowFunction
+	 *
+	 * @return iterable
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function arrayMap(iterable $array, callable $arrowFunction): iterable
 	{
 		$r = [];
@@ -101,6 +216,17 @@ final class StaticMethods
 		return $r;
 	}
 
+	/**
+	 * {@see array_merge()}.
+	 *
+	 * @param iterable $arr1
+	 * @param iterable $arr2
+	 *
+	 * @return iterable
+	 * @throws RuntimeError
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function arrayMerge(iterable $arr1, iterable $arr2): iterable
 	{
 		if (!static::testIterable($arr1))
@@ -112,6 +238,17 @@ final class StaticMethods
 		return array_merge(static::toArray($arr1), static::toArray($arr2));
 	}
 
+	/**
+	 * {@see array_reduce()}.
+	 *
+	 * @param iterable $array
+	 * @param callable $arrowFunction
+	 * @param null     $initial
+	 *
+	 * @return iterable
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function arrayReduce(iterable $array, callable $arrowFunction, $initial = null): iterable
 	{
 		if (!is_array($array))
@@ -121,6 +258,22 @@ final class StaticMethods
 		return array_reduce($array, $arrowFunction, $initial);
 	}
 
+	/**
+	 * Calls a method "macro" on an object.
+	 *
+	 * @param Template $template
+	 * @param string   $method
+	 * @param array    $args
+	 * @param int      $lineNumber
+	 * @param array    $context
+	 * @param Source   $source
+	 *
+	 * @return mixed
+	 * @throws RuntimeError
+	 * @throws Error
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function callMacro(Template $template, string $method, array $args, int $lineNumber, array $context, Source $source)
 	{
 		if (!method_exists($template, $method))
@@ -137,6 +290,16 @@ final class StaticMethods
 		return $template->$method(...$args);
 	}
 
+	/**
+	 * Capitalizes a string.
+	 *
+	 * @param Cappuccino $cappuccino
+	 * @param string     $string
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function capitalizeStringFilter(Cappuccino $cappuccino, string $string): string
 	{
 		$charset = $cappuccino->getCharset();
@@ -144,6 +307,16 @@ final class StaticMethods
 		return mb_strtoupper(mb_substr($string, 0, 1, $charset), $charset) . mb_strtolower(mb_substr($string, 1, null, $charset), $charset);
 	}
 
+	/**
+	 * Compares the given objects with eachother.
+	 *
+	 * @param mixed $a
+	 * @param mixed $b
+	 *
+	 * @return int
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function compare($a, $b)
 	{
 		if (is_int($a) && is_string($b))
@@ -197,7 +370,17 @@ final class StaticMethods
 		return $a <=> $b;
 	}
 
-	public static function constant($constant, ?object $object = null)
+	/**
+	 * Gets a constant value.
+	 *
+	 * @param string      $constant
+	 * @param object|null $object
+	 *
+	 * @return mixed
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
+	public static function constant(string $constant, ?object $object = null)
 	{
 		if ($object !== null)
 			$constant = get_class($object) . '::' . $constant;
@@ -205,7 +388,17 @@ final class StaticMethods
 		return constant($constant);
 	}
 
-	public static function constantIsDefined($constant, ?object $object = null): bool
+	/**
+	 * Checks if a constant is defined.
+	 *
+	 * @param string      $constant
+	 * @param object|null $object
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
+	public static function constantIsDefined(string $constant, ?object $object = null): bool
 	{
 		if ($object !== null)
 			$constant = get_class($object) . '::' . $constant;
@@ -213,11 +406,32 @@ final class StaticMethods
 		return defined($constant);
 	}
 
+	/**
+	 * Converts encoding of a string.
+	 *
+	 * @param string $string
+	 * @param string $to
+	 * @param string $from
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function convertEncoding($string, string $to, string $from): string
 	{
 		return iconv($from, $to, $string);
 	}
 
+	/**
+	 * Cycles to array values.
+	 *
+	 * @param array|ArrayAccess $values
+	 * @param int               $position
+	 *
+	 * @return mixed
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function cycle($values, int $position)
 	{
 		if (!is_array($values) && !$values instanceof ArrayAccess)
@@ -226,6 +440,16 @@ final class StaticMethods
 		return $values[$position % count($values)];
 	}
 
+	/**
+	 * Tests if the given value is empty and returns the default if it is.
+	 *
+	 * @param mixed  $value
+	 * @param string $default
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function defaultFilter($value, $default = '')
 	{
 		if (self::testEmpty($value))
@@ -234,6 +458,19 @@ final class StaticMethods
 		return $value;
 	}
 
+	/**
+	 * Converts a date.
+	 *
+	 * @param Cappuccino $cappuccino
+	 * @param mixed      $date
+	 * @param mixed      $timezone
+	 *
+	 * @return DateTime|DateTimeImmutable|DateTimeInterface|false|null
+	 * @throws Error
+	 * @throws Exception
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function dateConverter(Cappuccino $cappuccino, $date = null, $timezone = null)
 	{
 		if ($timezone !== false)
@@ -273,6 +510,19 @@ final class StaticMethods
 		return $date;
 	}
 
+	/**
+	 * Applies a date format.
+	 *
+	 * @param Cappuccino $cappuccino
+	 * @param mixed      $date
+	 * @param mixed      $format
+	 * @param mixed      $timezone
+	 *
+	 * @return string
+	 * @throws Error
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function dateFormatFilter(Cappuccino $cappuccino, $date, $format = null, $timezone = null)
 	{
 		if ($format === null)
@@ -287,6 +537,18 @@ final class StaticMethods
 		return self::dateConverter($cappuccino, $date, $timezone)->format($format);
 	}
 
+	/**
+	 * Modifies a date.
+	 *
+	 * @param Cappuccino $cappuccino
+	 * @param mixed      $date
+	 * @param mixed      $modifier
+	 *
+	 * @return DateTime|DateTimeImmutable
+	 * @throws Error
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function dateModifyFilter(Cappuccino $cappuccino, $date, $modifier)
 	{
 		$date = self::dateConverter($cappuccino, $date, false);
@@ -294,6 +556,15 @@ final class StaticMethods
 		return $date->modify($modifier);
 	}
 
+	/**
+	 * Ensures that the given value is traversable.
+	 *
+	 * @param iterable|mixed $seq
+	 *
+	 * @return iterable
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function ensureTraversable($seq): iterable
 	{
 		if ($seq instanceof Traversable || is_array($seq))
@@ -302,6 +573,17 @@ final class StaticMethods
 		return [];
 	}
 
+	/**
+	 * Returns the first element of the given item.
+	 *
+	 * @param Cappuccino $cappuccino
+	 * @param mixed      $item
+	 *
+	 * @return mixed|string
+	 * @throws Exception
+	 * @since 2.0.0
+	 * @author Bas Milius <bas@mili.us>
+	 */
 	public static function first(Cappuccino $cappuccino, $item)
 	{
 		$elements = self::slice($cappuccino, $item, 0, 1, false);
@@ -309,6 +591,16 @@ final class StaticMethods
 		return is_string($elements) ? $elements : current($elements);
 	}
 
+	/**
+	 * Returns the keys of an array.
+	 *
+	 * @param iterable $array
+	 *
+	 * @return array
+	 * @throws Exception
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function getArrayKeysFilter(iterable $array): array
 	{
 		if ($array instanceof Traversable)
@@ -344,6 +636,26 @@ final class StaticMethods
 		return array_keys($array);
 	}
 
+	/**
+	 * Gets an attribute.
+	 *
+	 * @param Cappuccino $cappuccino
+	 * @param Source     $source
+	 * @param mixed      $object
+	 * @param mixed      $item
+	 * @param array      $arguments
+	 * @param string     $type
+	 * @param bool       $isDefinedTest
+	 * @param bool       $ignoreStrictCheck
+	 * @param bool       $sandboxed
+	 * @param int        $lineNumber
+	 *
+	 * @return bool|mixed|null
+	 * @throws Error
+	 * @throws RuntimeError
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function getAttribute(Cappuccino $cappuccino, Source $source, $object, $item, array $arguments = [], $type = Template::ANY_CALL, bool $isDefinedTest = false, bool $ignoreStrictCheck = false, bool $sandboxed = false, int $lineNumber = -1)
 	{
 		/** @var string|bool|float $item */
@@ -454,17 +766,17 @@ final class StaticMethods
 				$classCache[$method] = $method;
 				$classCache[$lcName = $lcMethods[$i]] = $method;
 
-				if ($lcName[0] === 'g' && 0 === strpos($lcName, 'get'))
+				if ($lcName[0] === 'g' && strpos($lcName, 'get') === 0)
 				{
 					$name = substr($method, 3);
 					$lcName = substr($lcName, 3);
 				}
-				else if ($lcName[0] === 'i' && 0 === strpos($lcName, 'is'))
+				else if ($lcName[0] === 'i' && strpos($lcName, 'is') === 0)
 				{
 					$name = substr($method, 2);
 					$lcName = substr($lcName, 2);
 				}
-				else if ($lcName[0] === 'h' && 0 === strpos($lcName, 'has'))
+				else if ($lcName[0] === 'h' && strpos($lcName, 'has') === 0)
 				{
 					$name = substr($method, 3);
 					$lcName = substr($lcName, 3);
@@ -537,6 +849,22 @@ final class StaticMethods
 		return $ret;
 	}
 
+	/**
+	 * Includes the given template.
+	 *
+	 * @param Cappuccino $cappuccino
+	 * @param mixed      $context
+	 * @param mixed      $template
+	 * @param array      $variables
+	 * @param bool       $withContext
+	 * @param bool       $ignoreMissing
+	 * @param bool       $sandboxed
+	 *
+	 * @return string
+	 * @throws Error
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function include(Cappuccino $cappuccino, $context, $template, array $variables = [], bool $withContext = true, bool $ignoreMissing = false, bool $sandboxed = false): string
 	{
 		$alreadySandboxed = false;
@@ -576,6 +904,16 @@ final class StaticMethods
 		}
 	}
 
+	/**
+	 * Checks if the given value is present in {@see $compare}.
+	 *
+	 * @param mixed $value
+	 * @param mixed $compare
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function inFilter($value, $compare): bool
 	{
 		if ($value instanceof Markup)
@@ -616,6 +954,17 @@ final class StaticMethods
 		return false;
 	}
 
+	/**
+	 * Joins the entries of the given value with the given glue.
+	 *
+	 * @param mixed       $value
+	 * @param string      $glue
+	 * @param string|null $and
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function joinFilter($value, string $glue = '', ?string $and = null): string
 	{
 		if (!self::testIterable($value))
@@ -635,6 +984,17 @@ final class StaticMethods
 		return implode($glue, array_slice($value, 0, -1)) . $and . $value[count($value) - 1];
 	}
 
+	/**
+	 * Returns the last element of the given item.
+	 *
+	 * @param Cappuccino $cappuccino
+	 * @param mixed      $item
+	 *
+	 * @return mixed|string
+	 * @throws Exception
+	 * @since 2.0.0
+	 * @author Bas Milius <bas@mili.us>
+	 */
 	public static function last(Cappuccino $cappuccino, $item)
 	{
 		$elements = self::slice($cappuccino, $item, -1, 1, false);
@@ -642,6 +1002,16 @@ final class StaticMethods
 		return is_string($elements) ? $elements : current($elements);
 	}
 
+	/**
+	 * Returns the length of the given thing.
+	 *
+	 * @param Cappuccino $cappuccino
+	 * @param mixed      $thing
+	 *
+	 * @return int
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function lengthFilter(Cappuccino $cappuccino, $thing): int
 	{
 		if ($thing === null)
@@ -662,11 +1032,34 @@ final class StaticMethods
 		return 1;
 	}
 
+	/**
+	 * {@see mb_strtolower()}.
+	 * @param Cappuccino $cappuccino
+	 * @param string     $string
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function lowerFilter(Cappuccino $cappuccino, string $string): string
 	{
 		return mb_strtolower($string, $cappuccino->getCharset());
 	}
 
+	/**
+	 * {@see number_format()}.
+	 *
+	 * @param Cappuccino  $cappuccino
+	 * @param mixed       $number
+	 * @param int|null    $decimal
+	 * @param string|null $decimalPoint
+	 * @param string|null $thousandSep
+	 *
+	 * @return string
+	 * @throws Error
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function numberFormatFilter(Cappuccino $cappuccino, $number, ?int $decimal = null, ?string $decimalPoint = null, ?string $thousandSep = null): string
 	{
 		$defaults = $cappuccino->getExtension(CoreExtension::class)->getNumberFormat();
@@ -683,6 +1076,18 @@ final class StaticMethods
 		return number_format((float)$number, $decimal, $decimalPoint, $thousandSep);
 	}
 
+	/**
+	 * Retyrns a random value.
+	 *
+	 * @param Cappuccino $cappuccino
+	 * @param null       $values
+	 * @param int|null   $max
+	 *
+	 * @return mixed
+	 * @throws RuntimeError
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function random(Cappuccino $cappuccino, $values = null, ?int $max = null)
 	{
 		if ($values === null)
@@ -739,6 +1144,17 @@ final class StaticMethods
 		return $values[array_rand($values, 1)];
 	}
 
+	/**
+	 * Replaces all entries in {@see $from} in the given string.
+	 *
+	 * @param string         $str
+	 * @param iterable|mixed $from
+	 *
+	 * @return string
+	 * @throws RuntimeError
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function replaceFilter(string $str, $from): string
 	{
 		if (!self::testIterable($from))
@@ -747,6 +1163,17 @@ final class StaticMethods
 		return strtr($str, self::toArray($from));
 	}
 
+	/**
+	 * Reverses the given item.
+	 *
+	 * @param Cappuccino $cappuccino
+	 * @param mixed      $item
+	 * @param bool       $preserveKeys
+	 *
+	 * @return mixed
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function reverseFilter(Cappuccino $cappuccino, $item, bool $preserveKeys = false)
 	{
 		if ($item instanceof Traversable)
@@ -771,6 +1198,18 @@ final class StaticMethods
 		return $string;
 	}
 
+	/**
+	 * Rounds the given value.
+	 *
+	 * @param float|int|mixed $value
+	 * @param int             $precision
+	 * @param string          $method
+	 *
+	 * @return float|int
+	 * @throws RuntimeError
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function round($value, int $precision = 0, string $method = 'common')
 	{
 		if ($method === 'common')
@@ -782,6 +1221,20 @@ final class StaticMethods
 		return $method($value * pow(10, $precision)) / pow(10, $precision);
 	}
 
+	/**
+	 * Slices the given item.
+	 *
+	 * @param Cappuccino $cappuccino
+	 * @param mixed      $item
+	 * @param int        $start
+	 * @param int|null   $length
+	 * @param bool       $preserveKeys
+	 *
+	 * @return array|LimitIterator|string
+	 * @throws Exception
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function slice(Cappuccino $cappuccino, $item, int $start, ?int $length = null, bool $preserveKeys = false)
 	{
 		if ($item instanceof Traversable)
@@ -812,6 +1265,17 @@ final class StaticMethods
 		return (string)mb_substr($item, $start, $length, $cappuccino->getCharset());
 	}
 
+	/**
+	 * {@see asort()} and {@see uasort()}.
+	 *
+	 * @param iterable      $array
+	 * @param callable|null $arrowFunction
+	 *
+	 * @return iterable
+	 * @throws RuntimeError
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function sortFilter(iterable $array, ?callable $arrowFunction = null): iterable
 	{
 		if ($array instanceof Traversable)
@@ -827,6 +1291,18 @@ final class StaticMethods
 		return $array;
 	}
 
+	/**
+	 * Gets the source code of something...?
+	 *
+	 * @param Cappuccino $cappuccino
+	 * @param mixed      $name
+	 * @param bool       $ignoreMissing
+	 *
+	 * @return string|null
+	 * @throws LoaderError
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function source(Cappuccino $cappuccino, $name, bool $ignoreMissing = false): ?string
 	{
 		$loader = $cappuccino->getLoader();
@@ -844,11 +1320,32 @@ final class StaticMethods
 		}
 	}
 
+	/**
+	 * Applies the spaceless filter to the given content.
+	 *
+	 * @param string $content
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function spaceless(string $content): string
 	{
 		return trim(preg_replace('/>\s+</', '><', $content));
 	}
 
+	/**
+	 * Splits the given value.
+	 *
+	 * @param Cappuccino $cappuccino
+	 * @param mixed      $value
+	 * @param string     $delimiter
+	 * @param int|null   $limit
+	 *
+	 * @return array
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function splitFilter(Cappuccino $cappuccino, $value, string $delimiter, ?int $limit = null): array
 	{
 		if (strlen($delimiter) > 0)
@@ -870,6 +1367,15 @@ final class StaticMethods
 		return $r;
 	}
 
+	/**
+	 * Returns TRUE if the given value is empty.
+	 *
+	 * @param mixed $value
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function testEmpty($value): bool
 	{
 		if ($value instanceof Countable)
@@ -884,11 +1390,30 @@ final class StaticMethods
 		return $value === '' || $value === false || $value === null || $value === [];
 	}
 
+	/**
+	 * Returns TRUE if the given value is iterable.
+	 *
+	 * @param mixed $value
+	 *
+	 * @return bool
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function testIterable($value): bool
 	{
 		return $value instanceof Traversable || is_array($value);
 	}
 
+	/**
+	 * Applies the title case to the given string.
+	 *
+	 * @param Cappuccino $cappuccino
+	 * @param string     $string
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function titleStringFilter(Cappuccino $cappuccino, string $string): string
 	{
 		if (($charset = $cappuccino->getCharset()) !== null)
@@ -897,6 +1422,18 @@ final class StaticMethods
 		return ucwords(strtolower($string));
 	}
 
+	/**
+	 * Applies a trim on the given string.
+	 *
+	 * @param string      $string
+	 * @param string|null $characterMask
+	 * @param string      $side
+	 *
+	 * @return string
+	 * @throws RuntimeError
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function trimFilter(string $string, ?string $characterMask = " \t\n\r\0\x0B", string $side = 'both'): string
 	{
 		switch ($side)
@@ -915,6 +1452,16 @@ final class StaticMethods
 		}
 	}
 
+	/**
+	 * Converts the given sequence to an array.
+	 *
+	 * @param iterable $seq
+	 * @param bool     $preserveKeys
+	 *
+	 * @return array|iterable
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function toArray(iterable $seq, bool $preserveKeys = true)
 	{
 		if ($seq instanceof Traversable)
@@ -926,11 +1473,30 @@ final class StaticMethods
 		return $preserveKeys ? $seq : array_values($seq);
 	}
 
+	/**
+	 * Converts the given string to uppercase.
+	 *
+	 * @param Cappuccino $cappuccino
+	 * @param string     $string
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function upperFilter(Cappuccino $cappuccino, string $string): string
 	{
 		return mb_strtoupper($string, $cappuccino->getCharset());
 	}
 
+	/**
+	 * Urlencodes the given value.
+	 *
+	 * @param string|array $url
+	 *
+	 * @return string
+	 * @author Bas Milius <bas@mili.us>
+	 * @since 2.0.0
+	 */
 	public static function urlEncodeFilter($url): string
 	{
 		if (is_array($url))

@@ -73,6 +73,7 @@ use Cappuccino\TokenParser\UseTokenParser;
 use Cappuccino\TokenParser\WithTokenParser;
 use Cappuccino\Util\StaticMethods;
 use DateTimeZone;
+use function date_default_timezone_get;
 
 /**
  * Class CoreExtension

@@ -12,6 +12,13 @@ declare(strict_types=1);
 
 namespace Cappuccino\Extension;
 
+/**
+ * Class AbstractExtension
+ *
+ * @author Bas Milius <bas@mili.us>
+ * @package Cappuccino\Extension
+ * @since 1.0.0
+ */
 abstract class AbstractExtension implements ExtensionInterface
 {
 

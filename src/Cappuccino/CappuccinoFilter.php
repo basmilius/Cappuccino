@@ -14,7 +14,16 @@ namespace Cappuccino;
 
 use Cappuccino\Node\Expression\FilterExpression;
 use Cappuccino\Node\Node;
+use function array_merge;
+use function is_bool;
 
+/**
+ * Class CappuccinoFilter
+ *
+ * @author Bas Milius <bas@mili.us>
+ * @package Cappuccino
+ * @since 1.0.0
+ */
 final class CappuccinoFilter
 {
 

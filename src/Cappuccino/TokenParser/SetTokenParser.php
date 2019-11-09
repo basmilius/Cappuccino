@@ -16,6 +16,7 @@ use Cappuccino\Error\SyntaxError;
 use Cappuccino\Node\Node;
 use Cappuccino\Node\SetNode;
 use Cappuccino\Token;
+use function count;
 
 /**
  * Class SetTokenParser

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\Util;
 
 use IteratorIterator;
+use function file_get_contents;
 
 /**
  * Class TemplateDirIterator

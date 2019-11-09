@@ -34,6 +34,16 @@ use Cappuccino\RuntimeLoader\RuntimeLoaderInterface;
 use Cappuccino\TokenParser\TokenParserInterface;
 use Exception;
 use LogicException;
+use const PHP_MAJOR_VERSION;
+use const PHP_MINOR_VERSION;
+use function array_merge;
+use function class_exists;
+use function hash;
+use function implode;
+use function is_array;
+use function is_string;
+use function sprintf;
+use function strtoupper;
 
 /**
  * Class Cappuccino
@@ -334,8 +344,9 @@ class Cappuccino
 	 * @param int|null $index
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws LoaderError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function getTemplateClass(string $name, int $index = null): string
 	{
@@ -488,8 +499,9 @@ class Cappuccino
 	 * @param int    $time
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws LoaderError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function isTemplateFresh(string $name, int $time): bool
 	{
@@ -756,7 +768,7 @@ class Cappuccino
 			return $this->runtimes[$class];
 
 		foreach ($this->runtimeLoaders as $loader)
-			if (null !== $runtime = $loader->load($class))
+			if (($runtime = $loader->load($class)) !== null)
 				return $this->runtimes[$class] = $runtime;
 
 		throw new RuntimeError(sprintf('Unable to load the "%s" runtime.', $class));

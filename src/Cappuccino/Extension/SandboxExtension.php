@@ -13,11 +13,14 @@ declare(strict_types=1);
 namespace Cappuccino\Extension;
 
 use Cappuccino\NodeVisitor\SandboxNodeVisitor;
+use Cappuccino\Sandbox\SecurityError;
 use Cappuccino\Sandbox\SecurityNotAllowedMethodError;
 use Cappuccino\Sandbox\SecurityNotAllowedPropertyError;
 use Cappuccino\Sandbox\SecurityPolicyInterface;
 use Cappuccino\Source;
 use Cappuccino\TokenParser\SandboxTokenParser;
+use function is_object;
+use function method_exists;
 
 /**
  * Class SandboxExtension
@@ -157,8 +160,9 @@ final class SandboxExtension extends AbstractExtension
 	 * @param array $filters
 	 * @param array $functions
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @throws SecurityError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 */
 	public function checkSecurity(array $tags, array $filters, array $functions): void
 	{
@@ -174,8 +178,9 @@ final class SandboxExtension extends AbstractExtension
 	 * @param int         $lineNumber
 	 * @param Source|null $source
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @throws SecurityNotAllowedMethodError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 */
 	public function checkMethodAllowed($obj, string $method, int $lineNumber = -1, ?Source $source = null): void
 	{
@@ -203,8 +208,9 @@ final class SandboxExtension extends AbstractExtension
 	 * @param int         $lineNumber
 	 * @param Source|null $source
 	 *
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @throws SecurityNotAllowedPropertyError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 */
 	public function checkPropertyAllowed($obj, string $property, int $lineNumber = -1, ?Source $source = null): void
 	{
@@ -232,8 +238,9 @@ final class SandboxExtension extends AbstractExtension
 	 * @param Source|null $source
 	 *
 	 * @return mixed
-	 * @author Bas Milius <bas@ideemedia.nl>
+	 * @throws SecurityNotAllowedMethodError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@ideemedia.nl>
 	 */
 	public function ensureToStringAllowed($obj, int $lineNumber = -1, ?Source $source = null)
 	{

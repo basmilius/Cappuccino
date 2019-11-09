@@ -23,6 +23,9 @@ use Cappuccino\Node\Expression\MethodCallExpression;
 use Cappuccino\Node\Expression\NameExpression;
 use Cappuccino\Node\Expression\ParentExpression;
 use Cappuccino\Node\Node;
+use function array_intersect;
+use function in_array;
+use function spl_object_hash;
 
 /**
  * Class SafeAnalysisNodeVisitor

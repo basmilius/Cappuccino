@@ -27,6 +27,20 @@ use Cappuccino\Node\TextNode;
 use Cappuccino\NodeVisitor\NodeVisitorInterface;
 use Cappuccino\TokenParser\AbstractTokenParser;
 use Cappuccino\TokenParser\TokenParserInterface;
+use function array_keys;
+use function array_pop;
+use function array_shift;
+use function array_unshift;
+use function chr;
+use function count;
+use function ctype_space;
+use function get_class;
+use function get_object_vars;
+use function hash;
+use function mt_rand;
+use function sprintf;
+use function strpos;
+use function substr;
 
 /**
  * Class Parser
@@ -141,8 +155,9 @@ class Parser
 	 * @param bool          $dropNeedle
 	 *
 	 * @return ModuleNode
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function parse(TokenStream $stream, $test = null, bool $dropNeedle = false): ModuleNode
 	{
@@ -217,8 +232,9 @@ class Parser
 	 * @param bool          $dropNeedle
 	 *
 	 * @return Node
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function subparse($test, bool $dropNeedle = false): Node
 	{
@@ -589,8 +605,9 @@ class Parser
 	 * @param bool $nested
 	 *
 	 * @return Node|null
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	private function filterBodyNodes(Node $node, bool $nested = false): ?Node
 	{

@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\Node\Expression\Filter;
 
 use Cappuccino\Compiler;
+use Cappuccino\Error\SyntaxError;
 use Cappuccino\Node\Expression\ConditionalExpression;
 use Cappuccino\Node\Expression\ConstantExpression;
 use Cappuccino\Node\Expression\FilterExpression;
@@ -20,6 +21,7 @@ use Cappuccino\Node\Expression\GetAttrExpression;
 use Cappuccino\Node\Expression\NameExpression;
 use Cappuccino\Node\Expression\Test\DefinedTest;
 use Cappuccino\Node\Node;
+use function count;
 
 /**
  * Class DefaultFilter
@@ -40,8 +42,9 @@ class DefaultFilter extends FilterExpression
 	 * @param int                $lineNumber
 	 * @param string|null        $tag
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function __construct(Node $node, ConstantExpression $filterName, Node $arguments, int $lineNumber, ?string $tag = null)
 	{

@@ -14,6 +14,11 @@ namespace Cappuccino;
 
 use Cappuccino\Error\Error;
 use Cappuccino\Util\EasyPeasyLemonSqueezy;
+use function func_get_args;
+use function ob_end_clean;
+use function ob_get_clean;
+use function ob_get_level;
+use function ob_start;
 
 /**
  * Class TemplateWrapper
@@ -56,8 +61,9 @@ final class TemplateWrapper
 	 * @param array $context
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function render(array $context = []): string
 	{
@@ -70,8 +76,9 @@ final class TemplateWrapper
 	 *
 	 * @param array $context
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function display(array $context = [])
 	{
@@ -85,8 +92,9 @@ final class TemplateWrapper
 	 * @param array  $context
 	 *
 	 * @return bool
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function hasBlock(string $name, array $context = []): bool
 	{
@@ -99,8 +107,9 @@ final class TemplateWrapper
 	 * @param array $context
 	 *
 	 * @return string[]
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function getBlockNames(array $context = []): array
 	{
@@ -114,8 +123,9 @@ final class TemplateWrapper
 	 * @param array  $context
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function renderBlock(string $name, array $context = []): string
 	{
@@ -148,8 +158,9 @@ final class TemplateWrapper
 	 * @param string $name
 	 * @param array  $context
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function displayBlock(string $name, array $context = [])
 	{

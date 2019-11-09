@@ -14,6 +14,12 @@ namespace Cappuccino\Sandbox;
 
 use Cappuccino\Markup;
 use Cappuccino\Template;
+use function array_map;
+use function get_class;
+use function in_array;
+use function is_array;
+use function sprintf;
+use function strtolower;
 
 /**
  * Class SecurityPolicy

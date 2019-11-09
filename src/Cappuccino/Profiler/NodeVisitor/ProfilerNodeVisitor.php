@@ -22,6 +22,8 @@ use Cappuccino\NodeVisitor\NodeVisitorInterface;
 use Cappuccino\Profiler\Node\EnterProfileNode;
 use Cappuccino\Profiler\Node\LeaveProfileNode;
 use Cappuccino\Profiler\Profile;
+use function hash;
+use function sprintf;
 
 /**
  * Class ProfilerNodeVisitor

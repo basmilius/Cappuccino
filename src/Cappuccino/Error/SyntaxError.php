@@ -12,6 +12,14 @@ declare(strict_types=1);
 
 namespace Cappuccino\Error;
 
+use function array_keys;
+use function asort;
+use function implode;
+use function levenshtein;
+use function sprintf;
+use function strlen;
+use function strpos;
+
 /**
  * Class SyntaxError
  *

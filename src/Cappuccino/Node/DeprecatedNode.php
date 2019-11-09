@@ -15,6 +15,7 @@ namespace Cappuccino\Node;
 use Cappuccino\Compiler;
 use Cappuccino\Node\Expression\AbstractExpression;
 use Cappuccino\Node\Expression\ConstantExpression;
+use function sprintf;
 
 /**
  * Class DeprecatedNode

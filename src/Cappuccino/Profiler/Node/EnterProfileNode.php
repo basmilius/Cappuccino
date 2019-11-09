@@ -14,6 +14,7 @@ namespace Cappuccino\Profiler\Node;
 
 use Cappuccino\Compiler;
 use Cappuccino\Node\Node;
+use function sprintf;
 
 /**
  * Class EnterProfileNode

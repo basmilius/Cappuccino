@@ -18,6 +18,7 @@ use Cappuccino\Node\BlockReferenceNode;
 use Cappuccino\Node\Node;
 use Cappuccino\Node\PrintNode;
 use Cappuccino\Token;
+use function sprintf;
 
 /**
  * Class BlockTokenParser

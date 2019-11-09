@@ -13,6 +13,9 @@ declare(strict_types=1);
 namespace Cappuccino\Extension;
 
 use Cappuccino\CappuccinoFunction;
+use const PHP_SAPI;
+use function extension_loaded;
+use function ini_get;
 
 /**
  * Class DebugExtension
@@ -31,7 +34,7 @@ final class DebugExtension extends AbstractExtension
 	 */
 	public function getFunctions(): array
 	{
-		$isDumpOutputHtmlSafe = extension_loaded('xdebug') && (false === ini_get('xdebug.overload_var_dump') || ini_get('xdebug.overload_var_dump')) && (false === ini_get('html_errors') || ini_get('html_errors')) || PHP_SAPI === 'cli';
+		$isDumpOutputHtmlSafe = extension_loaded('xdebug') && (ini_get('xdebug.overload_var_dump') === false || ini_get('xdebug.overload_var_dump')) && (ini_get('html_errors') === false || ini_get('html_errors')) || PHP_SAPI === 'cli';
 
 		return [
 			new CappuccinoFunction('dump', 'Columba\Util\pre', ['is_safe' => $isDumpOutputHtmlSafe ? ['html'] : [], 'needs_context' => true, 'needs_cappuccino' => true, 'is_variadic' => true]),

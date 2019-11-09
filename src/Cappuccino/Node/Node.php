@@ -14,12 +14,26 @@ namespace Cappuccino\Node;
 
 use ArrayIterator;
 use Cappuccino\Compiler;
+use Cappuccino\Error\Error;
 use Cappuccino\Source;
 use Countable;
 use InvalidArgumentException;
 use IteratorAggregate;
 use LogicException;
 use Traversable;
+use function array_key_exists;
+use function count;
+use function explode;
+use function get_class;
+use function gettype;
+use function implode;
+use function is_object;
+use function ltrim;
+use function sprintf;
+use function str_repeat;
+use function str_replace;
+use function strlen;
+use function var_export;
 
 /**
  * Class Node
@@ -71,7 +85,7 @@ class Node implements Countable, IteratorAggregate
 	{
 		foreach ($nodes as $name => $node)
 			if (!$node instanceof self)
-				throw new InvalidArgumentException(sprintf('Using "%s" for the value of node "%s" of "%s" is not supported. You must pass a \Cappuccino\Node\Node instance.', is_object($node) ? get_class($node) : (null === $node ? 'null' : gettype($node)), $name, get_class($this)));
+				throw new InvalidArgumentException(sprintf('Using "%s" for the value of node "%s" of "%s" is not supported. You must pass a \Cappuccino\Node\Node instance.', is_object($node) ? get_class($node) : ($node === null ? 'null' : gettype($node)), $name, get_class($this)));
 
 		$this->nodes = $nodes;
 		$this->attributes = $attributes;
@@ -80,7 +94,11 @@ class Node implements Countable, IteratorAggregate
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * Compiles the node.
+	 *
+	 * @param Compiler $compiler
+	 *
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */

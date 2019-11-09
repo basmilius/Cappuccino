@@ -14,6 +14,31 @@ namespace Cappuccino;
 
 use Cappuccino\Error\SyntaxError;
 use LogicException;
+use const PREG_OFFSET_CAPTURE;
+use function array_combine;
+use function array_keys;
+use function array_map;
+use function array_merge;
+use function array_pop;
+use function arsort;
+use function count;
+use function ctype_alpha;
+use function ctype_digit;
+use function end;
+use function implode;
+use function preg_match;
+use function preg_match_all;
+use function preg_quote;
+use function preg_replace;
+use function rtrim;
+use function sprintf;
+use function str_replace;
+use function stripcslashes;
+use function strlen;
+use function strpos;
+use function strtr;
+use function substr;
+use function substr_count;
 
 /**
  * Class Lexer
@@ -231,8 +256,9 @@ class Lexer
 	 * @param Source $source
 	 *
 	 * @return TokenStream
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function tokenize(Source $source): TokenStream
 	{
@@ -291,6 +317,7 @@ class Lexer
 	 * Lex data.
 	 *
 	 * @author Bas Milius <bas@mili.us>
+	 * @throws SyntaxError
 	 * @since 1.0.0
 	 */
 	private function lexData(): void
@@ -362,6 +389,7 @@ class Lexer
 	/**
 	 * Lex block.
 	 *
+	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -382,6 +410,7 @@ class Lexer
 	/**
 	 * Lex variable.
 	 *
+	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -402,6 +431,7 @@ class Lexer
 	/**
 	 * Lex expression.
 	 *
+	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -440,13 +470,13 @@ class Lexer
 			$this->pushToken(Token::NUMBER_TYPE, $number);
 			$this->moveCursor($match[0]);
 		}
-		else if (false !== strpos(self::PUNCTUATION, $this->code[$this->cursor]))
+		else if (strpos(self::PUNCTUATION, $this->code[$this->cursor]) !== false)
 		{
 			if (strpos('([{', $this->code[$this->cursor]) !== false)
 			{
 				$this->brackets[] = [$this->code[$this->cursor], $this->lineNumber];
 			}
-			else if (false !== strpos(')]}', $this->code[$this->cursor]))
+			else if (strpos(')]}', $this->code[$this->cursor]) !== false)
 			{
 				if (empty($this->brackets))
 					throw new SyntaxError(sprintf('Unexpected "%s".', $this->code[$this->cursor]), $this->lineNumber, $this->source);
@@ -481,6 +511,7 @@ class Lexer
 	/**
 	 * Lex raw data.
 	 *
+	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -506,6 +537,7 @@ class Lexer
 	/**
 	 * Lex comment.
 	 *
+	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -520,6 +552,7 @@ class Lexer
 	/**
 	 * Lex string.
 	 *
+	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -557,6 +590,7 @@ class Lexer
 	/**
 	 * Lex interpolation.
 	 *
+	 * @throws SyntaxError
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */

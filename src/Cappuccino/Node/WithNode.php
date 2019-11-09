@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\Node;
 
 use Cappuccino\Compiler;
+use function sprintf;
 
 /**
  * Class WithNode

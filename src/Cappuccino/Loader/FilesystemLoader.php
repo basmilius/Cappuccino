@@ -14,6 +14,30 @@ namespace Cappuccino\Loader;
 
 use Cappuccino\Error\LoaderError;
 use Cappuccino\Source;
+use const DIRECTORY_SEPARATOR;
+use const PHP_URL_SCHEME;
+use function array_keys;
+use function array_unshift;
+use function ctype_alpha;
+use function explode;
+use function file_get_contents;
+use function filemtime;
+use function getcwd;
+use function implode;
+use function is_dir;
+use function is_file;
+use function ltrim;
+use function parse_url;
+use function preg_replace;
+use function realpath;
+use function rtrim;
+use function sprintf;
+use function str_replace;
+use function strlen;
+use function strncmp;
+use function strpos;
+use function strspn;
+use function substr;
 
 /**
  * Class FilesystemLoader
@@ -39,8 +63,9 @@ class FilesystemLoader implements LoaderInterface
 	 * @param array       $paths
 	 * @param string|null $rootPath
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws LoaderError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function __construct(array $paths = [], string $rootPath = null)
 	{
@@ -85,8 +110,9 @@ class FilesystemLoader implements LoaderInterface
 	 * @param string[] $paths
 	 * @param string   $namespace
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws LoaderError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function setPaths(array $paths, string $namespace = self::MAIN_NAMESPACE): void
 	{
@@ -102,8 +128,9 @@ class FilesystemLoader implements LoaderInterface
 	 * @param string $path
 	 * @param string $namespace
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws LoaderError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function addPath(string $path, string $namespace = self::MAIN_NAMESPACE): void
 	{
@@ -122,8 +149,9 @@ class FilesystemLoader implements LoaderInterface
 	 * @param string $path
 	 * @param string $namespace
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws LoaderError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function prependPath(string $path, string $namespace = self::MAIN_NAMESPACE): void
 	{
@@ -210,8 +238,9 @@ class FilesystemLoader implements LoaderInterface
 	 * @param bool   $throw
 	 *
 	 * @return string|null
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws LoaderError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	protected function findTemplate(string $name, bool $throw = true): ?string
 	{
@@ -307,8 +336,9 @@ class FilesystemLoader implements LoaderInterface
 	 * @param string $default
 	 *
 	 * @return string[]
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws LoaderError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	private function parseName(string $name, string $default = self::MAIN_NAMESPACE): array
 	{
@@ -331,8 +361,9 @@ class FilesystemLoader implements LoaderInterface
 	 *
 	 * @param string $name
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws LoaderError
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	private function validateName(string $name): void
 	{
@@ -345,9 +376,9 @@ class FilesystemLoader implements LoaderInterface
 
 		foreach ($parts as $part)
 		{
-			if ('..' === $part)
+			if ($part === '..')
 				--$level;
-			else if ('.' !== $part)
+			else if ($part !== '.')
 				++$level;
 
 			if ($level < 0)

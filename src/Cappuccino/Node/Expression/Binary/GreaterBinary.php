@@ -13,6 +13,7 @@ declare(strict_types=1);
 namespace Cappuccino\Node\Expression\Binary;
 
 use Cappuccino\Compiler;
+use const PHP_VERSION_ID;
 
 /**
  * Class GreaterBinary

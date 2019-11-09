@@ -15,6 +15,12 @@ namespace Cappuccino\Profiler;
 use ArrayIterator;
 use IteratorAggregate;
 use Serializable;
+use function memory_get_peak_usage;
+use function memory_get_usage;
+use function microtime;
+use function serialize;
+use function strpos;
+use function unserialize;
 
 /**
  * Class Profile

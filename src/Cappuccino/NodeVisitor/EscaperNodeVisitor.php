@@ -27,6 +27,10 @@ use Cappuccino\Node\ModuleNode;
 use Cappuccino\Node\Node;
 use Cappuccino\Node\PrintNode;
 use Cappuccino\NodeTraverser;
+use function array_pop;
+use function count;
+use function get_class;
+use function in_array;
 
 /**
  * Class EscaperNodeVisitor

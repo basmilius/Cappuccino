@@ -13,6 +13,28 @@ declare(strict_types=1);
 namespace Cappuccino\Cache;
 
 use RuntimeException;
+use function apc_compile_file;
+use function basename;
+use function chmod;
+use function clearstatcache;
+use function dirname;
+use function file_put_contents;
+use function filemtime;
+use function filter_var;
+use function function_exists;
+use function ini_get;
+use function is_dir;
+use function is_file;
+use function is_writable;
+use function mkdir;
+use function opcache_invalidate;
+use function rename;
+use function rtrim;
+use function sprintf;
+use function substr;
+use function tempnam;
+use function umask;
+use const FILTER_VALIDATE_BOOLEAN;
 
 /**
  * Class FilesystemCache

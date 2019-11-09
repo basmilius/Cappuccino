@@ -18,6 +18,12 @@ use Cappuccino\Node\Expression\ConstantExpression;
 use Cappuccino\Source;
 use Cappuccino\Template;
 use LogicException;
+use function array_reverse;
+use function count;
+use function ctype_space;
+use function sprintf;
+use function str_replace;
+use function var_export;
 
 /**
  * Class ModuleNode

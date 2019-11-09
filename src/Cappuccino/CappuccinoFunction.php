@@ -14,6 +14,8 @@ namespace Cappuccino;
 
 use Cappuccino\Node\Expression\FunctionExpression;
 use Cappuccino\Node\Node;
+use function array_merge;
+use function is_bool;
 
 /**
  * Class CappuccinoFunction

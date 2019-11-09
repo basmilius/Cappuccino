@@ -13,12 +13,16 @@ declare(strict_types=1);
 namespace Cappuccino\Util;
 
 use Cappuccino\Cappuccino;
+use Cappuccino\Error\Error;
 use Cappuccino\Error\SyntaxError;
 use Cappuccino\Source;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use RegexIterator;
 use Traversable;
+use function preg_quote;
+use function restore_error_handler;
+use function set_error_handler;
 
 /**
  * Class DeprecationCollector
@@ -55,8 +59,9 @@ final class DeprecationCollector
 	 * @param string $ext
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function collectDir(string $dir, string $ext = '.cappy'): array
 	{
@@ -71,8 +76,9 @@ final class DeprecationCollector
 	 * @param Traversable $iterator
 	 *
 	 * @return array
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function collect(Traversable $iterator): array
 	{

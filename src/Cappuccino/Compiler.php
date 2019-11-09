@@ -14,6 +14,19 @@ namespace Cappuccino;
 
 use Cappuccino\Node\Node;
 use LogicException;
+use const LC_NUMERIC;
+use function addcslashes;
+use function hash;
+use function is_array;
+use function is_bool;
+use function is_float;
+use function is_int;
+use function ksort;
+use function setlocale;
+use function sprintf;
+use function str_repeat;
+use function strlen;
+use function substr_count;
 
 /**
  * Class Compiler
@@ -218,7 +231,7 @@ class Compiler
 			if ($locale !== false)
 				setlocale(LC_NUMERIC, $locale);
 		}
-		else if (null === $value)
+		else if ($value === null)
 		{
 			$this->raw('null');
 		}
@@ -228,7 +241,7 @@ class Compiler
 		}
 		else if (is_array($value))
 		{
-			$this->raw('['); // NOTE(Bas): This was old array syntax.
+			$this->raw('[');
 			$first = true;
 
 			foreach ($value as $key => $v)

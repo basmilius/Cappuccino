@@ -14,6 +14,7 @@ namespace Cappuccino\Loader;
 
 use Cappuccino\Error\LoaderError;
 use Cappuccino\Source;
+use function sprintf;
 
 /**
  * Class ArrayLoader
