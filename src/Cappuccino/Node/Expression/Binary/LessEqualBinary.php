@@ -39,11 +39,11 @@ class LessEqualBinary extends AbstractBinary
 		}
 
 		$compiler
-			->raw('0 <= StaticMethods::compare(')
+			->raw('StaticMethods::compare(')
 			->subcompile($this->getNode('left'))
 			->raw(', ')
 			->subcompile($this->getNode('right'))
-			->raw(')');
+			->raw(') <= 0');
 	}
 
 	/**

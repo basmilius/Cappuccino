@@ -35,6 +35,13 @@ use Cappuccino\TokenParser\TokenParserInterface;
 use Exception;
 use LogicException;
 
+/**
+ * Class Cappuccino
+ *
+ * @author Bas Milius <bas@mili.us>
+ * @package Cappuccino
+ * @since 1.0.0
+ */
 class Cappuccino
 {
 
@@ -344,8 +351,9 @@ class Cappuccino
 	 * @param array                  $context
 	 *
 	 * @return string
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function render($name, array $context = []): string
 	{
@@ -358,8 +366,9 @@ class Cappuccino
 	 * @param string|TemplateWrapper $name
 	 * @param array                  $context
 	 *
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function display($name, array $context = []): void
 	{
@@ -372,8 +381,9 @@ class Cappuccino
 	 * @param string|TemplateWrapper $name
 	 *
 	 * @return TemplateWrapper
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function load($name): TemplateWrapper
 	{
@@ -391,6 +401,7 @@ class Cappuccino
 	 * @param int|null $index
 	 *
 	 * @return Template
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -439,8 +450,9 @@ class Cappuccino
 	 * @param string|null $name
 	 *
 	 * @return TemplateWrapper
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function createTemplate(string $template, string $name = null): TemplateWrapper
 	{
@@ -490,9 +502,10 @@ class Cappuccino
 	 * @param $names
 	 *
 	 * @return TemplateWrapper
-	 * @see Cappuccino::load()
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
+	 * @see Cappuccino::load()
 	 */
 	public function resolveTemplate($names): TemplateWrapper
 	{
@@ -532,8 +545,9 @@ class Cappuccino
 	 * @param Source $source
 	 *
 	 * @return TokenStream
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function tokenize(Source $source): TokenStream
 	{
@@ -562,8 +576,9 @@ class Cappuccino
 	 * @param TokenStream $stream
 	 *
 	 * @return ModuleNode
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function parse(TokenStream $stream): ModuleNode
 	{
@@ -609,6 +624,7 @@ class Cappuccino
 	 * @param Source $source
 	 *
 	 * @return string
+	 * @throws Error
 	 * @author Bas Milius <bas@mili.us>
 	 * @since 1.0.0
 	 */
@@ -715,8 +731,9 @@ class Cappuccino
 	 * @param string $class
 	 *
 	 * @return ExtensionInterface
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function getExtension(string $class): ExtensionInterface
 	{
@@ -729,8 +746,9 @@ class Cappuccino
 	 * @param string $class
 	 *
 	 * @return mixed
-	 * @author Bas Milius <bas@mili.us>
+	 * @throws Error
 	 * @since 1.0.0
+	 * @author Bas Milius <bas@mili.us>
 	 */
 	public function getRuntime(string $class)
 	{

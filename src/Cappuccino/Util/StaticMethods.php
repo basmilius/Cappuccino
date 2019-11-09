@@ -194,7 +194,7 @@ final class StaticMethods
 			return (float)$a <=> $b;
 		}
 
-		return $b <=> $a;
+		return $a <=> $b;
 	}
 
 	public static function constant($constant, ?object $object = null)
